@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CCL Website — Community Co-creation Lab for Local Climate Resilience
 
-## Getting Started
+Long-term public research archive and atlas for the University of Mumbai's COOL CRYMB project (COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol), run with the British Council, HSBC and the University of Bristol.
 
-First, run the development server:
+**Status:** Technical Implementation Pilot (Palghar)  
+**Budget:** None — free tools only, with defined upgrade paths.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What the site is
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Home** — What the research is, who does it, why; scroll arrow to the data-driven district selector.
+2. **District portals** — One themed section per district (list is data-driven; never hard-coded).
+3. **Village / community profiles** — Inside each district: community information, people (consent-gated), surveys, flora and fauna, maps, media, challenges and responses, heritage. Empty sections are hidden automatically.
+4. **Community visits & research access** — A reviewed request process, not open tourism.
+5. **Marketplace** — Separate system, linked from the site; enquiry-only until operations are funded.
+6. **Later:** Research Atlas (map + filters) and global search, once data is clean.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentation Index
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [`docs/01-PRD.md`](docs/01-PRD.md) — Goals, audiences, scope, open questions
+- [`docs/02-SITEMAP-AND-PAGES.md`](docs/02-SITEMAP-AND-PAGES.md) — Pages and sections specs
+- [`docs/03-ARCHITECTURE.md`](docs/03-ARCHITECTURE.md) — Free-tool stack, visibility enforcement, upgrade triggers
+- [`docs/04-CONTENT-MODEL.md`](docs/04-CONTENT-MODEL.md) — Records, common fields, consent, evidence schemas
+- [`docs/05-DESIGN-AND-THEMES.md`](docs/05-DESIGN-AND-THEMES.md) — Design system and district themes
+- [`docs/06-STORE.md`](docs/06-STORE.md) — Marketplace options and phasing
+- [`docs/07-VISIT-REQUESTS.md`](docs/07-VISIT-REQUESTS.md) — Community visits & research access workflow
+- [`docs/08-PRIVACY-CONSENT-ETHICS.md`](docs/08-PRIVACY-CONSENT-ETHICS.md) — Consent, visibility, sensitive places, ethics
+- [`docs/09-ROADMAP.md`](docs/09-ROADMAP.md) — Phases, roles, risks
+- [`docs/10-EVIDENCE-REGISTER.md`](docs/10-EVIDENCE-REGISTER.md) — Evidence status and claims verification
+- [`docs/11-DATA-LIFECYCLE.md`](docs/11-DATA-LIFECYCLE.md) — Data lifecycle, aggregation, and retention
+- [`docs/12-OWNERSHIP-AND-HANDOVER.md`](docs/12-OWNERSHIP-AND-HANDOVER.md) — Ownership, asset register, handover plan
+- [`CLAUDE.md`](CLAUDE.md) — Working agreement for AI coding assistants
 
-## Learn More
+## Ground Rules
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Facts come from the team's own verified data, tracked in the Evidence Register. AI summaries are never sources.
+- No person, photo or sensitive location is published without consent and review. Enforced at build time.
+- Restricted data never enters the site repo.
+- Numbers on the site are computed from records, never typed in.
+- Works on cheap phones and slow networks, in English, Marathi and Hindi.
