@@ -60,15 +60,39 @@ export const districtSchema = z.object({
 
 // Contextual Quote / Oral History Schema
 // Attached directly to records where used (Challenge, Intervention, Heritage, Village Community Account)
+export const quoteTextSchema = z.union([
+  z.string().min(1),
+  z.object({
+    original: z.string().min(1),
+    language: z.enum(['en', 'mr', 'hi', 'other']).default('en'),
+    translation: z.object({
+      en: z.string().optional(),
+      mr: z.string().optional(),
+      hi: z.string().optional(),
+      translated_by: z.string().optional(),
+      is_ai_translation: z.boolean().default(false)
+    }).optional()
+  }),
+  z.object({
+    en: z.string().optional(),
+    mr: z.string().optional(),
+    hi: z.string().optional()
+  }).refine(data => Boolean(data.en || data.mr || data.hi), {
+    message: 'At least one language string must be provided for a quote'
+  })
+]);
+
 export const quoteSchema = z.object({
-  text: i18nStringSchema,
+  text: quoteTextSchema,
   contributor: z.string().regex(/^[A-Z]{2,4}(-[A-Z]{2,4})?-\d{3,6}$/, 'Opaque Contributor Person ID required (e.g. PPL-0001)').optional(),
   attribution: z.union([i18nStringSchema, z.string()]).optional(),
+  attribution_role: z.union([i18nStringSchema, z.string()]).optional(),
   consent: consentBlockSchema.optional(),
-  evidence: z.array(z.string()).default([])
+  evidence: z.array(z.string()).default([]),
+  context: z.string().optional()
 });
 
-// 4. Village / Place Schema
+// 4. Place / Community Schema (underlying entity for villages, settlements, and research sites)
 export const villageSchema = commonBlockSchema.extend({
   slug: z.string().min(1),
   district: z.string().min(1),
@@ -103,6 +127,8 @@ export const villageSchema = commonBlockSchema.extend({
   people: z.array(z.string()).default([]),
   quotes: z.array(quoteSchema).default([])
 });
+
+export const placeSchema = villageSchema;
 
 // 5. Person Schema (Strict Consent Gating & Scalable Reusable Entities)
 const roleItemSchema = z.union([i18nStringSchema, z.string()]);

@@ -43,7 +43,7 @@ const t = labels[lang] || labels.en;
 // Filter metrics where verified records exist (> 0)
 // HARD RULE: District count is intentionally omitted because project-wide scope (6 vs 7) is unresolved per Evidence Register
 const metrics = [
-  { value: stats.villages_profiled, label: t.villages, key: 'villages' },
+  { value: stats.places_profiled || stats.villages_profiled, label: t.villages, key: 'places' },
   { value: stats.surveys_completed, label: t.surveys, key: 'surveys' },
   { value: stats.species_recorded, label: t.species, key: 'species' },
   { value: stats.challenges_documented, label: t.challenges, key: 'challenges' },
@@ -57,7 +57,7 @@ const metrics = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-8">
         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-          Live Verified Research Metrics (Computed at Build)
+          Content Records & Documented Observations (Build-Verified)
         </span>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 text-center">

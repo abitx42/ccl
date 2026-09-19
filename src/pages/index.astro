@@ -79,12 +79,23 @@ const t = content[lang] || content.en;
         <p class="mt-3 text-sm text-[var(--color-text-muted)] leading-relaxed">{t.districtsDesc}</p>
       </div>
 
-      <!-- Data-driven district grid (Never hard-coded, derived directly from content) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {districts.map(d => (
-          <DistrictCard district={d} lang={lang} />
-        ))}
-      </div>
+      <!-- Data-driven district grid (Never hard-coded; gracefully handles zero confirmed districts) -->
+      {districts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {districts.map(d => (
+            <DistrictCard district={d} lang={lang} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center p-12 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] max-w-2xl mx-auto space-y-3">
+          <p class="text-sm font-semibold text-[var(--color-text-main)]">
+            District research profiles are currently undergoing formal academic verification.
+          </p>
+          <p class="text-xs text-[var(--color-text-muted)]">
+            Confirmed coastal field laboratories will be published in accordance with the Evidence Register upon consortium sign-off.
+          </p>
+        </div>
+      )}
     </div>
   </section>
 </BaseLayout>

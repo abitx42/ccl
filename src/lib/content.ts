@@ -14,6 +14,7 @@ import type { z } from 'astro/zod';
 
 export type District = z.infer<typeof districtSchema>;
 export type Village = z.infer<typeof villageSchema>;
+export type Place = Village; // Underlying entity for communities/settlements
 export type Person = z.infer<typeof personSchema>;
 export type Survey = z.infer<typeof surveySchema>;
 export type Species = z.infer<typeof speciesSchema>;
@@ -123,11 +124,15 @@ export function getChallenges(placeId: string, districtSlug: string, villageSlug
 }
 
 // 6. People (Centralized, scalable, consent-gated: only if consent is granted)
-function isPersonConsentedAndPublic(data: Person | null): boolean {
+export function isPersonConsentedAndPublic(data: Person | null): boolean {
   if (!data) return false;
   const isPublic = data.status === 'published' && data.visibility === 'public';
   const consentState = data.consent?.state || (data.consent as any)?.status;
-  return isPublic && consentState === 'granted';
+  if (consentState !== 'granted') return false;
+  // Hard Rule: scope must include 'name' for public profile publication
+  const scope = data.consent?.scope || [];
+  if (!scope.includes('name')) return false;
+  return isPublic;
 }
 
 export function getPeople(peopleIds?: string[]): Person[] {

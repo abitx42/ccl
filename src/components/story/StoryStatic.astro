@@ -9,19 +9,19 @@ const labels = {
   en: {
     ukAnchor: 'University of Bristol (UK)',
     mumbaiAnchor: 'University of Mumbai (CCCSS, Kalina)',
-    pilotAnchor: 'Palghar Coastal Field Laboratory',
+    refAnchor: 'Palghar (Technical Reference Implementation)',
     staticNote: 'Accessible Geographic Reference View'
   },
   mr: {
     ukAnchor: 'ब्रिस्टल विद्यापीठ (UK)',
     mumbaiAnchor: 'मुंबई विद्यापीठ (CCCSS, कलिना)',
-    pilotAnchor: 'पालघर किनारपट्टी क्षेत्रीय प्रयोगशाळा',
+    refAnchor: 'पालघर (तांत्रिक संदर्भ अंमलबजावणी)',
     staticNote: 'भौगोलिक संदर्भ नकाशा'
   },
   hi: {
     ukAnchor: 'ब्रिस्टल विश्वविद्यालय (UK)',
     mumbaiAnchor: 'मुंबई विश्वविद्यालय (CCCSS, कलीना)',
-    pilotAnchor: 'पालघर तटीय क्षेत्रीय प्रयोगशाला',
+    refAnchor: 'पालघर (तकनीकी संदर्भ कार्यान्वयन)',
     staticNote: 'भौगोलिक संदर्भ मानचित्र'
   }
 };
@@ -85,7 +85,7 @@ const t = labels[lang] || labels.en;
     <g transform="translate(430, 245)">
       <circle r="4" fill="#047857" />
       <text x="14" y="4" font-size="11" font-weight="semibold" fill="#047857">
-        ✦ {t.pilotAnchor}
+        ✦ {t.refAnchor}
       </text>
     </g>
 
