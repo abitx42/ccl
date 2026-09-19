@@ -1,0 +1,77 @@
+---
+import { getComputedStats } from '../lib/content';
+
+interface Props {
+  lang?: 'en' | 'mr' | 'hi';
+}
+
+const { lang = 'en' } = Astro.props;
+const stats = getComputedStats();
+
+const labels = {
+  en: {
+    districts: 'Active Research Districts',
+    villages: 'Communities Profiled',
+    surveys: 'Aggregated Field Audits',
+    species: 'Biodiversity Observations',
+    challenges: 'Documented Interventions',
+    people: 'Certified Leaders & Facilitators',
+    evidence: 'Verified Evidence Claims'
+  },
+  mr: {
+    districts: 'सक्रिय संशोधन जिल्हे',
+    villages: 'अभ्यास केलेली गावे/समुदाय',
+    surveys: 'एकत्रित क्षेत्रीय सर्वेक्षणे',
+    species: 'जैवविविधता नोंदी',
+    challenges: 'हवामान उपाययोजना',
+    people: 'प्रमाणित मार्गदर्शक व कार्यकर्ते',
+    evidence: 'सत्यापित पुरावे'
+  },
+  hi: {
+    districts: 'सक्रिय अनुसंधान जिले',
+    villages: 'अध्ययनित समुदाय / गांव',
+    surveys: 'एकत्रित क्षेत्रीय सर्वेक्षण',
+    species: 'जैव विविधता अवलोकन',
+    challenges: 'प्रलेखित जलवायु हस्तक्षेप',
+    people: 'प्रमाणित सूत्रधार एवं कार्यकर्ता',
+    evidence: 'सत्यापित साक्ष्य'
+  }
+};
+
+const t = labels[lang] || labels.en;
+
+// Filter metrics where verified records exist (> 0)
+const metrics = [
+  { value: stats.districts_active, label: t.districts, key: 'districts' },
+  { value: stats.villages_profiled, label: t.villages, key: 'villages' },
+  { value: stats.surveys_completed, label: t.surveys, key: 'surveys' },
+  { value: stats.species_recorded, label: t.species, key: 'species' },
+  { value: stats.challenges_documented, label: t.challenges, key: 'challenges' },
+  { value: stats.people_acknowledged, label: t.people, key: 'people' },
+  { value: stats.evidence_claims, label: t.evidence, key: 'evidence' }
+].filter(m => m.value > 0);
+---
+
+{metrics.length > 0 && (
+  <section class="py-12 bg-[var(--color-surface)] border-y border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
+          Live Verified Research Metrics (Computed at Build)
+        </span>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 text-center">
+        {metrics.map(m => (
+          <div class="p-4 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
+            <span class="block text-3xl font-extrabold text-[var(--color-primary)]">
+              {m.value}
+            </span>
+            <span class="block text-xs font-medium text-[var(--color-text-muted)] mt-1">
+              {m.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

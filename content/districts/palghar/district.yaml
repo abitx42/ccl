@@ -1,0 +1,30 @@
+slug: palghar
+name:
+  en: "Palghar"
+  mr: "पालघर"
+  hi: "पालघर"
+theme: palghar
+tagline:
+  en: "Indigenous agro-forestry, estuarine wetlands & coastal resilience"
+  mr: "स्थानिक कृषी-वनीकरण, खाडी पाणथळ जागा आणि किनारपट्टी हवामान लवचिकता"
+  hi: "पारंपरिक कृषि-वानिकी, मुहाना आर्द्रभूमि और तटीय जलवायु लचीलापन"
+coordinates:
+  lat: 19.6967
+  lng: 72.7699
+hero:
+  image: "/images/palghar/hero.jpg"
+  alt:
+    en: "Palghar estuarine wetlands and mangrove canopy"
+    mr: "पालघर खाडी पाणथळ जागा आणि खारफुटी"
+    hi: "पालघर मुहाना आर्द्रभूमि और मैंग्रोव"
+  credit: "COOL CRYMB Field Research Team"
+research_period:
+  start: "2025-06"
+  end: "2026-10"
+highlights:
+  - en: "Vaitarna river basin micro-climate observations"
+    mr: "वैतरणा नदी खोरे सूक्ष्म-हवामान निरीक्षणे"
+    hi: "वैतरणा नदी बेसिन सूक्ष्म-जलवायु अवलोकन"
+  - en: "Community-led riparian mangrove reforestation"
+    mr: "समुदाय-नेतृत्वाखालील खारफुटी पुनरुज्जीवन"
+    hi: "समुदाय-नेतृत्व वाले मैंग्रोव पुनरुद्धार"

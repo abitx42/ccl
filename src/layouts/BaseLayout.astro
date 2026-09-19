@@ -1,0 +1,48 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: 'en' | 'mr' | 'hi';
+  theme?: string;
+}
+
+const {
+  title,
+  description = 'Community Co-creation Lab (CCL) / COOL CRYMB - University of Mumbai, British Council & HSBC climate resilience research platform.',
+  lang = 'en',
+  theme
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} data-theme={theme}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title} | CCL Mumbai University</title>
+  </head>
+  <body data-theme={theme} class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text-main)]">
+    <!-- Accessible Skip Link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-[var(--color-primary)] text-white rounded-md font-semibold"
+    >
+      Skip to main content
+    </a>
+
+    <Header lang={lang} />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+  </body>
+</html>

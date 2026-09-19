@@ -1,26 +1,30 @@
 {
   "name": "ccl",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "npm run validate && astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "validate": "tsx scripts/validate-content.ts",
+    "lint": "eslint .",
+    "test": "npm run validate"
   },
   "dependencies": {
-    "next": "16.3.5",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "@astrojs/check": "^0.9.4",
+    "astro": "^5.4.2",
+    "js-yaml": "^4.1.0",
+    "lucide-astro": "^0.501.0",
+    "tailwindcss": "^4.0.12",
+    "@tailwindcss/vite": "^4.0.12",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.5",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3"
   }
 }

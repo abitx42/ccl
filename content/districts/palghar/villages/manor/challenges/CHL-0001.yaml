@@ -1,0 +1,48 @@
+id: CHL-0001
+status: published
+visibility: public
+verification:
+  level: verified
+  verified_by: "District Lead"
+  verified_on: "2026-08-18"
+evidence:
+  - EV-0001
+  - EV-0002
+created_by: "CCCSS Field Team"
+created_on: "2026-08-18"
+
+project: "PRJ-0001"
+places:
+  - "PLC-0002"
+category: "flooding"
+title:
+  en: "Tidal Saline Intrusion and Riparian Embankment Erosion"
+  mr: "भरतीचे खारे पाणी आणि नदीकाठच्या बंधाऱ्यांची धूप"
+  hi: "ज्वार का खारा पानी और तटबंध क्षरण"
+observed_by_researchers:
+  en: "Field transects revealed cyclical brackish water seepage into riparian farming plots during monsoon spring tides, exacerbating topsoil loss."
+  mr: "पावसाळ्यातील मोठ्या भरती दरम्यान नदीकाठच्या शेतजमिनीत खारे पाणी शिरून सुपीक माती वाहून जात असल्याचे सर्वेक्षणात आढळले."
+  hi: "क्षेत्रीय सर्वेक्षण से पता चला कि मानसून के दौरान खारा पानी कृषि भूमि में रिसकर उपजाऊ मिट्टी को नुकसान पहुंचा रहा है।"
+community_perspectives:
+  en: "Local cultivators emphasized the historical reliance on native root systems to anchor the mud embankments prior to mechanized river sand dredging."
+  mr: "स्थानिक शेतकऱ्यांच्या मते पूर्वी नैसर्गिक वनस्पतींच्या मुळांमुळे मातीचे बांध सुरक्षित राहत होते."
+  hi: "स्थानीय किसानों ने बताया कि प्राकृतिक वनस्पतियों की जड़ों से तटबंध सुरक्षित रहते थे।"
+existing_responses:
+  en: "Community elder collectives conduct pre-monsoon stone and brushwood embankment re-enforcement."
+  mr: "पावसाळ्यापूर्वी दगड आणि फांद्यांचे तात्पुरते बांध घालणे."
+  hi: "मानसून से पहले पत्थरों और टहनियों से मेड़बंदी करना।"
+interventions:
+  - id: "INT-0001"
+    type: "community"
+    description:
+      en: "Community-driven restoration of native vegetative bio-shields and vetiver grass planting along critical breach points"
+      mr: "नाजूक बंधाऱ्यांवर स्थानिक वनस्पती आणि वाळा गवताची लागवड"
+      hi: "तटबंधों पर देशी वनस्पतियों और खस घास का रोपण"
+    outcome:
+      measured:
+        en: "Reduced post-monsoon embankment slump by approximately 45% along tested 200m pilot sector"
+        mr: "२०० मीटरच्या भागात बंधाऱ्यांचे नुकसान सुमारे ४५% कमी झाले"
+        hi: "200 मीटर के परीक्षण क्षेत्र में तटबंध क्षरण में लगभग 45% की कमी देखी गई"
+      as_of: "2026-09-05"
+      evidence:
+        - EV-0002

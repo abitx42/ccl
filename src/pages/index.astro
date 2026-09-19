@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatsCounter from '../components/StatsCounter.astro';
+import ScrollArrow from '../components/ScrollArrow.astro';
+import DistrictCard from '../components/DistrictCard.astro';
+import { getDistricts } from '../lib/content';
+
+const lang = (Astro.currentLocale || 'en') as 'en' | 'mr' | 'hi';
+const districts = getDistricts();
+
+const content = {
+  en: {
+    heroTitle: 'COmmunity cO-creation lab for Local Climate Resilience',
+    heroAcronym: 'COOL CRYMB',
+    heroTagline: 'Empowering coastal youth with green skills and co-designing micro-climate solutions in Mumbai and Bristol.',
+    partnersNote: 'A Bilateral Research Initiative by University of Mumbai & University of Bristol, supported by British Council & HSBC',
+    whatWhyTitle: 'Community-Led Climate Action',
+    problemTitle: 'The Challenge',
+    problemDesc: 'Maharashtra’s coastal ecosystems—from estuarine mangroves to urban settlements—face escalating tidal surges, saline intrusion, and micro-climate heating.',
+    approachTitle: 'The Methodology',
+    approachDesc: 'Youth-led Collaborative Climate Laboratories bridging grassroots indigenous knowledge with advanced academic climate modeling.',
+    outcomeTitle: 'The Impact',
+    outcomeDesc: 'Tangible, low-cost community interventions, policy-ready social cartography, and accredited youth green skill development.',
+    howTitle: 'Five-Step Co-Creation Process',
+    steps: [
+      { step: '01', title: 'Geographic Targeting', desc: 'Identifying micro-climate vulnerability zones across coastal river basins and fishing settlements.' },
+      { step: '02', title: 'Community Profiling', desc: 'Participatory field mapping with elder cultivators, fishing cooperatives, and local leaders.' },
+      { step: '03', title: 'Social Cartography', desc: 'Co-creating hyper-local GIS maps tracking salt ingress, heat spots, and natural canopies.' },
+      { step: '04', title: 'Co-Design Framework', desc: 'Student-led engineering of vegetative bio-shields, greywater recycling, and low-cost cooling.' },
+      { step: '05', title: 'Field Execution', desc: 'Community implementation, post-monsoon outcome verification, and long-term public archiving.' }
+    ],
+    districtsTitle: 'Active Research Districts',
+    districtsDesc: 'Explore hyper-local field data, community audits, biodiversity sightings, and verified resilience interventions.'
+  },
+  mr: {
+    heroTitle: 'स्थानिक हवामान लवचिकतेसाठी कम्युनिटी को-क्रिएशन लॅब',
+    heroAcronym: 'कूल क्रिम (COOL CRYMB)',
+    heroTagline: 'मुंबई आणि ब्रिस्टलमध्ये किनारपट्टीच्या तरुणांना हरित कौशल्याने सक्षम करणे आणि स्थानिक हवामान उपाययोजनांची निर्मिती करणे.',
+    partnersNote: 'मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांचा द्विपक्षीय संशोधन उपक्रम, ब्रिटिश कौन्सिल व एचएसबीसी द्वारे समर्थित',
+    whatWhyTitle: 'समुदाय-नेतृत्वाखालील हवामान कृती',
+    problemTitle: 'आव्हाने',
+    problemDesc: 'महाराष्ट्रातील किनारपट्टीची परिसंस्था वाढती भरती, खाऱ्या पाण्याचा शिरकाव आणि स्थानिक हवामान बदलांचा सामना करत आहे.',
+    approachTitle: 'पद्धती',
+    approachDesc: 'स्थानिक पारंपारिक ज्ञान आणि वैज्ञानिक हवामान मॉडेलिंग एकत्र आणणाऱ्या युवा-नेतृत्वाखालील प्रयोगशाळा.',
+    outcomeTitle: 'परिणाम',
+    outcomeDesc: 'कमी खर्चातील प्रत्यक्ष उपाय, सामाजिक नकाशे आणि तरुणांचा हरित कौशल्य विकास.',
+    howTitle: 'पाच-टप्प्यांची सह-निर्मिती प्रक्रिया',
+    steps: [
+      { step: '०१', title: 'भौगोलिक निवड', desc: 'किनारपट्टीवरील संवेदनशील क्षेत्रांची ओळख.' },
+      { step: '०२', title: 'समुदाय माहिती संकलन', desc: 'स्थानिक शेतकरी व कोळी बांधवांसोबत थेट संवाद.' },
+      { step: '०३', title: 'सामाजिक नकाशांकन', desc: 'खारफुटी, पाणी आणि उष्णतेच्या नोंदींचे नकाशे.' },
+      { step: '०४', title: 'सह-रचना आराखडा', desc: 'विद्यार्थी आणि समुदाय यांच्याद्वारे प्रत्यक्ष उपायांची रचना.' },
+      { step: '०५', title: 'प्रत्यक्ष अंमलबजावणी', desc: 'उपाययोजनांची पूर्तता आणि दीर्घकालीन संशोधन संग्रह.' }
+    ],
+    districtsTitle: 'सक्रिय संशोधन जिल्हे',
+    districtsDesc: 'स्थानिक माहिती, सर्वेक्षणे, जैवविविधता नोंदी आणि प्रत्यक्ष हवामान उपाय शोधा.'
+  },
+  hi: {
+    heroTitle: 'स्थानीय जलवायु लचीलेपन के लिए कम्युनिटी को-क्रिएशन लैब',
+    heroAcronym: 'कूल क्रिम (COOL CRYMB)',
+    heroTagline: 'मुंबई और ब्रिस्टल में तटीय युवाओं को हरित कौशल से सशक्त बनाना एवं सूक्ष्म-जलवायु समाधान तैयार करना।',
+    partnersNote: 'मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय की द्विपक्षीय शोध पहल, ब्रिटिश काउंसिल और एचएसबीसी द्वारा समर्थित',
+    whatWhyTitle: 'समुदाय-नेतृत्व वाली जलवायु कार्रवाई',
+    problemTitle: 'चुनौती',
+    problemDesc: 'महाराष्ट्र के तटीय पारिस्थितिकी तंत्र बढ़ते ज्वार, खारे पानी के प्रवेश और जलवायु परिवर्तन का सामना कर रहे हैं।',
+    approachTitle: 'पद्धति',
+    approachDesc: 'पारंपरिक ज्ञान और उन्नत विज्ञान को जोड़ने वाली युवा-नेतृत्व वाली जलवायु प्रयोगशालाएं।',
+    outcomeTitle: 'प्रभाव',
+    outcomeDesc: 'कम लागत वाले व्यावहारिक समाधान, सामाजिक मानचित्रण और युवाओं का हरित कौशल प्रमाणन।',
+    howTitle: 'पांच-चरणीय सह-निर्माण प्रक्रिया',
+    steps: [
+      { step: '01', title: 'भौगोलिक लक्ष्यीकरण', desc: 'तटीय नदी घाटियों और बस्तियों में संवेदनशील क्षेत्रों की पहचान।' },
+      { step: '02', title: 'सामुदायिक रूपरेखा', desc: 'स्थानीय बुजुर्गों, किसानों और मछुआरों के साथ संवाद।' },
+      { step: '03', title: 'सामाजिक मानचित्रण', desc: 'खारे पानी और हरित आवरण के सूक्ष्म जीआईएस मानचित्र तैयार करना।' },
+      { step: '04', title: 'सह-डिज़ाइन ढांचा', desc: 'छात्रों और समुदाय द्वारा पर्यावरण अनुकूल समाधानों का निर्माण।' },
+      { step: '05', title: 'क्षेत्रीय क्रियान्वयन', desc: 'समाधानों का कार्यान्वयन और दीर्घकालिक सार्वजनिक संग्रह।' }
+    ],
+    districtsTitle: 'सक्रिय अनुसंधान जिले',
+    districtsDesc: 'स्थानीय क्षेत्रीय आंकड़े, सर्वेक्षण, जैव विविधता और सत्यापित हस्तक्षेप देखें।'
+  }
+};
+
+const t = content[lang] || content.en;
+---
+
+<BaseLayout title="Home" lang={lang}>
+  <!-- Hero Section -->
+  <section class="relative py-20 lg:py-28 bg-gradient-to-b from-[var(--color-surface-subtle)] to-[var(--color-bg)] border-b border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-primary)] mb-6 shadow-xs">
+        <span>🌱 British Council & HSBC "Seeds for Transition" India</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[var(--color-text-main)] max-w-4xl mx-auto leading-tight">
+        {t.heroAcronym}: {t.heroTitle}
+      </h1>
+
+      <p class="mt-6 text-lg sm:text-xl text-[var(--color-text-muted)] max-w-3xl mx-auto font-normal leading-relaxed">
+        {t.heroTagline}
+      </p>
+
+      <div class="mt-8 text-xs font-medium text-[var(--color-text-muted)] tracking-wide uppercase">
+        {t.partnersNote}
+      </div>
+
+      <!-- Scroll Arrow smooth-scrolling to #districts -->
+      <ScrollArrow targetId="districts" label="Explore Research Geography" />
+    </div>
+  </section>
+
+  <!-- Computed Statistics (Build-time calculated from verified records only) -->
+  <StatsCounter lang={lang} />
+
+  <!-- What & Why Section -->
+  <section class="py-20 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)]">Overview</h2>
+        <p class="mt-2 text-3xl font-extrabold text-[var(--color-text-main)]">{t.whatWhyTitle}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-8 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-red-100 text-red-700 flex items-center justify-center font-bold mb-6 text-lg">⚠️</div>
+          <h3 class="text-xl font-bold text-[var(--color-text-main)] mb-3">{t.problemTitle}</h3>
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{t.problemDesc}</p>
+        </div>
+
+        <div class="p-8 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-6 text-lg">🔬</div>
+          <h3 class="text-xl font-bold text-[var(--color-text-main)] mb-3">{t.approachTitle}</h3>
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{t.approachDesc}</p>
+        </div>
+
+        <div class="p-8 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold mb-6 text-lg">📈</div>
+          <h3 class="text-xl font-bold text-[var(--color-text-main)] mb-3">{t.outcomeTitle}</h3>
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{t.outcomeDesc}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works (5 Steps) -->
+  <section class="py-20 bg-[var(--color-surface)] border-y border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)]">Methodology</h2>
+        <p class="mt-2 text-3xl font-extrabold text-[var(--color-text-main)]">{t.howTitle}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+        {t.steps.map(s => (
+          <div class="p-6 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] flex flex-col justify-between">
+            <div>
+              <span class="text-2xl font-black text-[var(--color-primary)] opacity-40">{s.step}</span>
+              <h4 class="text-base font-bold text-[var(--color-text-main)] mt-2 mb-2">{s.title}</h4>
+              <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- District Selector Section (Reached via Scroll Arrow - DATA-DRIVEN, NEVER HARD-CODED) -->
+  <section id="districts" class="py-20 bg-[var(--color-bg)] scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)]">Research Cartography</h2>
+        <p class="mt-2 text-3xl font-extrabold text-[var(--color-text-main)]">{t.districtsTitle}</p>
+        <p class="mt-3 text-sm text-[var(--color-text-muted)]">{t.districtsDesc}</p>
+      </div>
+
+      <!-- Data-driven district grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {districts.map(d => (
+          <DistrictCard district={d} lang={lang} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

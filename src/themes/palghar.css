@@ -1,0 +1,20 @@
+/* Palghar District Theme Tokens
+   Inspirations: Warli earthen ochre, estuarine mangrove canopy, terracotta soils
+   WCAG 2.2 AA Contrast Compliant
+*/
+:root[data-theme="palghar"],
+body[data-theme="palghar"] {
+  --color-primary: #7C2D12;       /* Deep Warli terracotta / ochre */
+  --color-primary-hover: #9A3412;
+  --color-primary-light: #FFEDD5; /* Soft clay tint */
+  --color-secondary: #14532D;     /* Coastal mangrove deep green */
+  --color-secondary-light: #DCFCE7;
+  --color-accent: #B45309;        /* Warm straw amber */
+  --color-bg: #FCFAF7;            /* Organic off-white canvas */
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F5EFEB;
+  --color-border: #E6DDD5;
+  --color-text-main: #1C1917;     /* High contrast charcoal */
+  --color-text-muted: #57534E;
+  --theme-badge: "Palghar Estuarine & Agro-Forestry";
+}

@@ -1,0 +1,30 @@
+id: SPE-0001
+status: published
+visibility: public
+verification:
+  level: verified
+  verified_by: "Biodiversity Lead"
+  verified_on: "2026-07-28"
+evidence:
+  - EV-0001
+created_by: "Student Research Unit"
+created_on: "2026-07-28"
+
+kind: flora
+common_name:
+  en: "Grey Mangrove"
+  mr: "पांढरी टिल्लूर (खारफुटी)"
+  hi: "सफेद मैंग्रोव"
+  local: "टिल्लूर"
+scientific_name: "Avicennia marina"
+iucn_status: "LC"
+habitat:
+  en: "Brackish estuarine banks along the lower Vaitarna river system"
+  mr: "वैतरणा नदीच्या मुखाजवळील खाडी दलदलीचा भाग"
+  hi: "निचले वैतरणा नदी तंत्र के किनारे खारे पानी की आर्द्रभूमि"
+observed_on: "2026-07-24"
+observed_by: "COOL CRYMB Student Research Unit"
+places:
+  - "PLC-0002"
+precision: coarse
+photos: []

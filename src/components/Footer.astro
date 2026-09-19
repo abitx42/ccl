@@ -1,0 +1,96 @@
+---
+interface Props {
+  lang?: 'en' | 'mr' | 'hi';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const text = {
+  en: {
+    partnersTitle: 'Institutional & Funding Partners',
+    partnershipDesc: 'COOL CRYMB is a bilateral climate resilience research and green skills initiative operated by the University of Mumbai in partnership with the British Council, HSBC, and the University of Bristol.',
+    ethics: 'Ethics & Consent: All research participants, community accounts, and photography strictly observe informed consent protocols.',
+    evidenceLink: 'View Evidence Register & Verified Sources',
+    archiveNotice: 'This public platform functions as a permanent research archive with reproducible datasets.',
+    rights: 'All rights reserved. University of Mumbai (CCCSS).'
+  },
+  mr: {
+    partnersTitle: 'संस्थात्मक आणि निधी भागीदार',
+    partnershipDesc: 'कूल क्रिम (COOL CRYMB) हा मुंबई विद्यापीठ, ब्रिटिश कौन्सिल, एचएसबीसी आणि ब्रिस्टल विद्यापीठ यांच्या संयुक्त विद्यमाने चालवला जाणारा हवामान लवचिकता संशोधन प्रकल्प आहे.',
+    ethics: 'नैतिकता आणि संमती: सर्व सहभागी, समुदाय माहिती आणि छायाचित्रे संमती नियमांचे काटेकोर पालन करतात.',
+    evidenceLink: 'पुरावे नोंदवही आणि सत्यापित संदर्भ पहा',
+    archiveNotice: 'हे व्यासपीठ कायमस्वरूपी संशोधन संग्रह म्हणून कार्य करते.',
+    rights: 'सर्व हक्क राखीव. मुंबई विद्यापीठ.'
+  },
+  hi: {
+    partnersTitle: 'संस्थागत एवं वित्तपोषण भागीदार',
+    partnershipDesc: 'कूल क्रिम (COOL CRYMB) मुंबई विश्वविद्यालय, ब्रिटिश काउंसिल, एचएसबीसी और ब्रिस्टल विश्वविद्यालय की एक द्विपक्षीय जलवायु लचीलापन और हरित कौशल पहल है।',
+    ethics: 'नैतिकता और सहमति: सभी शोध प्रतिभागियों और तस्वीरों में सहमति नियमों का कड़ाई से पालन किया गया है।',
+    evidenceLink: 'प्रमाण रजिस्टर और सत्यापित स्रोत देखें',
+    archiveNotice: 'यह सार्वजनिक मंच एक स्थायी शोध पुरालेख के रूप में कार्य करता है।',
+    rights: 'सर्वाधिकार सुरक्षित। मुंबई विश्वविद्यालय।'
+  }
+};
+
+const t = text[lang] || text.en;
+---
+
+<footer class="border-t border-[var(--color-border)] bg-[var(--color-surface)] mt-auto py-12 text-sm text-[var(--color-text-muted)]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
+          {t.partnersTitle}
+        </h3>
+        <ul class="space-y-2 text-xs">
+          <li class="font-medium text-[var(--color-text-main)]">University of Mumbai (CCCSS)</li>
+          <li>British Council India</li>
+          <li>HSBC Global CSR</li>
+          <li>University of Bristol</li>
+        </ul>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
+          Research Framework
+        </h3>
+        <p class="text-xs leading-relaxed">
+          {t.partnershipDesc}
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
+          Integrity & Verification
+        </h3>
+        <p class="text-xs leading-relaxed">
+          {t.ethics}
+        </p>
+        <a href={lang === 'en' ? '/sources' : `/${lang}/sources`} class="inline-block text-xs font-semibold text-[var(--color-primary)] hover:underline">
+          {t.evidenceLink} →
+        </a>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
+          Preservation
+        </h3>
+        <p class="text-xs leading-relaxed">
+          {t.archiveNotice}
+        </p>
+        <span class="inline-flex items-center text-xs px-2.5 py-1 rounded bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
+          Zenodo DOI Snapshots Scheduled
+        </span>
+      </div>
+    </div>
+
+    <div class="border-t border-[var(--color-border)] pt-8 flex flex-col sm:flex-row items-center justify-between text-xs">
+      <p>© {new Date().getFullYear()} {t.rights}</p>
+      <div class="flex space-x-6 mt-4 sm:mt-0">
+        <a href="/privacy" class="hover:underline">Privacy Policy</a>
+        <a href="/terms" class="hover:underline">Terms of Use</a>
+        <a href="/accessibility" class="hover:underline">Accessibility Statement (WCAG 2.2 AA)</a>
+      </div>
+    </div>
+  </div>
+</footer>
