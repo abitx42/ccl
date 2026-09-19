@@ -85,19 +85,42 @@ Centralized, reusable community contributor entity. Scalable from 1 to hundreds 
 id: PPL-0001
 status: published
 visibility: public
-role: "Sarpanch"                # flexible: string, i18n object, or array
+role: "Certified Master Trainer & Faculty Lead" # flexible: string, i18n object, or array
 name: { en: "Dr. Nilesh Jawalkar", mr: "...", hi: "..." }
 community:
   district_id: "palghar"
   village_id: "PLC-0002"
+places:                         # optional: places this person is associated with (e.g. cross-village/district researchers)
+  - "PLC-0002"
 photo: "./photo.jpg"            # optional
 photo_credit: "Photographer Name" # public UI shows: Photo by [Name]
 photo_alt: { en: "..." }
 consent:
   state: granted
-  scope: [ name, photo, story ]
+  scope: [ name, story ]        # photo displayed only if 'photo' is in scope
 ```
-*Note:* If no approved/consented photo exists (or `'photo'` is not in `consent.scope`), the public UI renders the person card without an empty image placeholder.
+*Note:* The two relationships serve distinct, complementary purposes:
+- `Village.people[]` → "Who should appear on this village page?"
+- `Person.places[]`  → "Which places is this person known to be associated with?"
+If no approved/consented photo exists (or `'photo'` is not in `consent.scope`), the public UI renders the person card cleanly without an empty image placeholder.
+
+### Contextual Quotes & Oral History
+Quotes and oral testimonies are **contextual** and attached directly to the record where they are used (Challenge, Intervention, Heritage, Community Account), never stored as a random collection on the person profile.
+```yaml
+quote:
+  text:
+    en: "Seasonal tidal ingress now overtakes our secondary embankments earlier in June."
+    mr: "..."
+    hi: "..."
+  contributor: "PPL-0001"       # references Person ID (validated at build)
+  attribution: "Dr. Nilesh Jawalkar"
+  consent:
+    state: granted
+    scope: [ quote ]            # independent quote consent
+  evidence:
+    - EV-0001
+```
+*Consent Independence:* A contributor can grant profile publication consent (`name`, `story`), while withholding photo consent, or grant a quote consent for a specific challenge response without making that quote reusable elsewhere.
 
 ### Survey (`content/districts/[slug]/villages/[slug]/surveys/*.yaml`)
 Aggregated, anonymised only. Raw data lives in private research storage. Many-to-many link to places (`places: ["PLC-0002"]`).
@@ -106,5 +129,5 @@ Aggregated, anonymised only. Raw data lives in private research storage. Many-to
 Flora or fauna observation with IUCN status and coarse precision for threatened species.
 
 ### Challenge & Response (`.../challenges/*.yaml`)
-Challenges mapped to community, student-led, or institutional responses and measured outcomes.
+Challenges mapped to community, student-led, or institutional responses and measured outcomes. Includes optional contextual `quotes` and intervention `quote` blocks.
 

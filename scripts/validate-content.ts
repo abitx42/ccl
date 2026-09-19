@@ -111,6 +111,26 @@ function dataIsValid(d: any) {
 
 // 2. Validate Districts & Villages
 const districtsDir = path.join(CONTENT_DIR, 'districts');
+const placesMap = new Map<string, any>();
+
+function validateContextualQuote(q: any, parentRecordId: string, parentPath: string) {
+  if (!q) return;
+  if (q.contributor) {
+    if (!peopleMap.has(q.contributor)) {
+      report.errors.push(`[Missing Quote Contributor] Record ${parentRecordId} in ${parentPath} references non-existent contributor ID: ${q.contributor}`);
+    }
+  }
+  if (q.consent) {
+    const consentState = q.consent.state || q.consent.status;
+    if (consentState !== 'granted') {
+      report.errors.push(`[Quote Consent Violation] Quote in ${parentRecordId} (${parentPath}) has consent state '${consentState}', must be 'granted'`);
+    }
+    if (q.consent.scope && Array.isArray(q.consent.scope) && !q.consent.scope.includes('quote')) {
+      report.errors.push(`[Quote Scope Missing] Quote in ${parentRecordId} (${parentPath}) consent.scope missing 'quote': ${JSON.stringify(q.consent.scope)}`);
+    }
+  }
+}
+
 if (fs.existsSync(districtsDir)) {
   const districts = fs.readdirSync(districtsDir, { withFileTypes: true })
     .filter(d => d.isDirectory())
@@ -149,6 +169,7 @@ if (fs.existsSync(districtsDir)) {
               report.errors.push(`[Village Schema Error] ${vYaml}: ${JSON.stringify(vParsed.error.issues)}`);
             } else {
               report.counts.villages++;
+              placesMap.set(vData.id, vData);
 
               // Check consent gating for published records
               if (vData.status === 'published' && vData.visibility !== 'public') {
@@ -169,6 +190,13 @@ if (fs.existsSync(districtsDir)) {
                   }
                 }
               }
+
+              // Verify contextual quotes on village
+              if (vData.quotes && Array.isArray(vData.quotes)) {
+                for (const q of vData.quotes) {
+                  validateContextualQuote(q, vData.id, vYaml);
+                }
+              }
             }
           }
         }
@@ -185,6 +213,13 @@ if (fs.existsSync(districtsDir)) {
                 report.errors.push(`[Survey Schema Error] ${sPath}: ${JSON.stringify(res.error.issues)}`);
               } else {
                 report.counts.surveys++;
+                if (sData.places && Array.isArray(sData.places)) {
+                  for (const placeId of sData.places) {
+                    if (!placesMap.has(placeId)) {
+                      report.errors.push(`[Missing Place Reference] Survey ${sData.id} in ${sPath} references non-existent place ID: ${placeId}`);
+                    }
+                  }
+                }
               }
             }
           }
@@ -202,6 +237,13 @@ if (fs.existsSync(districtsDir)) {
                 report.errors.push(`[Species Schema Error] ${spPath}: ${JSON.stringify(res.error.issues)}`);
               } else {
                 report.counts.species++;
+                if (spData.places && Array.isArray(spData.places)) {
+                  for (const placeId of spData.places) {
+                    if (!placesMap.has(placeId)) {
+                      report.errors.push(`[Missing Place Reference] Species ${spData.id} in ${spPath} references non-existent place ID: ${placeId}`);
+                    }
+                  }
+                }
               }
             }
           }
@@ -219,6 +261,27 @@ if (fs.existsSync(districtsDir)) {
                 report.errors.push(`[Challenge Schema Error] ${chPath}: ${JSON.stringify(res.error.issues)}`);
               } else {
                 report.counts.challenges++;
+                if (chData.places && Array.isArray(chData.places)) {
+                  for (const placeId of chData.places) {
+                    if (!placesMap.has(placeId)) {
+                      report.errors.push(`[Missing Place Reference] Challenge ${chData.id} in ${chPath} references non-existent place ID: ${placeId}`);
+                    }
+                  }
+                }
+                // Verify contextual quotes on challenge
+                if (chData.quotes && Array.isArray(chData.quotes)) {
+                  for (const q of chData.quotes) {
+                    validateContextualQuote(q, chData.id, chPath);
+                  }
+                }
+                // Verify contextual quotes on interventions
+                if (chData.interventions && Array.isArray(chData.interventions)) {
+                  for (const it of chData.interventions) {
+                    if (it.quote) {
+                      validateContextualQuote(it.quote, `${chData.id}#${it.id}`, chPath);
+                    }
+                  }
+                }
               }
             }
           }
@@ -243,6 +306,17 @@ if (fs.existsSync(districtsDir)) {
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  // Verify all place references in Person records
+  for (const [pId, pData] of peopleMap) {
+    if (pData.places && Array.isArray(pData.places)) {
+      for (const placeId of pData.places) {
+        if (!placesMap.has(placeId)) {
+          report.errors.push(`[Missing Place Reference] Person ${pId} references non-existent place ID: ${placeId}`);
         }
       }
     }

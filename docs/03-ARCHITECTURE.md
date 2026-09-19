@@ -59,6 +59,7 @@ ccl-website/               (private, in a GitHub organisation with ≥ 2 owners)
 ```
 
 Adding a district = new folder in `content/districts/` + theme file in `src/themes/`. Adding a village = new folder. No template edits.
+People records (`content/people/PPL-xxxx.yaml`) are centralized and support optional place associations (`places: ["PLC-xxxx"]`) for cross-community contributors and researchers without duplication. Contextual quotes/oral testimonies attach directly to where they are used with independent consent.
 Statistics are computed at build time from the records.
 Languages: English (`/`), Marathi (`/mr/`), Hindi (`/hi/`).
 Performance: Home < 250 KB mobile; LCP < 2.5s on 4G; WCAG 2.2 AA.

@@ -26,6 +26,8 @@ community:
 
 district_id: "palghar"
 village_id: "PLC-0002"
+places:
+  - "PLC-0002"
 
 bio:
   en: "Certified Master Facilitator directing faculty and student research squads across coastal Maharashtra field laboratories."

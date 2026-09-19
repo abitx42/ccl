@@ -58,6 +58,16 @@ export const districtSchema = z.object({
   highlights: z.array(i18nStringSchema).optional()
 });
 
+// Contextual Quote / Oral History Schema
+// Attached directly to records where used (Challenge, Intervention, Heritage, Village Community Account)
+export const quoteSchema = z.object({
+  text: i18nStringSchema,
+  contributor: z.string().regex(/^[A-Z]{2,4}(-[A-Z]{2,4})?-\d{3,6}$/, 'Opaque Contributor Person ID required (e.g. PPL-0001)').optional(),
+  attribution: z.union([i18nStringSchema, z.string()]).optional(),
+  consent: consentBlockSchema.optional(),
+  evidence: z.array(z.string()).default([])
+});
+
 // 4. Village / Place Schema
 export const villageSchema = commonBlockSchema.extend({
   slug: z.string().min(1),
@@ -90,7 +100,8 @@ export const villageSchema = commonBlockSchema.extend({
     body: z.string(),
     contact_public: z.boolean().default(false)
   }).optional(),
-  people: z.array(z.string()).default([])
+  people: z.array(z.string()).default([]),
+  quotes: z.array(quoteSchema).default([])
 });
 
 // 5. Person Schema (Strict Consent Gating & Scalable Reusable Entities)
@@ -108,6 +119,7 @@ export const personSchema = commonBlockSchema.extend({
   }).optional(),
   district_id: z.string().optional(),
   village_id: z.string().optional(),
+  places: z.array(z.string()).optional(),
   photo: z.string().optional(),
   photo_credit: z.string().optional(),
   photo_alt: z.union([i18nStringSchema, z.string()]).optional(),
@@ -170,10 +182,12 @@ export const challengeSchema = commonBlockSchema.extend({
   observed_by_researchers: i18nStringSchema,
   community_perspectives: i18nStringSchema.optional(),
   existing_responses: i18nStringSchema.optional(),
+  quotes: z.array(quoteSchema).default([]),
   interventions: z.array(z.object({
     id: z.string(),
     type: z.enum(['community', 'student_led', 'institutional', 'proposed', 'ongoing', 'completed']),
     description: i18nStringSchema,
+    quote: quoteSchema.optional(),
     outcome: z.object({
       measured: i18nStringSchema,
       as_of: z.string(),
