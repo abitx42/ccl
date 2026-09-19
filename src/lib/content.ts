@@ -170,7 +170,7 @@ export function getComputedStats() {
   const statsPath = path.join(CONTENT_DIR, 'site', 'stats.json');
   if (!fs.existsSync(statsPath)) {
     return {
-      districts_active: 0,
+      technical_districts_loaded: 0,
       villages_profiled: 0,
       surveys_completed: 0,
       species_recorded: 0,

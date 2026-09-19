@@ -256,7 +256,8 @@ if (!fs.existsSync(siteDir)) {
 }
 
 const computedStats = {
-  districts_active: report.counts.districts,
+  technical_districts_loaded: report.counts.districts,
+  confirmed_project_districts: 'unresolved',
   villages_profiled: report.counts.villages,
   surveys_completed: report.counts.surveys,
   species_recorded: report.counts.species,
@@ -269,8 +270,11 @@ const computedStats = {
 
 fs.writeFileSync(path.join(siteDir, 'stats.json'), JSON.stringify(computedStats, null, 2));
 
-console.log('--- CCL Content Validation Report ---');
-console.log(`Active Districts (Loaded): ${report.counts.districts}`);
+console.log('--- CCL Content & Schema Validation Report ---');
+console.log(`Technical implementation districts: ${report.counts.districts}`);
+console.log(`    → Palghar (reference/pilot technical implementation)`);
+console.log(`Confirmed project research districts:`);
+console.log(`    → currently unresolved / do not publish a total`);
 console.log(`Villages / Places:         ${report.counts.villages}`);
 console.log(`Aggregated Surveys:        ${report.counts.surveys}`);
 console.log(`Species Observations:      ${report.counts.species}`);
@@ -287,6 +291,10 @@ if (report.errors.length > 0) {
   }
   process.exit(1);
 } else {
-  console.log('\n✅ All content records verified and consent gates passed.');
+  console.log('\nValidation Status:');
+  console.log('  Schema/content validation: PASS');
+  console.log('  Consent/publication gates: PASS');
+  console.log('  Evidence verification: according to individual record status');
+  console.log('  Project-scope confirmation: unresolved where applicable');
   process.exit(0);
 }

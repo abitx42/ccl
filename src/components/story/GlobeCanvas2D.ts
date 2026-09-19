@@ -92,39 +92,51 @@ export class GlobeCanvas2D {
     return start + (end - start) * t;
   }
 
+  private easeInOutCubic(t: number): number {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
   public render(): void {
     if (this.isDestroyed || !this.ctx || !this.landData) return;
 
-    // Interpolate center based on story progress
-    // Progress 0.0 - 0.25: UK/Atlantic (lng: -2.6, lat: 51.4)
-    // Progress 0.25 - 0.65: Great Circle transition to Mumbai (lng: 72.8, lat: 19.0)
-    // Progress 0.65 - 1.00: Held Maharashtra Coastal View (lng: 73.0, lat: 19.2)
-    let targetLng = -10;
-    let targetLat = 40;
+    // Center coordinates [lng, lat]
+    // Start: UK / Bristol (-2.60, 51.46)
+    // End: Maharashtra Coast / Mumbai (72.87, 19.07) -> Palghar region (73.0, 19.4)
+    let centerLng = -2.6;
+    let centerLat = 51.5;
 
     const p = this.currentProgress;
-    if (p < 0.25) {
+    const baseRadius = Math.min(this.width, this.height) * 0.42;
+    let currentScale = baseRadius;
+
+    if (p < 0.20) {
       // UK Focus
-      targetLng = -5;
-      targetLat = 48;
+      centerLng = -2.6;
+      centerLat = 51.5;
+      currentScale = baseRadius;
     } else if (p < 0.65) {
-      // Easing from UK towards India
-      const t = (p - 0.25) / 0.40;
-      targetLng = this.interpolate(-5, -73, t);
-      targetLat = this.interpolate(48, -19, t);
+      // Smooth eased transition UK -> Mumbai
+      const t = this.easeInOutCubic((p - 0.20) / 0.45);
+      centerLng = this.interpolate(-2.6, 72.87, t);
+      centerLat = this.interpolate(51.5, 19.07, t);
+      currentScale = baseRadius;
     } else {
-      // Held View over Maharashtra Coast (Palghar / Mumbai)
-      targetLng = -73;
-      targetLat = -19.2;
+      // Held View over Maharashtra Coast with subtle progressive zoom
+      centerLng = 73.0;
+      centerLat = 19.2;
+      const zoomT = this.easeInOutCubic((p - 0.65) / 0.35);
+      currentScale = baseRadius * (1 + 0.35 * zoomT);
     }
 
-    // d3-geo rotate takes [-longitude, -latitude]
-    this.projection.rotate([targetLng, -targetLat]);
+    // d3-geo projection rotation is [-lambda, -phi] to center on [lng, lat]
+    this.projection
+      .scale(currentScale)
+      .rotate([-centerLng, -centerLat]);
 
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     const center = [this.width / 2, this.height / 2];
-    const radius = this.projection.scale();
+    const radius = currentScale;
 
     // 1. Earth Disc & Ocean Gradient
     const oceanGrad = this.ctx.createRadialGradient(
@@ -187,7 +199,7 @@ export class GlobeCanvas2D {
       if (!projected) continue;
 
       // Check if point is on visible hemisphere
-      const dist = d3Geo.geoDistance([anc.lng, anc.lat], [-targetLng, targetLat]);
+      const dist = d3Geo.geoDistance([anc.lng, anc.lat], [centerLng, centerLat]);
       if (dist > Math.PI / 2) continue; // Behind the globe
 
       const isDistrict = anc.type === 'district';

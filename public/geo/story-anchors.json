@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-09-19T11:54:08.230Z",
+  "generated_at": "2026-09-19T11:57:40.613Z",
   "anchors": [
     {
       "id": "ANC-BRISTOL",
@@ -52,7 +52,8 @@
       },
       "lat": 19.6967,
       "lng": 72.7699,
-      "order": 4
+      "order": 4,
+      "note": "Technical/reference implementation anchor (palghar). Project-wide confirmed research district scope remains unresolved per Evidence Register."
     }
   ]
 }

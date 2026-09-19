@@ -74,7 +74,8 @@ if (fs.existsSync(distDir)) {
           name: d.name,
           lat: d.coordinates.lat,
           lng: d.coordinates.lng,
-          order: currentOrder++
+          order: currentOrder++,
+          note: `Technical/reference implementation anchor (${slug}). Project-wide confirmed research district scope remains unresolved per Evidence Register.`
         });
       }
     } catch (err: any) {
@@ -103,4 +104,4 @@ if (!fs.existsSync(geoDir)) {
 }
 
 fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), 'utf-8');
-console.log(`✅ [build-story-anchors] Written ${payload.anchors.length} verified anchors to ${OUTPUT_FILE}`);
+console.log(`✅ [build-story-anchors] Generated ${payload.anchors.length} story anchors (institutional partners + technical reference districts) to ${OUTPUT_FILE}`);

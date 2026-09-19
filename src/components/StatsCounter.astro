@@ -41,8 +41,8 @@ const labels = {
 const t = labels[lang] || labels.en;
 
 // Filter metrics where verified records exist (> 0)
+// HARD RULE: District count is intentionally omitted because project-wide scope (6 vs 7) is unresolved per Evidence Register
 const metrics = [
-  { value: stats.districts_active, label: t.districts, key: 'districts' },
   { value: stats.villages_profiled, label: t.villages, key: 'villages' },
   { value: stats.surveys_completed, label: t.surveys, key: 'surveys' },
   { value: stats.species_recorded, label: t.species, key: 'species' },

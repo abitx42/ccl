@@ -1,5 +1,6 @@
 {
-  "districts_active": 1,
+  "technical_districts_loaded": 1,
+  "confirmed_project_districts": "unresolved",
   "villages_profiled": 1,
   "surveys_completed": 1,
   "species_recorded": 1,
@@ -7,5 +8,5 @@
   "people_acknowledged": 1,
   "media_verified": 0,
   "evidence_claims": 2,
-  "last_computed_at": "2026-09-19T11:54:08.146Z"
+  "last_computed_at": "2026-09-19T11:57:40.524Z"
 }
