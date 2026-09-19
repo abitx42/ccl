@@ -87,11 +87,18 @@ if (fs.existsSync(peopleDir)) {
       report.errors.push(`[Person Schema Error] ${pPath}: ${JSON.stringify(res.error.issues)}`);
     } else {
       // HARD RULE: Consent Gating
-      if (pData.status === 'published' && pData.consent?.state !== 'granted') {
-        report.errors.push(`[Consent Violation] Person ${pData.id} in ${pPath} is marked published, but consent is ${pData.consent?.state} (must be 'granted')`);
+      const consentState = pData.consent?.state || pData.consent?.status;
+      if (pData.status === 'published' && consentState !== 'granted') {
+        report.errors.push(`[Consent Violation] Person ${pData.id} in ${pPath} is marked published, but consent is ${consentState} (must be 'granted')`);
       }
+
+      // Check photo consent: if photo is specified, consent.scope must include 'photo'
+      if (pData.photo && pData.photo.trim() !== '' && (!pData.consent?.scope || !pData.consent.scope.includes('photo'))) {
+        report.errors.push(`[Photo Consent Violation] Person ${pData.id} in ${pPath} has a photo specified, but 'photo' is not in consent.scope: ${JSON.stringify(pData.consent?.scope)}`);
+      }
+
       peopleMap.set(pData.id, pData);
-      if (pData.status === 'published' && pData.visibility === 'public' && pData.consent?.state === 'granted') {
+      if (pData.status === 'published' && pData.visibility === 'public' && consentState === 'granted') {
         report.counts.people++;
       }
     }
@@ -153,6 +160,12 @@ if (fs.existsSync(districtsDir)) {
                 for (const pid of vData.people) {
                   if (!peopleMap.has(pid)) {
                     report.errors.push(`[Missing Person Reference] Village ${vData.id} references non-existent person ID: ${pid}`);
+                  } else {
+                    const referencedPerson = peopleMap.get(pid);
+                    const refConsent = referencedPerson.consent?.state || referencedPerson.consent?.status;
+                    if (vData.status === 'published' && (referencedPerson.status !== 'published' || refConsent !== 'granted')) {
+                      report.errors.push(`[Consent/Visibility Leak] Published village ${vData.id} references person ${pid} who is either not published or lacks granted consent`);
+                    }
                   }
                 }
               }

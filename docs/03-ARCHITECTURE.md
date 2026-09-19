@@ -42,13 +42,14 @@ ccl-website/               (private, in a GitHub organisation with ≥ 2 owners)
 ├─ CLAUDE.md  README.md
 ├─ docs/
 ├─ content/
-│  ├─ site/                stats.yaml (computed), partners.yaml, about.md
+│  ├─ site/                stats.json (computed), partners.yaml, about.md
 │  ├─ evidence/            EVIDENCE-REGISTER data (claims → sources)
+│  ├─ people/              PPL-xxxx.yaml (centralized, reusable community contributors)
 │  ├─ districts/<slug>/    (slug = RESEARCH district)
 │  │   ├─ district.yaml
 │  │   └─ villages/<slug>/
-│  │       ├─ village.yaml  index.{en,mr,hi}.md
-│  │       ├─ people/ surveys/ species/ challenges/ solutions/ heritage/ media/ products/
+│  │       ├─ village.yaml (references people: ["PPL-xxxx"])
+│  │       ├─ surveys/ species/ challenges/ solutions/ heritage/ media/ products/
 │  │       └─ geo/*.geojson
 │  └─ taxonomy/            research categories, species lists, climate indicators
 ├─ src/  layouts, components, pages, themes/, i18n/

@@ -9,7 +9,7 @@ export const i18nStringSchema = z.object({
 
 // 1. Common Block — Mandatory on every record (doc 04)
 export const commonBlockSchema = z.object({
-  id: z.string().regex(/^[A-Z]{2,4}(-[A-Z]{2,4})?-\d{4}$/, 'Opaque ID format required (e.g. PLC-0001, PRJ-0001, PAL-VIL-0001)'),
+  id: z.string().regex(/^[A-Z]{2,4}(-[A-Z]{2,4})?-\d{3,6}$/, 'Opaque ID format required (e.g. PLC-0001, PRJ-0001, PPL-0001)'),
   status: z.enum(['draft', 'in_review', 'verified', 'published', 'needs_correction', 'archived']),
   visibility: z.enum(['public', 'research_team', 'community_only', 'restricted', 'unpublished']),
   verification: z.object({
@@ -25,12 +25,15 @@ export const commonBlockSchema = z.object({
 
 // 2. Consent Block — Mandatory for people, media with people, quotes, oral history
 export const consentBlockSchema = z.object({
-  state: z.enum(['granted', 'pending', 'withdrawn', 'not_required']),
+  state: z.enum(['granted', 'pending', 'withdrawn', 'not_required']).optional(),
+  status: z.enum(['granted', 'pending', 'withdrawn', 'not_required']).optional(),
   scope: z.array(z.enum(['name', 'photo', 'quote', 'story', 'video'])).default([]),
   form_id: z.string().optional(),
   obtained_on: z.string().optional(),
   obtained_by: z.string().optional(),
   guardian_consent: z.boolean().default(false)
+}).refine(data => data.state !== undefined || data.status !== undefined, {
+  message: "Either consent.state or consent.status must be provided"
 });
 
 // 3. District Schema
@@ -90,20 +93,25 @@ export const villageSchema = commonBlockSchema.extend({
   people: z.array(z.string()).default([])
 });
 
-// 5. Person Schema (Strict Consent Gating & Scalable Roles)
+// 5. Person Schema (Strict Consent Gating & Scalable Reusable Entities)
+const roleItemSchema = z.union([i18nStringSchema, z.string()]);
+
 export const personSchema = commonBlockSchema.extend({
-  role: z.union([i18nStringSchema, z.string()]),
-  name: i18nStringSchema,
+  role: z.union([roleItemSchema, z.array(roleItemSchema)]).optional(),
+  roles: z.array(roleItemSchema).optional(),
+  name: z.union([i18nStringSchema, z.string()]),
   community: z.object({
-    district_id: z.string(),
+    district: z.string().optional(),
+    village: z.string().optional(),
+    district_id: z.string().optional(),
     village_id: z.string().optional()
   }).optional(),
   district_id: z.string().optional(),
   village_id: z.string().optional(),
   photo: z.string().optional(),
   photo_credit: z.string().optional(),
-  photo_alt: i18nStringSchema.optional(),
-  bio: i18nStringSchema.optional(),
+  photo_alt: z.union([i18nStringSchema, z.string()]).optional(),
+  bio: z.union([i18nStringSchema, z.string()]).optional(),
   consent: consentBlockSchema
 });
 

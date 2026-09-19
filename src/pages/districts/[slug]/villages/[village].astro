@@ -328,26 +328,56 @@ const t = labels[lang] || labels.en;
             <p class="text-2xl font-extrabold text-[var(--color-text-main)] mt-1">{t.peopleTitle}</p>
           </div>
 
-          <div class={`grid gap-6 ${people.length <= 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'}`}>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {people.map(p => {
-              const pName = p.name[lang] || p.name.en;
-              const pBio = p.bio?.[lang] || p.bio?.en || '';
-              const pRole = typeof p.role === 'string' ? p.role : (p.role[lang] || p.role.en);
+              const pName = typeof p.name === 'string' ? p.name : (p.name[lang] || p.name.en);
+              const pBio = p.bio ? (typeof p.bio === 'string' ? p.bio : (p.bio[lang] || p.bio.en)) : '';
+              
+              // Resolve role (string, i18n object, or array)
+              let pRole = '';
+              const rawRole = p.role || (p as any).roles;
+              if (rawRole) {
+                if (Array.isArray(rawRole)) {
+                  pRole = rawRole
+                    .map(r => typeof r === 'string' ? r : (r[lang] || r.en))
+                    .filter(Boolean)
+                    .join(', ');
+                } else if (typeof rawRole === 'string') {
+                  pRole = rawRole;
+                } else {
+                  pRole = rawRole[lang] || rawRole.en;
+                }
+              }
+
+              const hasConsentedPhoto = Boolean(
+                p.photo &&
+                p.photo.trim() !== '' &&
+                p.consent?.scope?.includes('photo')
+              );
+
+              const photoAltText = typeof p.photo_alt === 'string'
+                ? p.photo_alt
+                : (p.photo_alt?.[lang] || p.photo_alt?.en || pName);
 
               return (
                 <div class="p-5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] flex flex-col justify-between shadow-xs">
                   <div class="space-y-3">
                     <div class="flex items-center justify-between">
-                      <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)]">
-                        {pRole}
-                      </span>
+                      {pRole ? (
+                        <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)]">
+                          {pRole}
+                        </span>
+                      ) : (
+                        <span class="text-xs text-[var(--color-text-muted)] font-medium">Contributor</span>
+                      )}
                       <span class="text-[11px] font-mono text-emerald-700">✓ Consented</span>
                     </div>
 
-                    {p.photo && (
+                    {/* Photo + credit: If no approved/consented photo exists, show person without empty placeholder */}
+                    {hasConsentedPhoto && (
                       <div class="rounded-lg overflow-hidden border border-[var(--color-border)]">
-                        <img src={p.photo} alt={p.photo_alt?.[lang] || p.photo_alt?.en || pName} class="w-full h-40 object-cover" />
-                        {p.photo_credit && (
+                        <img src={p.photo} alt={photoAltText} class="w-full h-44 object-cover" />
+                        {p.photo_credit && p.photo_credit.trim() !== '' && (
                           <div class="p-1.5 text-[10px] text-[var(--color-text-muted)] bg-[var(--color-surface-subtle)] text-right">
                             Photo by {p.photo_credit}
                           </div>

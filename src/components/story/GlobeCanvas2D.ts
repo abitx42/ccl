@@ -190,13 +190,13 @@ export class GlobeCanvas2D {
       const dist = d3Geo.geoDistance([anc.lng, anc.lat], [-targetLng, targetLat]);
       if (dist > Math.PI / 2) continue; // Behind the globe
 
-      const isPalghar = anc.id === 'ANC-PALGHAR';
+      const isDistrict = anc.type === 'district';
       const isMumbai = anc.id === 'ANC-MUMBAI';
 
       // Dot
       this.ctx.beginPath();
-      this.ctx.arc(projected[0], projected[1], isPalghar ? 5 : 4, 0, Math.PI * 2);
-      this.ctx.fillStyle = isPalghar ? '#059669' : (isMumbai ? '#DC2626' : '#2563EB');
+      this.ctx.arc(projected[0], projected[1], isDistrict ? 5 : 4, 0, Math.PI * 2);
+      this.ctx.fillStyle = isDistrict ? '#059669' : (isMumbai ? '#DC2626' : '#2563EB');
       this.ctx.fill();
       this.ctx.strokeStyle = '#FFFFFF';
       this.ctx.lineWidth = 1.5;
@@ -204,7 +204,7 @@ export class GlobeCanvas2D {
 
       // Label (DOM-styled typography rendered to canvas cleanly)
       const name = (anc.name as any)[this.lang] || anc.name.en;
-      this.ctx.font = isPalghar ? 'bold 12px system-ui' : '600 11px system-ui';
+      this.ctx.font = isDistrict ? 'bold 12px system-ui' : '600 11px system-ui';
       this.ctx.fillStyle = '#0F172A';
       this.ctx.fillText(name, projected[0] + 8, projected[1] + 4);
     }

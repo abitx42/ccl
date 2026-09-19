@@ -122,7 +122,14 @@ export function getChallenges(placeId: string, districtSlug: string, villageSlug
   return challenges;
 }
 
-// 6. People (Consent-gated: only if consent.state === 'granted')
+// 6. People (Centralized, scalable, consent-gated: only if consent is granted)
+function isPersonConsentedAndPublic(data: Person | null): boolean {
+  if (!data) return false;
+  const isPublic = data.status === 'published' && data.visibility === 'public';
+  const consentState = data.consent?.state || (data.consent as any)?.status;
+  return isPublic && consentState === 'granted';
+}
+
 export function getPeople(peopleIds?: string[]): Person[] {
   if (!peopleIds || peopleIds.length === 0) return [];
   const pDir = path.join(CONTENT_DIR, 'people');
@@ -131,13 +138,28 @@ export function getPeople(peopleIds?: string[]): Person[] {
   for (const id of peopleIds) {
     const filePath = path.join(pDir, `${id}.yaml`);
     const data = readYaml<Person>(filePath);
-    if (
-      data &&
-      data.status === 'published' &&
-      data.visibility === 'public' &&
-      data.consent?.state === 'granted'
-    ) {
-      people.push(data);
+    if (isPersonConsentedAndPublic(data)) {
+      people.push(data!);
+    }
+  }
+  return people;
+}
+
+export function getPerson(id: string): Person | null {
+  const filePath = path.join(CONTENT_DIR, 'people', `${id}.yaml`);
+  const data = readYaml<Person>(filePath);
+  return isPersonConsentedAndPublic(data) ? data : null;
+}
+
+export function getAllPeople(): Person[] {
+  const pDir = path.join(CONTENT_DIR, 'people');
+  if (!fs.existsSync(pDir)) return [];
+  const files = fs.readdirSync(pDir).filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
+  const people: Person[] = [];
+  for (const file of files) {
+    const data = readYaml<Person>(path.join(pDir, file));
+    if (isPersonConsentedAndPublic(data)) {
+      people.push(data!);
     }
   }
   return people;
