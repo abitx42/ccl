@@ -17,9 +17,8 @@ Every record already carries `id`, `status`, `visibility`, `consent` and `eviden
 | Concern | Free choice | Upgrade path |
 |---|---|---|
 | Framework | **Astro** + TypeScript (content collections, i18n, mostly zero client JS) | Same, add server rendering / API routes |
-| Source control | **GitHub organisation** account, **private repo** | GitHub paid plan / self-hosted Git |
-| Hosting | **Cloudflare Pages** (free, deploys from private repos) | Paid tier / university VM |
-| Editing UI | **Decap CMS** (git-based forms); fallback: Google Sheets/Forms → reviewed PR | Payload / Directus / Strapi with database |
+| Hosting (Production) | **Cloudflare Workers** (Static Assets, free tier, deploys from private repo) | Paid tier / university VM |
+| Hosting (Secondary/Demo) | **Antideploy** (zero-config, agent-friendly preview/demo target) | — |
 | Search | **Pagefind** (static, in-browser, works in Marathi/Hindi) | Meilisearch / Typesense / Postgres full-text |
 | Maps | **MapLibre GL JS** + GeoJSON, tiles from free tier or self-hosted **PMTiles** | Paid tile provider, PostGIS |
 | Charts | Pre-rendered SVG / Observable Plot | Interactive dashboards from an API |
@@ -62,3 +61,11 @@ Adding a district = new folder in `content/districts/` + theme file in `src/them
 Statistics are computed at build time from the records.
 Languages: English (`/`), Marathi (`/mr/`), Hindi (`/hi/`).
 Performance: Home < 250 KB mobile; LCP < 2.5s on 4G; WCAG 2.2 AA.
+
+## Deployment Portability & Targets
+
+The application is strictly **deployment-agnostic** and builds to standard static assets (`dist/`). No provider-specific runtime APIs are allowed in the core Astro components:
+
+1. **Primary Production**: **Cloudflare Workers** (serving static assets via `wrangler.jsonc` + Workers for visit-request processing). Provides institutional reliability, custom domain management, and staging/preview deployments via pull requests.
+2. **Secondary / Demo**: **Antideploy** (zero-configuration deployment for rapid previewing, agent-driven iteration, and testing).
+3. **Institutional Handover**: Because the output is standard HTML/CSS/JS, the site can be transferred to a University of Mumbai on-premise Apache/Nginx server at any time without code changes.
