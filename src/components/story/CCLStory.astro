@@ -1,0 +1,344 @@
+---
+import StoryStatic from './StoryStatic.astro';
+
+interface Props {
+  lang?: 'en' | 'mr' | 'hi';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const narrative = {
+  en: {
+    skipLink: 'Skip introduction → Explore research',
+    viewInteractive: 'Interactive View',
+    viewSimple: 'Simple Version',
+    b1Title: 'COmmunity cO-creation lab for Local Climate Resilience',
+    b1Acronym: 'COOL CRYMB',
+    b1Tagline: 'Empowering coastal youth with green skills and co-designing micro-climate solutions in Mumbai and Bristol.',
+    b2Heading: 'Why Local Co-Creation Matters',
+    b2Problem: 'Coastal Vulnerability: Maharashtra’s coastal ecosystems face severe tidal ingress, riparian erosion, and rising micro-climate heat stress.',
+    b2Approach: 'Grassroots Laboratories: Youth-led labs matching community indigenous knowledge with advanced academic climate modeling.',
+    b2Outcome: 'Measured Interventions: Practical, low-cost community solutions and accredited green youth livelihoods.',
+    b3Heading: 'Bilateral Partnership Architecture',
+    b3Text: 'Operated under the British Council’s flagship "Climate Skills – Seeds for Transition India" framework funded by HSBC, this multi-year initiative establishes an active research bridge between the University of Bristol in the United Kingdom and the University of Mumbai in India.',
+    b4Heading: 'Academic Lead & Delivery',
+    b4Text: 'The Indian research consortium is directed by the Centre for Climate Change and Sustainability Studies (CCCSS) at the University of Mumbai’s Kalina Campus, bringing together higher education institutions, master trainers, and grassroots community groups.',
+    b5Heading: 'Five-Step Co-Creation Process',
+    b5Steps: [
+      { num: '01', title: 'Geographic Targeting', desc: 'Isolating vulnerable river basins and tidal villages.' },
+      { num: '02', title: 'Community Profiling', desc: 'Participatory field mapping with elders and cooperatives.' },
+      { num: '03', title: 'Social Cartography', desc: 'Hyper-local maps of salinity, vegetation, and flood risks.' },
+      { num: '04', title: 'Co-Design Framework', desc: 'Student-led engineering of vegetative bio-shields.' },
+      { num: '05', title: 'Field Execution', desc: 'Community implementation and long-term public archiving.' }
+    ],
+    b6Heading: 'Coastal Research Geography',
+    b6Text: 'Research focuses along the Maharashtra coastline. Palghar serves as our initial reference field laboratory, documenting estuarine salinity patterns and Warli agro-forestry techniques along the Vaitarna basin. Additional coastal districts remain under academic verification.',
+    b6ExploreCta: 'Explore District Research →'
+  },
+  mr: {
+    skipLink: 'प्रास्ताविक वगळा → थेट संशोधन पहा',
+    viewInteractive: 'परस्परसंवादी दृश्य',
+    viewSimple: 'साधे दृश्य',
+    b1Title: 'स्थानिक हवामान लवचिकतेसाठी कम्युनिटी को-क्रिएशन लॅब',
+    b1Acronym: 'कूल क्रिम (COOL CRYMB)',
+    b1Tagline: 'मुंबई आणि ब्रिस्टलमध्ये किनारपट्टीच्या तरुणांना हरित कौशल्याने सक्षम करणे आणि स्थानिक हवामान उपाययोजनांची निर्मिती करणे.',
+    b2Heading: 'स्थानिक सह-निर्मितीचे महत्त्व',
+    b2Problem: 'किनारपट्टीवरील आव्हाने: भरतीचे पाणी, किनाऱ्याची धूप आणि वाढते तापमान.',
+    b2Approach: 'स्थानिक प्रयोगशाळा: पारंपारिक ज्ञान आणि आधुनिक हवामान विज्ञानाची सांगड.',
+    b2Outcome: 'प्रत्यक्ष उपाय: कमी खर्चातील बांध, वृक्षारोपण आणि तरुणांचा कौशल्य विकास.',
+    b3Heading: 'द्विपक्षीय संशोधन भागीदारी',
+    b3Text: 'ब्रिटिश कौन्सिल आणि एचएसबीसी यांच्या "क्लायमेट स्किल्स - सीड्स फॉर ट्रान्झिशन इंडिया" उपक्रमांतर्गत ब्रिस्टल विद्यापीठ (UK) आणि मुंबई विद्यापीठ यांच्यातील द्विपक्षीय भागीदारी.',
+    b4Heading: 'शैक्षणिक नेतृत्व',
+    b4Text: 'मुंबई विद्यापीठाच्या कलिना कॅम्पस येथील "सेंटर फॉर क्लायमेट चेंज अँड सस्टेनेबिलिटी स्टडीज" (CCCSS) द्वारे या संशोधन मोहिमेचे संचालन केले जाते.',
+    b5Heading: 'पाच-टप्प्यांची सह-निर्मिती प्रक्रिया',
+    b5Steps: [
+      { num: '०१', title: 'भौगोलिक निवड', desc: 'संवेदनशील खाडी आणि गावांची निवड.' },
+      { num: '०२', title: 'समुदाय संवाद', desc: 'स्थानिक शेतकरी व कोळी बांधवांसोबत संवाद.' },
+      { num: '०३', title: 'सामाजिक नकाशे', desc: 'क्षारता आणि वनस्पतींचे सूक्ष्म नकाशे.' },
+      { num: '०४', title: 'सह-रचना', desc: 'विद्यार्थ्यांद्वारे नैसर्गिक बांधांची रचना.' },
+      { num: '०५', title: 'प्रत्यक्ष अंमलबजावणी', desc: 'उपाययोजना आणि कायमस्वरूपी संग्रह.' }
+    ],
+    b6Heading: 'किनारपट्टी संशोधन भूगोल',
+    b6Text: 'महाराष्ट्राच्या किनारपट्टीवर संशोधन सुरू आहे. वैतरणा खोऱ्यातील क्षारता आणि वारली बांध तंत्रज्ञानाच्या अभ्यासासाठी पालघर हे सध्याचे संदर्भ केंद्र आहे. इतर जिल्हे पडताळणी अंतर्गत आहेत.',
+    b6ExploreCta: 'जिल्हा संशोधन पहा →'
+  },
+  hi: {
+    skipLink: 'प्रस्तावना छोड़ें → सीधे शोध देखें',
+    viewInteractive: 'इंटरैक्टिव दृश्य',
+    viewSimple: 'सरल संस्करण',
+    b1Title: 'स्थानीय जलवायु लचीलेपन के लिए कम्युनिटी को-क्रिएशन लैब',
+    b1Acronym: 'कूल क्रिम (COOL CRYMB)',
+    b1Tagline: 'मुंबई और ब्रिस्टल में तटीय युवाओं को हरित कौशल से सशक्त बनाना एवं सूक्ष्म-जलवायु समाधान तैयार करना।',
+    b2Heading: 'स्थानीय सह-निर्माण का महत्व',
+    b2Problem: 'तटीय चुनौतियां: बढ़ता ज्वार, तटबंध क्षरण और तापमान वृद्धि।',
+    b2Approach: 'जमीनी प्रयोगशालाएं: पारंपरिक ज्ञान और आधुनिक विज्ञान का समन्वय।',
+    b2Outcome: 'व्यावहारिक परिणाम: कम लागत वाले समाधान और हरित आजीविका विकास।',
+    b3Heading: 'द्विपक्षीय अनुसंधान साझेदारी',
+    b3Text: 'ब्रिटिश काउंसिल और एचएसबीसी द्वारा समर्थित "क्लाइमेट स्किल्स - सीड्स फॉर ट्रांजिशन इंडिया" कार्यक्रम के तहत ब्रिस्टल विश्वविद्यालय (UK) और मुंबई विश्वविद्यालय के बीच अनुसंधान साझेदारी।',
+    b4Heading: 'शैक्षणिक नेतृत्व एवं समन्वय',
+    b4Text: 'मुंबई विश्वविद्यालय के कलीना परिसर स्थित सेंटर फॉर क्लाइमेट चेंज एंड सस्टेनेबिलिटी स्टडीज (CCCSS) द्वारा इस शोध नेटवर्क का नेतृत्व किया जाता है।',
+    b5Heading: 'पांच-चरणीय सह-निर्माण प्रक्रिया',
+    b5Steps: [
+      { num: '01', title: 'भौगोलिक लक्ष्यीकरण', desc: 'संवेदनशील नदी घाटियों और गांवों की पहचान।' },
+      { num: '02', title: 'सामुदायिक रूपरेखा', desc: 'बुजुर्गों और किसानों के साथ संवाद।' },
+      { num: '03', title: 'सामाजिक मानचित्रण', desc: 'लवणता और वनस्पति आवरण का मानचित्रण।' },
+      { num: '04', title: 'सह-डिज़ाइन ढांचा', desc: 'छात्रों द्वारा प्राकृतिक मेड़बंदी की रचना।' },
+      { num: '05', title: 'क्षेत्रीय क्रियान्वयन', desc: 'कार्यान्वयन और दीर्घकालिक अभिलेखन।' }
+    ],
+    b6Heading: 'तटीय अनुसंधान भूगोल',
+    b6Text: 'अनुसंधान महाराष्ट्र की तटरेखा पर केंद्रित है। पालघर वैतरणा बेसिन में लवणता और वारली वानिकी तकनीकों के अध्ययन के लिए हमारा संदर्भ क्षेत्र है।',
+    b6ExploreCta: 'जिला शोध देखें →'
+  }
+};
+
+const t = narrative[lang] || narrative.en;
+---
+
+<section id="ccl-story-container" class="relative bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+  <!-- B0: Skip Link (Highest Accessibility Priority) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 flex items-center justify-between">
+    <a
+      href="#districts"
+      class="inline-flex items-center text-xs font-bold text-[var(--color-primary)] hover:underline focus:ring-2 focus:ring-[var(--color-primary)] px-3 py-1.5 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs"
+    >
+      <span>{t.skipLink}</span>
+      <span class="ml-1.5">↓</span>
+    </a>
+
+    <!-- Manual Experience Switch (Persists in Session Storage) -->
+    <div class="flex items-center space-x-2 text-xs text-[var(--color-text-muted)]">
+      <span class="hidden sm:inline font-medium">Mode:</span>
+      <button
+        id="toggle-mode-btn"
+        type="button"
+        class="px-2.5 py-1 rounded border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition"
+      >
+        <span id="mode-label">{t.viewSimple}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Narrative & Visual Grid Layout -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <!-- Left Column: Story Panels (Real Semantic HTML, Zero Client JS Required) -->
+      <div id="story-narrative-flow" class="lg:col-span-7 space-y-16">
+        
+        <!-- B1: Hero Panel -->
+        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)] mb-4">
+            <span>🌱 British Council & HSBC "Seeds for Transition"</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-text-main)] tracking-tight">
+            {t.b1Acronym}: {t.b1Title}
+          </h1>
+          <p class="mt-4 text-base text-[var(--color-text-muted)] leading-relaxed">
+            {t.b1Tagline}
+          </p>
+        </article>
+
+        <!-- B2: What & Why Panel -->
+        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            Problem & Mission
+          </h2>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.b2Heading}
+          </h3>
+          <div class="space-y-3 text-xs leading-relaxed text-[var(--color-text-muted)]">
+            <p><strong class="text-[var(--color-text-main)]">1. Challenge:</strong> {t.b2Problem}</p>
+            <p><strong class="text-[var(--color-text-main)]">2. Approach:</strong> {t.b2Approach}</p>
+            <p><strong class="text-[var(--color-text-main)]">3. Outcome:</strong> {t.b2Outcome}</p>
+          </div>
+        </article>
+
+        <!-- B3 & B4: Bilateral Partnership (Who) -->
+        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            Academic Consortium
+          </h2>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.b3Heading}
+          </h3>
+          <p class="text-xs leading-relaxed text-[var(--color-text-muted)]">
+            {t.b3Text}
+          </p>
+          <div class="pt-3 border-t border-[var(--color-border)]">
+            <h4 class="text-sm font-bold text-[var(--color-text-main)] mb-1">{t.b4Heading}</h4>
+            <p class="text-xs leading-relaxed text-[var(--color-text-muted)]">{t.b4Text}</p>
+          </div>
+        </article>
+
+        <!-- B5: How it Works (5 Steps) -->
+        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            Methodology
+          </h2>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.b5Heading}
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            {t.b5Steps.map(s => (
+              <div class="p-3 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs">
+                <span class="font-bold text-[var(--color-primary)] font-mono">{s.num}.</span>
+                <strong class="text-[var(--color-text-main)] ml-1">{s.title}:</strong>
+                <span class="text-[var(--color-text-muted)] block mt-0.5">{s.desc}</span>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <!-- B6: Where (Held Maharashtra View & Pilot Highlight) -->
+        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-primary)] shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+              Geographic Focus
+            </span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">
+              Reference Pilot
+            </span>
+          </div>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.b6Heading}
+          </h3>
+          <p class="text-xs leading-relaxed text-[var(--color-text-muted)]">
+            {t.b6Text}
+          </p>
+          <div class="pt-2">
+            <a
+              href="#districts"
+              class="inline-flex items-center text-xs font-bold text-[var(--color-primary)] hover:underline"
+            >
+              <span>{t.b6ExploreCta}</span>
+              <span class="ml-1">↓</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right Column: Visual Stage (Sticky Desktop, Static Fallback Default) -->
+      <div class="lg:col-span-5 lg:sticky lg:top-28">
+        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-sm overflow-hidden flex flex-col items-center justify-center min-h-[420px]">
+          
+          <!-- Tier 4 Static Map (Default / Fallback / No-JS) -->
+          <div id="tier4-static-container" class="w-full h-full">
+            <StoryStatic lang={lang} />
+          </div>
+
+          <!-- Tier 3 Canvas Globe (Progressively Enhanced when JS & 2D Canvas are active) -->
+          <div id="tier3-canvas-container" class="w-full h-full hidden flex-col items-center justify-center">
+            <canvas id="ccl-2d-globe-canvas" class="max-w-full h-auto cursor-default"></canvas>
+            <div class="mt-2 text-[11px] text-[var(--color-text-muted)] text-center font-mono">
+              ✦ Tier 3 2D Orthographic Vector Projection
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Client-side Progressive Enhancement Script -->
+<script>
+  import { GlobeCanvas2D } from './GlobeCanvas2D';
+
+  const container = document.getElementById('ccl-story-container');
+  const staticEl = document.getElementById('tier4-static-container');
+  const canvasContainer = document.getElementById('tier3-canvas-container');
+  const canvas = document.getElementById('ccl-2d-globe-canvas') as HTMLCanvasElement | null;
+  const toggleBtn = document.getElementById('toggle-mode-btn');
+  const modeLabel = document.getElementById('mode-label');
+
+  // Capability checks
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = (navigator as any).connection?.saveData === true;
+  const sessionPref = sessionStorage.getItem('ccl-globe-mode');
+
+  let globeInstance: GlobeCanvas2D | null = null;
+  let isSimpleMode = prefersReducedMotion || saveData || sessionPref === 'simple';
+
+  function updateModeUI() {
+    if (!modeLabel) return;
+    modeLabel.textContent = isSimpleMode ? 'Interactive View' : 'Simple Version';
+  }
+
+  async function initGlobe() {
+    if (isSimpleMode || !canvas || prefersReducedMotion) {
+      if (staticEl) staticEl.classList.remove('hidden');
+      if (canvasContainer) canvasContainer.classList.add('hidden');
+      updateModeUI();
+      return;
+    }
+
+    try {
+      if (staticEl) staticEl.classList.add('hidden');
+      if (canvasContainer) canvasContainer.classList.remove('hidden');
+
+      globeInstance = new GlobeCanvas2D(canvas, document.documentElement.lang || 'en');
+      await globeInstance.init();
+      updateModeUI();
+
+      // Scroll progress tracking via IntersectionObserver & RequestAnimationFrame
+      setupScrollListener();
+    } catch (err) {
+      console.warn('[CCLStory] Tier 3 initialization failed, falling back to static:', err);
+      if (staticEl) staticEl.classList.remove('hidden');
+      if (canvasContainer) canvasContainer.classList.add('hidden');
+    }
+  }
+
+  function setupScrollListener() {
+    if (!container || !globeInstance) return;
+
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking && globeInstance) {
+        window.requestAnimationFrame(() => {
+          if (!container || !globeInstance) return;
+          const rect = container.getBoundingClientRect();
+          const totalHeight = container.clientHeight - window.innerHeight;
+          const currentY = -rect.top;
+          const progress = Math.max(0, Math.min(1, currentY / (totalHeight > 0 ? totalHeight : 1)));
+
+          globeInstance.setProgress(progress);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Manual switch handler
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      isSimpleMode = !isSimpleMode;
+      sessionStorage.setItem('ccl-globe-mode', isSimpleMode ? 'simple' : 'interactive');
+
+      if (isSimpleMode) {
+        if (globeInstance) {
+          globeInstance.destroy();
+          globeInstance = null;
+        }
+        if (staticEl) staticEl.classList.remove('hidden');
+        if (canvasContainer) canvasContainer.classList.add('hidden');
+      } else {
+        initGlobe();
+      }
+      updateModeUI();
+    });
+  }
+
+  // Defer initialization until DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobe);
+  } else {
+    initGlobe();
+  }
+</script>

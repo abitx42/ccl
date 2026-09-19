@@ -1,0 +1,97 @@
+---
+interface Props {
+  lang?: 'en' | 'mr' | 'hi';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const labels = {
+  en: {
+    ukAnchor: 'University of Bristol (UK)',
+    mumbaiAnchor: 'University of Mumbai (CCCSS, Kalina)',
+    pilotAnchor: 'Palghar Coastal Field Laboratory',
+    staticNote: 'Accessible Geographic Reference View'
+  },
+  mr: {
+    ukAnchor: 'ब्रिस्टल विद्यापीठ (UK)',
+    mumbaiAnchor: 'मुंबई विद्यापीठ (CCCSS, कलिना)',
+    pilotAnchor: 'पालघर किनारपट्टी क्षेत्रीय प्रयोगशाळा',
+    staticNote: 'भौगोलिक संदर्भ नकाशा'
+  },
+  hi: {
+    ukAnchor: 'ब्रिस्टल विश्वविद्यालय (UK)',
+    mumbaiAnchor: 'मुंबई विश्वविद्यालय (CCCSS, कलीना)',
+    pilotAnchor: 'पालघर तटीय क्षेत्रीय प्रयोगशाला',
+    staticNote: 'भौगोलिक संदर्भ मानचित्र'
+  }
+};
+
+const t = labels[lang] || labels.en;
+---
+
+<div class="relative w-full h-full min-h-[380px] max-h-[500px] flex items-center justify-center p-6 bg-[var(--color-surface-subtle)] rounded-2xl border border-[var(--color-border)] overflow-hidden">
+  <!-- Clean, accessible SVG projection depicting bilateral link & Maharashtra coast -->
+  <svg viewBox="0 0 800 500" class="w-full h-full max-w-2xl text-[var(--color-text-main)]" aria-label="Bilateral Research Geography Diagram" role="img">
+    <defs>
+      <radialGradient id="sphereGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#EFF6FF" />
+        <stop offset="85%" stop-color="#DBEAFE" />
+        <stop offset="100%" stop-color="#BFDBFE" />
+      </radialGradient>
+      <filter id="softGlow">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+    </defs>
+
+    <!-- Globe Silhouette Circle -->
+    <circle cx="400" cy="250" r="210" fill="url(#sphereGrad)" stroke="var(--color-border)" stroke-width="1.5" />
+
+    <!-- Stylized Continents Outline (Simplified projection) -->
+    <!-- Europe / UK -->
+    <path d="M 270,140 Q 280,130 295,145 T 285,160 Z" fill="#93C5FD" opacity="0.8" />
+    <!-- Asia / India Subcontinent -->
+    <path d="M 430,210 Q 470,200 490,240 T 465,310 Q 445,350 435,320 T 425,260 Z" fill="#93C5FD" opacity="0.8" />
+
+    <!-- Bilateral Partnership Arc (Static line, NO animated particles per Hard Rule 2) -->
+    <path
+      d="M 285,150 Q 360,110 435,270"
+      fill="none"
+      stroke="var(--color-primary)"
+      stroke-width="2.5"
+      stroke-dasharray="5,4"
+      opacity="0.85"
+    />
+
+    <!-- UK Anchor (Bristol) -->
+    <g transform="translate(285, 150)">
+      <circle r="5" fill="#1D4ED8" />
+      <circle r="10" fill="none" stroke="#1D4ED8" stroke-width="1.5" opacity="0.6" />
+      <text x="-15" y="-12" font-size="12" font-weight="bold" fill="var(--color-text-main)" text-anchor="end">
+        {t.ukAnchor}
+      </text>
+    </g>
+
+    <!-- India Anchor (University of Mumbai) -->
+    <g transform="translate(435, 270)">
+      <circle r="6" fill="#B91C1C" />
+      <circle r="12" fill="none" stroke="#B91C1C" stroke-width="1.5" opacity="0.6" />
+      <text x="18" y="-8" font-size="12" font-weight="bold" fill="var(--color-text-main)">
+        {t.mumbaiAnchor}
+      </text>
+    </g>
+
+    <!-- Palghar Field Anchor -->
+    <g transform="translate(430, 245)">
+      <circle r="4" fill="#047857" />
+      <text x="14" y="4" font-size="11" font-weight="semibold" fill="#047857">
+        ✦ {t.pilotAnchor}
+      </text>
+    </g>
+
+    <!-- Map Legend / Note -->
+    <text x="400" y="445" font-size="11" fill="var(--color-text-muted)" text-anchor="middle" font-family="system-ui">
+      {t.staticNote} · Tier 4 Accessible Vector
+    </text>
+  </svg>
+</div>

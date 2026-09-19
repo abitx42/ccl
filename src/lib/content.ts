@@ -123,13 +123,14 @@ export function getChallenges(placeId: string, districtSlug: string, villageSlug
 }
 
 // 6. People (Consent-gated: only if consent.state === 'granted')
-export function getPeople(_placeId: string, districtSlug: string, villageSlug: string): Person[] {
-  const pDir = path.join(CONTENT_DIR, 'districts', districtSlug, 'villages', villageSlug, 'people');
+export function getPeople(peopleIds?: string[]): Person[] {
+  if (!peopleIds || peopleIds.length === 0) return [];
+  const pDir = path.join(CONTENT_DIR, 'people');
   if (!fs.existsSync(pDir)) return [];
-  const files = fs.readdirSync(pDir).filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
   const people: Person[] = [];
-  for (const f of files) {
-    const data = readYaml<Person>(path.join(pDir, f));
+  for (const id of peopleIds) {
+    const filePath = path.join(pDir, `${id}.yaml`);
+    const data = readYaml<Person>(filePath);
     if (
       data &&
       data.status === 'published' &&

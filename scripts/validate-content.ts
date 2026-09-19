@@ -8,9 +8,7 @@ import {
   surveySchema,
   speciesSchema,
   challengeSchema,
-  heritageSchema,
   mediaSchema,
-  productSchema,
   evidenceSchema
 } from '../src/schemas/index.js';
 
@@ -75,6 +73,35 @@ if (fs.existsSync(evidenceDir)) {
   }
 }
 
+// 1b. Validate Centralized People Records (content/people/)
+const peopleMap = new Map<string, any>();
+const peopleDir = path.join(CONTENT_DIR, 'people');
+if (fs.existsSync(peopleDir)) {
+  const pFiles = fs.readdirSync(peopleDir).filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
+  for (const file of pFiles) {
+    const pPath = path.join(peopleDir, file);
+    const pData = readYamlFile<any>(pPath);
+    if (!dataIsValid(pData)) continue;
+    const res = personSchema.safeParse(pData);
+    if (!res.success) {
+      report.errors.push(`[Person Schema Error] ${pPath}: ${JSON.stringify(res.error.issues)}`);
+    } else {
+      // HARD RULE: Consent Gating
+      if (pData.status === 'published' && pData.consent?.state !== 'granted') {
+        report.errors.push(`[Consent Violation] Person ${pData.id} in ${pPath} is marked published, but consent is ${pData.consent?.state} (must be 'granted')`);
+      }
+      peopleMap.set(pData.id, pData);
+      if (pData.status === 'published' && pData.visibility === 'public' && pData.consent?.state === 'granted') {
+        report.counts.people++;
+      }
+    }
+  }
+}
+
+function dataIsValid(d: any) {
+  return d && typeof d === 'object';
+}
+
 // 2. Validate Districts & Villages
 const districtsDir = path.join(CONTENT_DIR, 'districts');
 if (fs.existsSync(districtsDir)) {
@@ -120,28 +147,14 @@ if (fs.existsSync(districtsDir)) {
               if (vData.status === 'published' && vData.visibility !== 'public') {
                 report.errors.push(`[Visibility Leak] Village ${vData.id} is marked published but visibility is not public`);
               }
-            }
-          }
-        }
 
-        // People validation
-        const peopleDir = path.join(vDir, 'people');
-        if (fs.existsSync(peopleDir)) {
-          for (const f of fs.readdirSync(peopleDir).filter(f => f.endsWith('.yaml'))) {
-            const pPath = path.join(peopleDir, f);
-            const pData = readYamlFile<any>(pPath);
-            if (pData) {
-              const res = personSchema.safeParse(pData);
-              if (!res.success) {
-                report.errors.push(`[Person Schema Error] ${pPath}: ${JSON.stringify(res.error.issues)}`);
-              } else {
-                // HARD RULE: Consent Gating
-                if (pData.status === 'published') {
-                  if (pData.consent?.state !== 'granted') {
-                    report.errors.push(`[Consent Violation] Person ${pData.id} in ${pPath} is marked published, but consent is ${pData.consent?.state} (must be 'granted')`);
+              // Verify referenced people
+              if (vData.people && Array.isArray(vData.people)) {
+                for (const pid of vData.people) {
+                  if (!peopleMap.has(pid)) {
+                    report.errors.push(`[Missing Person Reference] Village ${vData.id} references non-existent person ID: ${pid}`);
                   }
                 }
-                report.counts.people++;
               }
             }
           }

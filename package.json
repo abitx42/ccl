@@ -9,22 +9,27 @@
     "build": "npm run validate && astro check && astro build",
     "preview": "astro preview --host",
     "astro": "astro",
-    "validate": "tsx scripts/validate-content.ts",
+    "validate": "tsx scripts/validate-content.ts && tsx scripts/build-story-anchors.ts",
     "lint": "eslint .",
     "test": "npm run validate"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.0.12",
     "astro": "^5.4.2",
+    "d3-geo": "^3.1.1",
     "js-yaml": "^4.1.0",
     "lucide-astro": "^0.501.0",
     "tailwindcss": "^4.0.12",
-    "@tailwindcss/vite": "^4.0.12",
-    "typescript": "^5.8.2"
+    "topojson-client": "^3.1.0",
+    "typescript": "^5.8.2",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
+    "@types/d3-geo": "^3.1.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.13.10",
+    "@types/topojson-client": "^3.1.5",
     "tsx": "^4.19.3"
   }
 }

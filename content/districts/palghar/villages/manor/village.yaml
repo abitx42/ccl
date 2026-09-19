@@ -51,3 +51,6 @@ coordinates:
 local_authority:
   body: "Gram Panchayat Manor"
   contact_public: false
+people:
+  - "PPL-0001"
+

@@ -86,16 +86,23 @@ export const villageSchema = commonBlockSchema.extend({
   local_authority: z.object({
     body: z.string(),
     contact_public: z.boolean().default(false)
-  }).optional()
+  }).optional(),
+  people: z.array(z.string()).default([])
 });
 
-// 5. Person Schema (Strict Consent Gating)
+// 5. Person Schema (Strict Consent Gating & Scalable Roles)
 export const personSchema = commonBlockSchema.extend({
-  role: z.enum(['sarpanch', 'community_representative', 'worker', 'student_lead', 'faculty', 'master_trainer', 'ngo_partner']),
+  role: z.union([i18nStringSchema, z.string()]),
   name: i18nStringSchema,
+  community: z.object({
+    district_id: z.string(),
+    village_id: z.string().optional()
+  }).optional(),
+  district_id: z.string().optional(),
   village_id: z.string().optional(),
-  district_id: z.string(),
   photo: z.string().optional(),
+  photo_credit: z.string().optional(),
+  photo_alt: i18nStringSchema.optional(),
   bio: i18nStringSchema.optional(),
   consent: consentBlockSchema
 });
@@ -235,4 +242,23 @@ export const evidenceSchema = z.object({
   verified_by: z.string().optional(),
   verified_on: z.string().optional(),
   conflicts_with: z.array(z.string()).default([])
+});
+
+// 13. Story Anchor Schema (for public/geo/story-anchors.json)
+// Guaranteed to contain zero PII, zero unconsented data, zero findings
+export const storyAnchorSchema = z.object({
+  id: z.string(),
+  type: z.enum(['partner', 'district', 'region']),
+  slug: z.string().optional(),
+  name: i18nStringSchema,
+  lat: z.number(),
+  lng: z.number(),
+  order: z.number(),
+  note: z.string().optional()
+});
+
+export const storyAnchorsFileSchema = z.object({
+  version: z.string(),
+  generated_at: z.string(),
+  anchors: z.array(storyAnchorSchema)
 });

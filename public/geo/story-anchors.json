@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-09-19T11:42:21.234Z",
+  "anchors": [
+    {
+      "id": "ANC-BRISTOL",
+      "type": "partner",
+      "name": {
+        "en": "University of Bristol",
+        "mr": "ब्रिस्टल विद्यापीठ",
+        "hi": "ब्रिस्टल विश्वविद्यालय"
+      },
+      "lat": 51.4584,
+      "lng": -2.603,
+      "order": 1,
+      "note": "TODO(content): Institutional coordinates to be formally verified by project liaison"
+    },
+    {
+      "id": "ANC-MUMBAI",
+      "type": "partner",
+      "name": {
+        "en": "University of Mumbai (CCCSS, Kalina)",
+        "mr": "मुंबई विद्यापीठ (कलिना परिसर)",
+        "hi": "मुंबई विश्वविद्यालय (कलीना परिसर)"
+      },
+      "lat": 19.0728,
+      "lng": 72.8711,
+      "order": 2,
+      "note": "TODO(content): Kalina campus coordinates to be formally verified"
+    },
+    {
+      "id": "ANC-MAHARASHTRA",
+      "type": "region",
+      "name": {
+        "en": "Coastal Maharashtra Research Arc",
+        "mr": "महाराष्ट्र किनारपट्टी संशोधन क्षेत्र",
+        "hi": "तटीय महाराष्ट्र अनुसंधान क्षेत्र"
+      },
+      "lat": 18.9,
+      "lng": 73.2,
+      "order": 3,
+      "note": "Regional camera hold center"
+    },
+    {
+      "id": "ANC-PALGHAR",
+      "type": "district",
+      "slug": "palghar",
+      "name": {
+        "en": "Palghar",
+        "mr": "पालघर",
+        "hi": "पालघर"
+      },
+      "lat": 19.6967,
+      "lng": 72.7699,
+      "order": 4
+    }
+  ]
+}
