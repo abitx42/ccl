@@ -313,6 +313,11 @@ const t = narrative[lang] || narrative.en;
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      if (globeInstance) {
+        globeInstance.resize();
+      }
+    }, { passive: true });
   }
 
   // Manual switch handler

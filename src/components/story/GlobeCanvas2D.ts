@@ -62,11 +62,14 @@ export class GlobeCanvas2D {
   }
 
   public resize(): void {
-    const rect = this.canvas.parentElement?.getBoundingClientRect() || { width: 500, height: 500 };
+    const parent = this.canvas.parentElement;
+    const rect = parent?.getBoundingClientRect();
+    const parentWidth = (rect && rect.width > 0) ? rect.width : (parent?.clientWidth || 400);
+    const parentHeight = (rect && rect.height > 0) ? rect.height : (parent?.clientHeight || 400);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    this.width = rect.width;
-    this.height = Math.min(rect.height, 600);
+    this.width = Math.max(parentWidth, 240);
+    this.height = Math.min(Math.max(parentHeight, 240), 600);
 
     this.canvas.width = this.width * dpr;
     this.canvas.height = this.height * dpr;

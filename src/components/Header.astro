@@ -79,7 +79,7 @@ function getLangUrl(targetLang: string) {
       </nav>
 
       <!-- Language Selector -->
-      <div class="flex items-center space-x-2 text-xs border border-[var(--color-border)] rounded-md p-1 bg-[var(--color-surface-subtle)]">
+      <div class="flex items-center space-x-2 text-xs border border-[var(--color-border)] rounded-md p-1 bg-[var(--color-surface-subtle)] shrink-0">
         <span class="sr-only">{t.switchLang}</span>
         <a href={getLangUrl('en')} class={`px-2 py-1 rounded font-medium ${lang === 'en' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           EN
@@ -92,5 +92,21 @@ function getLangUrl(targetLang: string) {
         </a>
       </div>
     </div>
+
+    <!-- Mobile Navigation Bar (100% static HTML, no JS needed, scrollable on narrow screens) -->
+    <nav aria-label="Mobile Navigation" class="flex md:hidden items-center justify-start space-x-6 py-2.5 border-t border-[var(--color-border)] text-xs font-semibold overflow-x-auto">
+      <a href={getLangUrl(lang)} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+        {t.home}
+      </a>
+      <a href={`${getLangUrl(lang)}#districts`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+        {t.districts}
+      </a>
+      <a href={lang === 'en' ? '/sources' : `/${lang}/sources`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+        {t.evidence}
+      </a>
+      <a href={lang === 'en' ? '/visit' : `/${lang}/visit`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+        {t.visit}
+      </a>
+    </nav>
   </div>
 </header>
