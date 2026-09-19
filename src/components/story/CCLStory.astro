@@ -7,72 +7,155 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 
-const narrative = {
+const I18N = {
   en: {
     skipLink: 'Skip introduction → Explore research',
     viewInteractive: 'Interactive View',
     viewSimple: 'Simple Version',
     audioOff: 'Ambient Sound: Off',
     audioOn: 'Ambient Sound: On',
-    b1Title: 'COmmunity cO-creation lab for Local Climate Resilience',
-    b1Acronym: 'COOL CRYMB',
-    b1Tagline: 'A bilateral research alliance bridging Mumbai and Bristol to empower coastal youth with green skills and co-create hyper-local climate adaptation solutions.',
-    b2Heading: 'Who We Are & What We Are',
-    b2Sub: 'Decentralized Grassroots Climate Laboratories',
-    b2WhoWeAre: 'We are an international collaboration of coastal youth fellows, Warli indigenous knowledge holders, climate researchers, and university scholars. Rather than treating vulnerable coastal villages as passive recipients of external aid, the Community Co-creation Lab (CCL) establishes localized, youth-led field laboratories where scientific atmospheric modeling directly converges with generational ecological wisdom.',
-    b2WhatWeAre: 'Operating as an accredited green skills incubator and open-access research archive, we train coastal youth in digital environmental cartography, water salinity testing, and ecological restoration. We measure micro-climate vulnerabilities in real time and co-design low-cost, village-scale resilience interventions.',
-    b2Pillar1: 'Youth Leadership: Empowering rural and coastal youth with accredited green skills and environmental monitoring capability.',
-    b2Pillar2: 'Indigenous Wisdom: Incorporating Warli agro-forestry, estuarine mangrove protection, and traditional tidal water management.',
-    b2Pillar3: 'Durable Interventions: Moving beyond theory to deploy measurable vegetative bio-shields and community rainwater catchments.',
-    b3Heading: 'Bilateral Partnership Architecture',
-    b3Text: 'Supported by the British Council’s flagship "Climate Skills – Seeds for Transition India" framework funded by HSBC, this multi-year initiative links the University of Bristol in the United Kingdom with the University of Mumbai in India. The bilateral bridge facilitates joint climate modeling, academic peer review, cross-cultural curriculum design, and permanent research preservation.',
-    b4Heading: 'Academic Leadership & Field Delivery',
-    b4Text: 'Operational leadership is directed by the Centre for Climate Change and Sustainability Studies (CCCSS) at the University of Mumbai’s Kalina Campus. The consortium coordinates university researchers, accredited master trainers, local gram panchayats, and fishing cooperatives to guarantee rigorous scientific methodology, verifiable evidence standards, and strict ethical consent gating for all community participants.',
-    b5Heading: 'The Five-Step Co-Creation Lifecycle',
-    b5Text: 'Every community resilience initiative progresses through a standardized, five-stage participatory pipeline to ensure scientific validity, local ownership, and long-term sustainability.',
-    b5Steps: [
-      { num: '01', title: 'Geographic Targeting', desc: 'Isolating vulnerable river basins, tidal estuaries, and high-salinity agricultural zones.' },
+
+    // Scene 01: Prologue / Earth
+    s1Eyebrow: 'COOL CRYMB',
+    s1Title: 'COmmunity cO-creation Lab for Local Climate Resilience',
+    s1Body: 'A bilateral research partnership between the University of Mumbai and the University of Bristol, establishing grassroots field laboratories to co-create practical climate solutions with coastal youth.',
+    s1Note: 'Supported by the British Council and HSBC under "Climate Skills – Seeds for Transition India".',
+
+    // Scene 02: What is CCL?
+    s2Eyebrow: 'What is CCL?',
+    s2Title: 'A Living Bridge Between Communities and Climate Science',
+    s2Body: 'CCL is not an abstract climate campaign. It is a decentralized incubator that pairs advanced academic modeling with generational coastal knowledge, equipping youth with green skills to protect their homes.',
+    s2Triad: ['Advanced Research', 'Youth Green Skills', 'Local Action'],
+
+    // Scene 03: Why This Work Matters
+    s3Eyebrow: 'Why This Work Matters',
+    s3Title: 'The Coastline Changes — Scientific Records Fall Behind',
+    s3Body: 'Rising seasonal tides, saltwater intrusion into drinking wells, and estuarine erosion are reshaping coastal settlements. The shortage is not concern — it is verifiable, date-stamped, hyper-local evidence.',
+    s3Note: 'Local knowledge matters. Documentation must be traceable, reproducible, and permanently open to the public.',
+
+    // Scene 04: Who We Are
+    s4Eyebrow: 'Who We Are',
+    s4Title: 'Two Coastal Cities. Two Universities. One Mission.',
+    s4Body: 'A formal international consortium linking the University of Bristol in the United Kingdom and the University of Mumbai in India, funded by HSBC through the British Council\'s Climate Skills India programme.',
+    s4Nodes: ['University of Bristol (UK)', 'University of Mumbai (IN)', 'British Council', 'HSBC'],
+
+    // Scene 05: Bristol UK
+    s5Eyebrow: 'Geographic Anchor 01',
+    s5Title: 'Bristol, United Kingdom',
+    s5Body: 'Drawing on Bristol\'s internationally recognized climate science and urban adaptation research, faculty and scholars collaborate on joint methodologies, risk models, and student training curricula.',
+    s5Sub: 'University of Bristol · Collaborative Research Partner',
+
+    // Scene 06: Mumbai
+    s6Eyebrow: 'Geographic Anchor 02',
+    s6Title: 'Mumbai, India · CCCSS Kalina Campus',
+    s6Body: 'The operational headquarters are anchored at the Centre for Climate Change and Sustainability Studies (CCCSS) at the University of Mumbai, directing field research, ethics protocols, and community governance.',
+    s6Sub: 'University of Mumbai · CCCSS Lead & Operational Hub',
+
+    // Scene 07: Campus to Coastline
+    s7Eyebrow: 'From Campus to Coastline',
+    s7Title: 'Taking Science Directly Into the Estuaries',
+    s7Body: 'Research does not stay in university lecture halls. Faculty and student fellows travel directly into vulnerable fishing and farming hamlets, working alongside local gram panchayats, elders, and youth cooperatives.',
+    s7Flow: ['Campus Modeling', 'Field Laboratories', 'Participatory Co-Design', 'Public Archive'],
+
+    // Scene 08: How We Work
+    s8Eyebrow: 'Five-Step Methodology',
+    s8Title: 'A Structured, Reproducible Co-Creation Pipeline',
+    s8Body: 'Every community lab follows a rigorous five-stage participatory model to ensure scientific validity, local ownership, and long-term sustainability.',
+    s8Steps: [
+      { num: '01', title: 'Field Targeting', desc: 'Isolating vulnerable river basins, tidal estuaries, and high-salinity agricultural zones.' },
       { num: '02', title: 'Community Profiling', desc: 'Participatory oral history collection and field engagement with elders, women, and youth.' },
       { num: '03', title: 'Social Cartography', desc: 'Youth-led GIS mapping of soil salinity, mangrove canopies, water access, and flood risks.' },
       { num: '04', title: 'Participatory Co-Design', desc: 'Student and artisan engineering of vegetative bio-shields, stone bunds, and rainwater catchments.' },
       { num: '05', title: 'Field Execution & Archiving', desc: 'Community implementation, longitudinal sensor monitoring, and permanent open-access data publication.' }
     ],
-    b6Heading: 'Coastal Geography & Technical Implementation',
-    b6Text: 'Research operations focus along the Maharashtra coastline. Palghar serves as our technical reference implementation, documenting estuarine salinity shifts and Warli indigenous agro-forestry practices in the Vaitarna river basin. Project-wide confirmed research districts remain under formal consortium verification per the Evidence Register.',
-    b6ExploreCta: 'Explore District Research Portal →'
+
+    // Scene 09: The Research Landscape
+    s9Eyebrow: 'The Research Landscape',
+    s9Title: 'More Than a Website — A Permanent Open-Access Archive',
+    s9Body: 'Every observation is recorded as an immutable, verified data entity. The public archive organizes research into eight interconnected domains:',
+    s9Domains: ['Places', 'People', 'Surveys', 'Species', 'Challenges', 'Responses', 'Heritage', 'Evidence'],
+
+    // Scene 10: Palghar Reference Implementation
+    s10Eyebrow: 'Technical Reference Implementation',
+    s10Title: 'Palghar Coastal Field Laboratory',
+    s10Body: 'Palghar serves as the platform\'s reference technical implementation, documenting estuarine salinity dynamics, Warli agro-forestry techniques, and community bio-shields along the Vaitarna river basin.',
+    s10Badge: 'Technical Reference Implementation (Confirmed Scope: Unresolved)',
+
+    // Scene 11: Explore Threshold
+    s11Eyebrow: 'Explore the Archive',
+    s11Title: 'Navigate Verified Coastal Research',
+    s11Body: 'Explore published communities, verified evidence registers, community contributions, and aggregated surveys.',
+    s11Cta1: 'Explore Research Archive ↓',
+    s11Cta2: 'Request Field Access →'
   },
   mr: {
-    skipLink: 'प्रास्ताविक वगळा → थेट संशोधन पहा',
+    skipLink: 'प्रस्तावना वगळा → थेट संशोधन पहा',
     viewInteractive: 'परस्परसंवादी दृश्य',
     viewSimple: 'साधे दृश्य',
     audioOff: 'वातावरणीय ध्वनी: बंद',
     audioOn: 'वातावरणीय ध्वनी: सुरू',
-    b1Title: 'स्थानिक हवामान लवचिकतेसाठी कम्युनिटी को-क्रिएशन लॅब',
-    b1Acronym: 'कूल क्रिम (COOL CRYMB)',
-    b1Tagline: 'मुंबई आणि ब्रिस्टल दरम्यान किनारपट्टीच्या तरुणांना हरित कौशल्याने सक्षम करून स्थानिक हवामान उपाययोजनांची सह-निर्मिती करणारा द्विपक्षीय संशोधन मंच.',
-    b2Heading: 'आम्ही कोण आहोत आणि आमचे कार्य काय?',
-    b2Sub: 'विकेंद्रित स्थानिक हवामान प्रयोगशाळा',
-    b2WhoWeAre: 'आम्ही किनारपट्टीवरील तरुण, वारली पारंपारिक ज्ञानधारक, हवामान संशोधक आणि विद्यापीठीय प्राध्यापकांची एक संयुक्त संशोधन फळी आहोत. गावांना केवळ बाह्य मदतीचे घटक न मानता, कम्युनिटी को-क्रिएशन लॅब (CCL) स्थानिक तरुणांच्या नेतृत्वाखाली अशा प्रयोगशाळा उभारते जिथे आधुनिक हवामान विज्ञान आणि पिढ्यानपिढ्यांचे पारंपारिक ज्ञान एकत्र येते.',
-    b2WhatWeAre: 'हरित कौशल्य प्रशिक्षण आणि मुक्त संशोधन संग्रहाच्या माध्यमातून आम्ही तरुणांना डिजिटल सामाजिक नकाशे, पाण्याचे क्षारता परीक्षण आणि पर्यावरण संवर्धन शिकवतो. आम्ही स्थानिक समस्यांवर कमी खर्चात टिकाऊ उपाय तयार करतो.',
-    b2Pillar1: 'तरुणांचे नेतृत्व: ग्रामीण व किनारपट्टी भागातील तरुणांना अधिकृत हरित कौशल्ये आणि पर्यावरण निरीक्षणाचे प्रशिक्षण.',
-    b2Pillar2: 'स्थानिक वारली ज्ञान: कृषी-वनीकरण, खारफुटी संरक्षण आणि पारंपारिक जल व्यवस्थापनाचा प्रत्यक्ष समावेश.',
-    b2Pillar3: 'प्रत्यक्ष उपाययोजना: केवळ अहवाल न लिहिता प्रत्यक्ष बांध, वृक्षारोपण आणि जलसंधारण कार्यान्वित करणे.',
-    b3Heading: 'द्विपक्षीय संशोधन भागीदारी',
-    b3Text: 'ब्रिटिश कौन्सिल आणि एचएसबीसी यांच्या "क्लायमेट स्किल्स - सीड्स फॉर ट्रान्झिशन इंडिया" उपक्रमांतर्गत ब्रिस्टल विद्यापीठ (UK) आणि मुंबई विद्यापीठ यांच्यातील द्विपक्षीय भागीदारी. याद्वारे संयुक्त हवामान प्रारूपे आणि शैक्षणिक आदानप्रदान घडवून आणले जाते.',
-    b4Heading: 'शैक्षणिक नेतृत्व आणि प्रत्यक्ष अंमलबजावणी',
-    b4Text: 'मुंबई विद्यापीठाच्या कलिना कॅम्पस येथील "सेंटर फॉर क्लायमेट चेंज अँड सस्टेनेबिलिटी स्टडीज" (CCCSS) द्वारे या उपक्रमाचे संचालन केले जाते. विद्यापीठ संशोधक, प्रमाणित मास्टर ट्रेनर्स आणि ग्रामपंचायती यांच्या समन्वयातून नैतिक व पारदर्शक संशोधन केले जाते.',
-    b5Heading: 'पाच-टप्प्यांची सह-निर्मिती प्रक्रिया',
-    b5Text: 'प्रत्येक स्थानिक उपक्रम शास्त्रीय पद्धतशीरपणा आणि स्थानिक मालकी जपण्यासाठी एका निश्चित पाच टप्प्यांच्या रचनेतून जातो.',
-    b5Steps: [
-      { num: '०१', title: 'भौगोलिक निवड', desc: 'संवेदनशील खाडी, नद्या आणि क्षारयुक्त शेतजमिनींची निवड.' },
-      { num: '०२', title: 'समुदाय संवाद', desc: 'स्थानिक शेतकरी, महिला व ज्येष्ठ नागरिकांशी सविस्तर संवाद.' },
-      { num: '०३', title: 'सामाजिक नकाशे', desc: 'तरुणांच्या मदतीने क्षारता, वनस्पती आणि पूर रेषेचे सूक्ष्म नकाशे.' },
-      { num: '०४', title: 'सह-रचना व नियोजन', desc: 'विद्यार्थी व स्थानिक कारागिरांद्वारे नैसर्गिक बांध व जलसाठ्यांची रचना.' },
-      { num: '०५', title: 'प्रत्यक्ष अंमलबजावणी व संग्रह', desc: 'उपाययोजनांची उभारणी, सातत्यपूर्ण निरीक्षण आणि कायमस्वरूपी मुक्त संग्रह.' }
+
+    s1Eyebrow: 'कूल क्रिम (COOL CRYMB)',
+    s1Title: 'स्थानिक हवामान लवचिकतेसाठी कम्युनिटी को-क्रिएशन लॅब',
+    s1Body: 'मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांच्या सहकार्याने चालणाऱ्या स्थानिक हवामान लवचिकतेसाठीच्या सह-निर्मिती प्रयोगशाळा.',
+    s1Note: 'ब्रिटिश कौन्सिल आणि एचएसबीसी यांच्या "क्लायमेट स्किल्स - सीड्स फॉर ट्रान्झिशन इंडिया" उपक्रमांतर्गत समर्थित.',
+
+    s2Eyebrow: 'कम्युनिटी को-क्रिएशन लॅब काय आहे?',
+    s2Title: 'स्थानिक समुदाय आणि हवामान विज्ञानातील जिवंत सेतू',
+    s2Body: 'ही केवळ हवामान जनजागृती मोहीम नाही. ही एक विकेंद्रित संशोधन संस्था आहे जिथे आधुनिक हवामान प्रारूपे आणि पिढ्यानपिढ्यांचे पारंपारिक ज्ञान एकत्र येऊन स्थानिक उपाय शोधतात.',
+    s2Triad: ['शास्त्रीय संशोधन', 'युवा हरित कौशल्ये', 'प्रत्यक्ष स्थानिक कृती'],
+
+    s3Eyebrow: 'हे काम का आवश्यक आहे?',
+    s3Title: 'किनारा बदलतो, वैज्ञानिक नोंद मागे राहते',
+    s3Body: 'भरतीचे पाणी, विहिरींमधील वाढती क्षारता आणि नदीकाठची धूप खाडीकाठच्या वस्त्या बदलत आहेत. कमतरता चिंतेची नाही — कमतरता आहे ती स्थानिक, तारीखवार आणि पडताळता येणाऱ्या पुराव्यांची.',
+    s3Note: 'स्थानिक ज्ञानाला मोल आहे. सर्व नोंदी पडताळणीयोग्य आणि कायमस्वरूपी खुल्या असल्या पाहिजेत.',
+
+    s4Eyebrow: 'आम्ही कोण आहोत?',
+    s4Title: 'दोन किनारी शहरे. दोन विद्यापीठे. एकच ध्येय.',
+    s4Body: 'ब्रिटिश कौन्सिलच्या क्लायमेट स्किल्स कार्यक्रमांतर्गत, एचएसबीसीच्या निधीतून, ब्रिस्टल विद्यापीठ आणि मुंबई विद्यापीठ एकत्र काम करतात.',
+    s4Nodes: ['ब्रिस्टल विद्यापीठ (UK)', 'मुंबई विद्यापीठ (IN)', 'ब्रिटिश कौन्सिल', 'एचएसबीसी'],
+
+    s5Eyebrow: 'भौगोलिक केंद्र ०१',
+    s5Title: 'ब्रिस्टल, युनायटेड किंगडम',
+    s5Body: 'ब्रिस्टल विद्यापीठाच्या आंतरराष्ट्रीय दर्जाच्या हवामान विज्ञान आणि शहरी लवचिकता संशोधनाचा उपयोग करून संयुक्त कार्यपद्धती व अभ्यासक्रम विकसित केले जातात.',
+    s5Sub: 'ब्रिस्टल विद्यापीठ · द्विपक्षीय संशोधन भागीदार',
+
+    s6Eyebrow: 'भौगोलिक केंद्र ०२',
+    s6Title: 'मुंबई, भारत · कलिना संकुल',
+    s6Body: 'मुंबई विद्यापीठाच्या कलिना संकुलातील हवामान बदल व शाश्वतता अभ्यास केंद्र (CCCSS) हे संपूर्ण क्षेत्रीय संशोधन आणि नीतिमत्ता नियमांचे संचालन करते.',
+    s6Sub: 'मुंबई विद्यापीठ · CCCSS मुख्य संचालन केंद्र',
+
+    s7Eyebrow: 'संकुलातून प्रत्यक्ष कार्यक्षेत्रात',
+    s7Title: 'विज्ञान थेट खाडी आणि गावांपर्यंत पोहोचवणे',
+    s7Body: 'संशोधन केवळ वर्गांपुरते मर्यादित राहत नाही. प्राध्यापक आणि विद्यार्थी थेट कोळीवाडे व शेती वस्त्यांमध्ये जाऊन ग्रामपंचायती आणि तरुणांसोबत प्रत्यक्ष काम करतात.',
+    s7Flow: ['संकुल प्रारूप', 'क्षेत्रीय प्रयोगशाळा', 'सह-रचना', 'सार्वजनिक संग्रह'],
+
+    s8Eyebrow: 'पाच-टप्प्यांची पद्धती',
+    s8Title: 'टप्प्याटप्प्याने चालणारी सह-निर्मिती प्रक्रिया',
+    s8Body: 'प्रत्येक स्थानिक उपक्रम शास्त्रीय पद्धतशीरपणा आणि स्थानिक मालकी जपण्यासाठी निश्चित पाच टप्प्यांतून जातो.',
+    s8Steps: [
+      { num: '०१', title: 'क्षेत्र निवड', desc: 'संवेदनशील नदी खोरे आणि क्षारयुक्त शेती भागांची निवड.' },
+      { num: '०२', title: 'समुदाय ओळख', desc: 'स्थानिक शेतकरी, महिला व ज्येष्ठांसोबत सविस्तर संवाद.' },
+      { num: '०३', title: 'स्थानिक नकाशे', desc: 'तरुणांद्वारे क्षारता, वनस्पती आणि पुराचे सूक्ष्म नकाशे.' },
+      { num: '०४', title: 'सह-रचना', desc: 'नैसर्गिक बांध, मेढ्या आणि जलसाठ्यांची स्थानिक रचना.' },
+      { num: '०५', title: 'अंमलबजावणी व नोंद', desc: 'प्रत्यक्ष उपाययोजना, निरीक्षण आणि कायमस्वरूपी मुक्त संग्रह.' }
     ],
-    b6Heading: 'किनारपट्टी संशोधन भूगोल',
-    b6Text: 'महाराष्ट्राच्या किनारपट्टीवर संशोधन सुरू आहे. वैतरणा खोऱ्यातील क्षारता आणि वारली बांध तंत्रज्ञानाच्या अभ्यासासाठी पालघर हे सध्याचे तांत्रिक संदर्भ केंद्र आहे. उर्वरित जिल्ह्यांची अधिकृत पडताळणी पुरावे नोंदवहीनुसार सुरू आहे.',
-    b6ExploreCta: 'जिल्हा संशोधन पोर्टल उघडा →'
+
+    s9Eyebrow: 'संशोधन परिदृश्य',
+    s9Title: 'केवळ संकेतस्थळ नव्हे — एक कायमस्वरूपी संशोधन संग्रह',
+    s9Body: 'प्रत्येक निरीक्षण एका स्वतंत्र व पडताळलेल्या नोंदीच्या रूपात जतन केले जाते. हा संग्रह आठ मुख्य घटकांमध्ये मांडलेला आहे:',
+    s9Domains: ['गावे/वस्त्या', 'व्यक्ती', 'सर्वेक्षणे', 'प्रजाती', 'आव्हाने', 'उपाययोजना', 'वारसा', 'पुरावे'],
+
+    s10Eyebrow: 'तांत्रिक संदर्भ अंमलबजावणी',
+    s10Title: 'पालघर किनारपट्टी क्षेत्रीय प्रयोगशाळा',
+    s10Body: 'पालघर हे या व्यासपीठाचे तांत्रिक संदर्भ केंद्र आहे. वैतरणा खोऱ्यातील क्षारता, वारली बांध तंत्रज्ञान आणि खारफुटी संरक्षणाचा येथे अभ्यास होतो.',
+    s10Badge: 'तांत्रिक संदर्भ अंमलबजावणी (संशोधन जिल्हे: पडताळणी अंतर्गत)',
+
+    s11Eyebrow: 'संशोधन संग्रह पहा',
+    s11Title: 'सत्यापित किनारपट्टी संशोधनाचा अभ्यास करा',
+    s11Body: 'प्रकाशित गावांची माहिती, पुरावे नोंदवही, समुदाय सहभाग आणि एकत्रित सर्वेक्षणे पहा.',
+    s11Cta1: 'संशोधन संग्रह उघडा ↓',
+    s11Cta2: 'अभ्यास भेट परवानगी →'
   },
   hi: {
     skipLink: 'प्रस्तावना छोड़ें → सीधे शोध देखें',
@@ -80,40 +163,76 @@ const narrative = {
     viewSimple: 'सरल संस्करण',
     audioOff: 'तटीय ध्वनि: बंद',
     audioOn: 'तटीय ध्वनि: चालू',
-    b1Title: 'स्थानीय जलवायु लचीलेपन के लिए कम्युनिटी को-क्रिएशन लैब',
-    b1Acronym: 'कूल क्रिम (COOL CRYMB)',
-    b1Tagline: 'मुंबई और ब्रिस्टल के बीच तटीय युवाओं को हरित कौशल से सशक्त बनाकर जमीनी जलवायु समाधान विकसित करने वाला द्विपक्षीय अनुसंधान संघ।',
-    b2Heading: 'हम कौन हैं और हमारा उद्देश्य क्या है?',
-    b2Sub: 'विकेंद्रीकृत स्थानीय जलवायु प्रयोगशालाएं',
-    b2WhoWeAre: 'हम तटीय युवाओं, वारली पारंपरिक ज्ञान धारकों, जलवायु वैज्ञानिकों और विश्वविद्यालय शोधकर्ताओं का एक सहयोगात्मक मंच हैं। तटीय गांवों को केवल पीड़ित न मानकर, कम्युनिटी को-क्रिएशन लैब (CCL) स्थानीय युवाओं के नेतृत्व में ऐसी प्रयोगशालाएं स्थापित करती है जहां आधुनिक जलवायु विज्ञान और पीढ़ीगत ज्ञान का मिलन होता है।',
-    b2WhatWeAre: 'हरित कौशल प्रशिक्षण और खुले अनुसंधान पुरालेख के माध्यम से हम युवाओं को डिजिटल सामाजिक मानचित्रण, लवणता परीक्षण और पारिस्थितिकी संरक्षण सिखाते हैं। हम स्थानीय स्तर पर प्रभावी और कम लागत वाले अनुकूलन समाधान तैयार करते हैं।',
-    b2Pillar1: 'युवा नेतृत्व: तटीय युवाओं को प्रमाणित हरित कौशल और पर्यावरण निगरानी की क्षमता प्रदान करना।',
-    b2Pillar2: 'पारंपरिक वारली ज्ञान: मुहाना मैंग्रोव संरक्षण, पारंपरिक मेड़बंदी और मौसमी जल प्रबंधन का एकीकरण।',
-    b2Pillar3: 'व्यावहारिक समाधान: सिद्धांतों से आगे बढ़कर वास्तविक प्राकृतिक जैव-ढाल और जल संचयन संरचनाओं की स्थापना।',
-    b3Heading: 'द्विपक्षीय अनुसंधान साझेदारी',
-    b3Text: 'ब्रिटिश काउंसिल और एचएसबीसी द्वारा समर्थित "क्लाइमेट स्किल्स - सीड्स फॉर ट्रांजिशन इंडिया" पहल के तहत ब्रिस्टल विश्वविद्यालय (UK) और मुंबई विश्वविद्यालय के बीच यह अनुसंधान साझेदारी संचालित है।',
-    b4Heading: 'शैक्षणिक नेतृत्व एवं समन्वय',
-    b4Text: 'मुंबई विश्वविद्यालय के कलीना परिसर स्थित सेंटर फॉर क्लाइमेट चेंज एंड सस्टेनेबिलिटी स्टडीज (CCCSS) द्वारा इस परियोजना का नेतृत्व किया जाता है। सभी शोध नैतिक सहमति और सत्यापित साक्ष्यों के आधार पर किए जाते हैं।',
-    b5Heading: 'पांच-चरणीय सह-निर्माण प्रक्रिया',
-    b5Text: 'प्रत्येक पहल स्थानीय स्वामित्व और वैज्ञानिक सटीकता सुनिश्चित करने के लिए एक मानकीकृत पांच-चरणीय रूपरेखा का पालन करती है।',
-    b5Steps: [
-      { num: '01', title: 'भौगोलिक लक्ष्यीकरण', desc: 'अति-संवेदनशील मुहानों और कृषि क्षेत्रों की वैज्ञानिक पहचान।' },
-      { num: '02', title: 'सामुदायिक रूपरेखा', desc: 'बुजुर्गों और युवाओं के साथ मौखिक इतिहास और संवाद।' },
-      { num: '03', title: 'सामाजिक मानचित्रण', desc: 'छात्रों द्वारा लवणता, हरित आवरण और जल स्रोतों का मानचित्रण।' },
-      { num: '04', title: 'सह-डिज़ाइन ढांचा', desc: 'प्राकृतिक जैव-दीवारों और वर्षा जल संरचनाओं की रचना।' },
-      { num: '05', title: 'कार्यान्वयन एवं अभिलेखन', desc: 'जमीनी क्रियान्वयन और स्थायी खुला पुरालेख प्रकाशन।' }
+
+    s1Eyebrow: 'कूल क्रिम (COOL CRYMB)',
+    s1Title: 'स्थानीय जलवायु लचीलेपन के लिए कम्युनिटी को-क्रिएशन लैब',
+    s1Body: 'मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय द्वारा संचालित स्थानीय जलवायु लचीलेपन की सह-निर्माण प्रयोगशालाएं।',
+    s1Note: 'ब्रिटिश काउंसिल और एचएसबीसी द्वारा समर्थित "क्लाइमेट स्किल्स - सीड्स फॉर ट्रांजिशन इंडिया" पहल।',
+
+    s2Eyebrow: 'कम्युनिटी को-क्रिएशन लैब क्या है?',
+    s2Title: 'समुदायों और जलवायु विज्ञान के बीच एक जीवंत सेतु',
+    s2Body: 'यह केवल एक अभियान नहीं है। यह एक विकेंद्रीकृत शोध मंच है जहां वैज्ञानिक जलवायु मॉडलिंग और पारंपरिक ज्ञान मिलकर स्थानीय समाधान तैयार करते हैं।',
+    s2Triad: ['वैज्ञानिक अनुसंधान', 'युवा हरित कौशल', 'स्थानीय क्रियान्वयन'],
+
+    s3Eyebrow: 'यह कार्य क्यों आवश्यक है?',
+    s3Title: 'तट बदलता है — वैज्ञानिक दस्तावेज़ पीछे रह जाते हैं',
+    s3Body: 'ज्वार का बढ़ता पानी, पेयजल कुओं में लवणता और किनारों का क्षरण मुहाना बस्तियों को बदल रहे हैं। कमी चिंता की नहीं — स्थानीय, तिथिबद्ध और सत्यापन योग्य प्रमाणों की है।',
+    s3Note: 'स्थानीय ज्ञान का महत्व है। सभी साक्ष्य पारदर्शी और स्थायी रूप से सार्वजनिक होने चाहिए।',
+
+    s4Eyebrow: 'हम कौन हैं?',
+    s4Title: 'दो तटीय शहर। दो विश्वविद्यालय। एक मिशन।',
+    s4Body: 'ब्रिटिश काउंसिल के क्लाइमेट स्किल्स कार्यक्रम के तहत, एचएसबीसी के वित्तपोषण से, ब्रिस्टल विश्वविद्यालय और मुंबई विश्वविद्यालय साथ मिलकर कार्य करते हैं।',
+    s4Nodes: ['ब्रिस्टल विश्वविद्यालय (UK)', 'मुंबई विश्वविद्यालय (IN)', 'ब्रिटिश काउंसिल', 'एचएसबीसी'],
+
+    s5Eyebrow: 'भौगोलिक केंद्र 01',
+    s5Title: 'ब्रिस्टल, यूनाइटेड किंगडम',
+    s5Body: 'ब्रिस्टल के अंतरराष्ट्रीय स्तर पर मान्यता प्राप्त जलवायु विज्ञान और अनुकूलन शोध के समन्वय से संयुक्त पद्धतियां और प्रशिक्षण तैयार किए जाते हैं।',
+    s5Sub: 'ब्रिस्टल विश्वविद्यालय · सहयोगी अनुसंधान भागीदार',
+
+    s6Eyebrow: 'भौगोलिक केंद्र 02',
+    s6Title: 'मुंबई, भारत · कलीना परिसर',
+    s6Body: 'मुंबई विश्वविद्यालय के कलीना परिसर स्थित जलवायु परिवर्तन एवं स्थिरता अध्ययन केंद्र (CCCSS) द्वारा संपूर्ण शोध और क्षेत्रीय संचालन का नेतृत्व किया जाता है।',
+    s6Sub: 'मुंबई विश्वविद्यालय · CCCSS मुख्य संचालन केंद्र',
+
+    s7Eyebrow: 'परिसर से सीधे तट तक',
+    s7Title: 'विज्ञान को सीधे मुहानों और गांवों तक ले जाना',
+    s7Body: 'अनुसंधान केवल कक्षाओं तक सीमित नहीं है। संकाय और छात्र सीधे संवेदनशील मछुआरा बस्तियों और गांवों में जाकर पंचायतों और युवाओं के साथ मिलकर कार्य करते हैं।',
+    s7Flow: ['परिसर मॉडलिंग', 'क्षेत्रीय प्रयोगशालाएं', 'सह-डिज़ाइन', 'खुला पुरालेख'],
+
+    s8Eyebrow: 'पांच-चरणीय सह-निर्माण रूपरेखा',
+    s8Title: 'एक व्यवस्थित और स्थायी सह-निर्माण प्रक्रिया',
+    s8Body: 'प्रत्येक सामुदायिक प्रयोगशाला वैज्ञानिक सटीकता और स्थानीय स्वामित्व सुनिश्चित करने के लिए पांच चरणों का पालन करती है।',
+    s8Steps: [
+      { num: '01', title: 'क्षेत्र चयन', desc: 'संवेदनशील नदी घाटियों और अधिक लवणता वाले क्षेत्रों की पहचान।' },
+      { num: '02', title: 'समुदाय रूपरेखा', desc: 'बुजुर्गों, महिलाओं और युवाओं के साथ मौखिक इतिहास और संवाद।' },
+      { num: '03', title: 'स्थानीय मानचित्रण', desc: 'छात्रों द्वारा लवणता, मैंग्रोव आवरण और बाढ़ जोखिम का मानचित्रण।' },
+      { num: '04', title: 'सह-डिज़ाइन', desc: 'प्राकृतिक जैव-दीवारों और वर्षा जल संचयन की स्थानीय रचना।' },
+      { num: '05', title: 'क्रियान्वयन एवं अभिलेखन', desc: 'जमीनी क्रियान्वयन, निरंतर निगरानी और स्थायी खुला प्रकाशन।' }
     ],
-    b6Heading: 'तटीय अनुसंधान भूगोल',
-    b6Text: 'अनुसंधान महाराष्ट्र की तटरेखा पर केंद्रित है। पालघर वैतरणा बेसिन में मुहाना लवणता और पारंपरिक वारली वानिकी के अध्ययन के लिए हमारा तकनीकी संदर्भ कार्यान्वयन है।',
-    b6ExploreCta: 'जिला अनुसंधान पोर्टल देखें →'
+
+    s9Eyebrow: 'अनुसंधान परिदृश्य',
+    s9Title: 'केवल एक वेबसाइट नहीं — एक स्थायी खुला पुरालेख',
+    s9Body: 'प्रत्येक अवलोकन एक सत्यापित और अपरिवर्तनीय डेटा रिकॉर्ड के रूप में दर्ज होता है। यह पुरालेख आठ श्रेणियों में व्यवस्थित है:',
+    s9Domains: ['गांव/बस्तियां', 'व्यक्ति', 'सर्वेक्षण', 'प्रजातियां', 'चुनौतियां', 'समाधान', 'विरासत', 'साक्ष्य'],
+
+    s10Eyebrow: 'तकनीकी संदर्भ कार्यान्वयन',
+    s10Title: 'पालघर तटीय क्षेत्रीय प्रयोगशाला',
+    s10Body: 'पालघर इस मंच का संदर्भ तकनीकी कार्यान्वयन है। वैतरणा बेसिन में मुहाना लवणता, पारंपरिक वारली वानिकी और तटीय जैव-दीवारों का यहां अध्ययन किया गया है।',
+    s10Badge: 'तकनीकी संदर्भ कार्यान्वयन (अनुसंधान जिले: सत्यापन जारी)',
+
+    s11Eyebrow: 'शोध अभिलेख देखें',
+    s11Title: 'सत्यापित तटीय अनुसंधान का अन्वेषण करें',
+    s11Body: 'प्रकाशित गांवों का विवरण, प्रमाण रजिस्टर, सामुदायिक योगदान और सर्वेक्षण आंकड़े देखें।',
+    s11Cta1: 'अनुसंधान पुरालेख देखें ↓',
+    s11Cta2: 'शोध पहुंच अनुरोध →'
   }
 };
 
-const t = narrative[lang] || narrative.en;
+const t = I18N[lang] || I18N.en;
 ---
 
 <section id="ccl-story-container" class="relative bg-[var(--color-bg)] border-b border-[var(--color-border)]">
-  <!-- B0: Skip Link & Top Utility Controls (Highest Accessibility Priority) -->
+  <!-- B0: Skip Link & Top Utility Controls -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 flex flex-wrap items-center justify-between gap-4">
     <a
       href="#districts"
@@ -123,28 +242,51 @@ const t = narrative[lang] || narrative.en;
       <span class="ml-1.5">↓</span>
     </a>
 
-    <!-- Top Utility Controls: Ambient Audio + Mode Switch (Persists in Session Storage) -->
+    <!-- Top Utility Controls: Ambient Audio + Mode Switch + Diagnostics Toggle -->
     <div class="flex items-center space-x-2 text-xs text-[var(--color-text-muted)]">
       <!-- Ambient Coastal Soundscape Toggle -->
       <button
         id="toggle-audio-btn"
         type="button"
-        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)]"
+        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)] cursor-pointer"
         aria-pressed="false"
-        title="Opt-in procedural coastal nature audio (0 KB download, Web Audio API)"
+        title="Opt-in procedural coastal nature audio (Web Audio API, 0 KB download)"
       >
         <span id="audio-icon" class="text-sm">🌊</span>
         <span id="audio-label">{t.audioOff}</span>
       </button>
 
-      <!-- Manual Visual Mode Switch -->
+      <!-- Visual Mode Switch (Interactive WebGL/2D vs Simple Static) -->
       <button
         id="toggle-mode-btn"
         type="button"
-        class="px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)]"
+        class="px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)] cursor-pointer"
       >
         <span id="mode-label">{t.viewSimple}</span>
       </button>
+
+      <!-- Technical Diagnostics Pill -->
+      <button
+        id="toggle-diag-btn"
+        type="button"
+        class="hidden sm:inline-flex px-2 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-subtle)] text-[10px] font-mono text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
+        title="Toggle Performance Diagnostics"
+      >
+        <span id="diag-pill-text">Tier ?</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Collapsible Floating Diagnostics Tray -->
+  <div
+    id="diag-tray"
+    class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2"
+  >
+    <div class="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-[11px] font-mono grid grid-cols-2 sm:grid-cols-4 gap-3 text-[var(--color-text-muted)]">
+      <div>Tier: <strong id="diag-tier" class="text-[var(--color-text-main)]">-</strong></div>
+      <div>FPS: <strong id="diag-fps" class="text-[var(--color-text-main)]">-</strong></div>
+      <div>DPR: <strong id="diag-dpr" class="text-[var(--color-text-main)]">-</strong></div>
+      <div>Progress: <strong id="diag-prog" class="text-[var(--color-text-main)]">0.000 (raw 0.000)</strong></div>
     </div>
   </div>
 
@@ -153,108 +295,161 @@ const t = narrative[lang] || narrative.en;
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
       
       <!-- Left Column: Story Panels (Real Semantic HTML, Zero Client JS Required) -->
-      <div id="story-narrative-flow" class="lg:col-span-7 space-y-16">
+      <div id="story-narrative-flow" class="lg:col-span-7 space-y-20">
         
-        <!-- B1: Hero Panel -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs">
+        <!-- Scene 01: Prologue / Earth -->
+        <article id="scene-01" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs transition-opacity duration-300">
           <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)] mb-4">
-            <span>🌱 British Council & HSBC "Seeds for Transition"</span>
+            <span>🌱 {t.s1Eyebrow}</span>
           </div>
           <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--color-text-main)] tracking-tight">
-            {t.b1Acronym}: {t.b1Title}
+            {t.s1Title}
           </h1>
           <p class="mt-4 text-base text-[var(--color-text-muted)] leading-relaxed">
-            {t.b1Tagline}
+            {t.s1Body}
+          </p>
+          <p class="mt-4 text-xs font-mono text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-3">
+            {t.s1Note}
           </p>
         </article>
 
-        <!-- B2: Problem & Identity: Who We Are & What We Are -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
-              Core Mission & Identity
-            </span>
-            <span class="text-xs font-mono text-[var(--color-text-muted)]">
-              {t.b2Sub}
-            </span>
-          </div>
+        <!-- Scene 02: What is CCL? -->
+        <article id="scene-02" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            {t.s2Eyebrow}
+          </span>
           <h2 class="text-2xl font-bold text-[var(--color-text-main)]">
-            {t.b2Heading}
+            {t.s2Title}
           </h2>
           <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
-            {t.b2WhoWeAre}
+            {t.s2Body}
           </p>
-          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
-            {t.b2WhatWeAre}
-          </p>
-
-          <div class="pt-4 border-t border-[var(--color-border)] grid grid-cols-1 gap-3 text-xs">
-            <div class="p-3 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
-              <strong class="text-[var(--color-text-main)] block mb-1">✦ Youth Green Skills Leadership</strong>
-              <span class="text-[var(--color-text-muted)]">{t.b2Pillar1}</span>
-            </div>
-            <div class="p-3 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
-              <strong class="text-[var(--color-text-main)] block mb-1">✦ Indigenous Ecological Wisdom</strong>
-              <span class="text-[var(--color-text-muted)]">{t.b2Pillar2}</span>
-            </div>
-            <div class="p-3 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
-              <strong class="text-[var(--color-text-main)] block mb-1">✦ Measurable Coastal Bio-Shields</strong>
-              <span class="text-[var(--color-text-muted)]">{t.b2Pillar3}</span>
-            </div>
+          <div class="pt-3 flex flex-wrap items-center gap-2 text-xs">
+            {t.s2Triad.map((node, i) => (
+              <>
+                <span class="px-3 py-1 rounded-full bg-[var(--color-surface-subtle)] border border-[var(--color-border)] font-semibold text-[var(--color-text-main)]">
+                  {node}
+                </span>
+                {i < t.s2Triad.length - 1 && <span class="text-[var(--color-text-muted)]">⇄</span>}
+              </>
+            ))}
           </div>
         </article>
 
-        <!-- B3: Partnership (Bristol UK -> Mumbai IN) -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+        <!-- Scene 03: Why This Work Matters -->
+        <article id="scene-03" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
           <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
-            Consortium Architecture
+            {t.s3Eyebrow}
+          </span>
+          <h2 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.s3Title}
+          </h2>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
+            {t.s3Body}
+          </p>
+          <div class="p-4 rounded-xl bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs text-[var(--color-text-main)]">
+            ✦ {t.s3Note}
+          </div>
+        </article>
+
+        <!-- Scene 04: Who We Are (Bilateral Partnership) -->
+        <article id="scene-04" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            {t.s4Eyebrow}
           </span>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
-            {t.b3Heading}
+            {t.s4Title}
           </h3>
           <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
-            {t.b3Text}
+            {t.s4Body}
           </p>
-          <div class="flex items-center space-x-3 text-xs pt-2">
-            <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-800 font-semibold border border-blue-200">
-              University of Bristol (UK)
-            </span>
-            <span class="text-[var(--color-text-muted)]">⇄</span>
-            <span class="px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
-              University of Mumbai (IN)
-            </span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            {t.s4Nodes.map((n) => (
+              <div class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-subtle)] text-[11px] font-semibold text-center text-[var(--color-text-main)]">
+                {n}
+              </div>
+            ))}
           </div>
         </article>
 
-        <!-- B4: Operational Delivery (CCCSS Kalina Campus) -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
-          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
-            Operational Hub & Field Governance
-          </span>
+        <!-- Scene 05: Bristol (UK Anchor) -->
+        <article id="scene-05" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+              {t.s5Eyebrow}
+            </span>
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-blue-100 text-blue-800">
+              UK Research Lead
+            </span>
+          </div>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
-            {t.b4Heading}
+            {t.s5Title}
           </h3>
           <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
-            {t.b4Text}
+            {t.s5Body}
           </p>
-          <div class="text-xs text-[var(--color-text-muted)] pt-2 font-mono">
-            Location: CCCSS, Kalina Campus, Vidyanagari, Santacruz (E), Mumbai 400098
+          <div class="text-xs text-[var(--color-text-muted)] font-mono pt-1">
+            {t.s5Sub}
           </div>
         </article>
 
-        <!-- B5: Five-Step Methodology -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+        <!-- Scene 06: Mumbai (India Anchor) -->
+        <article id="scene-06" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+              {t.s6Eyebrow}
+            </span>
+            <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-800">
+              Indian Academic Lead
+            </span>
+          </div>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.s6Title}
+          </h3>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
+            {t.s6Body}
+          </p>
+          <div class="text-xs text-[var(--color-text-muted)] font-mono pt-1">
+            {t.s6Sub}
+          </div>
+        </article>
+
+        <!-- Scene 07: Campus to Coastline -->
+        <article id="scene-07" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
           <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
-            Participatory Framework
+            {t.s7Eyebrow}
           </span>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
-            {t.b5Heading}
+            {t.s7Title}
+          </h3>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
+            {t.s7Body}
+          </p>
+          <div class="flex flex-wrap items-center gap-2 pt-2 text-xs">
+            {t.s7Flow.map((step, i) => (
+              <>
+                <span class="px-3 py-1 rounded bg-[var(--color-surface-subtle)] border border-[var(--color-border)] font-medium text-[var(--color-text-main)]">
+                  {step}
+                </span>
+                {i < t.s7Flow.length - 1 && <span class="text-[var(--color-text-muted)]">→</span>}
+              </>
+            ))}
+          </div>
+        </article>
+
+        <!-- Scene 08: Five-Step Methodology -->
+        <article id="scene-08" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            {t.s8Eyebrow}
+          </span>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.s8Title}
           </h3>
           <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">
-            {t.b5Text}
+            {t.s8Body}
           </p>
           <div class="space-y-3 pt-2">
-            {t.b5Steps.map((step) => (
+            {t.s8Steps.map((step) => (
               <div class="flex items-start space-x-4 p-3 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
                 <span class="text-sm font-extrabold text-[var(--color-primary)] font-mono">{step.num}</span>
                 <div>
@@ -266,49 +461,120 @@ const t = narrative[lang] || narrative.en;
           </div>
         </article>
 
-        <!-- B6: Where (Held Maharashtra View & Technical Reference Implementation) -->
-        <article class="p-8 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-primary)] shadow-sm space-y-4">
+        <!-- Scene 09: The Research Landscape -->
+        <article id="scene-09" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            {t.s9Eyebrow}
+          </span>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.s9Title}
+          </h3>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
+            {t.s9Body}
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 text-xs">
+            {t.s9Domains.map((dom) => (
+              <div class="p-2.5 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-center font-semibold text-[var(--color-text-main)]">
+                ✦ {dom}
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <!-- Scene 10: Palghar Reference Implementation -->
+        <article id="scene-10" class="p-8 rounded-2xl bg-[var(--color-surface)] border-2 border-[var(--color-primary)] shadow-sm space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
-              Geographic Focus
+              {t.s10Eyebrow}
             </span>
             <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">
-              Technical Reference Implementation
+              Technical Reference
             </span>
           </div>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
-            {t.b6Heading}
+            {t.s10Title}
           </h3>
           <p class="text-xs leading-relaxed text-[var(--color-text-muted)]">
-            {t.b6Text}
+            {t.s10Body}
           </p>
-          <div class="pt-2">
+          <div class="text-[11px] font-mono text-[var(--color-text-muted)] pt-1">
+            {t.s10Badge}
+          </div>
+        </article>
+
+        <!-- Scene 11: Explore the Archive -->
+        <article id="scene-11" class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs space-y-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+            {t.s11Eyebrow}
+          </span>
+          <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
+            {t.s11Title}
+          </h3>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)]">
+            {t.s11Body}
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
             <a
               href="#districts"
-              class="inline-flex items-center text-xs font-bold text-[var(--color-primary)] hover:underline"
+              class="inline-flex items-center px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-xs font-bold hover:bg-[var(--color-primary-hover)] transition"
             >
-              <span>{t.b6ExploreCta}</span>
-              <span class="ml-1">↓</span>
+              <span>{t.s11Cta1}</span>
+            </a>
+            <a
+              href={lang === 'en' ? '/visit' : `/${lang}/visit`}
+              class="inline-flex items-center px-4 py-2 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs font-semibold text-[var(--color-text-main)] hover:bg-[var(--color-surface)] transition"
+            >
+              <span>{t.s11Cta2}</span>
             </a>
           </div>
         </article>
 
       </div>
 
-      <!-- Right Column: Visual Stage (Sticky Desktop, Static Fallback Default) -->
+      <!-- Right Column: Visual Stage (Sticky Desktop, Multi-Tier Fallback Default) -->
       <div class="lg:col-span-5 lg:sticky lg:top-28">
-        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-sm overflow-hidden flex flex-col items-center justify-center min-h-[420px]">
+        <div class="relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-sm overflow-hidden flex flex-col items-center justify-center min-h-[420px]">
           
-          <!-- Tier 4 Static Map (Default / Fallback / No-JS) -->
+          <!-- Tier 4 Static Vector Map (Default / Fallback / No-JS) -->
           <div id="tier4-static-container" class="w-full h-full">
             <StoryStatic lang={lang} />
           </div>
 
-          <!-- Tier 3 Canvas Globe (Progressively Enhanced when JS & 2D Canvas are active) -->
+          <!-- Tier 3 Canvas 2D Orthographic (Progressive Fallback) -->
           <div id="tier3-canvas-container" class="w-full h-full hidden flex-col items-center justify-center">
-            <canvas id="ccl-2d-globe-canvas" class="max-w-full h-auto cursor-default"></canvas>
+            <canvas id="fallback2d" class="max-w-full h-auto cursor-default"></canvas>
             <div class="mt-2 text-[11px] text-[var(--color-text-muted)] text-center font-mono">
-              ✦ Tier 3 2D Orthographic Vector Projection (Damped Follow Physics)
+              ✦ Tier 3 2D Orthographic Vector Projection
+            </div>
+          </div>
+
+          <!-- Tier 1 & 2 Three.js WebGL Living Earth -->
+          <div id="tier1-webgl-container" class="w-full h-full hidden flex-col items-center justify-center">
+            <canvas id="gl-canvas" class="max-w-full h-auto cursor-default"></canvas>
+            <div class="mt-2 text-[11px] text-[var(--color-text-muted)] text-center font-mono">
+              ✦ Living 3D Earth (Natural Satellite Shading & Damped Follow)
+            </div>
+          </div>
+
+          <!-- DOM Projected Story Anchor Pins Layer (Shared across WebGL & 2D) -->
+          <div id="story-marker-layer" class="pointer-events-none absolute inset-0 overflow-hidden">
+            <div id="mk-bristol" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
+              <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-blue-200">
+                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                <span class="text-[11px] font-bold text-slate-900">Bristol · UK Partner</span>
+              </div>
+            </div>
+            <div id="mk-mumbai" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
+              <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-red-200">
+                <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                <span class="text-[11px] font-bold text-slate-900">Mumbai · CCCSS Lead</span>
+              </div>
+            </div>
+            <div id="mk-palghar" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
+              <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-emerald-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                <span class="text-[11px] font-bold text-slate-900">Palghar · Reference Lab</span>
+              </div>
             </div>
           </div>
 
@@ -319,80 +585,122 @@ const t = narrative[lang] || narrative.en;
   </div>
 </section>
 
-<!-- Client-side Progressive Enhancement Script with Damped Driver Loop & Ambient Audio -->
+<!-- Client-side Progressive Enhancement Script -->
 <script>
+  import { STORY_KEYS, type StoryAnchor } from './StoryTypes';
+  import type { GlobeWebGL } from './GlobeWebGL';
   import { GlobeCanvas2D } from './GlobeCanvas2D';
   import { AmbientAudio } from './AmbientAudio';
 
   const container = document.getElementById('ccl-story-container');
-  const staticEl = document.getElementById('tier4-static-container');
-  const canvasContainer = document.getElementById('tier3-canvas-container');
-  const canvas = document.getElementById('ccl-2d-globe-canvas') as HTMLCanvasElement | null;
+  const staticContainer = document.getElementById('tier4-static-container');
+  const canvas2dContainer = document.getElementById('tier3-canvas-container');
+  const webglContainer = document.getElementById('tier1-webgl-container');
+
+  const glCanvas = document.getElementById('gl-canvas') as HTMLCanvasElement | null;
+  const fallback2dCanvas = document.getElementById('fallback2d') as HTMLCanvasElement | null;
+
   const toggleBtn = document.getElementById('toggle-mode-btn');
   const modeLabel = document.getElementById('mode-label');
   const toggleAudioBtn = document.getElementById('toggle-audio-btn');
   const audioLabel = document.getElementById('audio-label');
   const audioIcon = document.getElementById('audio-icon');
 
-  // Capability checks
+  const toggleDiagBtn = document.getElementById('toggle-diag-btn');
+  const diagTray = document.getElementById('diag-tray');
+  const diagPillText = document.getElementById('diag-pill-text');
+  const diagTier = document.getElementById('diag-tier');
+  const diagFps = document.getElementById('diag-fps');
+  const diagDpr = document.getElementById('diag-dpr');
+  const diagProg = document.getElementById('diag-prog');
+
+  // Capability & Hardware Checks
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData = (navigator as any).connection?.saveData === true;
+  const isNarrow = window.matchMedia('(max-width: 860px)').matches;
   const sessionPref = sessionStorage.getItem('ccl-globe-mode');
 
-  let globeInstance: GlobeCanvas2D | null = null;
-  let isSimpleMode = prefersReducedMotion || saveData || sessionPref === 'simple';
-
-  // Ambient Audio Instance
-  const ambientAudio = new AmbientAudio();
-  let ambientAudioWanted = false;
-
-  function updateModeUI() {
-    if (!modeLabel) return;
-    modeLabel.textContent = isSimpleMode ? 'Interactive View' : 'Simple Version';
-  }
-
-  function updateAudioUI(isPlaying: boolean) {
-    if (!toggleAudioBtn || !audioLabel || !audioIcon) return;
-    toggleAudioBtn.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
-    if (isPlaying) {
-      toggleAudioBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
-      audioLabel.textContent = 'Ambient Sound: On';
-      audioIcon.textContent = '🎵';
-    } else {
-      toggleAudioBtn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-300');
-      audioLabel.textContent = 'Ambient Sound: Off';
-      audioIcon.textContent = '🌊';
+  function checkWebGLSupport() {
+    try {
+      const c = document.createElement('canvas');
+      const gl = c.getContext('webgl2') || c.getContext('webgl') || (c as any).getContext('experimental-webgl');
+      if (!gl) return null;
+      return { maxTex: gl.getParameter(gl.MAX_TEXTURE_SIZE) };
+    } catch (_) {
+      return null;
     }
   }
 
-  // Damped Follow Driver Physics
-  // Tunable time constant: 260ms exponential smoothing creates buttery agency drift
-  const SMOOTH_MS = 260;
+  const wgl = checkWebGLSupport();
+  const isWeakDevice = Boolean(
+    ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 2) ||
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2)
+  );
+
+  let currentTier: 1 | 2 | 3 | 4 = 1;
+  if (prefersReducedMotion || saveData || sessionPref === 'simple') {
+    currentTier = 4;
+  } else if (!wgl || wgl.maxTex < 2048 || isWeakDevice) {
+    currentTier = 3;
+  } else {
+    currentTier = isNarrow ? 2 : 1;
+  }
+
+  let webglInstance: GlobeWebGL | null = null;
+  let canvas2dInstance: GlobeCanvas2D | null = null;
+  const ambientAudio = new AmbientAudio();
+  let ambientAudioActive = false;
+
+  // Damped Follow Physics Engine
+  const SMOOTH_MS = 260; // Tunable time-constant for buttery drift
   let rawProgress = 0;
   let renderProgress = 0;
   let rafId: number | null = null;
   let lastTimestamp = 0;
   let isSectionVisible = false;
 
-  function computeRawProgress() {
-    if (!container) return;
+  // Story Anchors
+  const anchors: StoryAnchor[] = [
+    { key: 'bristol', lat: 51.4584, lng: -2.6030, from: 0.49, el: document.getElementById('mk-bristol') },
+    { key: 'mumbai', lat: 19.0728, lng: 72.8711, from: 0.59, el: document.getElementById('mk-mumbai') },
+    { key: 'palghar', lat: 19.6967, lng: 72.7699, from: 0.92, el: document.getElementById('mk-palghar') }
+  ];
+
+  function updateTierUI() {
+    const tierName =
+      currentTier === 1
+        ? 'Tier 1 (WebGL)'
+        : currentTier === 2
+        ? 'Tier 2 (WebGL·M)'
+        : currentTier === 3
+        ? 'Tier 3 (Canvas2D)'
+        : 'Tier 4 (Static)';
+
+    if (diagPillText) diagPillText.textContent = tierName;
+    if (diagTier) diagTier.textContent = tierName;
+    if (modeLabel) modeLabel.textContent = currentTier === 4 ? 'Interactive View' : 'Simple Version';
+    if (diagDpr) diagDpr.textContent = (window.devicePixelRatio || 1).toFixed(2);
+  }
+
+  function computeRawProgress(): number {
+    if (!container || prefersReducedMotion) return 0;
     const rect = container.getBoundingClientRect();
     const totalHeight = container.clientHeight - window.innerHeight;
     const currentY = -rect.top;
-    rawProgress = Math.max(0, Math.min(1, currentY / (totalHeight > 0 ? totalHeight : 1)));
+    return Math.max(0, Math.min(1, currentY / (totalHeight > 0 ? totalHeight : 1)));
   }
 
   function driverLoop(timestamp: number) {
-    if (!globeInstance || !isSectionVisible) {
+    if (!isSectionVisible && Math.abs(rawProgress - renderProgress) < 0.0004) {
       rafId = null;
       return;
     }
 
     if (!lastTimestamp) lastTimestamp = timestamp;
-    const dt = Math.min(timestamp - lastTimestamp, 100);
+    const dt = Math.min(timestamp - lastTimestamp, 64);
     lastTimestamp = timestamp;
 
-    computeRawProgress();
+    rawProgress = computeRawProgress();
 
     if (prefersReducedMotion) {
       renderProgress = rawProgress;
@@ -401,19 +709,26 @@ const t = narrative[lang] || narrative.en;
       renderProgress += (rawProgress - renderProgress) * alpha;
     }
 
-    // Snap to exact position when within micro threshold
     if (Math.abs(rawProgress - renderProgress) < 0.0002) {
       renderProgress = rawProgress;
     }
 
-    globeInstance.setProgress(renderProgress);
+    // Render to active tier
+    if (webglInstance) {
+      webglInstance.setProgress(renderProgress);
+    } else if (canvas2dInstance) {
+      canvas2dInstance.setProgress(renderProgress);
+    }
 
-    // Keep running if visible
+    if (diagProg) {
+      diagProg.textContent = `${renderProgress.toFixed(3)} (raw ${rawProgress.toFixed(3)})`;
+    }
+
     rafId = window.requestAnimationFrame(driverLoop);
   }
 
-  function startDriver() {
-    if (!rafId && isSectionVisible && globeInstance) {
+  function wakeDriver() {
+    if (!rafId && isSectionVisible) {
       lastTimestamp = 0;
       rafId = window.requestAnimationFrame(driverLoop);
     }
@@ -426,111 +741,171 @@ const t = narrative[lang] || narrative.en;
     }
   }
 
-  async function initGlobe() {
-    if (isSimpleMode || !canvas || prefersReducedMotion) {
-      if (staticEl) staticEl.classList.remove('hidden');
-      if (canvasContainer) canvasContainer.classList.add('hidden');
-      updateModeUI();
-      return;
+  async function startWebGLTier() {
+    if (!glCanvas) return;
+    hideAllTiers();
+    if (webglContainer) webglContainer.classList.remove('hidden');
+
+    try {
+      const { GlobeWebGL } = await import('./GlobeWebGL');
+      webglInstance = new GlobeWebGL(glCanvas, {
+        isTier1: currentTier === 1,
+        isNarrow,
+        anchors,
+        keys: STORY_KEYS,
+        onDowngrade: () => {
+          console.warn('[CCLStory] WebGL frame rate downgraded. Transitioning to Tier 3 2D Canvas.');
+          currentTier = 3;
+          updateTierUI();
+          startCanvas2DTier();
+        },
+        onFpsUpdate: (fps) => {
+          if (diagFps) diagFps.textContent = `${fps} FPS`;
+        }
+      });
+      await webglInstance.init();
+      updateTierUI();
+      wakeDriver();
+    } catch (err) {
+      console.warn('[CCLStory] WebGL start error, falling back to Tier 3:', err);
+      currentTier = 3;
+      updateTierUI();
+      startCanvas2DTier();
+    }
+  }
+
+  async function startCanvas2DTier() {
+    if (!fallback2dCanvas) return;
+    hideAllTiers();
+    if (canvas2dContainer) canvas2dContainer.classList.remove('hidden');
+
+    if (webglInstance) {
+      webglInstance.destroy();
+      webglInstance = null;
     }
 
     try {
-      if (staticEl) staticEl.classList.add('hidden');
-      if (canvasContainer) canvasContainer.classList.remove('hidden');
-
-      globeInstance = new GlobeCanvas2D(canvas, document.documentElement.lang || 'en');
-      await globeInstance.init();
-      updateModeUI();
-
-      setupObserverAndDriver();
+      canvas2dInstance = new GlobeCanvas2D(fallback2dCanvas, document.documentElement.lang || 'en');
+      await canvas2dInstance.init();
+      updateTierUI();
+      wakeDriver();
     } catch (err) {
-      console.warn('[CCLStory] Tier 3 initialization failed, falling back to static:', err);
-      if (staticEl) staticEl.classList.remove('hidden');
-      if (canvasContainer) canvasContainer.classList.add('hidden');
+      console.warn('[CCLStory] Canvas 2D start error, falling back to static:', err);
+      startStaticTier();
     }
   }
 
-  function setupObserverAndDriver() {
-    if (!container || !globeInstance) return;
+  function startStaticTier() {
+    hideAllTiers();
+    if (staticContainer) staticContainer.classList.remove('hidden');
 
-    // IntersectionObserver halts RAF polling and ambient audio when section is offscreen
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        isSectionVisible = entry.isIntersecting;
-        if (isSectionVisible) {
-          startDriver();
-          if (ambientAudioWanted) {
-            ambientAudio.start();
-            updateAudioUI(true);
-          }
-        } else {
-          stopDriver();
-          if (ambientAudioWanted) {
-            ambientAudio.stop();
+    if (webglInstance) {
+      webglInstance.destroy();
+      webglInstance = null;
+    }
+    if (canvas2dInstance) {
+      canvas2dInstance.destroy();
+      canvas2dInstance = null;
+    }
+    stopDriver();
+    currentTier = 4;
+    updateTierUI();
+  }
+
+  function hideAllTiers() {
+    if (staticContainer) staticContainer.classList.add('hidden');
+    if (canvas2dContainer) canvas2dContainer.classList.add('hidden');
+    if (webglContainer) webglContainer.classList.add('hidden');
+  }
+
+  function setupIntersectionObserver() {
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          isSectionVisible = entry.isIntersecting;
+          if (isSectionVisible) {
+            wakeDriver();
+            if (ambientAudioActive) {
+              ambientAudio.start();
+            }
+          } else {
+            stopDriver();
+            if (ambientAudioActive) {
+              ambientAudio.stop();
+            }
           }
         }
-      }
-    }, { threshold: 0.05 });
-
+      },
+      { threshold: 0.05 }
+    );
     observer.observe(container);
-
-    // Native scroll event updates rawProgress; RAF driver eases toward it
-    window.addEventListener('scroll', () => {
-      if (!rafId && isSectionVisible) {
-        startDriver();
-      }
-    }, { passive: true });
-
-    // Window resize & orientation change handler
-    window.addEventListener('resize', () => {
-      if (globeInstance) {
-        globeInstance.resize();
-      }
-      if (!rafId && isSectionVisible) {
-        startDriver();
-      }
-    }, { passive: true });
   }
 
-  // Ambient Audio Button Handler (Opt-in user gesture)
-  if (toggleAudioBtn) {
-    toggleAudioBtn.addEventListener('click', async () => {
-      ambientAudioWanted = !ambientAudioWanted;
-      if (ambientAudioWanted) {
-        await ambientAudio.start();
-        updateAudioUI(true);
-      } else {
-        ambientAudio.stop();
-        updateAudioUI(false);
-      }
-    });
-  }
+  // Event Listeners
+  window.addEventListener('scroll', wakeDriver, { passive: true });
+  window.addEventListener('resize', () => {
+    if (webglInstance) webglInstance.resize();
+    if (canvas2dInstance) canvas2dInstance.resize();
+    wakeDriver();
+  }, { passive: true });
 
-  // Manual Mode Switch Handler
+  // Mode Switch
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      isSimpleMode = !isSimpleMode;
-      sessionStorage.setItem('ccl-globe-mode', isSimpleMode ? 'simple' : 'interactive');
-
-      if (isSimpleMode) {
-        stopDriver();
-        if (globeInstance) {
-          globeInstance.destroy();
-          globeInstance = null;
-        }
-        if (staticEl) staticEl.classList.remove('hidden');
-        if (canvasContainer) canvasContainer.classList.add('hidden');
+      if (currentTier === 4) {
+        currentTier = wgl && !isWeakDevice ? (isNarrow ? 2 : 1) : 3;
+        sessionStorage.setItem('ccl-globe-mode', 'interactive');
+        if (currentTier <= 2) startWebGLTier();
+        else startCanvas2DTier();
       } else {
-        initGlobe();
+        sessionStorage.setItem('ccl-globe-mode', 'simple');
+        startStaticTier();
       }
-      updateModeUI();
     });
   }
 
-  // Defer initialization until DOM ready
+  // Ambient Audio Toggle
+  if (toggleAudioBtn) {
+    toggleAudioBtn.addEventListener('click', async () => {
+      ambientAudioActive = !ambientAudioActive;
+      toggleAudioBtn.setAttribute('aria-pressed', ambientAudioActive ? 'true' : 'false');
+      if (ambientAudioActive) {
+        await ambientAudio.start();
+        toggleAudioBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+        if (audioLabel) audioLabel.textContent = 'Ambient Sound: On';
+        if (audioIcon) audioIcon.textContent = '🎵';
+      } else {
+        ambientAudio.stop();
+        toggleAudioBtn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-300');
+        if (audioLabel) audioLabel.textContent = 'Ambient Sound: Off';
+        if (audioIcon) audioIcon.textContent = '🌊';
+      }
+    });
+  }
+
+  // Diagnostics Tray Toggle
+  if (toggleDiagBtn && diagTray) {
+    toggleDiagBtn.addEventListener('click', () => {
+      diagTray.classList.toggle('hidden');
+    });
+  }
+
+  // Mount
+  function init() {
+    setupIntersectionObserver();
+    if (currentTier === 4) {
+      startStaticTier();
+    } else if (currentTier <= 2) {
+      startWebGLTier();
+    } else {
+      startCanvas2DTier();
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGlobe);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    initGlobe();
+    init();
   }
 </script>

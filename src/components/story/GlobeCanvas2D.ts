@@ -1,6 +1,8 @@
 import * as d3Geo from 'd3-geo';
 import * as topojson from 'topojson-client';
 
+import { STORY_KEYS } from './StoryTypes';
+
 interface Anchor {
   id: string;
   type: string;
@@ -95,50 +97,54 @@ export class GlobeCanvas2D {
     return start + (end - start) * t;
   }
 
+  private lerpAngle(a: number, b: number, t: number): number {
+    const d = (((b - a + 540) % 360) - 180);
+    return a + d * t;
+  }
+
   private easeInOutCubic(t: number): number {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  private sampleChoreography(p: number) {
+    for (let i = 0; i < STORY_KEYS.length - 1; i++) {
+      const k = STORY_KEYS[i];
+      const n = STORY_KEYS[i + 1];
+      if (p <= n.p || i === STORY_KEYS.length - 2) {
+        const span = n.p - k.p || 0.001;
+        const t = this.easeInOutCubic(Math.max(0, Math.min(1, (p - k.p) / span)));
+        return {
+          lat: this.interpolate(k.lat, n.lat, t),
+          lng: this.lerpAngle(k.lng, n.lng, t),
+          s: this.interpolate(k.s, n.s, t),
+          ox: this.interpolate(k.ox, n.ox, t),
+          oy: this.interpolate(k.oy, n.oy, t)
+        };
+      }
+    }
+    return STORY_KEYS[0];
   }
 
   public render(): void {
     if (this.isDestroyed || !this.ctx || !this.landData) return;
 
-    // Center coordinates [lng, lat]
-    // Start: UK / Bristol (-2.60, 51.46)
-    // End: Maharashtra Coast / Mumbai (72.87, 19.07) -> Palghar region (73.0, 19.4)
-    let centerLng = -2.6;
-    let centerLat = 51.5;
-
+    const st = this.sampleChoreography(this.currentProgress);
     const p = this.currentProgress;
-    const baseRadius = Math.min(this.width, this.height) * 0.39;
-    let currentScale = baseRadius;
-
-    if (p < 0.18) {
-      // UK Focus
-      centerLng = -2.6;
-      centerLat = 51.5;
-      currentScale = baseRadius;
-    } else if (p < 0.62) {
-      // Smooth eased transition UK -> Mumbai
-      const t = this.easeInOutCubic((p - 0.18) / 0.44);
-      centerLng = this.interpolate(-2.6, 72.87, t);
-      centerLat = this.interpolate(51.5, 19.07, t);
-      currentScale = baseRadius;
-    } else {
-      // Held View over Maharashtra Coast with subtle progressive zoom into coastal belt
-      centerLng = 73.0;
-      centerLat = 19.2;
-      const zoomT = this.easeInOutCubic((p - 0.62) / 0.38);
-      currentScale = baseRadius * (1 + 0.38 * zoomT);
-    }
+    const baseRadius = Math.min(this.width, this.height) * 0.38;
+    const currentScale = baseRadius * st.s;
+    const isNarrow = window.matchMedia('(max-width: 860px)').matches;
+    const ox = isNarrow ? 0 : st.ox;
+    const oy = isNarrow ? (p > 0.12 ? 0.16 : 0) : st.oy;
+    const center = [this.width / 2 + ox * this.width, this.height / 2 - oy * this.height];
 
     // d3-geo projection rotation is [-lambda, -phi] to center on [lng, lat]
     this.projection
       .scale(currentScale)
-      .rotate([-centerLng, -centerLat]);
+      .translate(center as [number, number])
+      .rotate([-st.lng, -st.lat]);
 
     this.ctx.clearRect(0, 0, this.width, this.height);
 
-    const center = [this.width / 2, this.height / 2];
     const radius = currentScale;
 
     // 0. Atmospheric Halo (Soft outer planetary limb glow)
@@ -296,7 +302,7 @@ export class GlobeCanvas2D {
       if (!projected) continue;
 
       // Check if point is on visible hemisphere
-      const dist = d3Geo.geoDistance([anc.lng, anc.lat], [centerLng, centerLat]);
+      const dist = d3Geo.geoDistance([anc.lng, anc.lat], [st.lng, st.lat]);
       if (dist > Math.PI / 2) continue; // Behind the globe
 
       const isDistrict = anc.type === 'district';
