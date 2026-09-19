@@ -28,6 +28,7 @@ The repo is **private**; only the built static site is public.
 5. **Every user-facing string exists in en/mr/hi** (or falls back to English with the visible fallback notice). No hard-coded text in components.
 6. **Themes only change tokens/motifs**, never structure or accessibility behaviour (docs/05).
 7. **Don't add dependencies casually.** Prefer the platform; justify any new package in the PR description.
+8. **Mandatory AI Collaboration Log & Git Push**: Any AI assistant MUST update Section 5 of `README.md` (recording user prompt, walkthrough, files modified, verification results) on EVERY response, pass `npm run test`, `npm run lint`, and `npm run build`, and `git push origin main`.
 
 ## Conventions
 
