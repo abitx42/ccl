@@ -113,8 +113,8 @@ Each scene follows a strict **`[EYEBROW]` → `[LARGE HEADLINE]` → `[2–3 LIN
 > 1. **Read this section** and [`CLAUDE.md`](CLAUDE.md) before proposing or executing code changes.
 > 2. **Never violate Ground Rules** (no fact invention, strict consent gating, conservative terminology, zero scroll-jacking).
 > 3. **Run the Pre-Commit Verification Checklist** and ensure 100% pass rate.
-> 4. **Update the Chronicle of AI Prompts & Walkthroughs below on EVERY response** where modifications occur, logging the prompt, technical rationale, modified files, verification results, and commit hash.
-> 5. **Always commit and push to Git (`git push origin main`)** at the completion of your response.
+> 4. **Update the Chronicle of AI Prompts & Walkthroughs below** on responses where modifications occur, logging the prompt, technical rationale, modified files, and verification results.
+> 5. **Git Push Policy**: Do NOT automatically push to GitHub. Commits remain local unless the user explicitly requests a `git push`.
 
 ### Pre-Commit Verification Checklist
 Run these commands in order and verify **zero errors**:
@@ -123,7 +123,7 @@ npm run validate   # Validates content schemas, consent gates, and generates sto
 npm run test       # Executes validate + adversarial test suite (10 negative edge cases)
 npm run lint       # astro check (must report 0 errors, 0 warnings, 0 hints)
 npm run build      # Static production build
-git status         # Verify clean tree, stage all changes, commit, and git push origin main
+git status         # Verify clean tree and stage/commit locally (push only when asked)
 ```
 
 ---
@@ -190,3 +190,9 @@ git status         # Verify clean tree, stage all changes, commit, and git push 
   - Encoded a comprehensive Autonomous Routing Matrix: Architecture (`roo-architect`, `gsd-plan-phase`, `ralph`), Frontend (`taste`, `impeccable`, `ui-ux-pro-max`), Implementation (`roo-code`, `gsd-execute-phase`), Testing (`playwright-testing`, `gsd-add-tests`, `wcag-compliance-audit`), Code Review & SAST (`code-review`, `secret-scanning`), Cloudflare/Edge (`cloudflare-pages-deploy`, `wrangler-kv-d1`), Diagrams (`mermaid-architect`, `c4-system-architecture`), and SEO (`claude-seo`).
   - The assistant now automatically assesses intent, reads matching `SKILL.md` runbooks via progressive disclosure, and executes using specialized plugin workflows with zero prompting overhead.
   - Verified pre-commit validation checklist and pushed to `origin/main`.
+
+#### Session 8: Local Git Workflow Policy
+- **User Prompt**: "no need to push it to github"
+- **Walkthrough**:
+  - Updated [`CLAUDE.md`](CLAUDE.md) rule 8 and [`README.md`](README.md) Section 5.
+  - Set git push policy to manual/explicit only: all commits remain local to the developer's environment unless explicitly directed to push.
