@@ -1,0 +1,2893 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CCL — Community Co-creation Lab for Local Climate Resilience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0A0F0C;
+  --panel:#111A15;
+  --line:#22302A;
+  --bone:#E9E7DE;
+  --mute:#93A29B;
+  --dim:#7E9188;
+  --signal:#8FB7C6;
+  --ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --film:"Newsreader",Georgia,"Times New Roman",serif;
+  box-sizing:border-box;
+}
+html[lang="mr"], html[lang="hi"]{
+  --ui:"Noto Sans Devanagari","Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --film:"Noto Serif Devanagari","Newsreader",Georgia,serif;
+  line-height:1.72;
+}
+html[lang="mr"] body, html[lang="hi"] body{ line-height:1.72; }
+html[lang="mr"] .T, html[lang="hi"] .T{ line-height:1.6; }
+html[lang="mr"] .plate, html[lang="hi"] .plate{ line-height:1.68; }
+html[lang="mr"] .plate p, html[lang="hi"] .plate p{ line-height:1.68; }
+html[lang="mr"] #geoNarrative strong, html[lang="hi"] #geoNarrative strong{ line-height:1.35; }
+html[lang="mr"] .micro, html[lang="hi"] .micro{ line-height:1.65; }
+*{box-sizing:border-box}
+html{scroll-padding-top: env(safe-area-inset-top, 0px)}
+body{
+  margin:0; background:var(--ink); color:var(--bone);
+  font-family:var(--ui); font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:2px}
+
+/* ── skip + chrome ─────────────────────────────────────────── */
+#skip{
+  position:fixed; z-index:90; left:16px; top:calc(env(safe-area-inset-top,0px) + 14px);
+  transform:translateY(-200%); background:var(--signal); color:#08110E;
+  padding:8px 14px; border-radius:2px; font-size:13px; font-weight:600; text-decoration:none;
+}
+#skip:focus{transform:none}
+
+#chrome{
+  position:fixed; z-index:80; inset:0 0 auto 0; height:54px;
+  display:flex; align-items:center; gap:12px; padding:0 16px;
+  padding-top: env(safe-area-inset-top, 0px);
+  background:linear-gradient(to bottom,rgba(8,13,11,.72),rgba(8,13,11,0));
+  pointer-events:none;
+}
+#chrome>*{pointer-events:auto}
+#mark{font-size:12px; letter-spacing:.20em; font-weight:600; color:#F0EEE6}
+#mark span{color:var(--mute); letter-spacing:.06em; font-weight:400}
+#chrome .sp{flex:1}
+.btn{
+  font:inherit; font-size:11.5px; font-weight:500; letter-spacing:.04em;
+  color:var(--mute); background:rgba(17,26,21,.6); border:1px solid var(--line);
+  border-radius:2px; padding:6px 11px; cursor:pointer; white-space:nowrap;
+  backdrop-filter:blur(6px);
+  transition:color .25s ease,background-color .25s ease,border-color .25s ease;
+}
+.btn[aria-pressed="true"]{color:#08110E; background:var(--signal); border-color:var(--signal)}
+.lang-pills{display:inline-flex; align-items:center; gap:2px; background:rgba(17,26,21,.6); border:1px solid var(--line); border-radius:2px; padding:2px; backdrop-filter:blur(6px)}
+.btn-sm{font:inherit; font-size:11px; font-weight:500; color:var(--mute); background:transparent; border:none; border-radius:2px; padding:3px 7px; cursor:pointer; white-space:nowrap; transition:color .2s ease,background-color .2s ease}
+.btn-sm:hover{color:var(--bone); background:rgba(34,48,42,.6)}
+.btn-sm[aria-pressed="true"]{color:#08110E; background:var(--signal); font-weight:600}
+
+/* ── the film stage: back canvas / back text / front canvas / front text ── */
+#film{position:fixed; inset:0; z-index:1; background:#05080A}
+#film canvas{position:absolute; inset:0; width:100%; height:100%}
+#cBack{z-index:1; will-change:filter}
+#txtBack{z-index:2}
+#cFront{z-index:3}
+#txtFront{z-index:4}
+.tlayer{position:absolute; inset:0; overflow:hidden; pointer-events:none}
+#progress{position:fixed; z-index:85; top:0; left:0; height:2px; width:0; background:var(--signal); opacity:.65; pointer-events:none}
+body.arc #progress{display:none}
+#geoNarrative{position:fixed; z-index:6; left:clamp(18px,5vw,72px); bottom:calc(env(safe-area-inset-bottom, 0px) + clamp(82px,10vh,120px)); width:min(30rem,calc(100vw - 36px)); padding:14px 18px 15px; border-left:1px solid rgba(143,183,198,.42); background:linear-gradient(90deg,rgba(5,8,10,.78),rgba(5,8,10,.18)); color:#D9E0DB; opacity:0; transform:translateY(10px); visibility:hidden; transition:opacity .35s ease,transform .45s ease,visibility 0s linear .45s; pointer-events:none}
+#geoNarrative.is-visible{opacity:1;transform:translateY(0);visibility:visible;transition:opacity .35s ease,transform .45s ease}
+#geoNarrative .geo-kicker{display:block;font:600 10px/1.4 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--signal);margin-bottom:5px}
+#geoNarrative strong{display:block;font:300 clamp(22px,3vw,34px)/1.1 var(--film);color:#F0EEE6}
+#geoNarrative #geoDetail{display:block;margin-top:7px;font:400 13px/1.5 var(--ui);color:#B9C7C0}
+@media(max-width:640px){#geoNarrative{left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);width:auto;padding:11px 14px}#geoNarrative #geoDetail{font-size:12px}}
+@media(prefers-reduced-motion:reduce){#geoNarrative{transition:none}}
+#track{position:relative; z-index:2; pointer-events:none}
+
+/* ── typography scale ──────────────────────────────────────── */
+.T{
+  position:absolute; opacity:0; will-change:opacity,transform,filter;
+  transform-origin:50% 50%;
+}
+.T.center{text-align:center}
+.T.left{text-align:left}
+.T.right{text-align:right}
+.T p{margin:0 0 .45em}
+.T p:last-child{margin-bottom:0}
+
+.giant{
+  font-family:var(--film); font-weight:200; letter-spacing:.03em; line-height:.9;
+  font-size:clamp(74px,19vw,300px); color:#EFEDE4;
+}
+.huge{
+  font-family:var(--ui); font-weight:600; letter-spacing:-.02em; line-height:1.0;
+  font-size:clamp(42px,9vw,128px); color:#F1EFE6;
+}
+.large{
+  font-family:var(--film); font-weight:300; line-height:1.14; letter-spacing:-.01em;
+  font-size:clamp(30px,5.2vw,72px); color:#F2F0E7;
+}
+.med{
+  font-family:var(--film); font-weight:300; line-height:1.34;
+  font-size:clamp(20px,2.7vw,35px); color:#F0EEE6;
+}
+.small{
+  font-family:var(--ui); font-weight:400; line-height:1.62;
+  font-size:clamp(14px,1.35vw,17px); color:#C9D4CE;
+}
+.micro{
+  font-family:var(--ui); font-weight:600; font-size:11px; line-height:1.5;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--signal);
+}
+.T .sub{font-family:var(--ui); font-size:clamp(13px,1.2vw,15px); color:#AEBDB6; line-height:1.6; margin-top:.9em}
+.T em{font-style:italic}
+.T .rule{width:44px; height:1px; background:var(--signal); margin:1.1em 0; opacity:.8}
+.T.center .rule{margin-left:auto; margin-right:auto}
+.shade{text-shadow:0 1px 26px rgba(0,0,0,.72), 0 0 70px rgba(0,0,0,.5)}
+.plate{
+  background:linear-gradient(to right,rgba(6,10,9,.80),rgba(6,10,9,.34) 78%,rgba(6,10,9,0));
+  padding:22px 26px; border-left:1px solid rgba(143,183,198,.4);
+}
+.T.right .plate{
+  background:linear-gradient(to left,rgba(6,10,9,.80),rgba(6,10,9,.34) 78%,rgba(6,10,9,0));
+  border-left:0; border-right:1px solid rgba(143,183,198,.4);
+}
+.chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:1.1em}
+.chips span{
+  font-family:var(--ui); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  border:1px solid rgba(233,231,222,.26); border-radius:2px; padding:6px 11px; color:#D3DCD7;
+}
+.T.center .chips{justify-content:center}
+.partners{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:18px 26px; margin-top:1.4em; text-align:left}
+.partners div strong{display:block; font-family:var(--ui); font-size:14px; font-weight:600; color:#F0EEE6; letter-spacing:.01em}
+.partners div span{font-family:var(--ui); font-size:11.5px; color:#9FAEA8; letter-spacing:.04em}
+
+/* ── scroll cue ────────────────────────────────────────────── */
+#cue{
+  position:fixed; z-index:20; left:50%; bottom:calc(env(safe-area-inset-bottom, 0px) + 26px); transform:translateX(-50%);
+  font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(233,231,222,.5);
+  display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none;
+}
+#cue i{display:block; width:1px; height:34px; background:linear-gradient(to bottom,rgba(233,231,222,.55),transparent)}
+
+/* ── progress rail ─────────────────────────────────────────── */
+#rail{position:fixed; z-index:70; right:18px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:7px}
+#rail button{
+  width:20px; height:3px; padding:0; border:0; border-radius:2px; cursor:pointer;
+  background:rgba(233,231,222,.2); position:relative;
+  transition:background .25s ease,width .25s ease;
+}
+#rail button::after{content:''; position:absolute; inset:-7px -5px}
+#rail button[aria-current="true"]{background:var(--signal); width:30px}
+#rail button:hover{background:rgba(233,231,222,.55)}
+@media (max-width:760px){#rail{display:none}}
+
+/* ── the page below the film ───────────────────────────────── */
+#project{
+  position:relative; z-index:10; background:var(--ink);
+  border-top:1px solid var(--line); padding:clamp(60px,9vw,130px) 0 0;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:0 clamp(18px,4vw,40px)}
+.eyebrow{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--signal); font-weight:600}
+h2.sect{
+  font-family:var(--film); font-weight:300; letter-spacing:-.012em;
+  font-size:clamp(34px,6vw,76px); line-height:1.04; margin:.3em 0 .25em; color:#F2F0E7;
+}
+.lede{font-family:var(--film); font-size:clamp(17px,1.9vw,23px); line-height:1.6; color:#C6D1CB; max-width:62ch}
+.note{
+  margin-top:26px; font-size:12.5px; color:var(--mute); line-height:1.65; max-width:70ch;
+  border-left:1px solid var(--line); padding-left:14px;
+}
+.note b{color:var(--signal); font-weight:600}
+
+#districts{margin-top:clamp(40px,6vw,80px); border-top:1px solid var(--line)}
+.archive-intro{display:flex;justify-content:space-between;gap:24px;align-items:end;flex-wrap:wrap;margin-top:28px;padding:18px 0 0}
+.archive-intro .count{font-family:var(--film);font-size:clamp(24px,3.5vw,42px);font-weight:300;color:#EDEBE2}
+.archive-intro .count small{font-family:var(--ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-left:8px}
+.archive-cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.archive-home{padding:clamp(34px,5vw,60px) 0;border-bottom:1px solid var(--line)}
+.archive-home h1{font-family:var(--film);font-weight:200;font-size:clamp(48px,9vw,112px);line-height:1;margin:.18em 0 .3em;letter-spacing:-.02em;color:#F2F0E7}
+.archive-home p{max-width:68ch;color:#C0CBC5;line-height:1.65}
+.route-note{font-size:11.5px;color:var(--mute);margin-top:18px}
+@media(max-width:620px){.archive-intro{align-items:start;flex-direction:column}}
+.drow{
+  display:grid; grid-template-columns:64px 1fr auto; align-items:center; gap:clamp(12px,3vw,36px);
+  padding:clamp(20px,2.6vw,32px) 0; border-bottom:1px solid var(--line);
+  text-decoration:none; position:relative; transition:padding-left .35s cubic-bezier(.2,.7,.2,1);
+}
+.drow:hover,.drow:focus-visible{padding-left:14px}
+.drow .n{font-size:12px; letter-spacing:.16em; color:var(--dim); font-variant-numeric:tabular-nums}
+.drow .nm{
+  font-family:var(--film); font-weight:300; font-size:clamp(26px,4.4vw,56px); line-height:1.05;
+  color:#E4E2D9; letter-spacing:-.01em;
+}
+.drow:hover .nm,.drow:focus-visible .nm{color:#fff}
+.drow .meta{display:flex; align-items:center; gap:16px}
+.tag{
+  font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--mute);
+  border:1px solid var(--line); border-radius:2px; padding:5px 9px; white-space:nowrap;
+}
+.tag.live{color:var(--signal); border-color:rgba(143,183,198,.5)}
+.arrow{font-size:22px; color:var(--dim); transition:transform .35s cubic-bezier(.2,.7,.2,1), color .3s}
+.drow:hover .arrow,.drow:focus-visible .arrow{transform:translateX(9px); color:var(--signal)}
+.drow[aria-disabled="true"]{cursor:default}
+.drow[aria-disabled="true"] .nm{color:#76827C}
+.drow[aria-disabled="true"]:hover{padding-left:0}
+.drow[aria-disabled="true"]:hover .arrow{transform:none}
+@media (max-width:620px){
+  .drow{grid-template-columns:40px 1fr auto; gap:12px}
+  .drow .meta .tag{display:none}
+  .drow .meta .tag.live{display:inline-block}
+}
+
+footer{padding:clamp(48px,7vw,96px) 0 60px; color:var(--mute); font-size:12.5px; line-height:1.75}
+footer .wrap>div{max-width:74ch}
+footer a{color:var(--signal)}
+
+/* ── the archive view ──────────────────────────────────────── */
+#archive{position:relative; z-index:60; background:var(--ink); min-height:100vh; display:none}
+body.arc #archive{display:block}
+body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,body.arc #rail,body.arc #chrome,body.arc #skip,body.arc #geoNarrative,body.arc #geoLabels,body.arc #geoA11y{display:none}
+.abar{
+  position:sticky; top:0; z-index:5; background:rgba(10,15,12,.94); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px);
+}
+.abar .wrap{display:flex; align-items:center; gap:16px; height:56px}
+.ahero{padding:clamp(40px,6vw,86px) 0 clamp(28px,4vw,52px); border-bottom:1px solid var(--line)}
+.ahero h1{
+  font-family:var(--film); font-weight:200; font-size:clamp(42px,8.5vw,104px); line-height:1;
+  margin:.18em 0 .3em; letter-spacing:-.02em; color:#F2F0E7;
+}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(122px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px}
+.stats div{background:var(--ink); padding:18px 16px}
+.stats b{display:block; font-family:var(--film); font-size:34px; font-weight:300; color:#F0EEE6; line-height:1}
+.stats span{display:block; margin-top:7px; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--mute)}
+.asec{padding:clamp(38px,5vw,74px) 0; border-bottom:1px solid var(--line)}
+.asec h3{font-family:var(--ui); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--signal); font-weight:600; margin:0 0 22px}
+.asec h4{font-family:var(--film); font-weight:300; font-size:clamp(23px,3vw,36px); line-height:1.2; margin:0 0 .5em; color:#EDEBE2}
+.asec p{max-width:70ch; color:#C0CBC5; margin:0 0 1em}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:clamp(22px,3vw,44px)}
+.card{border:1px solid var(--line); padding:22px 22px 24px; background:#0D1411}
+.kv{display:grid; grid-template-columns:max-content 1fr; gap:7px 18px; font-size:12.5px; margin-top:14px; align-items:baseline}
+.kv dt{color:var(--dim); letter-spacing:.1em; font-size:10.5px; text-transform:uppercase; white-space:nowrap}
+.kv dd{margin:0; color:#C6D1CB}
+.idpill{font-size:10.5px; letter-spacing:.14em; color:var(--signal); border:1px solid rgba(143,183,198,.4); padding:3px 7px; border-radius:2px}
+.verif{font-size:11px; color:var(--mute); margin-top:14px; display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.verif b{color:#9ED0A8; font-weight:600}
+.finding{border-left:2px solid var(--signal); padding:2px 0 2px 16px; margin:18px 0}
+.finding .m{font-family:var(--film); font-size:30px; font-weight:300; color:#F0EEE6; line-height:1}
+.todo{
+  border:1px dashed #3B4A43; padding:16px 18px; color:var(--mute); font-size:12.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.quotebox{border-left:2px solid var(--line); padding-left:18px; font-family:var(--film); font-size:19px; line-height:1.55; color:#D6DED9}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important}
+}
+
+/* ── Phase 8: final polish / resilience ─────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  html{scroll-behavior:auto!important}
+}
+@media (max-width:620px){
+  .tlayer{padding-inline:18px}
+  .giant{font-size:clamp(44px,15vw,78px)}
+  .huge{font-size:clamp(34px,11vw,58px)}
+  .large{font-size:clamp(27px,8vw,42px)}
+  .film-copy{max-width:min(92vw,34rem)}
+}
+@media (hover:none) and (pointer:coarse){
+  .btn,.lang button,#skip,.skip-btn{min-height:44px}
+}
+
+/* Phase 2 — language gateway */
+#languageGate{position:fixed;inset:0;z-index:120;display:grid;place-items:center;background:rgba(4,8,6,.96);padding:24px;transition:opacity .45s ease,visibility .45s ease}
+#languageGate.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.lang-card{width:min(620px,94vw);padding:clamp(28px,6vw,56px);border:1px solid var(--line);background:rgba(13,20,17,.96);box-shadow:0 30px 100px rgba(0,0,0,.35)}
+.lang-card h1{font-family:var(--film);font-weight:300;font-size:clamp(40px,7vw,76px);line-height:1.02;margin:.12em 0 .28em;color:#F2F0E7}
+.lang-card p:not(.eyebrow){max-width:48ch;color:var(--mute)}
+.lang-card .lang{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 18px}
+.lang-card .lang button[aria-pressed="true"]{color:#08110E;background:var(--signal);border-color:var(--signal)}
+#enterStory{margin-top:6px}
+@media(prefers-reduced-motion:reduce){#languageGate{transition:none}}
+
+#geoA11y,#geoLabels{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+@media(max-width:620px){.fact-two{margin-top:12vh}}
+</style>
+</head>
+<body>
+<div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="langTitle">
+  <div class="lang-card">
+    <p class="eyebrow">CCL · COOL CRYMB</p>
+    <h1 id="langTitle">Choose your language</h1>
+    <p id="langSub">English is selected by default. You can change it any time.</p>
+    <div class="lang" role="group" aria-label="Language">
+      <button class="btn" data-lang="en" aria-pressed="true">English</button>
+      <button class="btn" data-lang="mr" aria-pressed="false">मराठी</button>
+      <button class="btn" data-lang="hi" aria-pressed="false">हिन्दी</button>
+    </div>
+    <p style="font-size:11px;color:var(--dim);margin:14px 0 0">Sets the interface language. The film narrative remains in English.</p>
+    <button class="btn" id="enterStory">Enter the story →</button>
+  </div>
+</div>
+<a id="skip" href="#project">Skip the introduction and go to the project</a>
+
+<header id="chrome">
+  <div id="mark">CCL <span>· COOL CRYMB</span></div>
+  <div class="sp"></div>
+  <div class="lang-pills" role="group" aria-label="Language selection">
+    <button class="btn-sm" data-lang="en" aria-pressed="true">EN</button>
+    <button class="btn-sm" data-lang="mr" aria-pressed="false">मराठी</button>
+    <button class="btn-sm" data-lang="hi" aria-pressed="false">हिन्दी</button>
+  </div>
+  <button class="btn" id="bSound" type="button" aria-pressed="false">Sound off</button>
+  <button class="btn" id="bMotion" type="button" aria-pressed="false">Reduce motion</button>
+</header>
+
+<main id="main" tabindex="-1">
+<div id="film">
+  <canvas id="cBack" aria-hidden="true"></canvas>
+  <div class="tlayer" id="txtBack"></div>
+  <canvas id="cFront" aria-hidden="true"></canvas>
+  <div class="tlayer" id="txtFront"></div>
+</div>
+<div id="progress" aria-hidden="true"></div>
+
+<div id="geoNarrative">
+  <span class="geo-kicker" id="geoKicker">Global context</span>
+  <strong id="geoTitle">The world</strong>
+  <span id="geoDetail">CCL connects global research context with local climate-resilience work.</span>
+</div>
+<div id="geoA11y" aria-live="polite"></div>
+<div id="geoLabels" aria-label="Geographic markers"></div>
+
+<div id="cue"><i></i><span id="cueText">Scroll</span></div>
+<nav id="rail" aria-label="Chapters"></nav>
+
+<div id="track"></div>
+
+<section id="project">
+  <div class="wrap">
+    <p class="eyebrow">Explore the project</p>
+    <h2 class="sect">Explore the published research archive.</h2>
+    <p class="lede">Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.</p>
+  </div>
+  <div class="wrap">
+    <div class="archive-intro" aria-label="Published archive status">
+      <div><span class="count" id="publishedCount">0</span><small>published district records</small></div>
+      <a class="btn archive-cta" href="#/archive">Open the research archive <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <div id="districts"></div>
+  </div>
+  <div class="wrap">
+    <p class="note" id="scopeNote"></p>
+  </div>
+  <footer>
+    <div class="wrap">
+      <div id="footText"></div>
+    </div>
+  </footer>
+</section>
+
+<noscript>
+  <section class="static-fallback wrap" aria-label="CCL text-only fallback" style="padding:48px 20px;border-top:1px solid var(--line)">
+    <p class="eyebrow">CCL</p>
+    <h2 class="sect">Community Co-creation Lab for Local Climate Resilience</h2>
+    <p class="lede">This page contains a cinematic enhancement. The research archive remains available without JavaScript.</p>
+    <p><a class="btn" href="#/archive">Open the research archive <span aria-hidden="true">→</span></a></p>
+  </section>
+</noscript>
+</main>
+<main id="archive" aria-label="CCL research archive"></main>
+<script>
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>{t=clamp(t,0,1);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;};
+function seg(p,a0,a1,b0,b1){
+  if(p<=a0||p>=b1) return 0;
+  if(p<a1) return smooth((p-a0)/(a1-a0));
+  if(p>b0) return 1-smooth((p-b0)/(b1-b0));
+  return 1;
+}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function nhash(i,j){let n=Math.imul(i,374761393)+Math.imul(j,668265263);n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967296;}
+function vnoise(x,y){
+  const i=Math.floor(x),j=Math.floor(y),fx=x-i,fy=y-j;
+  const u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);
+  return lerp(lerp(nhash(i,j),nhash(i+1,j),u),lerp(nhash(i,j+1),nhash(i+1,j+1),u),v);
+}
+function fbm(x,y,o){let a=.5,s=0,f=1;o=o||4;for(let k=0;k<o;k++){s+=a*vnoise(x*f,y*f);f*=2;a*=.5;}return s;}
+function hx(h){h=h.replace('#','');if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];return [parseInt(h.slice(0,2),16)||0,parseInt(h.slice(2,4),16)||0,parseInt(h.slice(4,6),16)||0];}
+const h2=v=>clamp(Math.round(v),0,255).toString(16).padStart(2,'0');
+function mix(a,b,t){const A=hx(a),B=hx(b);return '#'+h2(lerp(A[0],B[0],t))+h2(lerp(A[1],B[1],t))+h2(lerp(A[2],B[2],t));}
+function rgba(c,al){const A=hx(c);return `rgba(${A[0]},${A[1]},${A[2]},${al})`;}
+function sample(keys,p,fields){
+  let i=0; while(i<keys.length-1 && p>keys[i+1].p) i++;
+  const a=keys[i],b=keys[Math.min(i+1,keys.length-1)];
+  const t=(b.p===a.p)?0:smooth((p-a.p)/(b.p-a.p));
+  const o={}; for(const f of fields) o[f]=lerp(a[f],b[f],t); return o;
+}
+function sampleC(keys,p,fields){
+  let i=0; while(i<keys.length-1 && p>keys[i+1].p) i++;
+  const a=keys[i],b=keys[Math.min(i+1,keys.length-1)];
+  const t=(b.p===a.p)?0:smooth((p-a.p)/(b.p-a.p));
+  const o={}; for(const f of fields) o[f]=mix(a[f],b[f],t); return o;
+}
+
+const CHAPTERS=[
+  {p:0.000, n:'Soil'},
+  {p:0.075, n:'Growth'},
+  {p:0.255, n:'The tree'},
+  {p:0.330, n:'A day'},
+  {p:0.495, n:'Seasons'},
+  {p:0.630, n:'Food'},
+  {p:0.745, n:'Change'},
+  {p:0.828, n:'The question'},
+  {p:0.862, n:'CCL'},
+  {p:0.900, n:'The world'},
+  {p:0.995, n:'Explore'}
+];
+
+const TEXT=[
+{a:.000,b:.008,c:.056,d:.074, L:'front', k:'micro', x:'50%', y:'13%', w:'86vw', al:'center',
+ html:'COOL CRYMB · University of Mumbai &amp; University of Bristol'},
+{a:.005,b:.018,c:.042,d:.058, L:'front', k:'large', x:'50%', y:'50%', w:'min(20ch,84vw)', al:'center', m:'rise',
+ html:'<p>Everything begins somewhere.</p>'},
+{a:.050,b:.062,c:.078,d:.090, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+ html:'<p>A seed.</p>'},
+{a:.086,b:.098,c:.112,d:.124, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+ html:'<p>A place.</p>'},
+{a:.120,b:.132,c:.148,d:.160, L:'front', k:'med', x:'50%', y:'44%', w:'min(22ch,80vw)', al:'center', m:'rise',
+ html:'<p>A living system.</p>'},
+{a:.126,b:.140,c:.156,d:.168, L:'front', k:'small', x:'50%', y:'62%', w:'min(36ch,82vw)', al:'center',
+ html:'<p>Water arrives before anything else can.</p>'},
+{a:.168,b:.190,c:.232,d:.256, L:'back', k:'giant', x:'50%', y:'42%', w:'120vw', al:'center', m:'drift-r', par:.55,
+ html:'GROWTH'},
+{a:.200,b:.216,c:.238,d:.252, L:'front', k:'med', x:'50%', y:'72%', w:'min(26ch,80vw)', al:'center', m:'rise',
+ html:'<p>Time changes it.</p>'},
+{a:.248,b:.262,c:.284,d:.298, L:'front', k:'small', x:'50%', y:'78%', w:'min(42ch,84vw)', al:'center',
+ html:'<p>Then the ground around it starts to change too.</p>'},
+{a:.284,b:.298,c:.320,d:.336, L:'front', k:'large', x:'7%', y:'66%', w:'min(20ch,74vw)', al:'left', m:'rise',
+ html:'<p>One tree is<br>already a system.</p>'},
+{a:.312,b:.322,c:.336,d:.346, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Morning'},
+{a:.346,b:.354,c:.366,d:.374, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Afternoon'},
+{a:.352,b:.364,c:.382,d:.394, L:'front', k:'large', x:'50%', y:'32%', w:'min(24ch,84vw)', al:'center', m:'rise',
+ html:'<p>Everything is connected.</p>'},
+{a:.386,b:.394,c:.408,d:.416, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Night'},
+{a:.392,b:.402,c:.418,d:.428, L:'front', k:'small', x:'50%', y:'74%', w:'min(42ch,84vw)', al:'center',
+ html:'<p>The dark is part of the cycle, not a pause in it.</p>'},
+{a:.420,b:.428,c:.440,d:.448, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Sunrise'},
+{a:.434,b:.452,c:.512,d:.540, L:'back', k:'giant', x:'50%', y:'38%', w:'120vw', al:'center', m:'drift-l', par:.6,
+ html:'TIME'},
+{a:.446,b:.454,c:.470,d:.478, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Summer'},
+{a:.482,b:.490,c:.510,d:.518, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Monsoon'},
+{a:.488,b:.500,c:.514,d:.524, L:'front', k:'small', x:'50%', y:'76%', w:'min(46ch,84vw)', al:'center',
+ html:'<p>The monsoon is the water supply. It is also the erosion.</p>'},
+{a:.518,b:.526,c:.544,d:.552, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Dry season'},
+{a:.552,b:.560,c:.578,d:.586, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'New growth'},
+{a:.554,b:.566,c:.582,d:.594, L:'front', k:'med', x:'50%', y:'70%', w:'min(30ch,84vw)', al:'center', m:'rise',
+ html:'<p>Weather shapes it. Then it feeds something.</p>'},
+{a:.594,b:.606,c:.624,d:.638, L:'front', k:'med', x:'50%', y:'24%', w:'min(28ch,84vw)', al:'center', m:'rise',
+ html:'<p>Food grows, low enough to reach.</p>'},
+{a:.700,b:.714,c:.734,d:.748, L:'front', k:'large', x:'50%', y:'28%', w:'min(24ch,84vw)', al:'center', m:'rise',
+ html:'<p>People depend on it.</p>'},
+{a:.734,b:.744,c:.758,d:.770, L:'front', k:'small', x:'50%', y:'76%', w:'min(48ch,84vw)', al:'center',
+ html:'<p>So does everything else that lives around it.</p>'},
+{a:.780,b:.802,c:.838,d:.862, L:'back', k:'giant', x:'50%', y:'46%', w:'130vw', al:'center', m:'scale', par:.4,
+ html:'CHANGE'},
+{a:.802,b:.814,c:.828,d:.838, L:'front', k:'large', x:'50%', y:'38%', w:'min(24ch,86vw)', al:'center', m:'rise',
+ html:'<p>What happens when the system changes?</p>'},
+{a:.834,b:.844,c:.856,d:.864, L:'front', k:'med', x:'50%', y:'34%', w:'min(34ch,86vw)', al:'center', m:'rise',
+ html:'<p>The coastline changes. The record of it falls behind.</p>'},
+{a:.838,b:.848,c:.856,d:.864, L:'front', k:'small', x:'50%', y:'62%', w:'min(62ch,88vw)', al:'center',
+ html:'<p>High-tide inundation and saline intrusion into freshwater wells and paddy fields. Estuarine and riverbank erosion. Mangrove degradation and the loss of coastal bio-shields. Traditional agro-ecological systems under stress.</p>'},
+{a:.856,b:.868,c:.888,d:.898, L:'front', k:'huge', x:'50%', y:'40%', w:'90vw', al:'center', m:'scale',
+ html:'CCL'},
+{a:.862,b:.872,c:.888,d:.898, L:'front', k:'micro', x:'50%', y:'53%', w:'80vw', al:'center',
+ html:'COOL CRYMB'},
+{a:.868,b:.876,c:.890,d:.900, L:'front', k:'small', x:'50%', y:'63%', w:'min(64ch,88vw)', al:'center',
+ html:'<p style="font-family:var(--film);font-size:clamp(15px,1.9vw,22px);line-height:1.5;color:#D9E0DB">COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol</p>'}
+];
+
+const TEXT_FACT_DATA={
+ en:[
+  '<div class="plate">'+
+   '<p class="micro">What CCL is</p>'+
+   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.34;color:#EFEDE4;margin:.6em 0 .8em">An applied climate-resilience research initiative bridging university climate scientists, coastal communities and youth fellows.</p>'+
+   '<p>Academic researchers produce macro-scale climate models and policy recommendations. Coastal communities hold generations of experiential ecological observation. CCL is the structured, bilateral mechanism that puts the two into one process — and records the result as evidence rather than as anecdote.</p>'+
+   '</div>',
+  '<div class="plate fact-two">'+
+   '<p class="micro">What it does</p>'+
+   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · Empower youth fellows</b><br>Practical green skills: biodiversity profiling, GPS surveying, water salinity testing, oral history collection.</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · Co-create hyper-local interventions</b><br>Mangrove restoration, tidal bund engineering, indigenous salinity-resistant seed preservation, sustainable aquaculture.</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · Archive verified field evidence</b><br>Into an open, permanent and ethically governed public repository.</p>'+
+   '<div class="chips"><span>Places</span><span>People</span><span>Surveys</span><span>Species</span><span>Challenges</span><span>Responses</span><span>Heritage</span><span>Evidence</span></div>'+
+   '</div>',
+  '<p class="micro" style="margin-bottom:1.2em">The collaboration</p>'+
+   '<div class="partners">'+
+    '<div><strong>University of Mumbai</strong><span>Operational lead · CCCSS, Kalina campus</span></div>'+
+    '<div><strong>University of Bristol</strong><span>Collaborative research partner</span></div>'+
+    '<div><strong>British Council</strong><span>Funder</span></div>'+
+    '<div><strong>HSBC</strong><span>Funder</span></div>'+
+   '</div>',
+  '<p>Climate change does not stop at borders.</p>',
+  '<p>Neither does learning.</p>',
+  '<p>Now look at the project.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">Keep scrolling ↓</p>'
+ ],
+ mr:[
+  '<div class="plate">'+
+   '<p class="micro">CCL म्हणजे काय</p>'+
+   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">विद्यापीठातील हवामान शास्त्रज्ञ, किनारपट्टीवरील समुदाय आणि युवा अभ्यासक यांना जोडणारा एक उपयोजित हवामान-लवचिकता संशोधन उपक्रम.</p>'+
+   '<p>शैक्षणिक संशोधक व्यापक हवामान प्रारूपे आणि धोरणात्मक शिफारशी तयार करतात. किनारपट्टीवरील समुदायांकडे पिढ्यानपिढ्यांचे पर्यावरणीय निरीक्षण असते. CCL ही एक संरचनात्मक, द्विपक्षीय यंत्रणा आहे जी या दोघांना एका प्रक्रियेत आणते — आणि परिणामांची नोंद केवळ किस्सा म्हणून नव्हे तर पुरावा म्हणून करते.</p>'+
+   '</div>',
+  '<div class="plate fact-two">'+
+   '<p class="micro">हे काय करते</p>'+
+   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · युवा अभ्यासकांचे सक्षमीकरण</b><br>व्यावहारिक हरित कौशल्ये: जैवविविधता प्रोफाइलिंग, GPS सर्वेक्षण, पाण्याची क्षारता चाचणी, मौखिक इतिहास संकलन.</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · अति-स्थानिक उपायांची सह-निर्मिती</b><br>कांदळवन पुनर्संचय, भरती-संरक्षक बंधारे, स्थानिक क्षार-प्रतिरोधक बियाण्यांचे जतन, शाश्वत जलशेती.</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · पडताळणी केलेल्या क्षेत्रीय पुराव्यांचा संग्रह</b><br>एका खुल्या, कायमस्वरूपी आणि नैतिकदृष्ट्या संचलित सार्वजनिक भांडारात.</p>'+
+   '<div class="chips"><span>ठिकाणे</span><span>व्यक्ती</span><span>सर्वेक्षणे</span><span>प्रजाती</span><span>आव्हाने</span><span>उपाय</span><span>वारसा</span><span>पुरावे</span></div>'+
+   '</div>',
+  '<p class="micro" style="margin-bottom:1.2em">सहकार्य</p>'+
+   '<div class="partners">'+
+    '<div><strong>मुंबई विद्यापीठ</strong><span>कार्यकारी नेतृत्व · CCCSS, कलिना परिसर</span></div>'+
+    '<div><strong>ब्रिस्टल विद्यापीठ</strong><span>सहयोगी संशोधन भागीदार</span></div>'+
+    '<div><strong>ब्रिटिश कौन्सिल</strong><span>निधी समर्थक</span></div>'+
+    '<div><strong>HSBC</strong><span>निधी समर्थक</span></div>'+
+   '</div>',
+  '<p>हवामान बदल सीमेवर थांबत नाही.</p>',
+  '<p>आणि शिकणेही नाही.</p>',
+  '<p>आता प्रकल्प पहा.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">खाली स्क्रोल करा ↓</p>'
+ ],
+ hi:[
+  '<div class="plate">'+
+   '<p class="micro">CCL क्या है</p>'+
+   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">विश्वविद्यालय के जलवायु वैज्ञानिकों, तटीय समुदायों और युवा शोधार्थियों को जोड़ने वाली एक व्यावहारिक जलवायु-लचीलापन शोध पहल।</p>'+
+   '<p>शैक्षणिक शोधकर्ता व्यापक जलवायु मॉडल और नीतिगत सिफारिशें तैयार करते हैं। तटीय समुदायों के पास पीढ़ियों का व्यावहारिक पारिस्थितिक अनुभव होता है। CCL एक संरचित, द्विपक्षीय तंत्र है जो दोनों को एक प्रक्रिया में लाता है — और परिणामों को केवल किस्सों के बजाय ठोस साक्ष्य के रूप में दर्ज करता है।</p>'+
+   '</div>',
+  '<div class="plate fact-two">'+
+   '<p class="micro">यह क्या करता है</p>'+
+   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · युवा साथियों का सशक्तीकरण</b><br>व्यावहारिक हरित कौशल: जैव विविधता रूपरेखा, GPS सर्वेक्षण, जल लवणता परीक्षण, मौखिक इतिहास संकलन।</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · अति-स्थानीय समाधानों का सह-निर्माण</b><br>मैंग्रोव पुनरुद्धार, ज्वारीय तटबंध निर्माण, पारंपरिक लवण-प्रतिरोधी बीज संरक्षण, संधारणीय जलीय कृषि।</p>'+
+   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · सत्यापित ज़मीनी साक्ष्यों का संग्रह</b><br>एक खुले, स्थायी और नैतिक रूप से संचालित सार्वजनिक रिपॉजिटरी में।</p>'+
+   '<div class="chips"><span>स्थान</span><span>लोग</span><span>सर्वेक्षण</span><span>प्रजातियाँ</span><span>चुनौतियाँ</span><span>समाधान</span><span>धरोहर</span><span>साक्ष्य</span></div>'+
+   '</div>',
+  '<p class="micro" style="margin-bottom:1.2em">साझेदारी</p>'+
+   '<div class="partners">'+
+    '<div><strong>मुंबई विश्वविद्यालय</strong><span>संचालन नेतृत्व · CCCSS, कलीना परिसर</span></div>'+
+    '<div><strong>ब्रिस्टल विश्वविद्यालय</strong><span>सहयोगी शोध भागीदार</span></div>'+
+    '<div><strong>ब्रिटिश काउंसिल</strong><span>वित्तपोषक</span></div>'+
+    '<div><strong>HSBC</strong><span>वित्तपोषक</span></div>'+
+   '</div>',
+  '<p>जलवायु परिवर्तन सीमाओं पर नहीं रुकता।</p>',
+  '<p>और न ही सीखना।</p>',
+  '<p>अब परियोजना देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
+ ]
+};
+
+const TEXT_FACT=[
+{a:.896,b:.906,c:.922,d:.934, L:'front', k:'small', x:'6%', y:'50%', w:'min(52ch,80vw)', al:'left',
+ html:TEXT_FACT_DATA.en[0]},
+{a:.922,b:.932,c:.944,d:.956, L:'front', k:'small', x:'94%', y:'50%', w:'min(54ch,82vw)', al:'right',
+ html:TEXT_FACT_DATA.en[1]},
+{a:.950,b:.960,c:.974,d:.984, L:'front', k:'small', x:'50%', y:'76%', w:'min(74ch,90vw)', al:'center',
+ html:TEXT_FACT_DATA.en[2]},
+{a:.958,b:.966,c:.974,d:.980, L:'front', k:'med', x:'50%', y:'24%', w:'min(30ch,86vw)', al:'center', m:'rise',
+ html:TEXT_FACT_DATA.en[3]},
+{a:.976,b:.982,c:.988,d:.993, L:'front', k:'med', x:'50%', y:'24%', w:'min(26ch,86vw)', al:'center', m:'rise',
+ html:TEXT_FACT_DATA.en[4]},
+{a:.988,b:.993,c:1.02,d:1.03, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
+ html:TEXT_FACT_DATA.en[5]}
+];
+
+const DISTRICTS=[
+ {slug:'mumbai-city',     name:'Mumbai City',      scope:'planned', records:0, lat:18.96, lon:72.83},
+ {slug:'mumbai-suburban', name:'Mumbai Suburban',  scope:'planned', records:0, lat:19.12, lon:72.87},
+ {slug:'thane',           name:'Thane',            scope:'planned', records:0, lat:19.22, lon:72.98},
+ {slug:'palghar',         name:'Palghar',          scope:'planned', records:6, reference:true, lat:19.70, lon:72.77,
+  tagline:'Indigenous agro-forestry, estuarine wetlands & coastal resilience'},
+ {slug:'raigad',          name:'Raigad',           scope:'planned', records:0, lat:18.52, lon:73.18},
+ {slug:'ratnagiri',       name:'Ratnagiri',        scope:'planned', records:0, lat:16.99, lon:73.31},
+ {slug:'sindhudurg',      name:'Sindhudurg',       scope:'planned', records:0, lat:16.35, lon:73.56}
+];
+
+const PALGHAR={
+  id:'palghar',
+  name:'Palghar',
+  tagline:'Indigenous agro-forestry, estuarine wetlands & coastal resilience',
+  coords:'19.6967 N, 72.7699 E',
+  period:'2025-06 — 2026-10',
+  badge:'Technical reference implementation',
+  highlights:[
+    'Vaitarna river basin micro-climate observations',
+    'Community-led riparian mangrove reforestation'
+  ],
+  stats:[
+    {n:'1', l:'Places profiled'},
+    {n:'1', l:'Surveys'},
+    {n:'1', l:'Species recorded'},
+    {n:'1', l:'Challenges'},
+    {n:'1', l:'People acknowledged'},
+    {n:'2', l:'Evidence claims'},
+    {n:'0', l:'Media verified'}
+  ],
+  place:{
+    id:'PLC-0002', name:'Manor', type:'Tribal community',
+    locality:'Vaitarna River Basin', admin:'Palghar', coords:'19.7423 N, 72.9092 E (coarse)',
+    livelihoods:['Riparian agro-forestry','Traditional inland fisheries','Warli indigenous handicrafts'],
+    documented:'Manor is an estuarine riverside settlement situated along the Vaitarna River basin in Palghar, characterized by brackish wetlands and seasonal river swelling.',
+    community:'Elder cultivators recount changes in tidal ingress patterns over the last three decades, requiring renewed communal embankment maintenance.',
+    reach:'Accessible via Mumbai–Ahmedabad National Highway (NH 48), 85 km north of Mumbai.',
+    authority:'Gram Panchayat Manor',
+    verified:'District Research Lead, 15 Aug 2026', evidence:'EV-0001, EV-0002'
+  },
+  survey:{
+    id:'SUR-0001', title:'Estuarine Water Quality & Soil Salinity Audit',
+    method:'Transect', dates:'21–25 Jul 2026', n:34,
+    sample:'Aggregated soil and water sample transects collected across 4 riparian quadrants.',
+    findings:[
+      {m:'3.8 dS/m', k:'Soil salinity',
+       t:'Electrical conductivity tests indicated elevated salinity up to 3.8 dS/m within 400 m of the high-tide line, restricting traditional freshwater paddy yields.', e:'EV-0001'},
+      {m:'62%', k:'Bank erosion reduction',
+       t:'Areas with intact Avicennia marina mangrove buffers exhibited 62% less bank erosion compared to exposed embankments.', e:'EV-0001'}
+    ],
+    verified:'Lead Environmental Analyst, 20 Aug 2026'
+  },
+  species:{
+    id:'SPE-0001', common:'Grey Mangrove', local:'टिल्लूर', sci:'Avicennia marina',
+    iucn:'LC (Least Concern)', kind:'Flora',
+    habitat:'Brackish estuarine banks along the lower Vaitarna river system.',
+    observed:'24 Jul 2026 · COOL CRYMB Student Research Unit', precision:'Coarse',
+    verified:'Biodiversity Lead, 28 Jul 2026'
+  },
+  challenge:{
+    id:'CHL-0001', title:'Tidal Saline Intrusion and Riparian Embankment Erosion',
+    category:'Flooding',
+    researchers:'Field transects revealed cyclical brackish water seepage into riparian farming plots during monsoon spring tides, exacerbating topsoil loss.',
+    community:'Local cultivators emphasized the historical reliance on native root systems to anchor the mud embankments prior to mechanized river sand dredging.',
+    existing:'Community elder collectives conduct pre-monsoon stone and brushwood embankment re-enforcement.',
+    intervention:{
+      id:'INT-0001', type:'Community',
+      desc:'Community-driven restoration of native vegetative bio-shields and vetiver grass planting along critical breach points.',
+      outcome:'Community participants reported visibly reduced post-monsoon embankment slump along the tested 200 m sector.',
+      asOf:'5 Sep 2026', evidence:'EV-0002'
+    },
+    verified:'District Lead, 18 Aug 2026'
+  },
+  person:{
+    id:'PPL-0001', name:'Dr. Nilesh Jawalkar',
+    role:'Certified Master Trainer & Faculty Lead',
+    bio:'Certified Master Facilitator directing faculty and student research squads across coastal Maharashtra field laboratories.',
+    consent:'Consent granted for name and story (CF-2026-001, 20 Jul 2026). No photograph on record, so none is shown.',
+    verified:'Project Coordinator, 1 Aug 2026'
+  },
+  evidence:[
+    {id:'EV-0001', state:'Verified', type:'Field survey', source:'SUR-0001',
+     claim:'The Vaitarna estuarine zone in Palghar experiences recurring saline intrusion impacting traditional paddy cultivations during high astronomical tides.',
+     method:'Estuarine hydrological and soil salinity sampling', who:'UoM CCCSS Research Cohort',
+     verified:'District Research Coordinator, 10 Aug 2026'},
+    {id:'EV-0002', state:'Verified', type:'Community account', source:'FGD-PAL-2026-01',
+     claim:'Indigenous farming communities along the Vaitarna basin utilize natural agro-forestry vegetated bunds to mitigate monsoon soil erosion on riparian terraces.',
+     method:'Community focus group discussion', who:'COOL CRYMB Master Facilitator',
+     verified:'District Research Coordinator, 12 Aug 2026'}
+  ],
+  empty:[
+    {t:'Media', n:'TODO(content): no media record has cleared rights and consent review. Evidence Register #13.'},
+    {t:'Heritage', n:'TODO(content): heritage claims require a source separate from the community account. Evidence Register #12.'},
+    {t:'Maps', n:'TODO(content): place geometry is held at coarse precision under docs/04 and docs/08. A published map layer needs an approved public geography.'}
+  ]
+};
+
+const BR=[], LF=[], AER=[], BUT=[];
+(function buildTree(){
+  const R=mulberry32(90210), MAXD=7;
+  function grow(x,y,ang,len,w,depth){
+    const segs=depth<2?6:3, pts=[[x,y]];
+    let cx=x, cy=y, a=ang;
+    const outward=Math.cos(ang)>=0?1:-1;
+    const horiz=outward>0?-0.16:-Math.PI+0.16;
+    for(let i=0;i<segs;i++){
+      let target;
+      if(depth===0) target=ang;
+      else if(depth<=2) target=lerp(ang,horiz,0.50);
+      else target=ang-outward*0.34;
+      a=lerp(a,target,depth===0?0.05:0.26)+(R()-0.5)*(depth<3?0.09:0.34);
+      cx+=Math.cos(a)*(len/segs); cy+=Math.sin(a)*(len/segs);
+      pts.push([cx,cy]);
+    }
+    const birth=depth*0.105+R()*0.03;
+    const dur=depth===0?0.24:0.13;
+    const b={pts, w0:w, w1:w*(depth===0?0.55:0.52), depth, ang:a, x2:cx, y2:cy, birth, dur, moss:R()};
+    BR.push(b);
+    if(depth>=1){
+      const nl = depth===1?3: depth===2?4: depth===3?6: depth===4?8: depth===5?10: depth===6?12:14;
+      for(let i=0;i<nl;i++){
+        const t=0.16+R()*0.80, k=Math.min(Math.floor(t*(pts.length-1)),pts.length-2);
+        const qf=t*(pts.length-1)-k;
+        const lx=lerp(pts[k][0],pts[k+1][0],qf)+(R()-0.5)*18;
+        const ly=lerp(pts[k][1],pts[k+1][1],qf)+(R()-0.5)*18;
+        LF.push({x:lx, y:ly, s:1.5+R()*3.0, asp:0.78+R()*0.5, tone:R(), ph:R()*6.28,
+                 hi:fbm(lx*0.012+4.4, ly*0.012+8.1, 3),
+                 birth:Math.min(0.94, birth+t*dur*1.05+0.008+R()*0.05), fw:0.14+R()*0.08});
+      }
+    }
+    if(depth>=MAXD||len<9) return;
+    const n=depth===0?6:(depth===1?4:(R()<0.45?3:2));
+    for(let i=0;i<n;i++){
+      let na;
+      if(depth===0) na=-Math.PI*0.86+(i/(n-1))*Math.PI*0.72+(R()-0.5)*0.16;
+      else na=a+(i-(n-1)/2)*(0.50+R()*0.34)+(R()-0.5)*0.22;
+      grow(cx,cy,na,len*(depth===0?(0.56+R()*0.28):0.71+R()*0.09),
+           w*(depth===0?0.44:0.60+R()*0.07), depth+1);
+    }
+  }
+  grow(0,0,-Math.PI/2,132,36,0);
+  for(const b of BR){
+    if(b.depth<2||b.depth>4) continue;
+    if(R()>0.16) continue;
+    if(b.y2>-90) continue;
+    AER.push({x:b.x2, y:b.y2, len:(-b.y2)*(0.30+R()*0.55), w:0.5+R()*0.8, ph:R()*6.28, birth:0.58+R()*0.2});
+  }
+  for(let i=0;i<7;i++){
+    const a=-Math.PI*0.9+(i/6)*Math.PI*0.8;
+    BUT.push({a, r:20+R()*22, h:22+R()*26});
+  }
+})();
+
+const FRUITS=(function(){
+  const R=mulberry32(5150), cand=[];
+  for(const b of BR){
+    if(b.depth<4) continue;
+    if(b.y2>-34||b.y2<-104) continue;
+    if(Math.abs(b.x2)<66||Math.abs(b.x2)>210) continue;
+    cand.push(b);
+  }
+  cand.sort((a,b)=>a.x2-b.x2);
+  const pick=cand.length?cand[Math.floor(cand.length*0.82)]:{x2:150,y2:-90};
+  const out=[];
+  for(let i=0;i<5;i++){
+    out.push({x:pick.x2+(R()-0.5)*40, y:pick.y2+8+(R()-0.5)*26,
+              r:5.4+R()*2.4, ph:R()*6.28, off:R()*0.30});
+  }
+  return {pos:{x:pick.x2,y:pick.y2}, list:out};
+})();
+const HERO=2;
+
+const GRASS=(function(){
+  const R=mulberry32(31337), g=[];
+  for(let i=0;i<2400;i++){
+    const z=R();
+    g.push({x:-680+R()*1360, z, h:(9+R()*30)*(0.55+z*0.8), lean:(R()-0.5)*0.85, ph:R()*6.28, tone:R(), birth:0.06+R()*0.14+(1-z)*0.02});
+  }
+  return g;
+})();
+
+const GRAIN=[], STONE=[], CRACK=[];
+(function buildSoil(){
+  const r=mulberry32(5150);
+  for(let i=0;i<1500;i++)
+    GRAIN.push({x:-470+r()*940, y:1+r()*320, r:0.7+r()*3.6, t:r(), k:r(), e:0.5+r()*0.9});
+  for(let i=0;i<90;i++){
+    const n=6+Math.floor(r()*4), rad=2.6+r()*10, pts=[];
+    for(let k=0;k<n;k++){
+      const a=(k/n)*6.283+r()*0.2;
+      pts.push([Math.cos(a)*rad*(0.66+r()*0.62), Math.sin(a)*rad*(0.5+r()*0.52)]);
+    }
+    STONE.push({x:-450+r()*900, y:5+r()*300, pts, t:r(), rot:r()*3.1416});
+  }
+  for(let i=0;i<14;i++){
+    const pts=[]; let x=-380+r()*760, y=1;
+    for(let k=0;k<6;k++){ pts.push([x,y]); x+=(r()-0.5)*14; y+=4+r()*9; }
+    CRACK.push(pts);
+  }
+})();
+
+const SEED_SHAPE=(function(){
+  const pts=[];
+  for(let i=0;i<22;i++){
+    const a=(i/22)*6.283;
+    const rad=1+(fbm(Math.cos(a)*1.6+5,Math.sin(a)*1.6+5,3)-0.5)*0.36;
+    pts.push([Math.cos(a)*rad*0.78, Math.sin(a)*rad]);
+  }
+  return pts;
+})();
+
+const SCAT=(function(){const r=mulberry32(99),a=[];for(let i=0;i<700;i++)a.push(r());return a;})();
+const sc=i=>SCAT[i%SCAT.length];
+
+const SUNKEYS=[
+ {p:0.000,u:-0.055},{p:0.050,u:-0.008},{p:0.090,u:0.035},{p:0.160,u:0.120},
+ {p:0.240,u:0.196},{p:0.312,u:0.250},{p:0.348,u:0.345},{p:0.368,u:0.470},
+ {p:0.386,u:0.520},{p:0.404,u:0.610},{p:0.424,u:0.800},{p:0.444,u:1.012},
+ {p:0.486,u:1.120},{p:0.540,u:1.190},{p:0.600,u:1.240},{p:0.680,u:1.290},
+ {p:0.760,u:1.350},{p:0.820,u:1.430},{p:0.900,u:1.490},{p:1.000,u:1.540}
+];
+const NIGHT={top:'#050A14',bot:'#0B1620'};
+const TWI  ={top:'#16223C',bot:'#3E3C4A'};
+const GOLD ={top:'#2F5E8E',bot:'#E6A263'};
+const DAYP ={top:'#5A8CBE',bot:'#C6D4D2'};
+
+function sky(u){
+  const f=((u%1)+1)%1;
+  const day=f<0.5;
+  const t=day?f*2:(f-0.5)*2;
+  const elev=Math.sin(clamp(t,0,1)*Math.PI);
+  const ax=lerp(-1,1,clamp(t,0,1));
+  let top,bot,amt,light;
+  if(day){
+    const k1=smooth(elev/0.20), k2=smooth((elev-0.18)/0.52);
+    top=mix(mix(TWI.top,GOLD.top,k1),DAYP.top,k2);
+    bot=mix(mix(TWI.bot,GOLD.bot,k1),DAYP.bot,k2);
+    amt=smooth(elev*1.9);
+    light=mix('#FF8038','#FFF6E2',smooth(elev*2.1));
+  } else {
+    const k=smooth(elev/0.30);
+    top=mix(TWI.top,NIGHT.top,k);
+    bot=mix(TWI.bot,NIGHT.bot,k);
+    amt=0.05+0.09*elev;
+    light='#9FBEDC';
+  }
+  return {day,elev,ax,top,bot,amt,light,f};
+}
+
+const SEASON=[
+ {p:0.000, leafy:1.00, dry:0.35, moist:0.15, cloud:0.25, rain:0.00},
+ {p:0.104, leafy:1.00, dry:0.30, moist:0.25, cloud:0.55, rain:0.10},
+ {p:0.128, leafy:1.00, dry:0.05, moist:1.00, cloud:0.94, rain:0.95},
+ {p:0.164, leafy:1.00, dry:0.02, moist:0.85, cloud:0.45, rain:0.05},
+ {p:0.250, leafy:1.00, dry:0.12, moist:0.55, cloud:0.22, rain:0.00},
+ {p:0.310, leafy:1.00, dry:0.16, moist:0.48, cloud:0.18, rain:0.00},
+ {p:0.430, leafy:1.00, dry:0.20, moist:0.42, cloud:0.20, rain:0.00},
+ {p:0.458, leafy:1.00, dry:0.46, moist:0.15, cloud:0.12, rain:0.00},
+ {p:0.494, leafy:1.00, dry:0.02, moist:1.00, cloud:0.96, rain:0.95},
+ {p:0.530, leafy:0.50, dry:0.95, moist:0.04, cloud:0.20, rain:0.00},
+ {p:0.566, leafy:0.96, dry:0.12, moist:0.62, cloud:0.38, rain:0.22},
+ {p:0.612, leafy:1.00, dry:0.20, moist:0.44, cloud:0.20, rain:0.00},
+ {p:0.760, leafy:0.98, dry:0.30, moist:0.28, cloud:0.42, rain:0.00},
+ {p:0.840, leafy:0.72, dry:0.62, moist:0.14, cloud:0.74, rain:0.00},
+ {p:1.000, leafy:0.60, dry:0.70, moist:0.10, cloud:0.70, rain:0.00}
+];
+
+const FX=FRUITS.pos.x, FY=FRUITS.pos.y;
+const HFX=FRUITS.list[HERO].x, HFY=FRUITS.list[HERO].y;
+const CAMKEYS=[
+ {p:0.000, x:0,        y:62,   s:5.20},
+ {p:0.040, x:0,        y:52,   s:4.70},
+ {p:0.080, x:0,        y:24,   s:3.70},
+ {p:0.120, x:0,        y:2,    s:3.05},
+ {p:0.165, x:-6,       y:-26,  s:2.66},
+ {p:0.215, x:-14,      y:-70,  s:2.14},
+ {p:0.262, x:8,        y:-100, s:1.72},
+ {p:0.306, x:-6,       y:-119, s:1.46},
+ {p:0.352, x:0,        y:-122, s:1.41},
+ {p:0.392, x:0,        y:-126, s:1.36},
+ {p:0.430, x:-10,      y:-122, s:1.42},
+ {p:0.470, x:7,        y:-120, s:1.46},
+ {p:0.540, x:-5,       y:-116, s:1.52},
+ {p:0.572, x:HFX*0.18, y:-102, s:1.70},
+ {p:0.600, x:HFX*0.48, y:HFY*0.30-70, s:2.35},
+ {p:0.628, x:HFX*0.78, y:HFY*0.62-30, s:3.60},
+ {p:0.652, x:HFX*0.95, y:HFY*0.90-6,  s:5.20},
+ {p:0.670, x:HFX,      y:HFY+6,       s:6.40},
+ {p:0.676, x:HFX,      y:HFY+6,       s:6.52},
+ {p:0.696, x:HFX,      y:HFY+6,       s:6.52},
+ {p:0.700, x:HFX,      y:HFY+5.8,     s:6.48},
+ {p:0.706, x:HFX*0.97, y:HFY*0.9+3,   s:5.20},
+ {p:0.716, x:HFX*0.55, y:-45,         s:3.30},
+ {p:0.724, x:HFX*0.30, y:-75,         s:2.40},
+ {p:0.742, x:HFX*0.30, y:-75,         s:2.40},
+ {p:0.770, x:HFX*0.15, y:-95,         s:1.80},
+ {p:0.800, x:-5,       y:-110,        s:1.50},
+ {p:0.822, x:16,       y:-116,        s:1.30},
+ {p:0.872, x:0,        y:-116,        s:1.24},
+ {p:0.936, x:0,        y:-116,        s:1.24}
+];
+
+function growth(p){ return smooth((p-0.052)/0.226); }
+
+let QSCALE=1;
+
+function camAt(p,W,H,T){
+  const c=sample(CAMKEYS,p,['x','y','s']);
+  const U=H/860, s=c.s*U;
+  let ox=0, oy=0;
+  if(T && !still && !REDUCED){
+    ox=(vnoise(T*0.00012,3.7)-0.5)*2.2;
+    oy=(vnoise(T*0.00010,9.1)-0.5)*1.6;
+    const it=clamp((p-0.828)/0.006,0,1)*(1-clamp((p-0.852)/0.024,0,1));
+    if(it>0){ ox+=Math.sin(T*0.09)*3.4*it; oy+=Math.cos(T*0.11)*2.6*it; }
+  }
+  return {s, U, X:wx=>W/2+(wx-c.x+ox)*s, Y:wy=>H*0.66+(wy-c.y+oy)*s, cx:c.x, cy:c.y};
+}
+function lightAt(p){
+  const {u}=sample(SUNKEYS,p,['u']);
+  return sky(u);
+}
+function seasonAt(p){
+  return sample(SEASON,p,['leafy','dry','moist','cloud','rain']);
+}
+function gustAt(T){ return 0.55+0.30*Math.sin(T*0.00026)+0.15*Math.sin(T*0.00084+2.1); }
+
+function renderBack(ctx,W,H,p,T){
+  const q=(W<640?0.40:W<1024?0.70:1)*QSCALE;
+  const cam=camAt(p,W,H,T), L=lightAt(p), S=seasonAt(p);
+  const gy=cam.Y(0), horizon=Math.max(gy,0);
+  const dark=seg(p,0.764,0.824,1.2,1.3);
+
+  ctx.fillStyle='#04070A'; ctx.fillRect(0,0,W,H);
+
+  const ov=clamp((S.cloud-0.42)/0.50,0,1);
+  const sk=ctx.createLinearGradient(0,0,0,Math.max(gy,1));
+  sk.addColorStop(0,mix(mix(L.top,'#55606A',ov*0.70),'#05080A',dark*0.92));
+  sk.addColorStop(1,mix(mix(L.bot,'#8E948C',ov*0.66),'#07090B',dark*0.92));
+  ctx.fillStyle=sk; ctx.fillRect(0,0,W,Math.max(gy,0));
+
+  if(!L.day && horizon>0){
+    const a=smooth(L.elev*2.4)*0.85*(1-dark);
+    if(a>0.02){
+      ctx.save();
+      for(let i=0;i<190;i++){
+        const x=sc(i*3)*W, y=sc(i*7)*horizon;
+        ctx.globalAlpha=a*(0.12+sc(i*11)*0.72)*(0.5+0.5*Math.sin(T*0.0007+i));
+        ctx.fillStyle='#CBD9E4';
+        ctx.fillRect(x,y,sc(i*13)>0.92?1.7:1,sc(i*13)>0.92?1.7:1);
+      }
+      ctx.restore();
+    }
+  }
+
+  if(horizon>0 && dark<0.85){
+    const bx=lerp(W*0.04,W*0.96,(L.ax+1)/2);
+    const by=gy-L.elev*H*0.66;
+    const rr=H*(L.day?0.036:0.026);
+    ctx.save(); ctx.globalAlpha=(1-dark)*(1-clamp((S.cloud-0.5)/0.45,0,1)*0.85);
+    const halo=ctx.createRadialGradient(bx,by,0,bx,by,rr*(L.day?11:6));
+    const hc=L.day?hx(L.light):[176,200,226];
+    halo.addColorStop(0,`rgba(${hc[0]},${hc[1]},${hc[2]},${L.day?0.34:0.16})`);
+    halo.addColorStop(0.3,`rgba(${hc[0]},${hc[1]},${hc[2]},${L.day?0.11:0.05})`);
+    halo.addColorStop(1,`rgba(${hc[0]},${hc[1]},${hc[2]},0)`);
+    ctx.fillStyle=halo; ctx.beginPath(); ctx.arc(bx,by,rr*(L.day?11:6),0,7); ctx.fill();
+    ctx.fillStyle=L.day?mix(L.light,'#FFFFFF',0.35):'#D6DEE8';
+    ctx.beginPath(); ctx.arc(bx,by,rr,0,7); ctx.fill();
+    if(!L.day){
+      ctx.globalCompositeOperation='destination-out';
+      ctx.beginPath(); ctx.arc(bx+rr*0.52,by-rr*0.22,rr*0.92,0,7); ctx.fill();
+      ctx.globalCompositeOperation='source-over';
+    }
+    ctx.restore();
+  }
+
+  if(horizon>0 && S.cloud>0.05 && dark<0.9){
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,0,W,horizon); ctx.clip();
+    const n=Math.round(30*q)+6;
+    for(let i=0;i<n;i++){
+      const band=sc(i*7);
+      const drift=(T*(0.004+band*0.007)*(0.4+S.rain))%(W*2);
+      const cx=((sc(i*3)*W*2)+drift)%(W*2)-W*0.5;
+      const cy=gy-H*(0.10+band*0.56);
+      const rw=H*(0.09+sc(i*11)*0.28)*(0.7+S.cloud*0.7);
+      const rh=rw*(0.15+sc(i*5)*0.16);
+      const dens=clamp(S.cloud*(0.45+sc(i*13)*0.95)-0.08,0,1)*(1-dark);
+      if(dens<0.02) continue;
+      const lit=Math.round(lerp(64,244,clamp(L.amt*1.15+0.18,0,1))*(1-ov*0.34));
+      const warm=hx(L.light);
+      const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,rw);
+      cg.addColorStop(0,`rgba(${Math.round(lerp(lit,warm[0],0.35*L.amt))},${Math.round(lerp(lit,warm[1],0.3*L.amt))},${lit},${(0.30+0.42*ov)*dens})`);
+      cg.addColorStop(0.55,`rgba(${lit-26},${lit-26},${lit-24},${(0.16+0.28*ov)*dens})`);
+      cg.addColorStop(1,'rgba(160,160,160,0)');
+      ctx.fillStyle=cg;
+      ctx.save(); ctx.translate(cx,cy); ctx.scale(1,rh/rw); ctx.translate(-cx,-cy);
+      ctx.beginPath(); ctx.arc(cx,cy,rw,0,7); ctx.fill(); ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  if(horizon>0){
+    const far=mix(mix('#38443A','#1A241E',1-L.amt),'#0A0E0C',dark);
+    for(let k=0;k<2;k++){
+      const amp=(k?15:27)*cam.U*Math.min(cam.s,1.1);
+      ctx.beginPath(); ctx.moveTo(0,gy+1);
+      for(let i=0;i<=36;i++){
+        const nn=fbm(i*0.23+k*9.1,3.3,3);
+        ctx.lineTo((i/36)*W, gy-amp*(0.32+nn*0.95)-(k?11:2)*cam.U);
+      }
+      ctx.lineTo(W,gy+1); ctx.closePath();
+      ctx.fillStyle=rgba(k?mix(far,'#0B120E',0.35):far, k?0.66:0.42); ctx.fill();
+    }
+    const hazeC=mix(mix(L.bot,L.light,0.25*L.amt),'#0A0E0C',dark);
+    const hz=ctx.createLinearGradient(0,gy-H*0.14,0,gy);
+    hz.addColorStop(0,rgba(hazeC,0));
+    hz.addColorStop(1,rgba(hazeC,0.16+0.30*S.cloud*(1-dark)));
+    ctx.fillStyle=hz; ctx.fillRect(0,Math.max(gy-H*0.14,0),W,H*0.14);
+  }
+
+  if(S.rain>0.02) drawRain(ctx,W,H,T,S.rain*(1-dark),0,q);
+
+  if(gy<H) drawGround(ctx,W,H,cam,gy,L,S,p,q,T,dark);
+
+  const g=growth(p);
+  if(g>0.25 && L.amt>0.05 && gy<H && gy>-H){
+    const fall=smooth((p-0.740)/0.024);
+    const a=clamp(L.amt,0,1)*(0.34+0.2*(1-L.elev))*(1-dark)*(1-fall*0.8);
+    const len=(1-clamp(L.elev,0,1))*2.4+0.55;
+    const dir=-L.ax;
+    ctx.save(); ctx.globalAlpha=a;
+    ctx.translate(cam.X(0),gy);
+    ctx.transform(1,0,dir*len*0.9,0.24,0,0);
+    const rad=300*cam.s*g;
+    const sg=ctx.createRadialGradient(0,0,rad*0.1,0,0,rad);
+    sg.addColorStop(0,'rgba(10,14,10,0.9)'); sg.addColorStop(1,'rgba(10,14,10,0)');
+    ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(0,0,rad,0,7); ctx.fill();
+    ctx.restore();
+  }
+
+  drawGrass(ctx,cam,p,T,L,S,q,0,dark);
+}
+
+function drawGround(ctx,W,H,cam,gy,L,S,p,q,T,dark){
+  const top=Math.max(gy,0), hgt=H-top, s=cam.s;
+  const und=clamp((s-1.25)/1.9,0,1);
+  const wet=S.moist;
+  const lit=clamp(L.amt,0,1);
+
+  const gnd=mix(mix('#6A5B36','#241C12',1-lit*0.85), '#0A0806', dark);
+  const soil=mix(mix('#2A1D12','#120C08',1-lit*0.5), '#070504', dark);
+  const soil2=mix('#0C0805','#030202',dark);
+  const wetG=mix(gnd,'#20160F',0.55*wet), wetS=mix(soil,'#0B0705',0.45*wet);
+
+  const so=ctx.createLinearGradient(0,gy,0,H);
+  const band=clamp((30*s)/Math.max(H-gy,1),0.015,0.55);
+  so.addColorStop(0,wetG); so.addColorStop(band,wetS); so.addColorStop(1,soil2);
+  ctx.fillStyle=so; ctx.fillRect(0,top,W,hgt);
+
+  if(und>0.01){
+    ctx.save(); ctx.beginPath(); ctx.rect(0,top,W,hgt); ctx.clip();
+    ctx.globalAlpha=0.55*und;
+    for(let i=1;i<=5;i++){
+      const yy=cam.Y(i*46+(i%2?6:0));
+      if(yy<top-60||yy>H+60) continue;
+      ctx.beginPath(); ctx.moveTo(0,H); ctx.lineTo(0,yy);
+      for(let x=0;x<=W;x+=14) ctx.lineTo(x,yy+(fbm(x*0.0026+i*5.2,i*2.7,3)-0.5)*20*s);
+      ctx.lineTo(W,H); ctx.closePath();
+      ctx.fillStyle=rgba(mix(soil,soil2,i/5.5),0.55); ctx.fill();
+    }
+    ctx.globalAlpha=und*(0.45+0.55*lit);
+    const lp=ctx.createLinearGradient(0,gy,0,gy+110*s);
+    lp.addColorStop(0,rgba(mix(L.light,'#FFE2A8',0.4),0.18+0.14*lit));
+    lp.addColorStop(1,'rgba(255,226,168,0)');
+    ctx.fillStyle=lp; ctx.fillRect(0,top,W,Math.min(120*s,hgt));
+
+    ctx.globalAlpha=und;
+    const lim=Math.round(q*1500);
+    for(let i=0;i<lim;i++){
+      const gr=GRAIN[i], px=cam.X(gr.x), py=cam.Y(gr.y);
+      if(px<-20||px>W+20||py<top-20||py>H+20) continue;
+      const rr=gr.r*s*0.26; if(rr<0.32) continue;
+      const fade=clamp(1-gr.y/300,0.25,1);
+      const col=gr.t>0.86?mix(soil,gnd,0.85):gr.t>0.5?mix(soil,gnd,0.40):mix(soil2,soil,0.45);
+      ctx.fillStyle=rgba(mix(col,'#0A0604',0.5*wet),(0.16+gr.k*0.22)*fade);
+      ctx.beginPath(); ctx.ellipse(px,py,rr,rr*gr.e,gr.k*3.1,0,7); ctx.fill();
+    }
+    for(const st of STONE){
+      const px=cam.X(st.x), py=cam.Y(st.y);
+      if(px<-40||px>W+40||py<top-40||py>H+40||s<0.5) continue;
+      ctx.save(); ctx.globalAlpha=und*0.8;
+      ctx.translate(px,py); ctx.rotate(st.rot); ctx.scale(s*0.62,s*0.62);
+      ctx.fillStyle='rgba(0,0,0,0.30)';
+      ctx.beginPath(); st.pts.forEach((pt,k)=>k?ctx.lineTo(pt[0]+1.6,pt[1]+2.4):ctx.moveTo(pt[0]+1.6,pt[1]+2.4)); ctx.closePath(); ctx.fill();
+      ctx.fillStyle=mix(st.t>0.72?'#4A463E':'#322F29','#0A0706',0.40*wet);
+      ctx.beginPath(); st.pts.forEach((pt,k)=>k?ctx.lineTo(pt[0],pt[1]):ctx.moveTo(pt[0],pt[1])); ctx.closePath(); ctx.fill();
+      ctx.fillStyle=`rgba(226,212,184,${0.05+0.12*lit})`;
+      ctx.beginPath(); st.pts.forEach((pt,k)=>k?ctx.lineTo(pt[0]*0.8,pt[1]*0.8-1.3):ctx.moveTo(pt[0]*0.8,pt[1]*0.8-1.3)); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    if(wet<0.25){
+      ctx.globalAlpha=und*(0.25-wet)*2.4;
+      ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.lineWidth=Math.max(0.5,1.1*s);
+      for(const cr of CRACK){
+        ctx.beginPath(); cr.forEach((pt,k)=>k?ctx.lineTo(cam.X(pt[0]),cam.Y(pt[1])):ctx.moveTo(cam.X(pt[0]),cam.Y(pt[1]))); ctx.stroke();
+      }
+    } else {
+      ctx.globalAlpha=und*wet*0.55;
+      for(let i=0;i<Math.round(20*q);i++){
+        const px=cam.X(-380+sc(i*9)*760), py=cam.Y(2+sc(i*5)*70), rr=(10+sc(i*3)*26)*s;
+        const wg=ctx.createRadialGradient(px,py,0,px,py,rr);
+        wg.addColorStop(0,'rgba(10,6,4,0.55)'); wg.addColorStop(1,'rgba(10,6,4,0)');
+        ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(W,gy);
+  ctx.strokeStyle=rgba(gnd,0.5); ctx.lineWidth=Math.max(1,1.5*cam.U); ctx.stroke();
+  if(wet>0.06 && gy>0 && gy<H){
+    const sh=ctx.createLinearGradient(0,gy,0,gy+26*s);
+    sh.addColorStop(0,`rgba(198,216,222,${0.14*wet*(0.3+lit)})`);
+    sh.addColorStop(1,'rgba(198,216,222,0)');
+    ctx.fillStyle=sh; ctx.fillRect(0,gy,W,26*s);
+  }
+}
+
+function drawGrass(ctx,cam,p,T,L,S,q,plane,dark){
+  const gg=clamp((p-0.075)/0.200,0,1);
+  if(gg<=0.005) return;
+  const s=cam.s, lit=clamp(L.amt,0,1);
+  const gust=gustAt(T);
+  const base =mix(mix('#2E4A22','#162412',1-lit*0.9),'#0A0F0A',dark);
+  const dry  =mix(mix('#8A7A3C','#3A3420',1-lit*0.9),'#0A0F0A',dark);
+  const lush =mix(mix('#4C7A2E','#22381A',1-lit*0.9),'#0A0F0A',dark);
+  const pale =mix(mix('#7E9A44','#33421F',1-lit*0.9),'#0A0F0A',dark);
+  const tones=[base,lush,pale,dry];
+  ctx.save();
+  ctx.lineCap='round';
+  for(let k=0;k<4;k++){
+    const tone=mix(tones[k],dry,k===3?0:S.dry*0.85);
+    ctx.strokeStyle=rgba(tone,plane?0.95:0.72);
+    ctx.lineWidth=Math.max(0.6,(plane?1.9:1.2)*s*(0.5+k*0.12));
+    ctx.beginPath();
+    let drawn=0;
+    for(let i=0;i<GRASS.length;i++){
+      const b=GRASS[i];
+      if((b.tone*4|0)!==k) continue;
+      if(plane===0 ? b.z>=0.45 : b.z<0.45) continue;
+      if(q<1 && (i%101)/101>Math.max(0.3,q)) continue;
+      const t=clamp((gg-(b.birth-0.06)/0.14)*1.6,0,1); if(t<=0) continue;
+      const x=cam.X(b.x), yb=cam.Y(0);
+      const viewW=ctx.canvas.clientWidth||W||0; if(x<-30||x>viewW+30) continue;
+      const h=b.h*s*t*(1-S.dry*0.22);
+      if(h<0.8) continue;
+      const sway=Math.sin(T*0.0011+b.ph)*h*0.16*gust*(0.4+S.rain*0.8);
+      ctx.moveTo(x,yb);
+      ctx.quadraticCurveTo(x+b.lean*h*0.35+sway*0.4, yb-h*0.6, x+b.lean*h*0.9+sway, yb-h);
+      if(++drawn>3000) break;
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawRain(ctx,W,H,T,a,plane,q){
+  ctx.save();
+  const near=plane===1, n=Math.round((near?60:130)*q)+10;
+  ctx.globalAlpha=a*(near?0.40:0.24);
+  ctx.strokeStyle=near?'rgba(216,232,238,0.95)':'rgba(190,210,220,0.7)';
+  ctx.lineWidth=near?1.9:0.9;
+  const off=near?400:0;
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const sp=(near?1.5:0.7)+sc(i+off)*0.7;
+    const x=sc((i+off)*3)*W*1.25-W*0.12;
+    const len=(near?34:14)+sc((i+off)*11)*(near?26:16);
+    const y=((sc((i+off)*7)*H)+T*sp*0.62)%(H*1.25)-H*0.12;
+    ctx.moveTo(x,y); ctx.lineTo(x-(near?7:3),y+len);
+  }
+  ctx.stroke(); ctx.restore();
+}
+
+function renderFront(ctx,W,H,p,T){
+  const q=(W<640?0.40:W<1024?0.70:1)*QSCALE;
+  ctx.clearRect(0,0,W,H);
+
+  const aEarth=seg(p,0.910,0.938,1.03,1.04);
+  const cam=camAt(p,W,H,T), L=lightAt(p), S=seasonAt(p);
+  const dark=seg(p,0.812,0.834,1.2,1.3);
+  const aWorld=1-aEarth;
+  const fall=smooth((p-0.808)/0.020);
+
+  if(aWorld>0.004){
+    ctx.save(); ctx.globalAlpha=aWorld;
+    if(S.rain>0.02) drawRain(ctx,W,H,T,S.rain*(1-dark),1,q);
+    drawTree(ctx,W,H,cam,p,T,L,S,q,dark);
+    drawGrass(ctx,cam,p,T,L,S,q,1,dark);
+    drawFauna(ctx,cam,p,T,L,q,dark);
+    drawFigure(ctx,cam,p,L,dark);
+    drawMachine(ctx,cam,p,dark);
+    drawDust(ctx,cam,p,dark);
+    if(fall>0.02) drawStump(ctx,cam,fall,dark,1-smooth((p-0.842)/0.026));
+    drawBuilding(ctx,cam,p,L,dark);
+    ctx.restore();
+  }
+  if(aEarth>0.004){ ctx.save(); ctx.globalAlpha=aEarth; drawEarth(ctx,W,H,p,T,q); ctx.restore(); }
+
+  if(q>=0.8) grain(ctx,W,H,T);
+  vignette(ctx,W,H,p>0.80&&p<0.86?0.60:0.36);
+}
+
+function branchPath(ctx,pts,w0,w1,t){
+  const n=pts.length-1, upto=t*n, P=[];
+  for(let i=0;i<=n;i++){
+    if(i<=upto) P.push(pts[i]);
+    else { const q=upto-(i-1); if(q>0) P.push([lerp(pts[i-1][0],pts[i][0],q),lerp(pts[i-1][1],pts[i][1],q)]); break; }
+  }
+  if(P.length<2) return false;
+  const Lft=[],Rgt=[];
+  for(let i=0;i<P.length;i++){
+    const a=P[Math.max(i-1,0)], c=P[Math.min(i+1,P.length-1)];
+    let dx=c[0]-a[0], dy=c[1]-a[1];
+    const m=Math.hypot(dx,dy)||1; dx/=m; dy/=m;
+    const w=lerp(w0,w1,i/(P.length-1))*0.5;
+    Lft.push([P[i][0]-dy*w,P[i][1]+dx*w]);
+    Rgt.push([P[i][0]+dy*w,P[i][1]-dx*w]);
+  }
+  if(ctx.beginPath) ctx.beginPath();
+  ctx.moveTo(Lft[0][0],Lft[0][1]);
+  for(let i=1;i<Lft.length;i++) ctx.lineTo(Lft[i][0],Lft[i][1]);
+  for(let i=Rgt.length-1;i>=0;i--) ctx.lineTo(Rgt[i][0],Rgt[i][1]);
+  ctx.closePath(); return true;
+}
+
+function drawTree(ctx,W,H,cam,p,T,L,S,q,dark){
+  const g=growth(p);
+  if(g<=0.002) { drawSeed(ctx,cam,p,L,dark); return; }
+  const fall=smooth((p-0.808)/0.020), gone=smooth((p-0.840)/0.014);
+  drawSeed(ctx,cam,p,L,dark);
+  drawRoots(ctx,cam,p,g,gone,L,dark);
+  if(gone>=1) return;
+
+  const s=cam.s, lit=clamp(L.amt,0,1);
+  const gust=gustAt(T), wind=(0.25+S.rain*0.9)*gust;
+  const barkD=mix(mix('#221D15','#0D0B08',1-lit*0.8),'#070605',dark);
+  const barkM=mix(mix('#2B261B','#12100B',1-lit*0.8),'#080706',dark);
+  const barkL=mix(mix('#353022','#171510',1-lit*0.8),'#090807',dark);
+
+  ctx.save();
+  ctx.globalAlpha=(1-gone);
+  ctx.translate(cam.X(0),cam.Y(0));
+  ctx.scale(s,s);
+  if(fall>0) ctx.rotate(-1.43*ease(fall));
+
+  if(g>0.2){
+    ctx.fillStyle=barkD;
+    for(const b of BUT){
+      const t=clamp((g-0.3)/0.4,0,1);
+      ctx.beginPath(); ctx.moveTo(0,-b.h*t*1.5);
+      ctx.quadraticCurveTo(Math.cos(b.a)*b.r*t*0.5,-b.h*t*0.25,Math.cos(b.a)*b.r*t,0);
+      ctx.lineTo(Math.cos(b.a)*b.r*t*0.25,0); ctx.closePath(); ctx.fill();
+    }
+  }
+
+  const sw=(x,y)=>Math.sin(T*0.00035+x*0.006)*(-y)*0.012*wind;
+  const sc2=0.08+0.92*Math.pow(g,1.55);
+  const stride=q<1?Math.max(1,Math.round((1/q)*0.6)):1;
+  let bi=-1;
+  for(const b of BR){
+    bi++;
+    const t=clamp((g-b.birth)/b.dur,0,1); if(t<=0) continue;
+    const w0=b.w0*sc2, w1=b.w1*sc2;
+    if(w0*s<1.2){
+      if(stride>1 && b.depth>=5 && (bi%stride)!==0) continue;
+      const n=b.pts.length-1, upto=t*n;
+      ctx.beginPath(); ctx.moveTo(b.pts[0][0],b.pts[0][1]);
+      for(let i=1;i<=n;i++){
+        const o=sw(b.pts[i][0],b.pts[i][1]);
+        if(i<=upto) ctx.lineTo(b.pts[i][0]+o,b.pts[i][1]);
+        else { const qq=upto-(i-1); if(qq>0) ctx.lineTo(lerp(b.pts[i-1][0],b.pts[i][0],qq)+o,lerp(b.pts[i-1][1],b.pts[i][1],qq)); break; }
+      }
+      ctx.lineWidth=Math.max(0.4/s,w0); ctx.lineCap='round';
+      ctx.strokeStyle=barkL; ctx.stroke();
+      continue;
+    }
+    if(!branchPath(ctx,b.pts,w0,w1,t)) continue;
+    ctx.fillStyle=b.depth<1?barkD:b.depth<3?barkM:barkL;
+    ctx.fill();
+    if(b.depth<3 && w0*s>5){
+      ctx.save(); ctx.clip();
+      ctx.strokeStyle=`rgba(150,134,102,${0.10+0.16*lit})`; ctx.lineWidth=1.0/s;
+      for(let i=0;i<8;i++){
+        const o=(i/7-0.5)*w0*0.82;
+        ctx.beginPath();
+        for(let j=0;j<b.pts.length;j++) j?ctx.lineTo(b.pts[j][0]+o,b.pts[j][1]):ctx.moveTo(b.pts[j][0]+o,b.pts[j][1]);
+        ctx.stroke();
+      }
+      if(b.moss>0.55){
+        ctx.fillStyle=`rgba(86,104,60,${0.16*(1-dark)})`;
+        for(let i=0;i<5;i++){
+          const j=Math.floor(sc(i*7)*(b.pts.length-1));
+          ctx.beginPath();
+          ctx.ellipse(b.pts[j][0]-w0*0.26,b.pts[j][1],w0*0.3,w0*0.5,0,0,7); ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+  }
+
+  ctx.strokeStyle=`rgba(${Math.round(lerp(60,150,lit))},${Math.round(lerp(58,146,lit))},${Math.round(lerp(38,92,lit))},${0.34*(1-dark)})`;
+  for(const a of AER){
+    const t=clamp((g-a.birth)/0.2,0,1); if(t<=0) continue;
+    const Lg=a.len*t;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y);
+    for(let i=1;i<=8;i++){
+      const f=i/8;
+      ctx.lineTo(a.x+Math.sin(f*4+a.ph+T*0.0004)*4.5*f*(0.6+wind), a.y+Lg*f);
+    }
+    ctx.lineWidth=Math.max(0.4/s,a.w); ctx.stroke();
+  }
+
+  const leafy=S.leafy;
+  if(leafy>0.02){
+    const sun=mix('#9FB04C',L.light,0.30);
+    const tones=[
+      mix(mix('#55722C',sun,0.10),'#0B130C',1-lit*0.92),
+      mix(mix('#3B5622',sun,0.05),'#080F09',1-lit*0.92),
+      mix(mix('#7C9441',sun,0.28),'#111A10',1-lit*0.92),
+      mix(mix('#28401A',sun,0.02),'#060B07',1-lit*0.92)
+    ];
+    const autumn=clamp((S.dry-0.45)*1.6,0,1);
+    const alphas=[0.95,0.97,0.86,1];
+    const stride=q<1?Math.max(1,Math.round(1/q)):1;
+    for(let k=0;k<4;k++){
+      ctx.beginPath();
+      for(let i=0;i<LF.length;i+=stride){
+        const l=LF[i];
+        if((l.tone*4|0)!==k) continue;
+        if(l.hi>0.5+leafy*0.5) continue;
+        const t=clamp((g-l.birth)/(l.fw||0.16),0,1); if(t<=0) continue;
+        const ox=Math.sin(T*0.00075+l.ph)*(1.1+2.6*wind)+sw(l.x,l.y);
+        const sz=l.s*t*(0.82+0.22*leafy);
+        const szY=sz*(l.asp||1);
+        const sway=Math.sin(T*0.0009+l.ph)*0.10*wind;
+        const lean=(l.tone-0.5)*0.30+sway;
+        ctx.save();
+        ctx.translate(l.x+ox,l.y);
+        ctx.rotate(lean);
+        ctx.beginPath();
+        ctx.moveTo(sz*0.95,0);
+        ctx.quadraticCurveTo(sz*0.30,-szY*0.78,-sz*0.82,-szY*0.30);
+        ctx.quadraticCurveTo(-sz*0.18,szY*0.55,sz*0.95,0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.globalAlpha=(1-gone)*alphas[k];
+      ctx.fillStyle=mix(tones[k],'#9A7C33',autumn*0.6);
+      ctx.fill();
+    }
+    ctx.globalAlpha=1-gone;
+    if(lit>0.3 && g>0.8){
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      for(let i=0;i<Math.round(14*q)+3;i++){
+        const l=LF[(i*613)%LF.length]; if(!l||l.hi<0.5) continue;
+        const rr=(7+sc(i*5)*18);
+        const gl=ctx.createRadialGradient(l.x,l.y,0,l.x,l.y,rr);
+        gl.addColorStop(0,rgba(L.light,0.13*lit*(1-dark)));
+        gl.addColorStop(1,rgba(L.light,0));
+        ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(l.x,l.y,rr,0,7); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  drawFruit(ctx,p,T,L,dark,wind);
+  drawHandBack(ctx,p,T,L,dark);
+  drawHeroFruit(ctx,p,T,L,dark);
+  drawHandFront(ctx,p,T,L,dark);
+  ctx.restore();
+}
+
+function paintFruit(ctx,cx,cy,r,ripe,lit,dark,alpha){
+  const skin=mix(mix('#7E8E3A','#A8401F',ripe),'#100A08',(1-lit)*0.55+dark*0.6);
+  ctx.save();
+  if(alpha!==undefined) ctx.globalAlpha*=alpha;
+  ctx.fillStyle='rgba(0,0,0,0.26)';
+  ctx.beginPath(); ctx.ellipse(cx+r*0.18,cy+r*0.3,r*0.9,r,0,0,7); ctx.fill();
+  const grad=ctx.createRadialGradient(cx-r*0.3,cy-r*0.34,r*0.05,cx,cy,r*1.1);
+  grad.addColorStop(0,mix(skin,'#F2C48A',0.35)); grad.addColorStop(0.5,skin); grad.addColorStop(1,mix(skin,'#000000',0.35));
+  ctx.fillStyle=grad;
+  ctx.beginPath(); ctx.ellipse(cx,cy,r*0.92,r,0,0,7); ctx.fill();
+  ctx.save(); ctx.beginPath(); ctx.ellipse(cx,cy,r*0.92,r,0,0,7); ctx.clip();
+  for(let i=0;i<14;i++){
+    const a=sc(i*3+40)*6.283, d=Math.sqrt(sc(i*7+40))*r*0.95;
+    ctx.fillStyle=sc(i*11+40)>0.5?'rgba(255,220,180,0.28)':'rgba(60,20,12,0.22)';
+    const rr=r*0.05+sc(i*9+40)*r*0.05;
+    ctx.beginPath(); ctx.ellipse(cx+Math.cos(a)*d,cy+Math.sin(a)*d,rr,rr*0.7,sc(i)*3,0,7); ctx.fill();
+  }
+  ctx.restore();
+  ctx.fillStyle=rgba(mix('#E6E2C0','#FFF6E2',0.4),0.34*lit);
+  ctx.beginPath(); ctx.ellipse(cx-r*0.32,cy-r*0.36,r*0.24,r*0.26,0,0,7); ctx.fill();
+  ctx.restore();
+}
+
+function drawFruit(ctx,p,T,L,dark,wind){
+  const grow=smooth((p-0.578)/0.050);
+  const ripe=smooth((p-0.606)/0.040);
+  if(grow<=0.01) return;
+  const lit=clamp(L.amt,0,1);
+  for(let i=0;i<FRUITS.list.length;i++){
+    if(i===HERO) continue;
+    const f=FRUITS.list[i];
+    const t=clamp((grow-f.off)/0.7,0,1); if(t<=0) continue;
+    const ox=Math.sin(T*0.0006+f.ph)*1.6*(0.5+wind);
+    paintFruit(ctx,f.x+ox,f.y,f.r*t,ripe,lit,dark);
+  }
+}
+
+function handGeom(p){
+  const f=FRUITS.list[HERO];
+  // F1 Contact: approach 0.648 → 0.680, hold to 0.684
+  const appr=clamp((p-0.648)/0.032,0,1);
+  // F2 Physical Grab Sequence:
+  // 1. Fingers curl around fruit: 0.684 → 0.694
+  const fingerCurl=smooth(clamp((p-0.684)/0.010,0,1));
+  // 2. Thumb closes across to oppose fingers: 0.690 → 0.698
+  const thumbClose=smooth(clamp((p-0.690)/0.008,0,1));
+  // 3. Palm cups & grip tightens: 0.692 → 0.700
+  const grip=smooth(clamp((p-0.692)/0.008,0,1));
+  const curl=Math.max(fingerCurl,thumbClose);
+
+  // F3 Detachment & Ownership Transfer:
+  // p < 0.700: 'branch' owned (fruit stationary at f.x, f.y)
+  // p >= 0.700: 'hand' owned (stem snaps, hand pulls fruit downward and left)
+  const isDetached=p>=0.700;
+  const pullProgress=smooth(clamp((p-0.700)/0.024,0,1));
+  const pluckSnap=(p>=0.700 && p<=0.706)?Math.sin((p-0.700)/0.006*Math.PI)*1.4:0;
+  const pullDx=lerp(0,-42,pullProgress);
+  const pullDy=lerp(0,44,Math.pow(pullProgress,0.85))+pluckSnap;
+
+  const dirA=Math.PI-0.42, ux=Math.cos(dirA), uy=Math.sin(dirA);
+  // Palm distance: approaches to contactDist (f.r*0.30),
+  // then snugs in to finalGripDist (f.r*0.14) as grip completes
+  const contactDist=f.r*0.30;
+  const finalGripDist=f.r*0.14;
+  const targetDist=lerp(contactDist,finalGripDist,grip);
+  const D=lerp(44,targetDist,smooth(appr));
+
+  // Hand Anchor:
+  const px=f.x+pullDx+ux*D;
+  const py=f.y+pullDy+uy*D;
+
+  // Explicit fruit position:
+  // When 'branch': f.x, f.y
+  // When 'hand': locked to palm anchor (px - ux*D, py - uy*D) === f.x + pullDx, f.y + pullDy
+  const fx=isDetached?(f.x+pullDx):f.x;
+  const fy=isDetached?(f.y+pullDy):f.y;
+
+  return {
+    f, isDetached, fruitX:fx, fruitY:fy, fx, fy,
+    pullDx, pullDy, pullProgress,
+    appr, fingerCurl, thumbClose, grip, curl, dirA, ux, uy, px, py
+  };
+}
+
+function heroFruitOffset(p){
+  const g=handGeom(p);
+  const alpha=1-smooth((p-0.735)/0.012);
+  return {dx:g.fruitX-g.f.x, dy:g.fruitY-g.f.y, alpha:clamp(alpha,0,1)};
+}
+
+function drawHeroFruit(ctx,p,T,L,dark){
+  const growF=smooth((p-0.578)/0.050);
+  if(growF<=0.01) return;
+  const f=FRUITS.list[HERO];
+  const t=clamp((growF-f.off)/0.7,0,1); if(t<=0) return;
+  const ripeF=smooth((p-0.606)/0.040);
+  const g=handGeom(p);
+  const alpha=1-smooth((p-0.722)/0.006);
+  if(alpha<=0.01) return;
+  const r=f.r*t, lit=clamp(L.amt,0,1);
+  const cx=g.fruitX, cy=g.fruitY;
+  paintFruit(ctx,cx,cy,r,ripeF,lit,dark,alpha);
+
+  // F3 Stem handling:
+  ctx.save(); ctx.globalAlpha=alpha;
+  ctx.strokeStyle=mix('#3A2E18','#120C08',dark); ctx.lineWidth=Math.max(0.5,r*0.09); ctx.lineCap='round';
+  if(!g.isDetached){
+    // Branch-owned: connects fruit pedicel to branch attachment point
+    ctx.beginPath(); ctx.moveTo(cx+r*0.05,cy-r*0.94);
+    ctx.quadraticCurveTo(cx+r*0.22,cy-r*1.2,f.x+r*0.4,f.y-r*1.18);
+    ctx.stroke();
+  } else {
+    // Hand-owned (detached):
+    // 1) Severed fruit pedicel travels with the fruit in hand
+    ctx.beginPath(); ctx.moveTo(cx+r*0.05,cy-r*0.94);
+    ctx.quadraticCurveTo(cx+r*0.16,cy-r*1.10,cx+r*0.24,cy-r*1.14);
+    ctx.stroke();
+    // 2) Severed stem stub remains on the branch where it was plucked
+    ctx.beginPath(); ctx.moveTo(f.x+r*0.4,f.y-r*1.18);
+    ctx.lineTo(f.x+r*0.34,f.y-r*1.12);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function drawHandBack(ctx,p,T,L,dark){
+  const aH=seg(p,0.648,0.660,0.724,0.732);
+  if(aH<=0.004) return;
+  const g=handGeom(p), f=g.f, lit=clamp(L.amt,0,1);
+  const trem=Math.sin(T*0.021)*0.35*(1-g.curl);
+  const skin=mix(mix('#B97A4E','#7A4A28',1-lit*0.55),'#241608',dark*0.75);
+  const skinHi=mix(mix('#D9A067','#8F5A32',1-lit*0.55),'#301C0C',dark*0.75);
+  const rim='rgba(24,14,8,0.55)';
+  ctx.save(); ctx.globalAlpha=aH;
+  const farmLen=30;
+  const wristW=Math.max(3.0,f.r*0.62), upperW=Math.max(3.6,f.r*0.78);
+  const hp0=[g.px+g.ux*6,g.py+g.uy*6+trem], hp1=[g.px+g.ux*farmLen,g.py+g.uy*farmLen+trem];
+  if(branchPath(ctx,[hp0,hp1],wristW+1.2,upperW+1.2,1)){ ctx.fillStyle=rim; ctx.fill(); }
+  if(branchPath(ctx,[hp0,hp1],wristW,upperW,1)){ ctx.fillStyle=skin; ctx.fill(); }
+  const pw=f.r*1.25, ph=f.r*0.94;
+  ctx.save(); ctx.translate(g.px,g.py+trem); ctx.rotate(g.dirA+Math.PI);
+  ctx.beginPath(); ctx.ellipse(0,0,pw*0.64,ph*0.64,0,0,7);
+  ctx.strokeStyle=rim; ctx.lineWidth=1.1; ctx.stroke();
+  const pg=ctx.createLinearGradient(-pw*0.6,0,pw*0.6,0);
+  pg.addColorStop(0,skin); pg.addColorStop(0.5,skinHi); pg.addColorStop(1,skin);
+  ctx.fillStyle=pg; ctx.fill();
+  ctx.strokeStyle='rgba(60,34,18,0.4)'; ctx.lineWidth=0.6;
+  ctx.beginPath(); ctx.arc(pw*0.1,0,pw*0.34,-0.7,0.9); ctx.stroke();
+  ctx.beginPath(); ctx.arc(-pw*0.12,0,pw*0.42,-0.5,1.1); ctx.stroke();
+  ctx.restore();
+  ctx.restore();
+}
+function drawHandFront(ctx,p,T,L,dark){
+  const aH=seg(p,0.648,0.660,0.724,0.732);
+  if(aH<=0.004) return;
+  const g=handGeom(p), f=g.f, lit=clamp(L.amt,0,1);
+  const trem=Math.sin(T*0.021)*0.35*(1-g.curl);
+  const skin=mix(mix('#B97A4E','#7A4A28',1-lit*0.55),'#241608',dark*0.75);
+  const skinHi=mix(mix('#D9A067','#8F5A32',1-lit*0.55),'#301C0C',dark*0.75);
+  const rim='rgba(24,14,8,0.6)';
+  const perpx=-g.uy, perpy=g.ux, pw=f.r*1.25, ph=f.r*0.94;
+  const fingerBaseLen=f.r*0.95;
+  ctx.save(); ctx.globalAlpha=aH;
+
+  // Contact shadow on fruit surface under curling fingers and thumb
+  if(g.fingerCurl>0.04 || g.thumbClose>0.04){
+    const shAlpha=Math.max(g.fingerCurl,g.thumbClose)*0.44;
+    ctx.fillStyle=`rgba(18,10,6,${shAlpha.toFixed(3)})`;
+    ctx.beginPath();
+    ctx.ellipse(g.fx-f.r*0.05,g.fy+f.r*0.15,f.r*0.75,f.r*0.50,g.dirA+0.35,0,7);
+    ctx.fill();
+  }
+
+  // Palm coverage: thenar eminence cups lower contour of fruit as grip locks
+  if(g.grip>0.08){
+    ctx.save();
+    ctx.globalAlpha=aH*Math.min(1,g.grip*1.2);
+    const thX=g.px+perpx*pw*(-0.22)-g.ux*f.r*0.06;
+    const thY=g.py+perpy*pw*(-0.22)-g.uy*f.r*0.06+trem;
+    const thW=pw*0.38, thH=ph*0.30;
+    ctx.beginPath();
+    ctx.ellipse(thX,thY,thW,thH,g.dirA+Math.PI*0.82,0,7);
+    ctx.fillStyle=skin; ctx.fill();
+    ctx.strokeStyle=rim; ctx.lineWidth=0.9; ctx.stroke();
+    ctx.strokeStyle='rgba(60,34,18,0.45)'; ctx.lineWidth=0.6;
+    ctx.beginPath(); ctx.arc(thX+thW*0.1,thY,thW*0.3,-0.6,0.8); ctx.stroke();
+    ctx.restore();
+  }
+
+  const fingers=[
+    {spread:-1.02,len1:0.62,len2:0.48,w0:0.44,w1:0.26,th:true},
+    {spread:-0.55,len1:0.85,len2:0.62,w0:0.34,w1:0.16},
+    {spread:-0.18,len1:1.00,len2:0.74,w0:0.37,w1:0.17},
+    {spread: 0.20,len1:0.94,len2:0.68,w0:0.36,w1:0.16},
+    {spread: 0.56,len1:0.78,len2:0.54,w0:0.31,w1:0.13}
+  ];
+  const baseAngle=g.dirA+Math.PI;
+  fingers.forEach((fgr,fi)=>{
+    let bx,by,a1,l1,mx,my,bendDir,l2,tx,ty,w0,w1;
+    if(fgr.th){
+      // Thumb: closes across from side to oppose fingers (0.690 → 0.698)
+      bx=g.px+perpx*pw*0.42*fgr.spread-g.ux*f.r*(0.08+g.thumbClose*0.10);
+      by=g.py+perpy*pw*0.42*fgr.spread-g.uy*f.r*(0.08+g.thumbClose*0.10)+trem;
+      a1=baseAngle+lerp(-0.48,0.22,g.thumbClose);
+      l1=fingerBaseLen*fgr.len1;
+      mx=bx+Math.cos(a1)*l1; my=by+Math.sin(a1)*l1;
+      const bendAmt=lerp(0.10,1.48,g.thumbClose);
+      bendDir=a1-bendAmt;
+      l2=fingerBaseLen*fgr.len2;
+      tx=mx+Math.cos(bendDir)*l2; ty=my+Math.sin(bendDir)*l2;
+    } else {
+      // 4 Fingers: curl inward around fruit sphere (0.684 → 0.694)
+      const indCurl=clamp(g.fingerCurl*1.12-(fi-1)*0.04,0,1);
+      bx=g.px+perpx*pw*0.42*fgr.spread-g.ux*f.r*0.08;
+      by=g.py+perpy*pw*0.42*fgr.spread-g.uy*f.r*0.08+trem;
+      a1=baseAngle+fgr.spread*lerp(0.24,0.08,indCurl)-indCurl*0.18;
+      l1=fingerBaseLen*fgr.len1;
+      mx=bx+Math.cos(a1)*l1; my=by+Math.sin(a1)*l1;
+      const bendAmt=lerp(0.08,2.18,indCurl);
+      bendDir=a1+bendAmt;
+      l2=fingerBaseLen*fgr.len2;
+      tx=mx+Math.cos(bendDir)*l2; ty=my+Math.sin(bendDir)*l2;
+    }
+    w0=f.r*fgr.w0; w1=f.r*fgr.w1;
+    if(branchPath(ctx,[[bx,by],[mx,my],[tx,ty]],w0+0.35,w1+0.35,1)){ ctx.fillStyle=rim; ctx.fill(); }
+    if(branchPath(ctx,[[bx,by],[mx,my],[tx,ty]],w0,w1,1)){ ctx.fillStyle=skinHi; ctx.fill(); }
+    ctx.beginPath(); ctx.arc(tx,ty,w1*0.70,0,7); ctx.fillStyle=skinHi; ctx.fill();
+    ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
+  });
+  ctx.restore();
+}
+
+function drawStump(ctx,cam,fall,dark,fade){
+  ctx.save(); ctx.globalAlpha=Math.min(fall*3,1)*Math.max(0,fade==null?1:fade);
+  const s=cam.s, hw=20*s, hh=30*s, bx=cam.X(0), by=cam.Y(0);
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  ctx.beginPath(); ctx.ellipse(bx+hw*0.5,by,hw*1.6,hw*0.4,0,0,7); ctx.fill();
+  ctx.fillStyle=mix('#241E15','#0A0806',dark);
+  ctx.beginPath(); ctx.moveTo(bx-hw,by); ctx.lineTo(bx-hw*0.82,by-hh);
+  ctx.lineTo(bx+hw*0.82,by-hh); ctx.lineTo(bx+hw,by); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=mix('#6B523A','#140F0A',dark);
+  ctx.beginPath(); ctx.ellipse(bx,by-hh,hw*0.82,hw*0.28,0,0,7); ctx.fill();
+  ctx.restore();
+}
+
+function drawDust(ctx,cam,p,dark){
+  const a=seg(p,0.826,0.834,0.866,0.894);
+  if(a<0.01) return;
+  const t=clamp((p-0.826)/0.05,0,1), s=cam.s;
+  ctx.save(); ctx.globalAlpha=a*0.5*(1-dark);
+  for(let i=0;i<26;i++){
+    const bx=-40-sc(i*3)*300, r=(3+sc(i*5)*9)*s*(0.5+t*1.6);
+    const x=cam.X(bx-sc(i*7)*40*t), y=cam.Y(2)-(sc(i*11)*26+6)*s*t*(1-t*0.4);
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,'rgba(150,132,100,0.5)'); g.addColorStop(1,'rgba(150,132,100,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawRoots(ctx,cam,p,g,gone,L,dark){
+  const und=clamp((cam.s-1.25)/1.9,0,1);
+  if(und<0.02) return;
+  ctx.save();
+  ctx.globalAlpha=clamp(g*2.2,0,1)*clamp(und*1.3,0,1)*(1-gone);
+  ctx.lineCap='round';
+  const col=mix(mix('#8A7A58','#2C2418',1-clamp(L.amt,0,1)*0.6),'#0A0806',dark);
+  for(const b of BR){
+    if(b.depth>2) continue;
+    const t=clamp((g-b.birth*0.5)/0.2,0,1); if(t<=0) continue;
+    ctx.beginPath();
+    ctx.moveTo(cam.X(0),cam.Y(0));
+    const ex=b.x2*0.34, ey=-b.y2*0.30;
+    ctx.quadraticCurveTo(cam.X(ex*0.4),cam.Y(ey*0.55),cam.X(ex*t),cam.Y(ey*t));
+    ctx.lineWidth=Math.max(0.5,b.w0*cam.s*0.18*(0.3+0.7*g));
+    ctx.strokeStyle=rgba(col,0.42); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawSeed(ctx,cam,p,L,dark){
+  const a=seg(p,-0.01,0.004,0.058,0.094);
+  if(a<0.01) return;
+  const s=cam.s, cx=cam.X(0), cy=cam.Y(56), rr=Math.max(2.5,10*s);
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.fillStyle='rgba(0,0,0,0.42)';
+  ctx.beginPath(); ctx.ellipse(cx+rr*0.15,cy+rr*0.92,rr*0.9,rr*0.3,0,0,7); ctx.fill();
+  const gl=ctx.createRadialGradient(cx,cy,rr*0.25,cx,cy,rr*2);
+  gl.addColorStop(0,'rgba(222,200,152,0.24)'); gl.addColorStop(1,'rgba(222,200,152,0)');
+  ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,cy,rr*2,0,7); ctx.fill();
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(0.32); ctx.scale(rr,rr);
+  ctx.beginPath(); SEED_SHAPE.forEach((pt,i)=>i?ctx.lineTo(pt[0],pt[1]):ctx.moveTo(pt[0],pt[1])); ctx.closePath();
+  const bg=ctx.createLinearGradient(-0.8,-1,0.8,1);
+  bg.addColorStop(0,'#CBB184'); bg.addColorStop(0.55,'#9C8259'); bg.addColorStop(1,'#5E4B33');
+  ctx.fillStyle=bg; ctx.fill();
+  ctx.save(); ctx.clip();
+  for(let i=0;i<26;i++){
+    ctx.fillStyle=`rgba(${sc(i*3)>0.5?'240,224,190':'70,54,36'},0.16)`;
+    ctx.beginPath();
+    ctx.ellipse((sc(i*5)-0.5)*1.7,(sc(i*9)-0.5)*2.1,0.16+sc(i*7)*0.24,0.1+sc(i*11)*0.16,sc(i)*3,0,7);
+    ctx.fill();
+  }
+  ctx.fillStyle='rgba(255,244,216,0.3)';
+  ctx.beginPath(); ctx.ellipse(-0.26,-0.38,0.22,0.3,0.3,0,7); ctx.fill();
+  ctx.restore(); ctx.restore();
+  ctx.restore();
+}
+
+function drawFauna(ctx,cam,p,T,L,q,dark){
+  const s=cam.s;
+  const night=!L.day;
+  const ia=seg(p,0.236,0.262,0.730,0.762);
+  if(ia>0.02){
+    ctx.save();
+    if(night) ctx.globalCompositeOperation='lighter';
+    for(let i=0;i<Math.round(10*q)+3;i++){
+      const bx=-140+sc(i*13)*280, by=-40-sc(i*5)*120;
+      const tw=night?(0.25+0.75*Math.abs(Math.sin(T*0.0011+i*2.3))):1;
+      ctx.globalAlpha=ia*(night?0.9*tw:0.78)*(1-dark);
+      ctx.fillStyle=night?'rgba(214,232,150,0.9)':'rgba(30,24,16,0.9)';
+      ctx.beginPath();
+      ctx.arc(cam.X(bx+Math.sin(T*0.0006+i)*40),cam.Y(by+Math.cos(T*0.0008+i*1.7)*26),Math.max(0.8,1.8*s),0,7);
+      ctx.fill();
+    }
+    ctx.globalAlpha=ia*0.78*(1-dark);
+    ctx.fillStyle=night?'rgba(214,232,150,0.9)':'rgba(30,24,16,0.9)';
+    const bt=(T*0.012/360)%2,bf=bt<1?bt:2-bt; const fx=cam.X(-180+bf*360), fy=cam.Y(-64+Math.sin(T*0.0022)*34);
+    const w=5*s*(0.5+0.5*Math.abs(Math.sin(T*0.012)));
+    ctx.beginPath(); ctx.ellipse(fx-w,fy,w,w*0.6,-0.4,0,7); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(fx+w,fy,w,w*0.6,0.4,0,7); ctx.fill();
+    ctx.restore();
+  }
+  const ba=seg(p,0.262,0.286,0.736,0.766);
+  if(ba>0.02){
+    ctx.save(); ctx.globalAlpha=ba*(1-dark); ctx.fillStyle='#1E1810';
+    const bob=Math.sin(T*0.003)*1.2;
+    const bx=cam.X(-96), by=cam.Y(-176)+bob*s*0.4, r=6.2*s;
+    ctx.beginPath(); ctx.ellipse(bx,by,r,r*0.66,-0.22,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(bx-r*0.85,by-r*0.62,r*0.46,0,7); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(bx+r*0.7,by-r*0.1); ctx.lineTo(bx+r*2.1,by+r*0.5); ctx.lineTo(bx+r*0.6,by+r*0.4); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#33271A';
+    ctx.beginPath(); ctx.ellipse(cam.X(64),cam.Y(-150)+Math.sin(T*0.0022+1)*s*0.5,12*s,6*s*(1+Math.sin(T*0.004)*0.04),0,0,7); ctx.fill();
+    ctx.restore();
+  }
+  const fa=seg(p,0.286,0.316,0.730,0.760);
+  if(fa>0.02){
+    ctx.save(); ctx.globalAlpha=fa*0.6*(1-dark); ctx.strokeStyle='#241C14'; ctx.lineWidth=Math.max(1,1.3*s);
+    for(let i=0;i<3;i++){
+      const th=(T*0.00006+i*0.37)%2, ph=th<1?th:2-th;
+      const x=cam.X(-420+ph*900), y=cam.Y(-300-i*36+Math.sin(ph*7+i)*16);
+      const w=7*s, f=Math.sin(T*0.004+i)*0.5+0.5;
+      ctx.beginPath(); ctx.moveTo(x-w,y+w*0.5*f); ctx.quadraticCurveTo(x,y-w*0.3,x+w,y+w*0.5*f); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  const fl=seg(p,0.812,0.826,0.856,0.874);
+  if(fl>0.02){
+    ctx.save(); ctx.globalAlpha=fl*(1-dark); ctx.strokeStyle='#241C14'; ctx.lineWidth=Math.max(1,1.3*s);
+    const ph=clamp((p-0.812)/0.05,0,1);
+    for(let i=0;i<6;i++){
+      const x=cam.X(-60+i*24+ph*(420+i*60)), y=cam.Y(-190-i*14-ph*(90+i*20));
+      const w=6*s, f=Math.sin(T*0.02+i)*0.5+0.5;
+      ctx.beginPath(); ctx.moveTo(x-w,y+w*0.5*f); ctx.quadraticCurveTo(x,y-w*0.3,x+w,y+w*0.5*f); ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+function limbShape(ctx,shoulderX,shoulderY,angle,bend,len1,len2,w0,w1,w2){
+  const ex=shoulderX+Math.cos(angle)*len1, ey=shoulderY+Math.sin(angle)*len1;
+  const a2=angle+bend;
+  const hx2=ex+Math.cos(a2)*len2, hy2=ey+Math.sin(a2)*len2;
+  if(branchPath(ctx,[[shoulderX,shoulderY],[ex,ey],[hx2,hy2]],w0,w2,1)) ctx.fill();
+  return {ex,ey,hx:hx2,hy:hy2};
+}
+
+function drawFigure(ctx,cam,p,L,dark){
+  const a=seg(p,0.700,0.716,0.806,0.822);
+  if(a<0.02) return;
+  const s=cam.s, bx=cam.X(FX-96), by=cam.Y(0), h=92*s, hw=h*0.115;
+  const lit=clamp(L.amt,0,1);
+  const skin=mix(mix('#B97A4E','#7A4A28',1-lit*0.55),'#241608',dark*0.75);
+  const skinHi=mix(mix('#D9A067','#8F5A32',1-lit*0.55),'#301C0C',dark*0.75);
+  const cloth=mix(mix('#3C3320','#221B10',1-lit*0.55),'#0C0906',dark*0.75);
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.fillStyle='rgba(0,0,0,0.26)';
+  ctx.beginPath(); ctx.ellipse(bx+hw*1.2,by,hw*2.4,hw*0.42,0,0,7); ctx.fill();
+  ctx.fillStyle=skin;
+  ctx.beginPath(); ctx.arc(bx,by-h*0.915,h*0.085,0,7); ctx.fill();
+  ctx.fillStyle=rgba(skinHi,0.5*lit);
+  ctx.beginPath(); ctx.arc(bx-h*0.02,by-h*0.93,h*0.05,0,7); ctx.fill();
+  ctx.fillStyle=cloth;
+  ctx.beginPath();
+  ctx.moveTo(bx-hw,by-h*0.82);
+  ctx.quadraticCurveTo(bx-hw*1.25,by-h*0.44,bx-hw*0.92,by-h*0.4);
+  ctx.lineTo(bx-hw*0.72,by); ctx.lineTo(bx-hw*0.12,by);
+  ctx.lineTo(bx-hw*0.1,by-h*0.4); ctx.lineTo(bx+hw*0.26,by-h*0.4);
+  ctx.lineTo(bx+hw*0.62,by); ctx.lineTo(bx+hw*1.12,by);
+  ctx.lineTo(bx+hw*0.86,by-h*0.44);
+  ctx.quadraticCurveTo(bx+hw*1.18,by-h*0.5,bx+hw,by-h*0.82);
+  ctx.closePath(); ctx.fill();
+
+  const eatRaise=clamp((p-0.724)/0.014,0,1);
+  const eatLower=clamp((p-0.756)/0.012,0,1);
+  const armLift=clamp(eatRaise-eatLower,0,1);
+  if(armLift>0.01){
+    ctx.fillStyle=skin;
+    const shX=bx+hw*0.75, shY=by-h*0.78;
+    const angle=lerp(1.35,-1.9,armLift);
+    const bend=lerp(0.1,-0.9,armLift);
+    const hand=limbShape(ctx,shX,shY,angle,bend,h*0.25,h*0.22,hw*0.62,hw*0.5,hw*0.34);
+
+    // Fruit in hand: shrinks naturally as it is eaten during the hold (0.738 → 0.754)
+    const bite=smooth(clamp((p-0.738)/0.016,0,1));
+    const fr=hw*0.48*(1-bite);
+    if(fr>0.3){
+      paintFruit(ctx,hand.hx,hand.hy,fr,1,lit,dark);
+    }
+  } else if(p>=0.700 && p<0.724){
+    // F4 Same-person reveal: right arm reaches to plucking hand and draws into chest
+    ctx.fillStyle=skin;
+    const shX=bx+hw*0.75, shY=by-h*0.78;
+    const pullProg=smooth(clamp((p-0.700)/0.024,0,1));
+    const angle=lerp(-0.72,1.35,pullProg);
+    const bend=lerp(-0.35,0.12,pullProg);
+    limbShape(ctx,shX,shY,angle,bend,h*0.25,h*0.22,hw*0.62,hw*0.5,hw*0.34);
+  }
+
+  // Pointing with other (left) hand:
+  const pointRaise=clamp((p-0.770)/0.016,0,1);
+  const pointLower=clamp((p-0.814)/0.012,0,1);
+  const pointT=clamp(pointRaise-pointLower,0,1);
+  if(pointT>0.01){
+    ctx.fillStyle=skin;
+    const shX=bx-hw*0.75, shY=by-h*0.78; // Left shoulder points at tree
+    const angle=lerp(1.35,-2.85,pointT);
+    const bend=lerp(0.08,0.16,pointT);
+    const hand=limbShape(ctx,shX,shY,angle,bend,h*0.24,h*0.22,hw*0.58,hw*0.42,hw*0.16);
+    if(pointT>0.5){
+      ctx.strokeStyle=skin; ctx.lineWidth=hw*0.15; ctx.lineCap='round';
+      const dx=Math.cos(angle+bend), dy=Math.sin(angle+bend);
+      ctx.beginPath(); ctx.moveTo(hand.hx,hand.hy); ctx.lineTo(hand.hx+dx*h*0.11,hand.hy+dy*h*0.11); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+function rrPath(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect){ ctx.roundRect(x,y,w,h,r); return; }
+  r=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+}
+
+function drawMachine(ctx,cam,p,dark){
+  const a=seg(p,0.790,0.806,0.876,0.892);
+  if(a<0.02) return;
+  const tIn=smooth((p-0.790)/0.026);
+  const tOut=smooth((p-0.848)/0.032);
+  const wx=lerp(560,24,tIn)-tOut*640;
+  const s=cam.s, bx=cam.X(wx), by=cam.Y(0), u=s;
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.fillStyle='rgba(0,0,0,0.3)';
+  ctx.beginPath(); ctx.ellipse(bx,by,58*u,9*u,0,0,7); ctx.fill();
+  ctx.fillStyle=mix('#191712','#090807',dark);
+  rrPath(ctx,bx-46*u,by-24*u,92*u,22*u,11*u); ctx.fill();
+  rrPath(ctx,bx-34*u,by-62*u,66*u,40*u,4*u); ctx.fill();
+  rrPath(ctx,bx-30*u,by-92*u,34*u,32*u,3*u); ctx.fill();
+  const lift=smooth((p-0.804)/0.016);
+  ctx.strokeStyle=mix('#191712','#090807',dark); ctx.lineWidth=9*u; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(bx-16*u,by-72*u);
+  ctx.lineTo(bx-66*u,lerp(by-96*u,by-118*u,lift));
+  ctx.lineTo(bx-112*u,lerp(by-58*u,by-86*u,lift));
+  ctx.stroke();
+  rrPath(ctx,bx-128*u,lerp(by-62*u,by-90*u,lift),24*u,18*u,3*u); ctx.fill();
+  ctx.restore();
+}
+
+function drawBuilding(ctx,cam,p,L,dark){
+  const a=seg(p,0.832,0.850,0.868,0.896);
+  if(a<0.02) return;
+  const lit=clamp(L.amt,0,1);
+  ctx.save(); ctx.globalAlpha=a;
+  const vols=[{x:-250,w:170,h:196,d:0},{x:-64,w:138,h:308,d:0.16},{x:92,w:196,h:154,d:0.32}];
+  for(const v of vols){
+    const t=smooth((p-0.834-v.d*0.04)/0.036); if(t<=0) continue;
+    const hh=v.h*t;
+    const x0=cam.X(v.x), x1=cam.X(v.x+v.w), y0=cam.Y(0), y1=cam.Y(-hh);
+    const gr=ctx.createLinearGradient(x0,y1,x1,y0);
+    gr.addColorStop(0,mix('#626B70','#171B1D',1-lit*0.8));
+    gr.addColorStop(0.5,mix('#4A5155','#121618',1-lit*0.8));
+    gr.addColorStop(1,mix('#343A3D','#0E1113',1-lit*0.8));
+    ctx.fillStyle=gr; ctx.fillRect(x0,y1,x1-x0,y0-y1);
+    ctx.strokeStyle=`rgba(182,202,208,${0.10+0.14*lit})`; ctx.lineWidth=Math.max(0.6,1.1*cam.s);
+    const cols=Math.max(3,Math.round(v.w/26));
+    for(let i=1;i<cols;i++){ const xx=lerp(x0,x1,i/cols); ctx.beginPath(); ctx.moveTo(xx,y1); ctx.lineTo(xx,y0); ctx.stroke(); }
+    const rows=Math.max(2,Math.round(hh/34));
+    for(let i=1;i<rows;i++){ const yy=lerp(y1,y0,i/rows); ctx.beginPath(); ctx.moveTo(x0,yy); ctx.lineTo(x1,yy); ctx.stroke(); }
+    for(let i=0;i<10;i++){
+      const cc=Math.floor(sc(i*7)*cols), rw=Math.floor(sc(i*11)*rows);
+      ctx.fillStyle=`rgba(200,220,228,${0.04+0.07*lit})`;
+      ctx.fillRect(lerp(x0,x1,cc/cols),lerp(y1,y0,rw/rows),(x1-x0)/cols,(y0-y1)/rows);
+    }
+  }
+  ctx.restore();
+}
+
+let GRAINTILES=null;
+function grainTiles(){
+  if(GRAINTILES) return GRAINTILES;
+  GRAINTILES=[];
+  for(let t=0;t<3;t++){
+    const g=document.createElement('canvas'); g.width=g.height=128;
+    const c=g.getContext('2d'), d=c.createImageData(128,128), r=mulberry32(7+t*13);
+    for(let i=0;i<d.data.length;i+=4){ const v=200+r()*55; d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=22; }
+    c.putImageData(d,0,0); GRAINTILES.push(g);
+  }
+  return GRAINTILES;
+}
+function grain(ctx,W,H,T){
+  ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.42;
+  const tiles=grainTiles();
+  ctx.fillStyle=ctx.createPattern(tiles[Math.floor(T/90)%3],'repeat'); ctx.fillRect(0,0,W,H);
+  ctx.restore();
+}
+function vignette(ctx,W,H,strength){
+  const r=Math.hypot(W,H)*0.62;
+  const v=ctx.createRadialGradient(W/2,H*0.5,r*0.28,W/2,H*0.5,r);
+  v.addColorStop(0,'rgba(0,0,0,0)'); v.addColorStop(1,`rgba(0,0,0,${strength})`);
+  ctx.fillStyle=v; ctx.fillRect(0,0,W,H);
+}
+
+const LAND=[[[-180.0,68.96],[-174.34,66.34],[-169.9,65.98],[-172.95,64.25],[-179.88,65.87],[-180.0,64.98],[-180.01,64.97],[-182.59,64.61],[-180.77,62.3],[-189.67,59.88],[-196.46,59.87],[-197.98,58.24],[-196.81,57.62],[-197.88,54.85],[-203.21,51.01],[-204.08,56.77],[-195.53,62.55],[-199.88,60.55],[-200.7,61.77],[-203.28,61.43],[-205.78,59.76],[-204.96,59.15],[-217.8,59.04],[-224.87,54.73],[-220.1,54.19],[-218.62,52.24],[-221.78,46.31],[-232.47,39.76],[-230.91,35.08],[-233.51,34.39],[-233.14,36.89],[-235.29,38.11],[-234.68,39.55],[-238.95,38.9],[-238.36,40.95],[-241.96,39.2],[-241.09,37.45],[-237.64,37.46],[-240.85,34.91],[-238.09,31.69],[-238.32,28.23],[-244.11,22.78],[-249.56,20.34],[-251.48,21.72],[-254.12,19.75],[-250.67,13.43],[-250.8,11.67],[-254.84,8.6],[-259.9,13.41],[-260.78,9.24],[-257.04,5.53],[-255.77,1.29],[-258.61,2.76],[-261.66,7.79],[-262.84,16.93],[-265.81,16.04],[-265.67,18.21],[-268.58,22.77],[-273.02,21.5],[-279.67,15.9],[-280.14,10.36],[-282.46,7.97],[-286.47,15.99],[-287.37,21.36],[-289.53,20.88],[-293.63,25.42],[-302.6,25.74],[-303.51,27.14],[-305.28,26.48],[-308.48,27.87],[-309.89,30.15],[-312.02,29.98],[-308.2,24.02],[-305.99,24.12],[-303.64,26.4],[-303.15,24.24],[-300.19,22.31],[-304.73,17.23],[-316.52,12.64],[-317.35,16.78],[-325.37,28.06],[-325.08,29.5],[-326.08,27.65],[-327.58,29.85],[-322.52,18.61],[-317.28,11.74],[-315.39,10.44],[-308.89,12.02],[-308.95,10.64],[-312.26,4.22],[-320.8,-4.68],[-319.22,-14.69],[-325.21,-19.78],[-324.54,-24.12],[-327.43,-25.73],[-327.8,-28.75],[-331.78,-32.77],[-340.39,-34.82],[-348.2,-18.07],[-346.31,-10.73],[-348.09,-5.04],[-351.2,-1.11],[-350.59,3.73],[-354.1,4.26],[-355.67,6.27],[-369.01,4.83],[-376.61,12.17],[-377.62,14.73],[-376.15,18.11],[-376.97,21.89],[-365.93,35.76],[-362.17,35.17],[-350.49,37.35],[-348.9,36.9],[-349.66,33.79],[-340.91,30.27],[-338.46,32.84],[-326.23,30.97],[-323.84,36.65],[-332.36,36.66],[-333.83,39.46],[-326.49,42.02],[-321.65,40.95],[-318.3,41.96],[-323.32,45.24],[-320.88,47.26],[-325.04,46.27],[-323.67,45.11],[-326.12,44.36],[-327.55,45.33],[-326.7,46.08],[-329.25,46.58],[-332.32,42.58],[-331.19,41.06],[-337.37,40.26],[-335.96,37.65],[-337.51,36.41],[-340.46,41.72],[-346.86,45.74],[-347.41,44.09],[-341.52,40.17],[-343.13,40.44],[-343.9,37.99],[-344.59,40.05],[-351.11,44.37],[-356.9,43.07],[-362.15,36.67],[-368.9,36.87],[-369.39,43.03],[-361.38,44.02],[-361.19,46.01],[-364.59,48.68],[-361.62,48.64],[-361.94,49.78],[-351.88,53.53],[-351.46,57.11],[-349.42,57.73],[-350.35,55.47],[-349.06,54.01],[-340.34,54.43],[-338.73,55.19],[-338.42,57.41],[-335.88,57.03],[-336.66,59.19],[-330.88,60.03],[-338.68,60.72],[-338.46,63.19],[-334.6,65.11],[-337.82,65.72],[-342.15,62.75],[-342.88,61.34],[-341.21,60.08],[-344.12,56.1],[-347.06,55.36],[-349.64,59.47],[-354.34,58.59],[-354.09,62.62],[-340.82,69.82],[-335.45,71.03],[-331.84,71.19],[-318.94,67.46],[-321.62,66.0],[-326.82,66.63],[-322.99,63.85],[-322.82,65.14],[-320.41,64.52],[-317.91,66.48],[-316.05,66.07],[-316.55,68.57],[-313.75,68.25],[-313.65,66.67],[-306.28,68.86],[-300.06,68.28],[-299.45,69.85],[-291.49,68.09],[-293.3,71.03],[-290.81,72.84],[-287.41,72.78],[-288.15,71.41],[-286.33,68.41],[-288.72,66.32],[-287.58,66.17],[-284.95,67.76],[-286.9,71.45],[-285.34,72.83],[-283.64,71.15],[-282.42,72.27],[-278.5,71.75],[-279.49,73.65],[-255.65,77.7],[-245.87,75.85],[-250.6,74.18],[-233.02,73.57],[-228.71,70.79],[-227.75,71.84],[-220.13,71.49],[-220.85,72.42],[-219.53,72.85],[-201.0,70.87],[-199.06,69.44],[-181.4,69.4],[-180.0,68.96]],[[-90.55,69.5],[-87.35,67.2],[-85.52,69.88],[-82.62,69.66],[-81.26,67.6],[-85.77,66.56],[-93.16,62.02],[-94.68,58.95],[-92.3,57.09],[-82.27,55.15],[-79.91,51.21],[-78.6,52.56],[-79.83,54.67],[-76.54,56.53],[-78.52,58.81],[-77.34,59.85],[-78.11,62.32],[-73.84,62.44],[-69.59,61.06],[-69.29,58.96],[-67.65,58.21],[-64.58,60.34],[-61.8,56.34],[-57.33,54.63],[-55.68,52.15],[-60.03,50.24],[-66.4,50.23],[-71.11,46.82],[-65.05,49.23],[-64.47,46.24],[-61.52,45.88],[-60.52,47.01],[-59.8,45.92],[-65.36,43.55],[-66.16,44.47],[-64.42,45.29],[-67.14,45.14],[-70.69,43.03],[-69.96,41.64],[-75.53,39.5],[-75.94,37.22],[-76.35,39.15],[-75.73,35.55],[-81.34,31.44],[-80.38,25.21],[-84.1,30.09],[-93.85,29.71],[-96.59,28.31],[-97.87,22.44],[-96.29,19.32],[-92.04,18.71],[-90.28,21.0],[-87.05,21.54],[-88.93,15.89],[-83.41,15.27],[-83.81,11.1],[-81.44,8.79],[-76.84,8.64],[-71.75,12.44],[-71.7,9.07],[-69.94,12.16],[-68.19,10.56],[-61.88,10.72],[-62.39,9.95],[-57.15,5.97],[-51.32,4.2],[-50.39,-0.08],[-44.91,-1.55],[-44.58,-2.69],[-39.98,-2.87],[-35.6,-5.15],[-34.73,-7.34],[-38.67,-13.06],[-40.95,-21.94],[-47.65,-24.89],[-48.89,-28.67],[-53.81,-34.4],[-58.43,-33.91],[-56.79,-36.9],[-59.23,-38.72],[-62.34,-38.83],[-62.75,-41.03],[-65.12,-41.06],[-63.46,-42.56],[-67.29,-45.55],[-65.99,-48.13],[-69.14,-50.73],[-68.15,-52.35],[-71.01,-53.83],[-74.95,-52.26],[-75.61,-48.67],[-74.13,-46.94],[-75.65,-46.65],[-72.72,-42.38],[-74.33,-43.23],[-71.44,-32.42],[-70.16,-19.76],[-71.46,-17.36],[-76.01,-14.65],[-81.25,-6.14],[-79.77,-2.66],[-80.93,-1.06],[-77.13,3.85],[-78.18,8.32],[-79.56,8.93],[-80.89,7.22],[-85.66,9.93],[-87.49,13.3],[-103.5,18.29],[-105.49,19.95],[-106.03,22.77],[-114.78,31.8],[-109.43,23.19],[-112.18,24.74],[-117.29,33.05],[-120.62,34.61],[-124.4,40.31],[-124.69,48.18],[-122.59,47.1],[-122.84,49.0],[-127.44,50.83],[-134.08,58.12],[-147.11,60.89],[-151.71,59.16],[-150.62,61.28],[-158.43,55.99],[-164.79,54.4],[-157.04,58.92],[-161.97,58.67],[-166.12,61.5],[-160.78,64.79],[-168.11,65.67],[-161.68,66.12],[-166.76,68.36],[-156.58,71.36],[-136.5,68.9],[-128.14,70.48],[-108.88,67.38],[-106.15,68.8],[-101.45,67.65],[-97.67,68.58],[-96.13,67.29],[-94.23,69.07],[-96.47,70.09],[-95.21,71.92],[-90.55,69.5]],[[-180.0,-84.71],[-169.95,-83.88],[-158.07,-85.37],[-143.11,-85.04],[-153.59,-83.69],[-152.86,-82.04],[-156.84,-81.1],[-146.42,-80.34],[-155.33,-79.06],[-158.36,-76.89],[-151.33,-77.4],[-144.91,-75.2],[-113.94,-73.72],[-107.56,-75.18],[-100.12,-74.87],[-103.68,-72.62],[-76.22,-73.97],[-68.94,-73.01],[-67.14,-72.05],[-68.54,-69.72],[-67.25,-66.88],[-57.81,-63.27],[-65.67,-67.95],[-61.81,-70.72],[-60.83,-73.7],[-70.6,-76.64],[-77.24,-76.71],[-73.65,-77.91],[-78.03,-79.18],[-58.22,-83.22],[-28.55,-80.34],[-29.68,-79.26],[-35.64,-79.46],[-35.78,-78.34],[-17.52,-75.13],[-15.45,-73.15],[-6.87,-70.93],[27.09,-70.46],[33.87,-68.5],[38.65,-69.78],[54.54,-65.82],[61.43,-67.95],[68.89,-67.93],[69.67,-69.23],[67.81,-70.3],[69.06,-70.68],[67.95,-71.85],[69.87,-72.26],[73.86,-69.88],[87.99,-66.21],[95.78,-67.39],[102.83,-65.56],[106.18,-66.94],[113.6,-65.88],[119.83,-67.27],[135.07,-65.31],[137.46,-66.96],[145.49,-66.91],[171.21,-71.7],[163.57,-76.24],[167.0,-78.75],[161.77,-79.16],[159.79,-80.95],[169.41,-83.83],[178.28,-84.47],[180.0,-84.71]],[[143.56,-13.76],[145.37,-14.99],[146.39,-18.96],[153.14,-26.07],[153.09,-30.92],[150.0,-37.43],[146.32,-39.04],[140.64,-38.02],[138.21,-34.39],[136.83,-35.26],[137.81,-32.9],[135.99,-34.89],[131.33,-31.5],[118.03,-35.06],[115.03,-34.2],[115.69,-31.61],[113.34,-26.12],[114.23,-26.3],[114.15,-21.76],[120.86,-19.68],[125.69,-14.23],[129.62,-14.97],[132.36,-11.13],[136.49,-11.86],[135.5,-15.0],[140.22,-17.71],[142.52,-10.67],[143.56,-13.76]],[[-27.1,83.52],[-20.85,82.73],[-31.9,82.2],[-12.21,81.29],[-20.05,80.18],[-17.73,80.13],[-19.7,78.75],[-18.47,76.98],[-21.68,76.63],[-19.83,76.1],[-20.67,75.16],[-19.37,74.3],[-23.57,73.31],[-22.3,72.18],[-24.79,72.33],[-21.75,70.66],[-25.54,71.43],[-26.36,70.23],[-22.35,70.13],[-39.81,65.46],[-42.82,62.68],[-43.38,60.1],[-48.26,60.86],[-51.63,63.63],[-53.97,67.19],[-50.87,69.93],[-54.68,69.61],[-54.36,70.82],[-51.39,70.57],[-55.83,71.66],[-54.72,72.59],[-58.59,75.52],[-68.5,76.06],[-71.4,77.01],[-66.76,77.38],[-73.3,78.04],[-65.71,79.4],[-68.02,80.12],[-62.65,81.77],[-44.52,81.66],[-46.76,82.63],[-27.1,83.52]],[[-86.56,73.16],[-82.32,73.75],[-80.75,72.06],[-72.24,71.56],[-66.97,69.19],[-68.81,68.72],[-61.85,66.86],[-63.92,65.0],[-68.01,66.26],[-64.67,63.39],[-68.78,63.75],[-66.17,61.93],[-74.84,64.68],[-77.71,64.23],[-77.9,65.31],[-73.96,65.46],[-72.93,67.73],[-78.96,70.17],[-89.89,71.22],[-89.44,73.13],[-85.83,73.8],[-86.56,73.16]],[[-68.5,83.11],[-61.85,82.63],[-76.91,79.32],[-75.39,78.53],[-80.56,76.18],[-89.49,76.47],[-88.26,77.9],[-84.98,77.54],[-87.96,78.37],[-85.1,79.35],[-86.93,80.25],[-81.85,80.46],[-91.59,81.9],[-68.5,83.11]],[[134.14,-1.15],[135.46,-3.37],[138.33,-1.7],[144.58,-3.86],[150.69,-10.58],[144.74,-7.63],[142.63,-9.33],[137.61,-8.41],[138.67,-7.32],[137.93,-5.39],[132.98,-4.11],[131.99,-2.82],[133.7,-2.21],[130.52,-0.94],[134.14,-1.15]],[[117.87,1.83],[119.0,0.9],[117.81,0.78],[116.15,-4.01],[110.22,-2.93],[109.09,-0.46],[109.66,2.01],[113.0,3.1],[116.73,6.92],[119.18,5.41],[117.31,3.24],[117.87,1.83]],[[-114.17,73.12],[-108.19,71.65],[-108.4,73.09],[-106.52,73.08],[-100.98,70.03],[-102.43,68.75],[-113.31,68.54],[-117.34,69.96],[-112.42,70.37],[-119.4,71.56],[-114.17,73.12]],[[50.06,-13.56],[47.1,-24.94],[44.04,-24.99],[43.25,-22.06],[44.45,-16.22],[47.71,-14.59],[49.2,-12.04],[50.06,-13.56]],[[105.82,-5.85],[102.58,-4.22],[95.29,5.48],[97.48,5.25],[103.84,0.1],[106.11,-3.06],[105.82,-5.85]],[[-3.0,58.63],[-4.07,57.55],[-1.96,57.68],[-3.12,55.97],[1.68,52.74],[1.45,51.29],[-5.24,49.96],[-3.41,51.43],[-5.27,51.99],[-4.58,53.5],[-2.95,53.98],[-6.15,56.78],[-5.01,58.63],[-3.0,58.63]],[[140.98,37.14],[140.25,35.14],[135.79,33.46],[135.08,34.6],[130.99,33.89],[132.0,33.15],[130.2,31.42],[129.41,33.3],[132.62,35.43],[135.68,35.53],[141.37,41.38],[140.98,37.14]],[[57.53,70.72],[51.46,72.02],[55.63,75.08],[68.85,76.54],[58.48,74.31],[55.42,72.37],[57.53,70.72]],[[-14.51,66.46],[-13.61,65.13],[-18.66,63.5],[-22.76,63.96],[-21.78,64.4],[-23.96,64.89],[-22.23,65.38],[-24.33,65.61],[-14.51,66.46]],[[-45.15,-78.05],[-43.33,-80.03],[-54.16,-80.63],[-48.66,-78.05],[-45.15,-78.05]],[[-120.46,71.4],[-125.93,71.87],[-123.94,73.68],[-124.92,74.29],[-115.51,73.47],[-120.46,71.4]],[[-87.02,79.66],[-85.82,79.34],[-90.81,78.22],[-96.71,80.16],[-92.41,81.26],[-87.02,79.66]],[[-94.68,77.1],[-79.83,74.92],[-89.77,74.52],[-97.12,76.75],[-94.68,77.1]],[[18.25,79.7],[21.54,78.96],[15.91,76.77],[10.45,79.65],[18.25,79.7]],[[173.02,-40.92],[174.25,-41.35],[173.08,-43.85],[169.33,-46.64],[166.68,-46.22],[173.02,-40.92]],[[125.24,1.42],[120.18,0.24],[120.93,-1.41],[123.34,-0.62],[121.51,-1.91],[123.16,-5.34],[120.97,-2.63],[120.43,-5.53],[119.37,-5.38],[120.03,0.57],[125.24,1.42]],[[-56.13,50.69],[-56.8,49.81],[-53.48,49.25],[-53.07,46.66],[-54.24,47.75],[-59.27,47.6],[-55.41,51.59],[-56.13,50.69]],[[-108.21,76.2],[-105.71,75.48],[-112.22,74.42],[-117.71,75.22],[-115.4,76.48],[-108.21,76.2]],[[99.94,78.88],[91.18,80.34],[95.94,81.25],[99.94,78.88]],[[174.61,-36.16],[178.52,-37.7],[175.24,-41.69],[173.82,-39.51],[174.7,-37.38],[172.63,-34.53],[174.61,-36.16]],[[-68.45,-70.96],[-71.08,-72.5],[-75.01,-71.66],[-72.07,-71.19],[-70.25,-68.88],[-68.45,-70.96]],[[-67.75,-53.85],[-65.05,-54.7],[-69.23,-55.5],[-74.66,-52.84],[-71.11,-54.07],[-69.35,-52.52],[-67.75,-53.85]]];
+const RAD=Math.PI/180;
+const EKEYS=[
+ {p:0.860,lon:40.0,lat:14.0,s:2.45,roll:0.0},
+ {p:0.900,lon:8.0,lat:22.0,s:0.95,roll:-2.0},
+ {p:0.920,lon:-2.603,lat:51.46,s:1.02,roll:-1.2},
+ {p:0.940,lon:72.871,lat:19.07,s:1.12,roll:1.6},
+ {p:0.962,lon:72.90,lat:19.35,s:1.30,roll:0.8},
+ {p:0.985,lon:72.90,lat:19.35,s:1.30,roll:0.8},
+ {p:1.000,lon:72.90,lat:19.35,s:1.30,roll:0.8}
+];
+let ANCHORS=[
+ {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.900,0.907,0.914,0.925],kind:'city'},
+ {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.925,0.934,0.944,0.955],kind:'city'},
+ {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.955,0.965,0.978,0.988],kind:'region'}
+];
+function rebuildStoryAnchors(){
+  const published=DISTRICTS.filter(d=>d.records>0 && Number.isFinite(d.lat) && Number.isFinite(d.lon));
+  const count=published.length;
+  if(!count) return;
+  published.forEach((d,i)=>{
+    const a0=0.988+(i/count)*0.007;
+    const a1=0.988+((i+1)/count)*0.007;
+    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug});
+  });
+}
+rebuildStoryAnchors();
+
+function orth(lon,lat,lon0,lat0){
+  const l=(lon-lon0)*RAD, ph=lat*RAD, p0=lat0*RAD;
+  const cph=Math.cos(ph), sph=Math.sin(ph), cl=Math.cos(l);
+  return [cph*Math.sin(l), Math.cos(p0)*sph-Math.sin(p0)*cph*cl, Math.sin(p0)*sph+Math.cos(p0)*cph*cl];
+}
+function biome(lon,lat){
+  const a=Math.abs(lat), n=fbm(lon*0.035+7.1,lat*0.055+2.3,4);
+  let base;
+  if(a>72) base='#C4CED3';
+  else if(a>62) base=mix('#34472F','#46583A',n);
+  else if(a>44) base=mix('#3C5A33','#54673B',n);
+  else if(a>29) base=mix('#6E6442','#7E7048',n);
+  else if(a>16) base=mix('#5C6E36','#46662E',n);
+  else base=mix('#2B5029','#3D5C2D',n);
+  return mix(base, n>0.62?'#7C7350':'#1D331B', Math.abs(n-0.5)*0.42);
+}
+function inRing(ring,x,y){
+  let inside=false;
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    if((yi>y)!==(yj>y) && x<(xj-xi)*(y-yi)/(yj-yi)+xi) inside=!inside;
+  }
+  return inside;
+}
+const LANDP=(function(){
+  const out=[];
+  for(let i=0;i<LAND.length;i++){
+    const ring=LAND[i];
+    let ax=0,ay=0,minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9,ar=0;
+    for(let j=0;j<ring.length;j++){
+      const [x,y]=ring[j],[x2,y2]=ring[(j+1)%ring.length];
+      ax+=x; ay+=y; ar+=x*y2-x2*y;
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+    }
+    ax/=ring.length; ay/=ring.length; ar=Math.abs(ar)/2;
+    const pts=[], want=clamp(Math.round(Math.sqrt(ar)*0.85),3,46), r=mulberry32(1000+i*37);
+    let guard=0;
+    while(pts.length<want && guard++<want*30){
+      const lx=minx+r()*(maxx-minx), ly=miny+r()*(maxy-miny);
+      if(!inRing(ring,lx,ly)) continue;
+      const n=fbm(lx*0.06+3.7,ly*0.09+9.1,4);
+      pts.push({lon:lx,lat:ly,r:2.6+r()*7.5,n,seed:r(),hi:n>0.6,lo:n<0.4});
+    }
+    out.push({ring,cx:ax,cy:ay,n:maxy,s:miny,area:ar,patches:pts});
+  }
+  return out;
+})();
+const CLOUDS=(function(){
+  const r=mulberry32(7717), a=[];
+  for(let i=0;i<150;i++){
+    const lat=-72+r()*144;
+    a.push({lon:-180+r()*360, lat, r:5+r()*17, seed:r(),
+      band:Math.exp(-Math.pow(lat/9,2))*0.55+Math.exp(-Math.pow((Math.abs(lat)-52)/13,2))*0.45});
+  }
+  return a;
+})();
+
+function _tracePoly(ctx, ring, px, py){
+  ctx.beginPath();
+  for(let i=0;i<ring.length;i++) i?ctx.lineTo(px[i],py[i]):ctx.moveTo(px[i],py[i]);
+  ctx.closePath();
+}
+
+function drawEarth(ctx,W,H,p,T,q){
+  const k=sample(EKEYS,p,['lon','lat','s','roll']);
+  const R=Math.min(W,H)*0.34*k.s, cx=W*0.5, cy=H*0.5;
+  const zoom=clamp((k.s-0.9)/1.1,0,1), bud=clamp(360/R,0.28,1);
+  ctx.fillStyle='#03060A'; ctx.fillRect(0,0,W,H);
+
+  const starA=clamp((1.7-k.s)/1.0,0,1)*0.6;
+  if(starA>0.02){
+    ctx.save();
+    for(let i=0;i<150;i++){
+      const x=sc(i*3)*W, y=sc(i*7)*H, dx=x-cx, dy=y-cy;
+      if(dx*dx+dy*dy<R*R*1.12) continue;
+      ctx.globalAlpha=starA*(0.14+sc(i*11)*0.66);
+      ctx.fillStyle='#C6D6DE'; ctx.fillRect(x,y,sc(i*13)>0.9?1.6:1,sc(i*13)>0.9?1.6:1);
+    }
+    ctx.restore();
+  }
+  const S=orth(k.lon+36+Math.sin(T*0.00002)*6,14,k.lon,k.lat);
+  const sMag=Math.hypot(S[0],S[1])||1e-6;
+
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(k.roll*RAD); ctx.translate(-cx,-cy);
+  const at=ctx.createRadialGradient(cx,cy,R*0.95,cx,cy,R*1.26);
+  at.addColorStop(0,'rgba(126,186,220,0.34)');
+  at.addColorStop(0.4,'rgba(96,152,196,0.11)');
+  at.addColorStop(1,'rgba(90,146,190,0)');
+  ctx.fillStyle=at; ctx.beginPath(); ctx.arc(cx,cy,R*1.26,0,7); ctx.fill();
+
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
+  const oc=ctx.createRadialGradient(cx-R*0.3,cy-R*0.34,R*0.05,cx,cy,R*1.08);
+  oc.addColorStop(0,'#2F6E8C'); oc.addColorStop(0.42,'#1A4A64');
+  oc.addColorStop(0.78,'#0E3049'); oc.addColorStop(1,'#061826');
+  ctx.fillStyle=oc; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+  ctx.globalAlpha=0.5;
+  for(let i=0;i<Math.round(22*q*bud)+4;i++){
+    const a=sc(i*5)*6.283, d=Math.sqrt(sc(i*9))*R;
+    const px=cx+Math.cos(a)*d, py=cy+Math.sin(a)*d, rr=R*(0.14+sc(i*3)*0.36);
+    if(px+rr<0||px-rr>W||py+rr<0||py-rr>H) continue;
+    const og=ctx.createRadialGradient(px,py,0,px,py,rr);
+    og.addColorStop(0,sc(i*7)>0.5?'rgba(8,34,54,0.42)':'rgba(56,120,150,0.22)');
+    og.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=og; ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  const gx=cx+S[0]*R*0.62, gy2=cy-S[1]*R*0.62;
+  const sg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.62);
+  sg.addColorStop(0,'rgba(180,214,232,0.20)'); sg.addColorStop(0.5,'rgba(150,190,214,0.07)');
+  sg.addColorStop(1,'rgba(150,190,214,0)');
+  ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.62,0,7); ctx.fill();
+  ctx.restore();
+
+  const lw=Math.max(0.5,R*0.0022);
+  for(const poly of LANDP){
+    const ring=poly.ring;
+    let any=false,bx0=1e9,bx1=-1e9,by0=1e9,by1=-1e9;
+    const px=new Array(ring.length), py=new Array(ring.length);
+    for(let i=0;i<ring.length;i++){
+      const v=orth(ring[i][0],ring[i][1],k.lon,k.lat);
+      let x=v[0],y=v[1];
+      if(v[2]<=0){ const d=Math.hypot(x,y)||1e-6; x/=d; y/=d; } else any=true;
+      const sx2=cx+x*R, sy2=cy-y*R;
+      px[i]=sx2; py[i]=sy2;
+      if(sx2<bx0)bx0=sx2; if(sx2>bx1)bx1=sx2; if(sy2<by0)by0=sy2; if(sy2>by1)by1=sy2;
+    }
+    if(!any) continue;
+    if(bx1<-8||bx0>W+8||by1<-8||by0>H+8) continue;
+    _tracePoly(ctx, ring, px, py);
+    ctx.save();
+    ctx.strokeStyle='rgba(122,186,206,0.20)';
+    ctx.lineWidth=Math.max(1.5,Math.min(R*0.016,14));
+    ctx.stroke(); ctx.restore();
+    const vN=orth(poly.cx,poly.n,k.lon,k.lat), vS=orth(poly.cx,poly.s,k.lon,k.lat);
+    const gN=[cx+vN[0]*R,cy-vN[1]*R], gS=[cx+vS[0]*R,cy-vS[1]*R];
+    if(Math.hypot(gN[0]-gS[0],gN[1]-gS[1])>2){
+      const lgd=ctx.createLinearGradient(gN[0],gN[1],gS[0],gS[1]);
+      for(let t=0;t<=4;t++) lgd.addColorStop(t/4,biome(poly.cx,lerp(poly.n,poly.s,t/4)));
+      ctx.fillStyle=lgd;
+    } else ctx.fillStyle=biome(poly.cx,poly.cy);
+    ctx.fill();
+    ctx.save(); ctx.clip();
+    const lim=Math.min(poly.patches.length,Math.max(2,Math.round(poly.patches.length*(0.5+0.5*q)*(0.7+0.5*zoom)*(0.45+0.55*bud))));
+    for(let i=0;i<lim;i++){
+      const pt=poly.patches[i];
+      const v=orth(pt.lon,pt.lat,k.lon,k.lat);
+      if(v[2]<=0.03) continue;
+      const sxp=cx+v[0]*R, syp=cy-v[1]*R, rr=pt.r*R*0.016*(0.55+v[2]*0.7);
+      if(rr<0.7) continue;
+      if(sxp+rr*1.3<0||sxp-rr*1.3>W||syp+rr<0||syp-rr>H) continue;
+      const tone=pt.hi?mix(biome(pt.lon,pt.lat),'#B9AE8E',0.5)
+                :pt.lo?mix(biome(pt.lon,pt.lat),'#152A18',0.52)
+                      :mix(biome(pt.lon,pt.lat),'#6F7A4A',0.28);
+      ctx.globalAlpha=0.3+pt.n*0.3; ctx.fillStyle=tone;
+      ctx.beginPath(); ctx.ellipse(sxp,syp,rr*1.25,rr*0.85,pt.seed*3,0,7); ctx.fill();
+      if(pt.hi&&rr>2){
+        ctx.globalAlpha=0.26; ctx.fillStyle='rgba(238,232,208,0.9)';
+        ctx.beginPath(); ctx.ellipse(sxp+rr*0.22,syp-rr*0.24,rr*0.6,rr*0.34,pt.seed*3,0,7); ctx.fill();
+        ctx.fillStyle='rgba(18,22,16,0.8)';
+        ctx.beginPath(); ctx.ellipse(sxp-rr*0.26,syp+rr*0.26,rr*0.55,rr*0.3,pt.seed*3,0,7); ctx.fill();
+      }
+    }
+    ctx.globalAlpha=1; ctx.restore();
+    _tracePoly(ctx, ring, px, py);
+    ctx.strokeStyle='rgba(206,222,206,0.16)'; ctx.lineWidth=lw; ctx.stroke();
+  }
+
+  const cn=Math.min(CLOUDS.length,Math.round(CLOUDS.length*q*0.85*bud));
+  const drift=T*0.00035;
+  for(let i=0;i<cn;i++){
+    const c=CLOUDS[i], lon=c.lon+drift*(6+c.seed*4);
+    const dens=clamp(fbm(lon*0.022+c.seed*4,c.lat*0.05+1.9,3)*1.25-0.42+c.band,0,1);
+    if(dens<0.06) continue;
+    const v=orth(lon,c.lat,k.lon,k.lat);
+    if(v[2]<=0.07) continue;
+    const sxp=cx+v[0]*R*1.005, syp=cy-v[1]*R*1.005;
+    const rr=c.r*R*0.013*(0.4+v[2]*0.8)*(0.8+dens*0.7);
+    if(rr<0.8) continue;
+    if(sxp+rr*1.6<0||sxp-rr*1.6>W||syp+rr<0||syp-rr>H) continue;
+    const lit=clamp((v[0]*S[0]+v[1]*S[1]+v[2]*S[2])*1.4+0.25,0,1);
+    const val=Math.round(lerp(96,252,lit));
+    const cg=ctx.createRadialGradient(sxp,syp,0,sxp,syp,rr);
+    cg.addColorStop(0,`rgba(${val},${val},${val-4},${0.34*dens*clamp(v[2]*2.2,0,1)})`);
+    cg.addColorStop(0.5,`rgba(${val-16},${val-14},${val-16},${0.16*dens})`);
+    cg.addColorStop(1,'rgba(200,200,200,0)');
+    ctx.fillStyle=cg;
+    ctx.save(); ctx.translate(sxp,syp); ctx.scale(1.5,0.72); ctx.translate(-sxp,-syp);
+    ctx.beginPath(); ctx.arc(sxp,syp,rr,0,7); ctx.fill(); ctx.restore();
+  }
+
+  const ux=S[0]/sMag, uy=S[1]/sMag, lin=clamp(sMag,0,1);
+  const lg=ctx.createLinearGradient(cx+ux*R,cy-uy*R,cx-ux*R,cy+uy*R);
+  lg.addColorStop(0,'rgba(3,7,14,0)');
+  lg.addColorStop(0.44,`rgba(3,7,14,${0.02*lin})`);
+  lg.addColorStop(0.6,`rgba(3,7,14,${0.3*lin})`);
+  lg.addColorStop(0.78,`rgba(3,7,14,${0.64*lin})`);
+  lg.addColorStop(1,`rgba(2,5,10,${0.86*lin})`);
+  ctx.fillStyle=lg; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+  const rg=ctx.createRadialGradient(cx,cy,R*0.25,cx,cy,R);
+  rg.addColorStop(0,'rgba(3,7,14,0)');
+  rg.addColorStop(1,`rgba(3,7,14,${0.16+0.26*Math.abs(S[2])})`);
+  ctx.fillStyle=rg; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+  ctx.save(); ctx.globalCompositeOperation='lighter';
+  const wg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.95);
+  wg.addColorStop(0,'rgba(255,230,184,0.16)'); wg.addColorStop(1,'rgba(255,230,184,0)');
+  ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.95,0,7); ctx.fill();
+  ctx.restore();
+  ctx.restore();
+
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,R*1.01,0,7);
+  ctx.strokeStyle='rgba(150,200,226,0.20)'; ctx.lineWidth=Math.max(1,R*0.012); ctx.stroke();
+  ctx.globalCompositeOperation='lighter';
+  const rim=ctx.createRadialGradient(cx+ux*R*0.75,cy-uy*R*0.75,R*0.5,cx+ux*R*0.75,cy-uy*R*0.75,R*1.35);
+  rim.addColorStop(0,'rgba(0,0,0,0)'); rim.addColorStop(0.62,'rgba(146,198,230,0.16)');
+  rim.addColorStop(1,'rgba(146,198,230,0)');
+  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.35,0,7); ctx.fill();
+  ctx.restore();
+
+  const arcA=seg(p,0.960,0.968,0.978,0.986);
+  if(arcA>0.02){
+    const A=[51.4584,-2.6030], B=[19.0728,72.8711];
+    const va=[Math.cos(A[0]*RAD)*Math.cos(A[1]*RAD),Math.cos(A[0]*RAD)*Math.sin(A[1]*RAD),Math.sin(A[0]*RAD)];
+    const vb=[Math.cos(B[0]*RAD)*Math.cos(B[1]*RAD),Math.cos(B[0]*RAD)*Math.sin(B[1]*RAD),Math.sin(B[0]*RAD)];
+    const dot=clamp(va[0]*vb[0]+va[1]*vb[1]+va[2]*vb[2],-1,1), om=Math.acos(dot);
+    ctx.save(); ctx.globalAlpha=arcA; ctx.beginPath();
+    let started=false;
+    for(let i=0;i<=80;i++){
+      const t=i/80, s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
+      const v=[va[0]*s1+vb[0]*s2,va[1]*s1+vb[1]*s2,va[2]*s1+vb[2]*s2];
+      const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
+      const o=orth(lon,lat,k.lon,k.lat);
+      if(o[2]<=0){ started=false; continue; }
+      const lift=1+0.05*Math.sin(t*Math.PI);
+      const sxp=cx+o[0]*R*lift, syp=cy-o[1]*R*lift;
+      started?ctx.lineTo(sxp,syp):ctx.moveTo(sxp,syp); started=true;
+    }
+    ctx.strokeStyle='rgba(228,216,182,0.72)'; ctx.lineWidth=Math.max(1,R*0.005); ctx.stroke();
+    ctx.restore();
+  }
+  ctx.restore();
+
+  const fl=ctx.createLinearGradient(0,H*0.54,0,H);
+  fl.addColorStop(0,'rgba(2,5,8,0)'); fl.addColorStop(1,'rgba(2,5,8,0.80)');
+  ctx.fillStyle=fl; ctx.fillRect(0,H*0.54,W,H*0.46);
+
+  ctx.font=`500 ${Math.max(10,Math.round(H*0.0155))}px Archivo, system-ui, sans-serif`;
+  ctx.textBaseline='middle';
+  for(const an of ANCHORS){
+    const a=seg(p,an.a[0],an.a[1],an.a[2],an.a[3]);
+    if(a<0.03) continue;
+    const o=orth(an.lon,an.lat,k.lon,k.lat);
+    if(o[2]<=0.02) continue;
+    const rr=k.roll*RAD, ox=o[0]*R, oy=-o[1]*R;
+    const sxp=cx+ox*Math.cos(rr)-oy*Math.sin(rr), syp=cy+ox*Math.sin(rr)+oy*Math.cos(rr);
+    ctx.save(); ctx.globalAlpha=a*clamp(o[2]*3.2,0,1);
+    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(2.2,R*0.008),0,7); ctx.fillStyle='#F0E8CE'; ctx.fill();
+    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(5,R*0.02),0,7);
+    ctx.strokeStyle='rgba(240,232,206,0.5)'; ctx.lineWidth=1; ctx.stroke();
+    const lx=sxp+Math.max(10,R*0.03), ly=syp-Math.max(10,R*0.03);
+    ctx.beginPath(); ctx.moveTo(sxp+3,syp-3); ctx.lineTo(lx,ly);
+    ctx.strokeStyle='rgba(240,232,206,0.35)'; ctx.stroke();
+    ctx.fillStyle='rgba(244,240,228,0.94)'; ctx.textAlign='left';
+    ctx.fillText(an.k,lx+5,ly-1);
+    ctx.restore();
+  }
+}
+
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let isTouch=matchMedia('(hover: none) and (pointer: coarse)').matches || ('ontouchstart' in window);
+const _touchMQ=matchMedia('(hover: none) and (pointer: coarse)');
+if(_touchMQ.addEventListener) _touchMQ.addEventListener('change',e=>{isTouch=e.matches;});
+const cB=document.getElementById('cBack'), xB=cB.getContext('2d',{alpha:false});
+const cF=document.getElementById('cFront'), xF=cF.getContext('2d');
+const layers={back:document.getElementById('txtBack'), front:document.getElementById('txtFront')};
+const film=document.getElementById('film');
+const ALL=TEXT.concat(TEXT_FACT);
+let W=0,H=0,dpr=1,baseDpr=1,raw=0,cur=0,last=0,rafId=null,still=false;
+let prevCur=-1, lastDof=-1, thudDone=false;
+
+const nodes=ALL.map((t,idx)=>{
+  const d=document.createElement('div');
+  d.className='T '+t.k+' '+(t.al||'center')+(t.k==='giant'||t.k==='huge'?'':' shade');
+  d.style.left=t.x; d.style.top=t.y; d.style.width=t.w||'auto';
+  if(idx >= TEXT.length){
+    const fi = idx - TEXT.length;
+    const factTexts = (typeof currentLang!=='undefined' && TEXT_FACT_DATA[currentLang]) ? TEXT_FACT_DATA[currentLang] : TEXT_FACT_DATA.en;
+    d.innerHTML = factTexts[fi] || t.html;
+  } else {
+    d.innerHTML=t.html;
+  }
+  layers[t.L].appendChild(d);
+  return d;
+});
+const geoLabelBox=document.getElementById('geoLabels');
+const geoLabelNodes=ANCHORS.map(an=>{ const d=document.createElement('span'); d.textContent=an.k; d.hidden=true; geoLabelBox.appendChild(d); return d; });
+function updateGeoLabels(p){
+  for(let i=0;i<ANCHORS.length;i++){ const an=ANCHORS[i]; geoLabelNodes[i].hidden=seg(p,an.a[0],an.a[1],an.a[2],an.a[3])<0.03; }
+}
+
+function applyDpr(newDpr){
+  if(newDpr!==dpr && W>0 && H>0){
+    dpr=newDpr;
+    for(const c of [cB,cF]){ c.width=Math.round(W*dpr); c.height=Math.round(H*dpr); }
+    xB.setTransform(dpr,0,0,dpr,0,0); xF.setTransform(dpr,0,0,dpr,0,0);
+    prevCur=-1;
+  }
+}
+
+function resize(){
+  const nW=film.clientWidth, nH=film.clientHeight;
+  if(Math.abs(nW-W)<3 && Math.abs(nH-H)<80 && W>0) return;
+  W=nW; H=nH;
+  baseDpr=Math.min(window.devicePixelRatio||1,W<760?1.5:2);
+  dpr=(typeof qStep!=='undefined' && qStep>=2 && baseDpr>1)?1:baseDpr;
+  for(const c of [cB,cF]){ c.width=Math.round(W*dpr); c.height=Math.round(H*dpr); }
+  xB.setTransform(dpr,0,0,dpr,0,0); xF.setTransform(dpr,0,0,dpr,0,0);
+  prevCur=-1;
+}
+function scrollP(){
+  const max=document.getElementById('track').offsetHeight-window.innerHeight;
+  return max>0?clamp(window.scrollY/max,0,1):0;
+}
+function paintText(p){
+  for(let i=0;i<ALL.length;i++){
+    const t=ALL[i], n=nodes[i], a=seg(p,t.a,t.b,t.c,t.d);
+    if(a<0.008){ if(n.style.visibility!=='hidden'){n.style.visibility='hidden'; n.style.opacity='0';} continue; }
+    n.style.visibility='visible';
+    n.style.opacity=a.toFixed(3);
+    const span=t.d-t.a, local=clamp((p-t.a)/(span||1),0,1);
+    let tr='translate(-50%,-50%)';
+    if(t.al==='left') tr='translate(0,-50%)';
+    if(t.al==='right') tr='translate(-100%,-50%)';
+    const par=(t.par||0)*(local-0.5);
+    switch(t.m){
+      case 'rise':    tr+=` translateY(${((1-a)*34).toFixed(1)}px)`; break;
+      case 'scale':   tr+=` scale(${(0.74+local*0.52).toFixed(3)})`; break;
+      case 'drift-r': tr+=` translateX(${(par*90).toFixed(1)}vw)`; break;
+      case 'drift-l': tr+=` translateX(${(-par*90).toFixed(1)}vw)`; break;
+    }
+    if(t.L==='back') tr+=` translateY(${(par*-10).toFixed(1)}vh)`;
+    n.style.transform=tr;
+    if(t.k==='giant'||t.k==='huge'){ if(n.style.filter) n.style.filter=''; }
+    else if(isTouch){ if(n.style.filter) n.style.filter=''; }
+    else{
+      const b=a<0.45?Math.round((0.45-a)*18)/2:0;
+      const f=b>0?`blur(${b}px)`:'';
+      if(n.style.filter!==f) n.style.filter=f;
+    }
+  }
+}
+let lastGeoNarrativeKey='';
+let lastChapterIndex=-1,lastCueVisible=null,lastFilmOpacity=-1,lastProgressWidth='';
+function clearGeoUI(){
+  const box=document.getElementById('geoNarrative'); if(box) box.classList.remove('is-visible');
+  const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent='';
+  geoLabelNodes.forEach(n=>n.hidden=true);
+  lastGeoNarrativeKey='';
+}
+
+function updateGeoNarrative(p){
+  const box=document.getElementById('geoNarrative');
+  const title=document.getElementById('geoTitle');
+  const detail=document.getElementById('geoDetail');
+  if(!box||!title||!detail) return;
+  let kicker='',t='',d='';
+  if(p>=0.900 && p<0.925){ kicker='Global context'; t='Bristol, UK'; d='A collaboration point in the CCL story.'; }
+  else if(p>=0.925 && p<0.955){ kicker='Global → local'; t='Mumbai, Maharashtra'; d='The story moves from international collaboration into the local research context.'; }
+  else if(p>=0.955 && p<0.988){ kicker='India'; t='Maharashtra'; d='A single regional view anchors the transition into the project archive.'; }
+  else if(p>=0.988 && p<0.995){
+    const published=DISTRICTS.filter(x=>x.records>0);
+    if(published.length){
+      const q=clamp((p-0.988)/0.007,0,0.999999);
+      const idx=Math.min(published.length-1,Math.floor(q*published.length));
+      const d0=published[idx];
+      kicker='Published district'; t=d0.name; d=d0.tagline||'Explore the verified records available in the archive.';
+    } else { kicker='Project geography'; t='Maharashtra'; d='District details appear here only when published records are available.'; }
+  } else if(p>=0.9995){ kicker='Explore'; t='The project archive'; d='Choose a published district to continue into the research record.'; }
+  else { box.classList.remove('is-visible'); lastGeoNarrativeKey=''; const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent=''; return; }
+  const key=kicker+'|'+t+'|'+d;
+  if(key===lastGeoNarrativeKey) return;
+  lastGeoNarrativeKey=key;
+  title.textContent=t; detail.textContent=d; const kk=document.getElementById('geoKicker'); if(kk) kk.textContent=kicker; const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent=kicker+' — '+t+'. '+d; box.classList.add('is-visible');
+}
+
+function paintChrome(p){
+  let ci=0; for(let i=CHAPTERS.length-1;i>=0;i--) if(p>=CHAPTERS[i].p){ci=i;break;}
+  if(ci!==lastChapterIndex){
+    const btns=document.querySelectorAll('#rail button');
+    btns.forEach((b,i)=>b.setAttribute('aria-current',String(i===ci)));
+    lastChapterIndex=ci;
+  }
+  const cue=document.getElementById('cue');
+  const cueVisible=p<0.012;
+  if(cueVisible!==lastCueVisible){
+    cue.style.opacity=cueVisible?'1':'0';
+    cue.style.visibility=cueVisible?'visible':'hidden';
+    cue.style.transition='opacity .6s';
+    lastCueVisible=cueVisible;
+  }
+  const filmOpacity=p>0.995 ? clamp(1-(p-0.995)/0.005,0,1) : 1;
+  if(Math.abs(filmOpacity-lastFilmOpacity)>0.001){
+    film.style.opacity=String(filmOpacity);
+    lastFilmOpacity=filmOpacity;
+  }
+  const pr=document.getElementById('progress');
+  if(pr){
+    const pw=(p*100).toFixed(2)+'%';
+    if(pw!==lastProgressWidth){ pr.style.width=pw; lastProgressWidth=pw; }
+  }
+}
+function updateDof(p){
+  const s=sample(CAMKEYS,p,['s']).s;
+  const b=Math.round(clamp((s-3.2)/3,0,1)*6)/2;
+  if(b!==lastDof){ lastDof=b; cB.style.filter=b>0?`blur(${b}px)`:''; }
+}
+function frame(ts){
+  if(!last) last=ts;
+  const dt=Math.min(ts-last,64); last=ts;
+  profile(dt);
+  raw=scrollP();
+  if(REDUCED||still) cur=raw;
+  else{
+    const k=1-Math.exp(-dt/210);
+    cur+=(raw-cur)*k;
+    if(Math.abs(raw-cur)<0.0002) cur=raw;
+  }
+  const frozen=REDUCED||still;
+  if(frozen && Math.abs(cur-prevCur)<0.0001){ rafId=requestAnimationFrame(frame); return; }
+  prevCur=cur;
+  const T=frozen?0:ts;
+  renderBack(xB,W,H,cur,T);
+  renderFront(xF,W,H,cur,T);
+  paintText(cur); updateGeoNarrative(cur); updateGeoLabels(cur); paintChrome(cur); updateDof(cur);
+  if(soundOn&&nodesA){
+    const S=seasonAt(cur), L=lightAt(cur);
+    nodesA.filt.frequency.setTargetAtTime(380+S.rain*900+L.amt*260,AC.currentTime,0.4);
+    nodesA.g.gain.setTargetAtTime(0.35+S.rain*0.3,AC.currentTime,0.5);
+  }
+  if(soundOn&&nodesA&&!thudDone&&cur>=0.828&&cur<0.9){ thudDone=true; thud(); }
+  if(cur<0.8) thudDone=false;
+  rafId=requestAnimationFrame(frame);
+}
+let fps=[],qStep=0,goodWin=0,cool=0;
+function profile(dt){
+  fps.push(dt); if(fps.length<30) return;
+  fps.sort((a,b)=>a-b); const med=fps[15]; fps=[];
+  if(cool>0){ cool--; return; }
+  if(med>34 && qStep<3){
+    qStep++; QSCALE=qStep===1?0.62:qStep===2?0.4:0.24; goodWin=0; cool=4;
+    if(qStep>=2 && dpr>1) applyDpr(1);
+  }
+  else if(med<17 && qStep>0){
+    if(++goodWin>=8){
+      qStep--; QSCALE=qStep===0?1:qStep===1?0.62:0.4; goodWin=0; cool=6;
+      if(qStep<2 && dpr!==baseDpr) applyDpr(baseDpr);
+    }
+  }
+  else goodWin=0;
+}
+
+const rail=document.getElementById('rail');
+CHAPTERS.forEach((c,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.title=c.n; b.setAttribute('aria-label',c.n);
+  b.addEventListener('click',()=>goChapter(i));
+  rail.appendChild(b);
+});
+function goChapter(i){
+  const max=document.getElementById('track').offsetHeight-window.innerHeight;
+  window.scrollTo({top:max*(CHAPTERS[i].p+0.002),behavior:(REDUCED||still)?'auto':'smooth'});
+}
+document.addEventListener('keydown',e=>{
+  if(document.body.classList.contains('arc')) return;
+  if(document.getElementById('languageGate')) return;
+  if(e.target.closest('button,a,input,textarea')) return;
+  let ci=0; for(let i=CHAPTERS.length-1;i>=0;i--) if(cur>=CHAPTERS[i].p){ci=i;break;}
+  if(e.key==='ArrowDown'||e.key==='PageDown'){ e.preventDefault(); goChapter(Math.min(ci+1,CHAPTERS.length-1)); }
+  if(e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault(); goChapter(Math.max(ci-1,0)); }
+  if(e.key==='Home'){ e.preventDefault(); goChapter(0); }
+  if(e.key==='End'){ e.preventDefault(); goChapter(CHAPTERS.length-1); }
+  if(e.key==='m'||e.key==='M'){ e.preventDefault(); document.getElementById('bSound')?.click(); }
+});
+
+if(REDUCED){
+  still=true;
+  const bm=document.getElementById('bMotion');
+  bm.setAttribute('aria-pressed','true'); bm.textContent='Motion on';
+}
+document.getElementById('bMotion').addEventListener('click',e=>{
+  still=!still;
+  const l=UI_LANG[currentLang]||UI_LANG.en;
+  e.currentTarget.setAttribute('aria-pressed',String(still));
+  e.currentTarget.textContent=still?(l.motionOn||l.still):l.still;
+  prevCur=-1;
+});
+
+let AC=null,nodesA=null,soundOn=false,soundStopTimeout=null,pendingStopNodes=null;
+function _forceKillPending(){
+  if(soundStopTimeout){ clearTimeout(soundStopTimeout); soundStopTimeout=null; }
+  if(pendingStopNodes){ try{pendingStopNodes.src.stop();pendingStopNodes.lfo.stop();pendingStopNodes.src.disconnect();pendingStopNodes.lfo.disconnect();}catch(e){} pendingStopNodes=null; }
+}
+function stopSound(fadeDuration=0.8){
+  _forceKillPending();
+  if(!nodesA || !AC) return;
+  const n=nodesA;
+  nodesA=null;
+  pendingStopNodes=n;
+  try{
+    n.g.gain.cancelScheduledValues(AC.currentTime);
+    n.g.gain.setValueAtTime(n.g.gain.value,AC.currentTime);
+    n.g.gain.linearRampToValueAtTime(0,AC.currentTime+fadeDuration);
+  }catch(e){}
+  soundStopTimeout=setTimeout(()=>{
+    try{ n.src.stop(); n.lfo.stop(); n.src.disconnect(); n.lfo.disconnect(); }catch(err){}
+    soundStopTimeout=null;
+    if(pendingStopNodes===n) pendingStopNodes=null;
+  },Math.round((fadeDuration+0.1)*1000));
+}
+function startSound(){
+  _forceKillPending();
+  if(nodesA) return;
+  if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)();
+  if(AC.state==='suspended' && AC.resume) AC.resume();
+  const len=AC.sampleRate*3, buf=AC.createBuffer(1,len,AC.sampleRate), d=buf.getChannelData(0);
+  let b0=0,b1=0,b2=0;
+  for(let i=0;i<len;i++){
+    const w=Math.random()*2-1;
+    b0=0.99765*b0+w*0.0990460; b1=0.96300*b1+w*0.2965164; b2=0.57000*b2+w*1.0526913;
+    d[i]=(b0+b1+b2+w*0.1848)*0.06;
+  }
+  const fadeLen=Math.round(AC.sampleRate*0.05);
+  for(let i=0;i<fadeLen;i++){
+    const t=i/fadeLen;
+    d[len-fadeLen+i]=d[len-fadeLen+i]*(1-t)+d[i]*t;
+  }
+  const src=AC.createBufferSource(); src.buffer=buf; src.loop=true;
+  const filt=AC.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=620; filt.Q.value=0.7;
+  const g=AC.createGain(); g.gain.setValueAtTime(0,AC.currentTime);
+  const lfo=AC.createOscillator(); lfo.frequency.value=0.08;
+  const lg=AC.createGain(); lg.gain.value=180;
+  lfo.connect(lg); lg.connect(filt.frequency);
+  src.connect(filt); filt.connect(g); g.connect(AC.destination);
+  src.start(); lfo.start();
+  g.gain.linearRampToValueAtTime(0.4,AC.currentTime+1.2);
+  nodesA={src,g,lfo,filt};
+}
+function thud(){
+  if(!AC) return;
+  const o=AC.createOscillator(), g=AC.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(64,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(30,AC.currentTime+0.5);
+  g.gain.setValueAtTime(0.5,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.9);
+  o.connect(g); g.connect(AC.destination);
+  o.start(); o.stop(AC.currentTime+1);
+}
+document.getElementById('bSound').addEventListener('click',e=>{
+  soundOn=!soundOn;
+  const l=UI_LANG[currentLang]||UI_LANG.en;
+  e.currentTarget.setAttribute('aria-pressed',String(soundOn));
+  e.currentTarget.textContent=soundOn?(l.soundOn||'Sound on'):l.sound;
+  if(soundOn) startSound();
+  else stopSound(0.8);
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    if(rafId){cancelAnimationFrame(rafId); rafId=null;}
+    if(AC && AC.state==='running'){ AC.suspend().catch(()=>{}); }
+  } else {
+    if(AC && soundOn && AC.state==='suspended'){ AC.resume().catch(()=>{}); }
+    if(!rafId && !document.body.classList.contains('arc')){ last=0; rafId=requestAnimationFrame(frame); }
+  }
+});
+
+const ARCHIVE_RECORDS={palghar:PALGHAR};
+
+(function buildDistricts(){
+  const host=document.getElementById('districts');
+  const count=document.getElementById('publishedCount');
+  const published=DISTRICTS.filter(d=>d.records>0);
+  if(count) count.textContent=String(published.length);
+  DISTRICTS.forEach((d,i)=>{
+    const open=d.records>0;
+    const el=document.createElement(open?'a':'div');
+    el.className='drow'+(open?' live-row':'');
+    if(open) el.href='#/districts/'+encodeURIComponent(d.slug);
+    else el.setAttribute('aria-disabled','true');
+    el.innerHTML=
+      `<div class="n">${String(i+1).padStart(2,'0')}</div>`+
+      `<div><div class="nm">${esc(d.name)}</div>${d.tagline?`<div style="font-size:12.5px;color:var(--mute);margin-top:6px;max-width:52ch">${esc(d.tagline)}</div>`:''}</div>`+
+      `<div class="meta">`+
+        `<span class="tag${open?' live':''}">${open?d.records+' published records':'No published records yet'}</span>`+
+        (d.reference?`<span class="tag">Technical reference</span>`:'')+
+        `<span class="arrow" aria-hidden="true">→</span>`+
+      `</div>`;
+    host.appendChild(el);
+  });
+  const withData=published.length;
+  document.getElementById('scopeNote').innerHTML=
+    `<b>Archive status.</b> ${withData?`${withData} district record${withData===1?' is':'s are'} currently published in this build.`:'No district records are currently published in this build.'} The selector is data-driven; unpublished scope entries remain visible without implying confirmation, priority, or project order.`;
+  document.getElementById('footText').innerHTML=
+    `<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol. A bilateral partnership between the University of Mumbai and the University of Bristol, funded by the British Council and HSBC.</p>`+
+    `<p style="margin-top:14px">The opening sequence on this page is an illustrative narrative device. The tree, the person, the machinery and the building are symbolic; they are not a documented field event, not a CCL site, and not evidence. Everything in the archive is a verified record and carries its own evidence reference.</p>`;
+})();
+
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function archiveHTML(d){
+  const s=d.place, sv=d.survey, sp=d.species, ch=d.challenge, pr=d.person;
+  return `
+<div class="abar"><div class="wrap">
+  <a class="btn" href="#/" style="text-decoration:none">← All districts</a>
+  <div style="font-size:12px;letter-spacing:.2em;color:var(--mute)">CCL ARCHIVE</div>
+  <div style="flex:1"></div>
+  <span class="tag live">${d.badge}</span>
+</div></div>
+
+<div class="ahero"><div class="wrap">
+  <p class="eyebrow">District ${d.name}</p>
+  <h1>${d.name}</h1>
+  <p class="lede">${d.tagline}</p>
+  <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:20px;font-size:12.5px;color:var(--mute)">
+    <div><span style="color:var(--dim)">Coordinates</span> · ${d.coords}</div>
+    <div><span style="color:var(--dim)">Research period</span> · ${d.period}</div>
+  </div>
+  <div class="stats">${d.stats.map(x=>`<div><b>${x.n}</b><span>${x.l}</span></div>`).join('')}</div>
+  <p class="note" style="margin-top:26px"><b>Scope.</b> ${d.reference ? 'This published record is a technical/reference implementation. It does not by itself establish project order, pilot status, or the final district scope.' : 'This page is generated from the published district record and its evidence fields.'}</p>
+</div></div>
+
+<section class="asec"><div class="wrap">
+  <h3>Overview</h3>
+  <div class="grid2">
+    <div>
+      <h4>What is recorded here</h4>
+      <p>Every entry below is a structured record with an opaque permanent identifier, a verification state, and at least one evidence reference. Statistics are drawn from the published record fields shown on this page.</p>
+      <p>Where a domain has no published record, the page says so. It does not fill the space.</p>
+    </div>
+    <div>
+      <h4>Research highlights</h4>
+      ${d.highlights.map(h=>`<p>· ${esc(h)}</p>`).join('')}
+    </div>
+  </div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Communities and places</h3>
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
+      <h4 style="margin:0">${esc(s.name)}</h4><span class="idpill">${s.id}</span>
+      <span class="tag">${esc(s.type)}</span>
+    </div>
+    <p style="margin-top:16px">${esc(s.documented)}</p>
+    <div class="quotebox" style="margin:18px 0">${esc(s.community)}<div style="font-family:var(--ui);font-size:11px;letter-spacing:.14em;color:var(--dim);margin-top:10px;text-transform:uppercase">Community account · EV-0002</div></div>
+    <dl class="kv">
+      <dt>Locality</dt><dd>${esc(s.locality)}</dd>
+      <dt>Admin</dt><dd>${esc(s.admin)} district</dd>
+      <dt>Coords</dt><dd>${esc(s.coords)}</dd>
+      <dt>Livelihoods</dt><dd>${s.livelihoods.map(esc).join(' · ')}</dd>
+      <dt>Access</dt><dd>${esc(s.reach)}</dd>
+      <dt>Authority</dt><dd>${esc(s.authority)} <span style="color:var(--dim)">· contact withheld</span></dd>
+    </dl>
+    <div class="verif"><b>Verified</b> ${esc(s.verified)} <span class="idpill">${s.evidence}</span></div>
+  </div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Field research and surveys</h3>
+  <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
+    <h4 style="margin:0">${esc(sv.title)}</h4><span class="idpill">${sv.id}</span>
+  </div>
+  <p style="margin-top:14px">${esc(sv.sample)}</p>
+  <dl class="kv" style="max-width:520px">
+    <dt>Method</dt><dd>${esc(sv.method)}</dd>
+    <dt>Dates</dt><dd>${esc(sv.dates)}</dd>
+    <dt>Sample</dt><dd>n = ${sv.n}</dd>
+  </dl>
+  <div class="grid2" style="margin-top:28px">
+    ${sv.findings.map(f=>`<div class="finding"><div class="m">${f.m}</div>
+      <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:8px 0 10px">${esc(f.k)}</div>
+      <p style="margin:0">${esc(f.t)}</p>
+      <div class="verif"><span class="idpill">${f.e}</span></div></div>`).join('')}
+  </div>
+  <div class="verif"><b>Verified</b> ${esc(sv.verified)}</div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Flora and fauna</h3>
+  <div class="card" style="max-width:640px">
+    <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
+      <h4 style="margin:0">${esc(sp.common)}</h4><span class="idpill">${sp.id}</span><span class="tag">${esc(sp.kind)}</span>
+    </div>
+    <p style="font-family:var(--film);font-style:italic;font-size:19px;color:#C9D4CE;margin:10px 0 0">${esc(sp.sci)}</p>
+    <p style="margin-top:6px;color:var(--mute);font-size:13px">Local name · ${esc(sp.local)}</p>
+    <p style="margin-top:16px">${esc(sp.habitat)}</p>
+    <dl class="kv">
+      <dt>IUCN</dt><dd>${esc(sp.iucn)}</dd>
+      <dt>Observed</dt><dd>${esc(sp.observed)}</dd>
+      <dt>Precision</dt><dd>${esc(sp.precision)} — exact location withheld under the sensitive-location rules</dd>
+    </dl>
+    <div class="verif"><b>Verified</b> ${esc(sp.verified)}</div>
+  </div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Challenges, responses and outcomes</h3>
+  <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
+    <h4 style="margin:0">${esc(ch.title)}</h4><span class="idpill">${ch.id}</span><span class="tag">${esc(ch.category)}</span>
+  </div>
+  <div class="grid2" style="margin-top:22px">
+    <div>
+      <p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)">Observed by researchers</p>
+      <p>${esc(ch.researchers)}</p>
+      <p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:24px">Community perspective</p>
+      <p>${esc(ch.community)}</p>
+      <p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:24px">Existing local response</p>
+      <p>${esc(ch.existing)}</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;gap:10px;align-items:baseline"><h4 style="margin:0;font-size:20px">Intervention</h4><span class="idpill">${ch.intervention.id}</span></div>
+      <p style="margin-top:14px">${esc(ch.intervention.desc)}</p>
+      ${ch.intervention.metric?`<div class="finding" style="margin-top:20px">
+        <div class="m">${esc(ch.intervention.metric)}</div>
+        <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:8px 0 10px">Measured outcome</div>
+        <p style="margin:0">${esc(ch.intervention.outcome)}</p>
+      </div>`:`<p style="margin-top:20px">${esc(ch.intervention.outcome)}</p>`}
+      <div class="verif">As of ${esc(ch.intervention.asOf)} <span class="idpill">${ch.intervention.evidence}</span></div>
+    </div>
+  </div>
+  <div class="verif"><b>Verified</b> ${esc(ch.verified)}</div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>People</h3>
+  <div class="card" style="max-width:620px">
+    <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
+      <h4 style="margin:0">${esc(pr.name)}</h4><span class="idpill">${pr.id}</span>
+    </div>
+    <p style="color:var(--signal);font-size:12.5px;letter-spacing:.06em;margin:8px 0 14px">${esc(pr.role)}</p>
+    <p>${esc(pr.bio)}</p>
+    <div class="verif"><b>Consent</b> ${esc(pr.consent)}</div>
+    <div class="verif"><b>Verified</b> ${esc(pr.verified)}</div>
+  </div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Evidence register</h3>
+  <p style="max-width:70ch;margin-bottom:26px">Every figure on this page resolves to one of these claims. Nothing below <em>verified</em> is published.</p>
+  <div class="grid2">
+  ${d.evidence.map(e=>`<div class="card">
+    <div style="display:flex;gap:10px;align-items:center"><span class="idpill">${e.id}</span><span class="tag live">${e.state}</span><span class="tag">${esc(e.type)}</span></div>
+    <p style="margin-top:16px">${esc(e.claim)}</p>
+    <dl class="kv">
+      <dt>Source</dt><dd>${esc(e.source)}</dd>
+      <dt>Method</dt><dd>${esc(e.method)}</dd>
+      <dt>Researcher</dt><dd>${esc(e.who)}</dd>
+      <dt>Verified</dt><dd>${esc(e.verified)}</dd>
+    </dl></div>`).join('')}
+  </div>
+</div></section>
+
+<section class="asec"><div class="wrap">
+  <h3>Not yet published</h3>
+  <div class="grid2">
+    ${d.empty.map(e=>`<div><h4 style="font-size:22px">${esc(e.t)}</h4><div class="todo">${esc(e.n)}</div></div>`).join('')}
+  </div>
+</div></section>
+
+<section class="asec" style="border-bottom:0"><div class="wrap">
+  <h3>Research access</h3>
+  <p style="max-width:66ch">Restricted material — consent forms, raw survey responses, interview recordings and precise coordinates for sensitive locations — is never in this repository and is not available through this page. Requests for field access or for the underlying dataset go through the project team.</p>
+  <p style="margin-top:26px"><a class="btn" href="#/" style="text-decoration:none;padding:12px 18px">← Back to the district list</a></p>
+</div></section>`;
+}
+
+function archiveIndexHTML(){
+  const code=store.get('ccl-language')||'en';
+  const l=UI_LANG[code]||UI_LANG.en;
+  return `<div class="abar"><div class="wrap">
+    <a class="btn" href="#/" style="text-decoration:none">${l.back}</a>
+    <div style="font-size:12px;letter-spacing:.2em;color:var(--mute)">CCL ARCHIVE</div>
+  </div></div>
+  <section class="archive-home"><div class="wrap">
+    <p class="eyebrow">${l.archiveTitle}</p>
+    <h1>${l.archiveH1}</h1>
+    <p>${l.archiveIntro} Unpublished scope entries are intentionally not presented as confirmed project geography.</p>
+    <p class="route-note">${l.routeNote}</p>
+  </div></section>
+  <section class="asec"><div class="wrap"><h3>${l.count}</h3><div id="archiveDistricts"></div></div></section>`;
+}
+function renderArchiveIndex(){
+  const host=document.getElementById('archiveDistricts');
+  const published=DISTRICTS.filter(d=>d.records>0);
+  host.innerHTML=published.length ? published.map(d=>`<a class="drow live-row" href="#/districts/${encodeURIComponent(d.slug)}">
+    <span class="n">→</span><span><span class="nm">${esc(d.name)}</span></span>
+    <span class="meta"><span class="tag live">${d.records} record${d.records===1?'':'s'}</span><span class="arrow" aria-hidden="true">→</span></span>
+  </a>`).join('') : '<div class="todo">No district records are currently published in this build.</div>';
+}
+function fadeAmbientForArchive(){
+  if(nodesA) stopSound(0.2);
+}
+function restoreAmbientAfterArchive(){
+  if(soundOn && !nodesA) startSound();
+}
+let lastFilmScroll=0;
+function route(){
+  const h=location.hash;
+  const m=h.match(/^#\/districts\/(.+)$/);
+  const isEnteringArchive=(m || h==='#/archive');
+  if(!document.body.classList.contains('arc') && isEnteringArchive){
+    lastFilmScroll=window.scrollY;
+  }
+  if(m){
+    let slug='';
+    try{ slug=decodeURIComponent(m[1]); }
+    catch(e){ location.hash='#/archive'; return; }
+    const district=DISTRICTS.find(d=>d.slug===slug);
+    const record=ARCHIVE_RECORDS[slug];
+    if(district && district.records>0 && record){
+      document.getElementById('archive').innerHTML=archiveHTML(record);
+      document.body.classList.add('arc');
+      fadeAmbientForArchive();
+      clearGeoUI();
+      if(rafId){cancelAnimationFrame(rafId); rafId=null;}
+      window.scrollTo(0,0);
+      document.title=`${district.name} — CCL research archive`;
+      return;
+    }
+    if(district){
+      document.getElementById('archive').innerHTML=`<section class="archive-home"><div class="wrap"><p class="eyebrow">District scope</p><h1>${esc(district.name)}</h1><p class="lede">This district is present in the current scope model, but no published research record is available in this build.</p><p><a class="btn" href="#/archive">← Back to research archive</a></p></div></section>`;
+      document.body.classList.add('arc');
+      fadeAmbientForArchive();
+      clearGeoUI();
+      if(rafId){cancelAnimationFrame(rafId); rafId=null;}
+      window.scrollTo(0,0);
+      document.title=`${district.name} — CCL district scope`;
+      return;
+    }
+  }
+  if(h==='#/archive'){
+    document.getElementById('archive').innerHTML=archiveIndexHTML();
+    renderArchiveIndex();
+    document.body.classList.add('arc');
+    fadeAmbientForArchive();
+    clearGeoUI();
+    if(rafId){cancelAnimationFrame(rafId); rafId=null;}
+    window.scrollTo(0,0);
+    document.title='Research archive — CCL';
+    return;
+  }
+  const wasArchive=document.body.classList.contains('arc');
+  document.body.classList.remove('arc');
+  if(wasArchive){
+    restoreAmbientAfterArchive();
+    if(typeof lastFilmScroll==='number' && lastFilmScroll>0){
+      window.scrollTo(0,lastFilmScroll);
+    }
+  }
+  document.title='CCL — Community Co-creation Lab for Local Climate Resilience';
+  if(!rafId){ resize(); last=0; prevCur=-1; rafId=requestAnimationFrame(frame); }
+}
+window.addEventListener('hashchange',route);
+window.addEventListener('resize',()=>{ if(!document.body.classList.contains('arc')) resize(); },{passive:true});
+
+function boot(){
+  document.getElementById('track').style.height='5000vh';
+  resize();
+  route();
+}
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(boot); else setTimeout(boot,0);
+
+const store=(function(){const mem={};
+ try{localStorage.setItem('__ccl','1');localStorage.removeItem('__ccl');}catch(e){
+  return{get:k=>(k in mem?mem[k]:null),set:(k,v)=>{mem[k]=v;}};}
+ return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
+        set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
+let currentLang='en';
+const UI_LANG={
+ en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',global:'Global context',world:'The world',detail:'CCL connects global research context with local climate-resilience work.',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.'},
+ mr:{title:'तुमची भाषा निवडा',sub:'मराठी निवडली आहे. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',global:'जागतिक संदर्भ',world:'जग',detail:'CCL जागतिक संशोधन संदर्भाला स्थानिक हवामान-लवचिकता कार्याशी जोडते.',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.'},
+ hi:{title:'अपनी भाषा चुनें',sub:'हिन्दी डिफ़ॉल्ट रूप से चुनी गई है। आप इसे कभी भी बदल सकते हैं।',enter:'कहानी शुरू करें →',skip:'परिचय छोड़कर परियोजना पर जाएँ',sound:'ध्वनि बंद',still:'स्थिर संस्करण',scroll:'स्क्रॉल',projectEyebrow:'परियोजना देखें',projectTitle:'प्रकाशित शोध संग्रह देखें.',projectLede:'प्रकाशित ज़िलों में दर्ज स्थानों, सर्वेक्षणों, प्रजातियों, चुनौतियों और साक्ष्यों को देखें। सत्यापित रिकॉर्ड जुड़ने के साथ संग्रह बढ़ता है — सत्यापन से पहले कुछ भी प्रकाशित नहीं होता।',archive:'शोध संग्रह खोलें',count:'प्रकाशित ज़िला रिकॉर्ड',archiveTitle:'शोध संग्रह',archiveIntro:'प्रकाशित ज़िले का शोध रिकॉर्ड देखने के लिए एक ज़िला चुनें.',back:'← मुख्य पृष्ठ',global:'वैश्विक संदर्भ',world:'दुनिया',detail:'CCL वैश्विक शोध संदर्भ को स्थानीय जलवायु-लचीलापन कार्य से जोड़ता है.',soundOn:'ध्वनि चालू',motionOn:'गति चालू',archiveH1:'प्रकाशित रिकॉर्ड देखें.',routeNote:'साक्ष्य और सहमति जाँच पूरी होने के साथ सत्यापित रिकॉर्ड से संग्रह बढ़ता है.'}
+};
+function applyLanguage(code){
+ const l=UI_LANG[code]||UI_LANG.en;
+ currentLang=UI_LANG[code]?code:'en'; document.documentElement.lang=code==='mr'?'mr':code==='hi'?'hi':'en';
+ const map={langTitle:l.title,langSub:l.sub,enterStory:l.enter,skip:l.skip,cueText:l.scroll,geoKicker:l.global,geoTitle:l.world,geoDetail:l.detail};
+ Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id); if(el) el.textContent=v;});
+ const bs=document.getElementById('bSound'); if(bs) bs.textContent=soundOn?(l.soundOn||'Sound on'):l.sound;
+ const bm=document.getElementById('bMotion'); if(bm){ bm.textContent=still?(l.motionOn||'Motion on'):l.still; bm.setAttribute('aria-pressed',String(still)); }
+ const pe=document.querySelector('#project .eyebrow'); if(pe) pe.textContent=l.projectEyebrow;
+ const pt=document.querySelector('#project .sect'); if(pt) pt.textContent=l.projectTitle;
+ const pl=document.querySelector('#project .lede'); if(pl) pl.textContent=l.projectLede;
+ const ac=document.querySelector('.archive-cta'); if(ac) ac.childNodes[0].textContent=l.archive+' ';
+ const cs=document.querySelector('#publishedCount + small'); if(cs) cs.textContent=l.count;
+ document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===code)));
+ if(typeof TEXT_FACT_DATA!=='undefined' && typeof nodes!=='undefined' && typeof TEXT!=='undefined'){
+   const factTexts=TEXT_FACT_DATA[code]||TEXT_FACT_DATA.en;
+   for(let i=0;i<factTexts.length;i++){
+     const idx=TEXT.length+i;
+     if(nodes[idx]) nodes[idx].innerHTML=factTexts[i];
+   }
+ }
+ store.set('ccl-language',code);
+}
+(function initLanguage(){
+ const saved=store.get('ccl-language')||'en'; applyLanguage(saved);
+ document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>applyLanguage(b.dataset.lang)));
+ const gate=document.getElementById('languageGate');
+ const seen=store.get('ccl-language-gate-seen')==='1';
+ if(seen){ gate?.remove(); return; }
+ let lastFocus=document.activeElement;
+ const btns=Array.from(gate.querySelectorAll('button'));
+ window.cclCloseGate=function(){
+   store.set('ccl-language-gate-seen','1');
+   gate.classList.add('is-hidden');
+   setTimeout(()=>{ gate.remove(); (lastFocus&&document.contains(lastFocus)?lastFocus:document.getElementById('main'))?.focus?.({preventScroll:true}); },500);
+ };
+ document.getElementById('enterStory')?.addEventListener('click',window.cclCloseGate);
+ document.getElementById('skip')?.addEventListener('click',window.cclCloseGate);
+ gate.addEventListener('keydown',e=>{
+   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();window.cclCloseGate();return;}
+   if(e.key!=='Tab') return;
+   const i=btns.indexOf(document.activeElement);
+   if(e.shiftKey&&(i<=0)){e.preventDefault();btns[btns.length-1].focus();}
+   else if(!e.shiftKey&&i===btns.length-1){e.preventDefault();btns[0].focus();}
+ });
+ setTimeout(()=>btns[0]?.focus({preventScroll:true}),60);
+})();
+
+(function(){
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('languageGate')){e.preventDefault();e.stopPropagation();window.cclCloseGate?.();} });
+  window.addEventListener('hashchange',()=>{
+    if(location.hash==='' || location.hash==='#/'){
+      const main=document.getElementById('main');
+      if(main && document.activeElement?.closest?.('#archive')) main.focus({preventScroll:true});
+    }
+  });
+  window.addEventListener('pageshow',e=>{
+    if(e.persisted && !location.hash){ window.scrollTo(0,0); }
+  });
+})();
+
+(function(){
+ const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+ const constrained=!!(c&&(c.saveData||/slow-2g|2g/.test(c.effectiveType||'')));
+ if(constrained) document.documentElement.classList.add('constrained');
+})();
+</script>
+</body>
+</html>
