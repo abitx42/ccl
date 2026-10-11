@@ -1,0 +1,30 @@
+id: SPE-0002
+status: published
+visibility: public
+verification:
+  level: verified
+  verified_by: "Biodiversity Lead"
+  verified_on: "2026-08-26"
+evidence:
+  - EV-0005
+created_by: "CCCSS Coastal Biodiversity Team"
+created_on: "2026-08-26"
+
+kind: flora
+common_name:
+  en: "Grey Mangrove"
+  mr: "पांढरी टिल्लूर (खारफुटी)"
+  hi: "सफेद मैंग्रोव"
+  local: "टिल्लूर"
+scientific_name: "Avicennia marina"
+iucn_status: "LC"
+habitat:
+  en: "Intertidal estuarine mudflats and coastal drainage banks fringing Juhu Moragaon."
+  mr: "जुहू मोरागाव किनारपट्टीवरील भरती-ओहोटीच्या चिखलाचा पट्टा आणि खाडी मुख."
+  hi: "जुहू मोरागांव के किनारे अंतर-ज्वारीय मुहाना कीचड़ और तटीय जल निकासी तट।"
+observed_on: "2026-08-20"
+observed_by: "COOL CRYMB Student Research Unit"
+places:
+  - "PLC-0003"
+precision: coarse
+photos: []

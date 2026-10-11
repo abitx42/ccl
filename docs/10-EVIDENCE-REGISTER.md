@@ -21,7 +21,7 @@ Purpose: Stop assumptions turning into "official research". Every fact or figure
 | 3 | British Council, HSBC, UoM, Univ of Bristol | Researcher-provided | Project partnership agreement | Project Lead |
 | 4 | District count | **UNRESOLVED** | Conflict between 6 and 7 districts. Never hard-code. | Project Coordinator |
 | 5 | District order / active research list | Needs dataset | In progress | District Leads |
-| 6 | Juhu Mora Gaon | User-provided | Research district classification pending | District Lead |
+| 6 | Juhu Moragaon (PLC-0003) | Verified | Mumbai Suburban Koliwada; Mahikavatichi Bakhar & 2018 Demarcation | District Lead |
 | 7 | Full village list | Needs dataset | In progress | District Leads |
 | 8 | Workshop dates & numbers | Researcher-provided | Under reconciliation | Project Lead |
 | 9 | 820 students / 206 faculty / 150 colleges | Unverified | Unofficial summary; withheld | Project Lead |
@@ -31,3 +31,6 @@ Purpose: Stop assumptions turning into "official research". Every fact or figure
 | 13 | Community photos/media | Needs rights + consent | Enforce consent gating | Media Lead |
 | 14 | Marketplace | Concept / enquiry only | Phase A enquiry catalogue | Project Lead |
 | 15 | Partner logos & attribution | Needs approval | Brand guidelines | Project Lead |
+| 16 | Historical settlement antiquity (EV-0003) | Verified | Mahikavatichi Bakhar (12th c.) & District Gazetteer | District Research Lead |
+| 17 | Annual monsoon marine fishing ban (EV-0004) | Verified | Maharashtra Marine Fishing Regulation Act, 1981 | Environmental Policy Lead |
+| 18 | Koliwada boundary demarcation & mangrove bio-shield (EV-0005) | Verified | Maharashtra Fisheries & Revenue Joint Demarcation Records (2018) | Coastal Governance Lead |

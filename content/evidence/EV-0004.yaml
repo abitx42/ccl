@@ -1,0 +1,13 @@
+id: EV-0004
+claim:
+  en: "The Department of Fisheries, Government of Maharashtra enforces a statutory annual marine fishing ban from June 1 to July 31 along the coastal shelf to protect fish breeding cycles and replenish wild stocks."
+  mr: "मत्स्यव्यवसाय विभाग, महाराष्ट्र शासन यांच्यामार्फत माशांच्या प्रजनन कालावधीच्या संरक्षणासाठी दरवर्षी १ जून ते ३१ जुलै दरम्यान किनारपट्टीवर कायदेशीर मासेमारी बंदी लागू केली जाते."
+  hi: "मत्स्य पालन विभाग, महाराष्ट्र शासन द्वारा मछली प्रजनन चक्र की सुरक्षा और प्राकृतिक संवर्धन के लिए प्रतिवर्ष 1 जून से 31 जुलाई तक वैधानिक वार्षिक समुद्री मछली पकड़ने पर प्रतिबंध लागू किया जाता है।"
+type: official_document
+source: "Maharashtra Marine Fishing Regulation Act, 1981 & Annual Departmental Notifications"
+method: "Regulatory statutory notification analysis"
+researcher: "UoM CCCSS Research Cohort"
+state: verified
+verified_by: "Environmental Policy Lead"
+verified_on: "2026-08-28"
+conflicts_with: []

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../themes/palghar.css";
+@import "../themes/mumbai-suburban.css";
 
 /* Base typography and accessibility styles */
 :root {

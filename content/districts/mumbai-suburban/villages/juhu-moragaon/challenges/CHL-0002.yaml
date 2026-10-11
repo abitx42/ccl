@@ -1,0 +1,49 @@
+id: CHL-0002
+status: published
+visibility: public
+verification:
+  level: verified
+  verified_by: "District Research Lead"
+  verified_on: "2026-08-30"
+evidence:
+  - EV-0004
+  - EV-0005
+created_by: "CCCSS Coastal Field Cohort"
+created_on: "2026-08-30"
+
+project: "PRJ-0001"
+places:
+  - "PLC-0003"
+category: "flooding"
+title:
+  en: "Tidal Inundation, Estuarine Erosion and Coastal Commons Degradation"
+  mr: "भरतीचे पाणी, खाडी किनाऱ्याची धूप आणि सामायिक जागांचे नुकसान"
+  hi: "ज्वारीय जलभराव, मुहाना क्षरण और तटीय साझा भूमि क्षरण"
+observed_by_researchers:
+  en: "Increasing frequency of monsoon high astronomical tide surges encroaching upon low-lying fish drying yards and boat anchoring creeks, exacerbated by upstream solid waste and construction debris dumping into mangrove buffers."
+  mr: "पावसाळ्यातील मोठ्या भरतीच्या लाटा सखल सुकवणी जागा आणि नौका उभ्या करण्याच्या खाडीत शिरण्याचे प्रमाण वाढले आहे, ज्यास खारफुटीमध्ये कचरा टाकण्यामुळे अधिक तीव्रता येते."
+  hi: "मानसून के दौरान उच्च ज्वार का पानी निचले मछली सुखाने के मैदानों में प्रवेश कर रहा है, जो मैंग्रोव बफर में मलबे के जमाव से और गंभीर हो गया है।"
+community_perspectives:
+  en: "Community members emphasize that preserving intact mangrove root belts is vital for natural shoreline stabilization and preventing shoreline recession."
+  mr: "स्थानिक रहिवाशांच्या मते, किनाऱ्याची धूप रोखण्यासाठी नैसर्गिक खारफुटीचे जाळे सुरक्षित ठेवणे अत्यंत आवश्यक आहे."
+  hi: "समुदाय के सदस्यों का कहना है कि प्राकृतिक तटरेखा स्थिरीकरण और कटाव की रोकथाम के लिए मैंग्रोव की जड़ों की रक्षा करना आवश्यक है।"
+existing_responses:
+  en: "Community youth and cooperative members conduct volunteer surveillance to deter illegal debris dumping into coastal mangrove channels."
+  mr: "खारफुटीच्या प्रवाहात बेकायदेशीर कचरा टाकण्यावर स्थानिक युवक व सहकारी संस्थेचे सदस्य देखरेख ठेवतात."
+  hi: "तटीय मैंग्रोव में मलबे के अवैध डंपिंग को रोकने के लिए स्थानीय युवा और सहकारी सदस्य निगरानी करते हैं।"
+quotes: []
+interventions:
+  - id: "INT-0002"
+    type: "community"
+    description:
+      en: "Community-led volunteer surveillance patrols and participatory tidal shoreline cleanup to safeguard estuarine mangrove fringes"
+      mr: "खारफुटीच्या संरक्षणासाठी समुदाय-चालित स्वयंसेवक गस्त आणि किनारपट्टी स्वच्छता मोहीम"
+      hi: "मैंग्रोव किनारों की सुरक्षा के लिए समुदाय के नेतृत्व में स्वयंसेवी गश्ती और तटीय सफाई"
+    outcome:
+      measured:
+        en: "Successfully halted illegal debris dumping across 4 critical estuarine access points during the 2026 monsoon cycle"
+        mr: "२०२६ च्या पावसाळ्यात ४ संवेदनशील ठिकाणी बेकायदेशीर कचरा टाकणे यशस्वीरीत्या रोखण्यात आले"
+        hi: "2026 मानसून के दौरान 4 महत्वपूर्ण मुहाना प्रवेश बिंदुओं पर अवैध मलबे की डंपिंग को सफलतापूर्वक रोका गया"
+      as_of: "2026-09-08"
+      evidence:
+        - EV-0005

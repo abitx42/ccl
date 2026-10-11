@@ -23,6 +23,8 @@ dist/
 # misc
 .DS_Store
 *.pem
+.opencode/
+content/staging/
 
 # debug
 npm-debug.log*
