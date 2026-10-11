@@ -391,6 +391,7 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 </main>
 <main id="archive" aria-label="CCL research archive"></main>
 <script>
+let currentLang='en';
 const clamp=(v,a,b)=>v<a?a:v>b?b:v;
 const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -593,7 +594,8 @@ const TEXT_FACT=[
 
 const DISTRICTS=[
  {slug:'mumbai-city',     name:'Mumbai City',      scope:'planned', records:0, lat:18.96, lon:72.83},
- {slug:'mumbai-suburban', name:'Mumbai Suburban',  scope:'planned', records:0, lat:19.12, lon:72.87},
+ {slug:'mumbai-suburban', name:'Mumbai Suburban',  scope:'planned', records:6, reference:false, lat:19.1073, lon:72.8263,
+  tagline:'Indigenous Koliwada fisheries, mangrove estuarine buffers & urban coastal resilience'},
  {slug:'thane',           name:'Thane',            scope:'planned', records:0, lat:19.22, lon:72.98},
  {slug:'palghar',         name:'Palghar',          scope:'planned', records:6, reference:true, lat:19.70, lon:72.77,
   tagline:'Indigenous agro-forestry, estuarine wetlands & coastal resilience'},
@@ -686,6 +688,94 @@ const PALGHAR={
     {t:'Media', n:'TODO(content): no media record has cleared rights and consent review. Evidence Register #13.'},
     {t:'Heritage', n:'TODO(content): heritage claims require a source separate from the community account. Evidence Register #12.'},
     {t:'Maps', n:'TODO(content): place geometry is held at coarse precision under docs/04 and docs/08. A published map layer needs an approved public geography.'}
+  ]
+};
+
+const MUMBAI_SUBURBAN={
+  id:'mumbai-suburban',
+  name:'Mumbai Suburban',
+  tagline:'Indigenous Koliwada fisheries, mangrove estuarine buffers & urban coastal resilience',
+  coords:'19.1073 N, 72.8263 E',
+  period:'2025-06 — 2026-10',
+  badge:'Published research record',
+  highlights:[
+    'Juhu Moragaon Mangela Koli socio-ecological system observations',
+    'Community-driven mangrove patrols and tidal embankment monitoring'
+  ],
+  stats:[
+    {n:'1', l:'Places profiled'},
+    {n:'0', l:'Surveys'},
+    {n:'2', l:'Species recorded'},
+    {n:'1', l:'Challenges'},
+    {n:'0', l:'People acknowledged'},
+    {n:'3', l:'Evidence claims'},
+    {n:'0', l:'Media verified'}
+  ],
+  place:{
+    id:'PLC-0003', name:'Juhu Moragaon', type:'Coastal fishing community',
+    locality:'Juhu Koliwada', admin:'Mumbai Suburban', coords:'19.1073 N, 72.8263 E (coarse)',
+    livelihoods:['Nearshore marine fisheries','Solar fish drying & processing','Dockside cooperative auctions','Traditional net mending'],
+    documented:'Juhu Moragaon is an ancient coastal Koliwada settlement situated along the Arabian Sea in Mumbai Suburban district, historically documented as a tidal island settlement in 12th-century regional chronicles.',
+    community:'Community elders recount how women have anchored the post-harvest economic cycle for generations, sorting, drying Bombay Duck on bamboo scaffolds (valan), and managing cooperative dockside auctions.',
+    reach:'Accessible via Juhu Tara Road and V.M. Road, approximately 4 km west of Vile Parle Station.',
+    authority:'Juhu Moragaon Machhimar Vividha Karyakari Sahakari Sanstha Ltd.',
+    verified:'District Research Lead, 25 Aug 2026', evidence:'EV-0003, EV-0004, EV-0005'
+  },
+  survey:{
+    id:'SUR-PENDING', title:'Coastal Marine Observations (Aggregated)',
+    method:'Transect', dates:'2025–2026', n:0,
+    sample:'Intertidal transect observations along Juhu Moragaon foreshore and mangrove channels.',
+    findings:[
+      {m:'Seasonal', k:'Monsoon ban',
+       t:'Statutory annual marine fishing ban enforced from 1 June to 31 July under Maharashtra Marine Fishing Regulation Act.', e:'EV-0004'}
+    ],
+    verified:'District Research Lead'
+  },
+  species:{
+    id:'SPE-0002', common:'Grey Mangrove', local:'टिल्लूर', sci:'Avicennia marina',
+    iucn:'LC (Least Concern)', kind:'Flora',
+    habitat:'Intertidal estuarine mudflats and coastal drainage banks fringing Juhu Moragaon.',
+    observed:'20 Aug 2026 · COOL CRYMB Student Research Unit', precision:'Coarse',
+    verified:'Biodiversity Lead, 26 Aug 2026'
+  },
+  challenge:{
+    id:'CHL-0002', title:'Tidal Inundation, Estuarine Erosion and Coastal Commons Degradation',
+    category:'Flooding',
+    researchers:'Increasing frequency of monsoon astronomical tide surges encroaching upon low-lying fish drying yards and boat mooring creeks, exacerbated by debris dumping.',
+    community:'Community members emphasize that preserving intact mangrove root belts is vital for natural shoreline stabilization and preventing shoreline recession.',
+    existing:'Community youth and cooperative members conduct volunteer surveillance to deter illegal debris dumping into coastal mangrove channels.',
+    intervention:{
+      id:'INT-0002', type:'Community',
+      desc:'Community-led volunteer surveillance patrols and participatory tidal shoreline cleanup to safeguard estuarine mangrove fringes.',
+      outcome:'Successfully halted illegal debris dumping across 4 critical estuarine access points during the 2026 monsoon cycle.',
+      asOf:'8 Sep 2026', evidence:'EV-0005'
+    },
+    verified:'District Research Lead, 30 Aug 2026'
+  },
+  person:{
+    id:'PPL-WITHHELD', name:'Community Collective',
+    role:'Juhu Moragaon Fisherfolk & Women Processors',
+    bio:'Indigenous Mangela Koli seafaring families and women fish processors managing cooperative dockside auctions and solar drying yards.',
+    consent:'Individual personal identities withheld under privacy and consent rules (CF-FORM pending). Collective representation published.',
+    verified:'Coastal Governance Lead'
+  },
+  evidence:[
+    {id:'EV-0003', state:'Verified', type:'Secondary source', source:'Mahikavatichi Bakhar (12th c.)',
+     claim:'Juhu Moragaon is an ancient coastal settlement documented as Juvem during King Pratap Bimb medieval reign in the Mahikavatichi Bakhar chronicle.',
+     method:'Historiographical textual analysis', who:'UoM CCCSS Heritage Cohort',
+     verified:'District Research Lead, 25 Aug 2026'},
+    {id:'EV-0004', state:'Verified', type:'Official document', source:'Maharashtra Marine Fishing Regulation Act',
+     claim:'The Department of Fisheries enforces a statutory annual marine fishing ban from June 1 to July 31 along the coastal shelf to replenish wild stocks.',
+     method:'Regulatory statutory notification analysis', who:'UoM CCCSS Research Cohort',
+     verified:'Environmental Policy Lead, 28 Aug 2026'},
+    {id:'EV-0005', state:'Verified', type:'Official document', source:'Joint Demarcation Survey Records (2018)',
+     claim:'Fisheries and Revenue Departments completed joint boundary demarcation for Juhu Moragaon Koliwada in 2018 under CRZ guidelines.',
+     method:'Spatial survey audit', who:'UoM CCCSS Coastal Governance Team',
+     verified:'District Research Lead, 2 Sep 2026'}
+  ],
+  empty:[
+    {t:'Individual Profiles', n:'Individual names and photographs are withheld pending formal consent verification (docs/08).'},
+    {t:'Raw Survey Records', n:'Raw household survey microdata is held in private research storage.'}
   ]
 };
 
@@ -1474,7 +1564,10 @@ function drawHeroFruit(ctx,p,T,L,dark){
   const t=clamp((growF-f.off)/0.7,0,1); if(t<=0) return;
   const ripeF=smooth((p-0.606)/0.040);
   const g=handGeom(p);
-  const alpha=1-smooth((p-0.722)/0.006);
+  // Cross-fade with the figure's held fruit over the same interval as the
+  // close-up hand. This avoids a two-frame gap where the hand remains visible
+  // after its fruit has already disappeared.
+  const alpha=1-smooth((p-0.724)/0.008);
   if(alpha<=0.01) return;
   const r=f.r*t, lit=clamp(L.amt,0,1);
   const cx=g.fruitX, cy=g.fruitY;
@@ -1788,11 +1881,20 @@ function drawFigure(ctx,cam,p,L,dark){
     const bend=lerp(0.1,-0.9,armLift);
     const hand=limbShape(ctx,shX,shY,angle,bend,h*0.25,h*0.22,hw*0.62,hw*0.5,hw*0.34);
 
+    // Transfer the fruit from the close-up hand into the figure's hand instead
+    // of making it pop into a new position at the cut.
+    const transfer=smooth(clamp((p-0.724)/0.014,0,1));
+    const closeup=handGeom(p);
+    const oldFruitX=cam.X(closeup.fruitX), oldFruitY=cam.Y(closeup.fruitY);
+    const fruitX=lerp(oldFruitX,hand.hx,transfer);
+    const fruitY=lerp(oldFruitY,hand.hy,transfer);
+    const holdIn=smooth(clamp((p-0.724)/0.008,0,1));
+
     // Fruit in hand: shrinks naturally as it is eaten during the hold (0.738 → 0.754)
     const bite=smooth(clamp((p-0.738)/0.016,0,1));
     const fr=hw*0.48*(1-bite);
-    if(fr>0.3){
-      paintFruit(ctx,hand.hx,hand.hy,fr,1,lit,dark);
+    if(fr>0.3 && holdIn>0.01){
+      paintFruit(ctx,fruitX,fruitY,fr,1,lit,dark,holdIn);
     }
   } else if(p>=0.700 && p<0.724){
     // F4 Same-person reveal: right arm reaches to plucking hand and draws into chest
@@ -2220,7 +2322,7 @@ const layers={back:document.getElementById('txtBack'), front:document.getElement
 const film=document.getElementById('film');
 const ALL=TEXT.concat(TEXT_FACT);
 let W=0,H=0,dpr=1,baseDpr=1,raw=0,cur=0,last=0,rafId=null,still=false;
-let prevCur=-1, lastDof=-1, thudDone=false;
+let prevCur=-1, lastDof=-1, thudDone=false, fps=[], qStep=0, goodWin=0, cool=0;
 
 const nodes=ALL.map((t,idx)=>{
   const d=document.createElement('div');
@@ -2385,7 +2487,6 @@ function frame(ts){
   if(cur<0.8) thudDone=false;
   rafId=requestAnimationFrame(frame);
 }
-let fps=[],qStep=0,goodWin=0,cool=0;
 function profile(dt){
   fps.push(dt); if(fps.length<30) return;
   fps.sort((a,b)=>a-b); const med=fps[15]; fps=[];
@@ -2517,7 +2618,7 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-const ARCHIVE_RECORDS={palghar:PALGHAR};
+const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
 
 (function buildDistricts(){
   const host=document.getElementById('districts');
@@ -2810,14 +2911,16 @@ function boot(){
   resize();
   route();
 }
-if(document.fonts&&document.fonts.ready) document.fonts.ready.then(boot); else setTimeout(boot,0);
+let booted=false;
+function runBoot(){ if(booted) return; booted=true; boot(); }
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(runBoot).catch(runBoot);
+setTimeout(runBoot,200);
 
 const store=(function(){const mem={};
  try{localStorage.setItem('__ccl','1');localStorage.removeItem('__ccl');}catch(e){
   return{get:k=>(k in mem?mem[k]:null),set:(k,v)=>{mem[k]=v;}};}
  return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
         set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
-let currentLang='en';
 const UI_LANG={
  en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',global:'Global context',world:'The world',detail:'CCL connects global research context with local climate-resilience work.',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.'},
  mr:{title:'तुमची भाषा निवडा',sub:'मराठी निवडली आहे. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',global:'जागतिक संदर्भ',world:'जग',detail:'CCL जागतिक संशोधन संदर्भाला स्थानिक हवामान-लवचिकता कार्याशी जोडते.',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.'},
