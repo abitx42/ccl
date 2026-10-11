@@ -96,7 +96,7 @@ body.arc #progress{display:none}
 /* ── typography scale ──────────────────────────────────────── */
 .T{
   position:absolute; opacity:0; will-change:opacity,transform,filter;
-  transform-origin:50% 50%;
+  transform-origin:50% 50%; text-wrap:balance;
 }
 .T.center{text-align:center}
 .T.left{text-align:left}
@@ -113,15 +113,15 @@ body.arc #progress{display:none}
   font-size:clamp(42px,9vw,128px); color:#F1EFE6;
 }
 .large{
-  font-family:var(--film); font-weight:300; line-height:1.14; letter-spacing:-.01em;
+  font-family:var(--film); font-weight:300; line-height:1.08; letter-spacing:-.01em;
   font-size:clamp(30px,5.2vw,72px); color:#F2F0E7;
 }
 .med{
-  font-family:var(--film); font-weight:300; line-height:1.34;
+  font-family:var(--film); font-weight:300; line-height:1.28;
   font-size:clamp(20px,2.7vw,35px); color:#F0EEE6;
 }
 .small{
-  font-family:var(--ui); font-weight:400; line-height:1.62;
+  font-family:var(--ui); font-weight:400; line-height:1.58;
   font-size:clamp(14px,1.35vw,17px); color:#C9D4CE;
 }
 .micro{
@@ -180,9 +180,9 @@ body.arc #progress{display:none}
 .eyebrow{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--signal); font-weight:600}
 h2.sect{
   font-family:var(--film); font-weight:300; letter-spacing:-.012em;
-  font-size:clamp(34px,6vw,76px); line-height:1.04; margin:.3em 0 .25em; color:#F2F0E7;
+  font-size:clamp(34px,6vw,76px); line-height:1.02; margin:.3em 0 .25em; color:#F2F0E7; text-wrap:balance;
 }
-.lede{font-family:var(--film); font-size:clamp(17px,1.9vw,23px); line-height:1.6; color:#C6D1CB; max-width:62ch}
+.lede{font-family:var(--film); font-size:clamp(17px,1.9vw,23px); line-height:1.55; color:#C6D1CB; max-width:62ch; text-wrap:pretty}
 .note{
   margin-top:26px; font-size:12.5px; color:var(--mute); line-height:1.65; max-width:70ch;
   border-left:1px solid var(--line); padding-left:14px;
@@ -281,13 +281,30 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 }
 @media (max-width:620px){
   .tlayer{padding-inline:18px}
-  .giant{font-size:clamp(44px,15vw,78px)}
+  .giant{font-size:clamp(38px,12vw,72px); letter-spacing:.02em}
   .huge{font-size:clamp(34px,11vw,58px)}
   .large{font-size:clamp(27px,8vw,42px)}
+  .med{font-size:clamp(20px,6.4vw,31px)}
+  .small{font-size:clamp(14px,3.8vw,17px)}
   .film-copy{max-width:min(92vw,34rem)}
+  .T{max-width:calc(100vw - 32px)}
+  .plate{padding:16px 18px}
+  .partners{gap:14px 18px}
+  .chips{gap:6px}
+  .chips span{letter-spacing:.10em;padding:5px 8px}
 }
 @media (hover:none) and (pointer:coarse){
   .btn,.lang button,#skip,.skip-btn{min-height:44px}
+}
+
+/* Phase 3 — keep the narrative readable on narrow screens without changing
+   the cinematic timeline or the fixed film stage. */
+@media (max-width:760px){
+  #chrome{gap:6px;padding-inline:10px;overflow-x:auto;scrollbar-width:none}
+  #chrome::-webkit-scrollbar{display:none}
+  #mark{display:none}
+  #chrome .btn{font-size:10.5px;padding-inline:8px}
+  .lang-pills{flex:none}
 }
 
 /* Phase 2 — language gateway */
@@ -304,6 +321,12 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 #geoA11y,#geoLabels{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
 @media(max-width:620px){.fact-two{margin-top:12vh}}
+@media(max-width:620px){
+  #languageGate{padding:16px}
+  .lang-card{max-height:calc(100dvh - 32px);overflow:auto;padding:24px 22px}
+  .lang-card h1{font-size:clamp(38px,12vw,56px)}
+  .lang-card .lang{margin:20px 0 14px}
+}
 </style>
 </head>
 <body>
@@ -428,153 +451,153 @@ function sampleC(keys,p,fields){
 }
 
 const CHAPTERS=[
-  {p:0.000, n:'Soil'},
-  {p:0.075, n:'Growth'},
-  {p:0.255, n:'The tree'},
-  {p:0.330, n:'A day'},
-  {p:0.495, n:'Seasons'},
-  {p:0.630, n:'Food'},
-  {p:0.745, n:'Change'},
-  {p:0.828, n:'The question'},
-  {p:0.862, n:'CCL'},
-  {p:0.900, n:'The world'},
+  {p:0.000, n:'Why CCL'},
+  {p:0.075, n:'The problem'},
+  {p:0.255, n:'The living lab'},
+  {p:0.330, n:'The partnership'},
+  {p:0.495, n:'Green skills'},
+  {p:0.630, n:'From learning'},
+  {p:0.745, n:'Local action'},
+  {p:0.828, n:'The next step'},
+  {p:0.862, n:'CCL in practice'},
+  {p:0.900, n:'Mumbai ↔ Bristol'},
   {p:0.995, n:'Explore'}
 ];
 
 const TEXT=[
 {a:.000,b:.008,c:.056,d:.074, L:'front', k:'micro', x:'50%', y:'13%', w:'86vw', al:'center',
- html:'COOL CRYMB · University of Mumbai &amp; University of Bristol'},
+  html:'COOL CRYMB · Community Co-creation Lab for Local Climate Resilience'},
 {a:.005,b:.018,c:.042,d:.058, L:'front', k:'large', x:'50%', y:'50%', w:'min(20ch,84vw)', al:'center', m:'rise',
- html:'<p>Everything begins somewhere.</p>'},
+  html:'<p>Climate challenges are local.</p>'},
 {a:.050,b:.062,c:.078,d:.090, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
- html:'<p>A seed.</p>'},
+  html:'<p>But action is often disconnected from the people it affects.</p>'},
 {a:.086,b:.098,c:.112,d:.124, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
- html:'<p>A place.</p>'},
+  html:'<p>Communities need knowledge they can use.</p>'},
 {a:.120,b:.132,c:.148,d:.160, L:'front', k:'med', x:'50%', y:'44%', w:'min(22ch,80vw)', al:'center', m:'rise',
- html:'<p>A living system.</p>'},
+  html:'<p>CCL turns climate knowledge into shared local action.</p>'},
 {a:.126,b:.140,c:.156,d:.168, L:'front', k:'small', x:'50%', y:'62%', w:'min(36ch,82vw)', al:'center',
- html:'<p>Water arrives before anything else can.</p>'},
+  html:'<p>A living lab for students, educators, NGOs and communities.</p>'},
 {a:.168,b:.190,c:.232,d:.256, L:'back', k:'giant', x:'50%', y:'42%', w:'120vw', al:'center', m:'drift-r', par:.55,
- html:'GROWTH'},
+  html:'CO-CREATION'},
 {a:.200,b:.216,c:.238,d:.252, L:'front', k:'med', x:'50%', y:'72%', w:'min(26ch,80vw)', al:'center', m:'rise',
- html:'<p>Time changes it.</p>'},
+  html:'<p>Climate change shows up in heat, flooding, waste and unequal access to safe places.</p>'},
 {a:.248,b:.262,c:.284,d:.298, L:'front', k:'small', x:'50%', y:'78%', w:'min(42ch,84vw)', al:'center',
- html:'<p>Then the ground around it starts to change too.</p>'},
+  html:'<p>The gap is not concern. It is the gap between evidence, skills and implementation.</p>'},
 {a:.284,b:.298,c:.320,d:.336, L:'front', k:'large', x:'7%', y:'66%', w:'min(20ch,74vw)', al:'left', m:'rise',
- html:'<p>One tree is<br>already a system.</p>'},
+  html:'<p>One community is<br>already a system.</p>'},
 {a:.312,b:.322,c:.336,d:.346, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Morning'},
-{a:.346,b:.354,c:.366,d:.374, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Afternoon'},
+{a:.346,b:.354,c:.366,d:.374, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Listen locally'},
 {a:.352,b:.364,c:.382,d:.394, L:'front', k:'large', x:'50%', y:'32%', w:'min(24ch,84vw)', al:'center', m:'rise',
- html:'<p>Everything is connected.</p>'},
-{a:.386,b:.394,c:.408,d:.416, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Night'},
+  html:'<p>The people closest to a problem are part of the solution.</p>'},
+{a:.386,b:.394,c:.408,d:.416, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Learn together'},
 {a:.392,b:.402,c:.418,d:.428, L:'front', k:'small', x:'50%', y:'74%', w:'min(42ch,84vw)', al:'center',
- html:'<p>The dark is part of the cycle, not a pause in it.</p>'},
-{a:.420,b:.428,c:.440,d:.448, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Sunrise'},
+  html:'<p>CCL brings academic climate science and lived experience into one process.</p>'},
+{a:.420,b:.428,c:.440,d:.448, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Design together'},
 {a:.434,b:.452,c:.512,d:.540, L:'back', k:'giant', x:'50%', y:'38%', w:'120vw', al:'center', m:'drift-l', par:.6,
- html:'TIME'},
-{a:.446,b:.454,c:.470,d:.478, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Summer'},
-{a:.482,b:.490,c:.510,d:.518, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Monsoon'},
+  html:'COLLABORATION'},
+{a:.446,b:.454,c:.470,d:.478, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Mumbai'},
+{a:.482,b:.490,c:.510,d:.518, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Bristol'},
 {a:.488,b:.500,c:.514,d:.524, L:'front', k:'small', x:'50%', y:'76%', w:'min(46ch,84vw)', al:'center',
- html:'<p>The monsoon is the water supply. It is also the erosion.</p>'},
-{a:.518,b:.526,c:.544,d:.552, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Dry season'},
-{a:.552,b:.560,c:.578,d:.586, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'New growth'},
+  html:'<p>University of Mumbai and University of Bristol work across borders, with British Council and HSBC support.</p>'},
+{a:.518,b:.526,c:.544,d:.552, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Facilitate'},
+{a:.552,b:.560,c:.578,d:.586, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'Apply'},
 {a:.554,b:.566,c:.582,d:.594, L:'front', k:'med', x:'50%', y:'70%', w:'min(30ch,84vw)', al:'center', m:'rise',
- html:'<p>Weather shapes it. Then it feeds something.</p>'},
+  html:'<p>Workshops build green skills for climate resilience, solid waste management and sustainable communities.</p>'},
 {a:.594,b:.606,c:.624,d:.638, L:'front', k:'med', x:'50%', y:'24%', w:'min(28ch,84vw)', al:'center', m:'rise',
- html:'<p>Food grows, low enough to reach.</p>'},
+  html:'<p>Participants listen, investigate, design projects and write action plans.</p>'},
 {a:.700,b:.714,c:.734,d:.748, L:'front', k:'large', x:'50%', y:'28%', w:'min(24ch,84vw)', al:'center', m:'rise',
- html:'<p>People depend on it.</p>'},
+  html:'<p>Learning becomes a skill you can carry back to your campus or neighbourhood.</p>'},
 {a:.734,b:.744,c:.758,d:.770, L:'front', k:'small', x:'50%', y:'76%', w:'min(48ch,84vw)', al:'center',
- html:'<p>So does everything else that lives around it.</p>'},
+  html:'<p>The fruit is a metaphor: knowledge is useful when it reaches a hand, a team and a place.</p>'},
 {a:.780,b:.802,c:.838,d:.862, L:'back', k:'giant', x:'50%', y:'46%', w:'130vw', al:'center', m:'scale', par:.4,
- html:'CHANGE'},
+  html:'ACTION'},
 {a:.802,b:.814,c:.828,d:.838, L:'front', k:'large', x:'50%', y:'38%', w:'min(24ch,86vw)', al:'center', m:'rise',
- html:'<p>What happens when the system changes?</p>'},
+  html:'<p>What changes when local people have the tools to lead?</p>'},
 {a:.834,b:.844,c:.856,d:.864, L:'front', k:'med', x:'50%', y:'34%', w:'min(34ch,86vw)', al:'center', m:'rise',
- html:'<p>The coastline changes. The record of it falls behind.</p>'},
+  html:'<p>Teams can turn a shared problem into a practical green project.</p>'},
 {a:.838,b:.848,c:.856,d:.864, L:'front', k:'small', x:'50%', y:'62%', w:'min(62ch,88vw)', al:'center',
- html:'<p>High-tide inundation and saline intrusion into freshwater wells and paddy fields. Estuarine and riverbank erosion. Mangrove degradation and the loss of coastal bio-shields. Traditional agro-ecological systems under stress.</p>'},
+  html:'<p>They can map a pain point, test an approach, involve the community and keep the evidence open.</p>'},
 {a:.856,b:.868,c:.888,d:.898, L:'front', k:'huge', x:'50%', y:'40%', w:'90vw', al:'center', m:'scale',
- html:'CCL'},
+  html:'CCL'},
 {a:.862,b:.872,c:.888,d:.898, L:'front', k:'micro', x:'50%', y:'53%', w:'80vw', al:'center',
- html:'COOL CRYMB'},
+  html:'COMMUNITY CO-CREATION LAB'},
 {a:.868,b:.876,c:.890,d:.900, L:'front', k:'small', x:'50%', y:'63%', w:'min(64ch,88vw)', al:'center',
- html:'<p style="font-family:var(--film);font-size:clamp(15px,1.9vw,22px);line-height:1.5;color:#D9E0DB">COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol</p>'}
+  html:'<p style="font-family:var(--film);font-size:clamp(15px,1.9vw,22px);line-height:1.5;color:#D9E0DB">A 2026–2027 climate-resilience initiative connecting youth, universities, NGOs and communities across Mumbai and Bristol.</p>'}
 ];
 
 const TEXT_FACT_DATA={
  en:[
-  '<div class="plate">'+
-   '<p class="micro">What CCL is</p>'+
-   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.34;color:#EFEDE4;margin:.6em 0 .8em">An applied climate-resilience research initiative bridging university climate scientists, coastal communities and youth fellows.</p>'+
-   '<p>Academic researchers produce macro-scale climate models and policy recommendations. Coastal communities hold generations of experiential ecological observation. CCL is the structured, bilateral mechanism that puts the two into one process — and records the result as evidence rather than as anecdote.</p>'+
-   '</div>',
-  '<div class="plate fact-two">'+
-   '<p class="micro">What it does</p>'+
-   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · Empower youth fellows</b><br>Practical green skills: biodiversity profiling, GPS surveying, water salinity testing, oral history collection.</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · Co-create hyper-local interventions</b><br>Mangrove restoration, tidal bund engineering, indigenous salinity-resistant seed preservation, sustainable aquaculture.</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · Archive verified field evidence</b><br>Into an open, permanent and ethically governed public repository.</p>'+
-   '<div class="chips"><span>Places</span><span>People</span><span>Surveys</span><span>Species</span><span>Challenges</span><span>Responses</span><span>Heritage</span><span>Evidence</span></div>'+
-   '</div>',
-  '<p class="micro" style="margin-bottom:1.2em">The collaboration</p>'+
-   '<div class="partners">'+
-    '<div><strong>University of Mumbai</strong><span>Operational lead · CCCSS, Kalina campus</span></div>'+
-    '<div><strong>University of Bristol</strong><span>Collaborative research partner</span></div>'+
-    '<div><strong>British Council</strong><span>Funder</span></div>'+
-    '<div><strong>HSBC</strong><span>Funder</span></div>'+
-   '</div>',
-  '<p>Climate change does not stop at borders.</p>',
-  '<p>Neither does learning.</p>',
-  '<p>Now look at the project.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">Keep scrolling ↓</p>'
- ],
+   '<div class="plate">'+
+    '<p class="micro">What CCL is</p>'+ 
+    '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.34;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB is an international living lab for local climate resilience.</p>'+ 
+    '<p>It connects youth, faculty, NGOs and communities with the University of Mumbai and the University of Bristol to turn climate knowledge into practical, locally owned action.</p>'+ 
+    '</div>',
+   '<div class="plate fact-two">'+
+    '<p class="micro">How the lab works</p>'+ 
+    '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · Learn</b><br>Expert-led climate science and green-skills training.</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · Listen and design</b><br>Community meetings identify local pain points such as waste segregation and neighbourhood resilience.</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · Act and share</b><br>Teams build a Green Project, write an action plan and carry evidence back into the public archive.</p>'+ 
+    '<div class="chips"><span>Climate resilience</span><span>Green skills</span><span>Solid waste</span><span>Community action</span></div>'+ 
+    '</div>',
+   '<p class="micro" style="margin-bottom:1.2em">The collaboration</p>'+ 
+    '<div class="partners">'+
+     '<div><strong>University of Mumbai</strong><span>Lead host · CCCSS, Kalina campus</span></div>'+ 
+     '<div><strong>University of Bristol</strong><span>International research partner</span></div>'+ 
+     '<div><strong>British Council</strong><span>Programme support</span></div>'+ 
+     '<div><strong>HSBC</strong><span>Programme support</span></div>'+ 
+    '</div>',
+   '<p>The need is local.</p>',
+   '<p>The response is shared.</p>',
+   '<p>Explore the work.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">Keep scrolling ↓</p>'
+  ],
  mr:[
-  '<div class="plate">'+
-   '<p class="micro">CCL म्हणजे काय</p>'+
-   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">विद्यापीठातील हवामान शास्त्रज्ञ, किनारपट्टीवरील समुदाय आणि युवा अभ्यासक यांना जोडणारा एक उपयोजित हवामान-लवचिकता संशोधन उपक्रम.</p>'+
-   '<p>शैक्षणिक संशोधक व्यापक हवामान प्रारूपे आणि धोरणात्मक शिफारशी तयार करतात. किनारपट्टीवरील समुदायांकडे पिढ्यानपिढ्यांचे पर्यावरणीय निरीक्षण असते. CCL ही एक संरचनात्मक, द्विपक्षीय यंत्रणा आहे जी या दोघांना एका प्रक्रियेत आणते — आणि परिणामांची नोंद केवळ किस्सा म्हणून नव्हे तर पुरावा म्हणून करते.</p>'+
-   '</div>',
-  '<div class="plate fact-two">'+
-   '<p class="micro">हे काय करते</p>'+
-   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · युवा अभ्यासकांचे सक्षमीकरण</b><br>व्यावहारिक हरित कौशल्ये: जैवविविधता प्रोफाइलिंग, GPS सर्वेक्षण, पाण्याची क्षारता चाचणी, मौखिक इतिहास संकलन.</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · अति-स्थानिक उपायांची सह-निर्मिती</b><br>कांदळवन पुनर्संचय, भरती-संरक्षक बंधारे, स्थानिक क्षार-प्रतिरोधक बियाण्यांचे जतन, शाश्वत जलशेती.</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · पडताळणी केलेल्या क्षेत्रीय पुराव्यांचा संग्रह</b><br>एका खुल्या, कायमस्वरूपी आणि नैतिकदृष्ट्या संचलित सार्वजनिक भांडारात.</p>'+
-   '<div class="chips"><span>ठिकाणे</span><span>व्यक्ती</span><span>सर्वेक्षणे</span><span>प्रजाती</span><span>आव्हाने</span><span>उपाय</span><span>वारसा</span><span>पुरावे</span></div>'+
-   '</div>',
-  '<p class="micro" style="margin-bottom:1.2em">सहकार्य</p>'+
-   '<div class="partners">'+
-    '<div><strong>मुंबई विद्यापीठ</strong><span>कार्यकारी नेतृत्व · CCCSS, कलिना परिसर</span></div>'+
-    '<div><strong>ब्रिस्टल विद्यापीठ</strong><span>सहयोगी संशोधन भागीदार</span></div>'+
-    '<div><strong>ब्रिटिश कौन्सिल</strong><span>निधी समर्थक</span></div>'+
-    '<div><strong>HSBC</strong><span>निधी समर्थक</span></div>'+
-   '</div>',
-  '<p>हवामान बदल सीमेवर थांबत नाही.</p>',
-  '<p>आणि शिकणेही नाही.</p>',
-  '<p>आता प्रकल्प पहा.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">खाली स्क्रोल करा ↓</p>'
- ],
+   '<div class="plate">'+
+    '<p class="micro">CCL म्हणजे काय</p>'+ 
+    '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB हा स्थानिक हवामान-लवचिकतेसाठीचा आंतरराष्ट्रीय living lab आहे.</p>'+ 
+    '<p>तो युवा, प्राध्यापक, स्वयंसेवी संस्था आणि समुदायांना मुंबई विद्यापीठ व ब्रिस्टल विद्यापीठाशी जोडतो, जेणेकरून हवामान ज्ञानाचे स्थानिक कृतीत रूपांतर होईल.</p>'+ 
+    '</div>',
+   '<div class="plate fact-two">'+
+    '<p class="micro">प्रयोगशाळेची पद्धत</p>'+ 
+    '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · शिकणे</b><br>हवामान विज्ञान आणि हरित कौशल्यांचे प्रशिक्षण.</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · ऐकणे आणि रचना</b><br>समुदाय संवादातून कचरा-विभाजनासारख्या स्थानिक अडचणी समजून घेणे.</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कृती आणि वाटणी</b><br>Green Project, action plan आणि सार्वजनिक पुरावा तयार करणे.</p>'+ 
+    '<div class="chips"><span>हवामान</span><span>हरित कौशल्ये</span><span>घनकचरा</span><span>समुदाय कृती</span></div>'+ 
+    '</div>',
+   '<p class="micro" style="margin-bottom:1.2em">सहकार्य</p>'+ 
+    '<div class="partners">'+
+     '<div><strong>मुंबई विद्यापीठ</strong><span>मुख्य यजमान · CCCSS</span></div>'+ 
+     '<div><strong>ब्रिस्टल विद्यापीठ</strong><span>आंतरराष्ट्रीय भागीदार</span></div>'+ 
+     '<div><strong>ब्रिटिश कौन्सिल</strong><span>कार्यक्रम सहाय्य</span></div>'+ 
+     '<div><strong>HSBC</strong><span>कार्यक्रम सहाय्य</span></div>'+ 
+    '</div>',
+   '<p>गरज स्थानिक आहे.</p>',
+   '<p>उपाय सामायिक आहे.</p>',
+   '<p>कार्य पहा.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">खाली स्क्रोल करा ↓</p>'
+  ],
  hi:[
-  '<div class="plate">'+
-   '<p class="micro">CCL क्या है</p>'+
-   '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">विश्वविद्यालय के जलवायु वैज्ञानिकों, तटीय समुदायों और युवा शोधार्थियों को जोड़ने वाली एक व्यावहारिक जलवायु-लचीलापन शोध पहल।</p>'+
-   '<p>शैक्षणिक शोधकर्ता व्यापक जलवायु मॉडल और नीतिगत सिफारिशें तैयार करते हैं। तटीय समुदायों के पास पीढ़ियों का व्यावहारिक पारिस्थितिक अनुभव होता है। CCL एक संरचित, द्विपक्षीय तंत्र है जो दोनों को एक प्रक्रिया में लाता है — और परिणामों को केवल किस्सों के बजाय ठोस साक्ष्य के रूप में दर्ज करता है।</p>'+
-   '</div>',
-  '<div class="plate fact-two">'+
-   '<p class="micro">यह क्या करता है</p>'+
-   '<p style="margin-top:.9em"><b style="color:#EFEDE4">01 · युवा साथियों का सशक्तीकरण</b><br>व्यावहारिक हरित कौशल: जैव विविधता रूपरेखा, GPS सर्वेक्षण, जल लवणता परीक्षण, मौखिक इतिहास संकलन।</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">02 · अति-स्थानीय समाधानों का सह-निर्माण</b><br>मैंग्रोव पुनरुद्धार, ज्वारीय तटबंध निर्माण, पारंपरिक लवण-प्रतिरोधी बीज संरक्षण, संधारणीय जलीय कृषि।</p>'+
-   '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · सत्यापित ज़मीनी साक्ष्यों का संग्रह</b><br>एक खुले, स्थायी और नैतिक रूप से संचालित सार्वजनिक रिपॉजिटरी में।</p>'+
-   '<div class="chips"><span>स्थान</span><span>लोग</span><span>सर्वेक्षण</span><span>प्रजातियाँ</span><span>चुनौतियाँ</span><span>समाधान</span><span>धरोहर</span><span>साक्ष्य</span></div>'+
-   '</div>',
-  '<p class="micro" style="margin-bottom:1.2em">साझेदारी</p>'+
-   '<div class="partners">'+
-    '<div><strong>मुंबई विश्वविद्यालय</strong><span>संचालन नेतृत्व · CCCSS, कलीना परिसर</span></div>'+
-    '<div><strong>ब्रिस्टल विश्वविद्यालय</strong><span>सहयोगी शोध भागीदार</span></div>'+
-    '<div><strong>ब्रिटिश काउंसिल</strong><span>वित्तपोषक</span></div>'+
-    '<div><strong>HSBC</strong><span>वित्तपोषक</span></div>'+
-   '</div>',
-  '<p>जलवायु परिवर्तन सीमाओं पर नहीं रुकता।</p>',
-  '<p>और न ही सीखना।</p>',
-  '<p>अब परियोजना देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
- ]
+   '<div class="plate">'+
+    '<p class="micro">CCL क्या है</p>'+ 
+    '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB स्थानीय जलवायु-लचीलेपन के लिए एक अंतरराष्ट्रीय living lab है।</p>'+ 
+    '<p>यह युवाओं, शिक्षकों, NGOs और समुदायों को मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय से जोड़ता है, ताकि जलवायु ज्ञान स्थानीय कार्रवाई में बदल सके।</p>'+ 
+    '</div>',
+   '<div class="plate fact-two">'+
+    '<p class="micro">लैब की प्रक्रिया</p>'+ 
+    '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · सीखना</b><br>जलवायु विज्ञान और हरित कौशल का प्रशिक्षण।</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · सुनना और बनाना</b><br>समुदाय के साथ मिलकर कचरा-विभाजन जैसी स्थानीय समस्याओं को समझना।</p>'+ 
+    '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कार्रवाई और साझा करना</b><br>Green Project, action plan और सार्वजनिक प्रमाण तैयार करना।</p>'+ 
+    '<div class="chips"><span>जलवायु</span><span>हरित कौशल</span><span>ठोस कचरा</span><span>सामुदायिक कार्रवाई</span></div>'+ 
+    '</div>',
+   '<p class="micro" style="margin-bottom:1.2em">साझेदारी</p>'+ 
+    '<div class="partners">'+
+     '<div><strong>मुंबई विश्वविद्यालय</strong><span>मुख्य मेजबान · CCCSS</span></div>'+ 
+     '<div><strong>ब्रिस्टल विश्वविद्यालय</strong><span>अंतरराष्ट्रीय भागीदार</span></div>'+ 
+     '<div><strong>ब्रिटिश काउंसिल</strong><span>कार्यक्रम सहयोग</span></div>'+ 
+     '<div><strong>HSBC</strong><span>कार्यक्रम सहयोग</span></div>'+ 
+    '</div>',
+   '<p>ज़रूरत स्थानीय है।</p>',
+   '<p>प्रतिक्रिया साझा है।</p>',
+   '<p>कार्य देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
+  ]
 };
 
 const TEXT_FACT=[
@@ -2410,9 +2433,9 @@ function updateGeoNarrative(p){
   const detail=document.getElementById('geoDetail');
   if(!box||!title||!detail) return;
   let kicker='',t='',d='';
-  if(p>=0.900 && p<0.925){ kicker='Global context'; t='Bristol, UK'; d='A collaboration point in the CCL story.'; }
-  else if(p>=0.925 && p<0.955){ kicker='Global → local'; t='Mumbai, Maharashtra'; d='The story moves from international collaboration into the local research context.'; }
-  else if(p>=0.955 && p<0.988){ kicker='India'; t='Maharashtra'; d='A single regional view anchors the transition into the project archive.'; }
+  if(p>=0.914 && p<0.930){ kicker='Global context'; t='Bristol, UK'; d='A collaboration point in the CCL story.'; }
+  else if(p>=0.930 && p<0.960){ kicker='Global → local'; t='Mumbai, Maharashtra'; d='The story moves from international collaboration into the local research context.'; }
+  else if(p>=0.960 && p<0.990){ kicker='India'; t='Maharashtra'; d='A single regional view anchors the transition into the project archive.'; }
   else if(p>=0.988 && p<0.995){
     const published=DISTRICTS.filter(x=>x.records>0);
     if(published.length){
@@ -2949,18 +2972,29 @@ function applyLanguage(code){
  store.set('ccl-language',code);
 }
 (function initLanguage(){
- const saved=store.get('ccl-language')||'en'; applyLanguage(saved);
- document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>applyLanguage(b.dataset.lang)));
- const gate=document.getElementById('languageGate');
- const seen=store.get('ccl-language-gate-seen')==='1';
- if(seen){ gate?.remove(); return; }
- let lastFocus=document.activeElement;
- const btns=Array.from(gate.querySelectorAll('button'));
- window.cclCloseGate=function(){
-   store.set('ccl-language-gate-seen','1');
-   gate.classList.add('is-hidden');
-   setTimeout(()=>{ gate.remove(); (lastFocus&&document.contains(lastFocus)?lastFocus:document.getElementById('main'))?.focus?.({preventScroll:true}); },500);
- };
+  const saved=store.get('ccl-language')||'en'; applyLanguage(saved);
+  document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>applyLanguage(b.dataset.lang)));
+  const gate=document.getElementById('languageGate');
+  if(!gate) return;
+  const seen=store.get('ccl-language-gate-seen')==='1';
+  if(seen){ gate?.remove(); return; }
+  let lastFocus=document.activeElement;
+  const btns=Array.from(gate.querySelectorAll('button'));
+  let closing=false;
+  window.cclCloseGate=function(){
+    if(closing || !document.contains(gate)) return;
+    closing=true;
+    store.set('ccl-language-gate-seen','1');
+    gate.setAttribute('aria-hidden','true');
+    gate.classList.add('is-hidden');
+    // A fresh entry always starts at the beginning. Preserve an explicit
+    // archive/district hash so the gate cannot disrupt direct deep links.
+    if(!location.hash) window.scrollTo({top:0,left:0,behavior:'auto'});
+    setTimeout(()=>{
+      gate.remove();
+      (lastFocus&&document.contains(lastFocus)?lastFocus:document.getElementById('main'))?.focus?.({preventScroll:true});
+    },500);
+  };
  document.getElementById('enterStory')?.addEventListener('click',window.cclCloseGate);
  document.getElementById('skip')?.addEventListener('click',window.cclCloseGate);
  gate.addEventListener('keydown',e=>{
