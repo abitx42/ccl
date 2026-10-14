@@ -5,7 +5,7 @@ interface Props {
 
 import { localizedHref, type Locale } from '../lib/i18n';
 
-const { lang = 'en' } = Astro.props;
+const { lang = 'mr' } = Astro.props;
 
 const labels = {
   en: {
@@ -52,8 +52,8 @@ const visitUrl = localizedHref(lang, '/visit');
 
 <header class="border-b border-[var(--color-border)] bg-[var(--color-surface)] sticky top-0 z-40">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <div class="flex items-center space-x-4">
+    <div class="flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 min-h-20 py-3">
+      <div class="flex items-center min-w-0 flex-1 lg:flex-none">
         <a href={homeUrl} class="flex flex-col text-decoration-none">
           <span class="text-xl font-bold tracking-tight text-[var(--color-primary)]">
             CCL <span class="text-sm font-medium text-[var(--color-text-muted)]">COOL CRYMB</span>
@@ -64,7 +64,7 @@ const visitUrl = localizedHref(lang, '/visit');
         </a>
       </div>
 
-      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+      <nav aria-label={t.title} class="hidden lg:flex items-center gap-5 text-sm font-medium">
         <a href={homeUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
           {t.home}
         </a>
@@ -82,13 +82,13 @@ const visitUrl = localizedHref(lang, '/visit');
       <!-- Language Selector -->
       <div class="flex items-center space-x-2 text-xs border border-[var(--color-border)] rounded-md p-1 bg-[var(--color-surface-subtle)] shrink-0">
         <span class="sr-only">{t.switchLang}</span>
-        <a href={getLangUrl('en')} aria-current={lang === 'en' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'en' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('en')} lang="en" hreflang="en" aria-label="English" aria-current={lang === 'en' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'en' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           EN
         </a>
-        <a href={getLangUrl('mr')} aria-current={lang === 'mr' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'mr' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('mr')} lang="mr" hreflang="mr" aria-label="मराठी" aria-current={lang === 'mr' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'mr' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           मराठी
         </a>
-        <a href={getLangUrl('hi')} aria-current={lang === 'hi' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'hi' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('hi')} lang="hi" hreflang="hi" aria-label="हिन्दी" aria-current={lang === 'hi' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'hi' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           हिन्दी
         </a>
       </div>

@@ -216,3 +216,12 @@ git status         # Verify the intended tree before committing and pushing
   - Added Marathi-specific line-height, fallback stacks, font preloads, accessible form labels/status messaging, localized navigation state, localized static-map labels, and policy pages so footer links resolve.
   - Modified files include `astro.config.mjs`, `src/components/pages/**`, `src/components/story/**`, `src/components/{Header,Footer,DistrictCard,StatsCounter}.astro`, `src/layouts/BaseLayout.astro`, `src/styles/global.css`, localized route wrappers, and the supplied font assets.
   - Verification: `npm run test`, `npm run lint`, `npm run build`, `git diff --check`, and local static route smoke checks for `/`, `/en/`, `/hi/`, `/visit/`, `/en/visit/`, `/privacy/`, and `/en/privacy/`.
+
+#### Session 11: Unicode Font Safety & Responsive Story Controls
+- **User Prompt**: "continue"
+- **Walkthrough**:
+  - Continued from the pushed Marathi-first implementation without restarting or discarding the working tree.
+  - Inspected the supplied AMS Kashi and AMS Samanya font files directly. Both files contain zero Unicode Devanagari code points for the Marathi specimen; AMS Samanya has shaping tables but is still not safe for the current Unicode text. The site therefore uses an explicit system Devanagari fallback instead of applying a legacy-encoded font incorrectly.
+  - Added reproducible `npm run inspect:fonts` metadata checks and `npm run test` i18n route assertions, documented in [`docs/15-FONT-INTEGRATION.md`](docs/15-FONT-INTEGRATION.md).
+  - Improved localized page metadata, language alternate links, skip-link labels, touch targets, mode/diagnostics ARIA state, and tablet breakpoint alignment across the story renderers.
+  - Verification: `npm run inspect:fonts`, `npm run test`, `npm run lint`, `npm run build`, `git diff --check`, and HTTP 200 smoke checks for Marathi, English, and Hindi homepage, visit, sources, privacy, and accessibility routes.

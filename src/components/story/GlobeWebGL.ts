@@ -347,7 +347,7 @@ export class GlobeWebGL {
     this.visH = 2 * Math.tan((this.camera.fov * Math.PI) / 360) * this.camera.position.z;
     this.visW = this.visH * this.camera.aspect;
     this.baseScale = 0.40 * Math.min(this.visW, this.visH);
-    this.isNarrow = window.matchMedia('(max-width: 860px)').matches;
+    this.isNarrow = window.matchMedia('(max-width: 1023px)').matches;
 
     this.render();
   }

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { locales, localizedPath } from '../lib/i18n';
 import '../styles/global.css';
 
 interface Props {
@@ -12,10 +13,16 @@ interface Props {
 
 const {
   title,
-  description = 'Community Co-creation Lab (CCL) / COOL CRYMB - University of Mumbai, British Council & HSBC climate resilience research platform.',
+  description,
   lang = 'mr',
   theme
 } = Astro.props;
+const labels = {
+  mr: { site: 'CCL · मुंबई विद्यापीठ', skip: 'मुख्य मजकुराकडे जा', description: 'CCL · स्थानिक हवामान लवचिकतेसाठी सार्वजनिक संशोधन संग्रह.' },
+  en: { site: 'CCL Mumbai University', skip: 'Skip to main content', description: 'CCL · Public research archive for local climate resilience.' },
+  hi: { site: 'CCL · मुंबई विश्वविद्यालय', skip: 'मुख्य सामग्री पर जाएँ', description: 'CCL · स्थानीय जलवायु लचीलेपन का सार्वजनिक शोध पुरालेख।' }
+};
+const t = labels[lang];
 ---
 
 <!doctype html>
@@ -25,14 +32,11 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    {lang === 'mr' && (
-      <>
-        <link rel="preload" href="/fonts/AMS-Samanya-Regular.ttf" as="font" type="font/ttf" crossorigin />
-        <link rel="preload" href="/fonts/AMS-Kashi-Regular.ttf" as="font" type="font/ttf" crossorigin />
-      </>
-    )}
-    <title>{title} | CCL Mumbai University</title>
+    <meta name="description" content={description || t.description} />
+    {locales.map(locale => (
+      <link rel="alternate" hreflang={locale} href={localizedPath(locale, Astro.url.pathname)} />
+    ))}
+    <title>{title} | {t.site}</title>
   </head>
   <body data-theme={theme} class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text-main)]">
     <!-- Accessible Skip Link -->
@@ -40,12 +44,12 @@ const {
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-[var(--color-primary)] text-white rounded-md font-semibold"
     >
-      Skip to main content
+       {t.skip}
     </a>
 
     <Header lang={lang} />
 
-    <main id="main-content" class="flex-1">
+    <main id="main-content" tabindex="-1" class="flex-1 min-w-0">
       <slot />
     </main>
 

@@ -11,7 +11,8 @@
     "astro": "astro",
     "validate": "tsx scripts/validate-content.ts && tsx scripts/build-story-anchors.ts",
     "lint": "astro check",
-    "test": "npm run validate && tsx scripts/test-adversarial-validation.ts"
+    "test": "npm run validate && tsx scripts/test-adversarial-validation.ts && tsx scripts/test-i18n.ts",
+    "inspect:fonts": "tsx scripts/inspect-fonts.ts public/fonts/AMS-Kashi-Regular.ttf public/fonts/AMS-Samanya-Regular.ttf"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

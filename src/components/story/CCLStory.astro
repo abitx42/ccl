@@ -242,14 +242,14 @@ const I18N = {
     s10Title: 'पालघर तटीय क्षेत्रीय प्रयोगशाला',
     s10Body: 'पालघर इस मंच का संदर्भ तकनीकी कार्यान्वयन है। वैतरणा बेसिन में मुहाना लवणता, पारंपरिक वारली वानिकी और तटीय जैव-दीवारों का यहां अध्ययन किया गया है।',
     s10Badge: 'तकनीकी संदर्भ कार्यान्वयन (अनुसंधान जिले: सत्यापन जारी)',
-    technicalReference: 'Technical Reference',
-    tier2Label: 'Living 3D Earth · mobile',
-    tier3Label: 'Tier 3 2D geographic projection',
-    tier1Label: 'Living 3D Earth · natural shading',
-    markerBristol: 'Bristol · UK Partner',
-    markerMumbai: 'Mumbai · CCCSS context',
-    markerPalghar: 'Palghar · Reference Lab',
-    diagnostics: { tier: 'Tier', fps: 'FPS', dpr: 'DPR', progress: 'Progress' },
+    technicalReference: 'तकनीकी संदर्भ',
+    tier2Label: 'जीवंत 3D पृथ्वी · मोबाइल',
+    tier3Label: 'टियर ३ · 2D भौगोलिक दृश्य',
+    tier1Label: 'जीवंत 3D पृथ्वी · प्राकृतिक प्रकाश',
+    markerBristol: 'ब्रिस्टल · UK भागीदार',
+    markerMumbai: 'मुंबई · CCCSS संदर्भ',
+    markerPalghar: 'पालघर · संदर्भ प्रयोगशाला',
+    diagnostics: { tier: 'टियर', fps: 'FPS', dpr: 'DPR', progress: 'प्रगति' },
 
     s11Eyebrow: 'शोध अभिलेख देखें',
     s11Title: 'सत्यापित तटीय अनुसंधान का अन्वेषण करें',
@@ -291,7 +291,7 @@ const t = I18N[lang] || I18N.en;
         type="button"
         class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)] cursor-pointer"
         aria-pressed="false"
-        title="Opt-in ambient soundtrack (loops on repeat)"
+         title={t.audioOff}
       >
         <span id="audio-icon" class="text-sm">🌊</span>
         <span id="audio-label">{t.audioOff}</span>
@@ -302,6 +302,7 @@ const t = I18N[lang] || I18N.en;
         id="toggle-mode-btn"
         type="button"
         class="px-3 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-[11px] font-semibold hover:bg-[var(--color-surface-subtle)] transition focus:ring-2 focus:ring-[var(--color-primary)] cursor-pointer"
+        aria-pressed="false"
       >
         <span id="mode-label">{t.viewSimple}</span>
       </button>
@@ -311,9 +312,11 @@ const t = I18N[lang] || I18N.en;
         id="toggle-diag-btn"
         type="button"
         class="hidden sm:inline-flex px-2 py-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-surface-subtle)] text-[10px] font-mono text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
-        title="Toggle Performance Diagnostics"
+         title={t.diagnostics.progress}
+         aria-expanded="false"
+         aria-controls="diag-tray"
       >
-        <span id="diag-pill-text">Tier ?</span>
+         <span id="diag-pill-text">{t.diagnostics.tier} ?</span>
       </button>
     </div>
   </div>
@@ -667,7 +670,10 @@ const t = I18N[lang] || I18N.en;
   // Capability & Hardware Checks
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData = (navigator as any).connection?.saveData === true;
-  const isNarrow = window.matchMedia('(max-width: 860px)').matches;
+  // Keep the rendering breakpoint aligned with the Tailwind `lg` layout
+  // breakpoint so tablet widths do not receive desktop globe offsets while
+  // the narrative is already in its single-column layout.
+  let isNarrow = window.matchMedia('(max-width: 1023px)').matches;
   const sessionPref = sessionStorage.getItem('ccl-globe-mode');
 
   function checkWebGLSupport() {
@@ -729,6 +735,7 @@ const t = I18N[lang] || I18N.en;
     if (diagPillText) diagPillText.textContent = tierName;
     if (diagTier) diagTier.textContent = tierName;
     if (modeLabel) modeLabel.textContent = currentTier === 4 ? i18n.viewInteractive : i18n.viewSimple;
+    if (toggleBtn) toggleBtn.setAttribute('aria-pressed', currentTier === 4 ? 'false' : 'true');
     if (diagDpr) diagDpr.textContent = (window.devicePixelRatio || 1).toFixed(2);
   }
 
@@ -905,6 +912,7 @@ const t = I18N[lang] || I18N.en;
   // Event Listeners
   window.addEventListener('scroll', wakeDriver, { passive: true });
   window.addEventListener('resize', () => {
+    isNarrow = window.matchMedia('(max-width: 1023px)').matches;
     if (webglInstance) webglInstance.resize();
     if (canvas2dInstance) canvas2dInstance.resize();
     wakeDriver();
@@ -918,9 +926,11 @@ const t = I18N[lang] || I18N.en;
         sessionStorage.setItem('ccl-globe-mode', 'interactive');
         if (currentTier <= 2) startWebGLTier();
         else startCanvas2DTier();
+        toggleBtn.setAttribute('aria-pressed', 'true');
       } else {
         sessionStorage.setItem('ccl-globe-mode', 'simple');
         startStaticTier();
+        toggleBtn.setAttribute('aria-pressed', 'false');
       }
     });
   }
@@ -947,7 +957,8 @@ const t = I18N[lang] || I18N.en;
   // Diagnostics Tray Toggle
   if (toggleDiagBtn && diagTray) {
     toggleDiagBtn.addEventListener('click', () => {
-      diagTray.classList.toggle('hidden');
+      const isOpen = diagTray.classList.toggle('hidden') === false;
+      toggleDiagBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   }
 

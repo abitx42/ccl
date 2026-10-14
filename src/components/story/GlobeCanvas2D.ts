@@ -135,7 +135,7 @@ export class GlobeCanvas2D {
     const p = this.currentProgress;
     const baseRadius = Math.min(this.width, this.height) * 0.38;
     const currentScale = baseRadius * st.s;
-    const isNarrow = window.matchMedia('(max-width: 860px)').matches;
+    const isNarrow = window.matchMedia('(max-width: 1023px)').matches;
     const ox = isNarrow ? 0 : st.ox;
     const oy = isNarrow ? (p > 0.12 ? 0.16 : 0) : st.oy;
     const center = [this.width / 2 + ox * this.width, this.height / 2 - oy * this.height];
