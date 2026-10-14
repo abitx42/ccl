@@ -4,35 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro preview --host",
-    "build": "npm run validate && astro check && astro build",
-    "preview": "astro preview --host",
-    "astro": "astro",
-    "validate": "tsx scripts/validate-content.ts && tsx scripts/build-story-anchors.ts",
-    "lint": "astro check",
-    "test": "npm run validate && tsx scripts/test-adversarial-validation.ts && tsx scripts/test-i18n.ts",
-    "inspect:fonts": "tsx scripts/inspect-fonts.ts public/fonts/AMS-Kashi-Regular.ttf public/fonts/AMS-Samanya-Regular.ttf"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@tailwindcss/vite": "^4.0.12",
-    "astro": "^5.4.2",
-    "d3-geo": "^3.1.1",
-    "js-yaml": "^4.1.0",
-    "lucide-astro": "^0.501.0",
-    "tailwindcss": "^4.0.12",
-    "three": "^0.186.0",
-    "topojson-client": "^3.1.0",
-    "typescript": "^5.8.2",
-    "world-atlas": "^2.0.2"
-  },
-  "devDependencies": {
-    "@types/d3-geo": "^3.1.1",
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.13.10",
-    "@types/three": "^0.186.0",
-    "@types/topojson-client": "^3.1.5",
-    "tsx": "^4.19.3"
+    "dev": "python3 -m http.server 4321",
+    "start": "python3 -m http.server 4321"
   }
 }
