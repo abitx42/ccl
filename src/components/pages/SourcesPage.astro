@@ -34,7 +34,8 @@ const titles = {
     sourceHeader: 'Primary Source Reference',
     verifierHeader: 'Verified By & Date',
     tableCaption: 'Verified evidence claims published in this build',
-    fieldReviewer: 'Field Reviewer'
+    fieldReviewer: 'Field Reviewer',
+    evidenceTypes: { official_document: 'Official document', academic_publication: 'Academic publication', field_survey: 'Field survey', interview: 'Interview', community_account: 'Community account', photographic_evidence: 'Photographic evidence', geospatial_dataset: 'Geospatial dataset', government_dataset: 'Government dataset', institutional_record: 'Institutional record', researcher_observation: 'Researcher observation', secondary_source: 'Secondary source' }
   },
   mr: {
     pageTitle: 'पुरावे आणि संदर्भ',
@@ -46,7 +47,8 @@ const titles = {
     sourceHeader: 'मूळ संदर्भ',
     verifierHeader: 'सत्यापनकर्ता व तारीख',
     tableCaption: 'या बिल्डमध्ये प्रकाशित सत्यापित पुरावे',
-    fieldReviewer: 'क्षेत्रीय पडताळणी करणारे'
+    fieldReviewer: 'क्षेत्रीय पडताळणी करणारे',
+    evidenceTypes: { official_document: 'अधिकृत दस्तऐवज', academic_publication: 'शैक्षणिक प्रकाशन', field_survey: 'क्षेत्रीय सर्वेक्षण', interview: 'मुलाखत', community_account: 'समुदायाचा अनुभव', photographic_evidence: 'छायाचित्र पुरावा', geospatial_dataset: 'भौगोलिक माहिती संच', government_dataset: 'शासकीय माहिती संच', institutional_record: 'संस्थात्मक नोंद', researcher_observation: 'संशोधकाचे निरीक्षण', secondary_source: 'दुय्यम संदर्भ' }
   },
   hi: {
     pageTitle: 'प्रमाण एवं स्रोत',
@@ -58,11 +60,13 @@ const titles = {
     sourceHeader: 'प्राथमिक स्रोत',
     verifierHeader: 'सत्यापनकर्ता एवं तिथि',
     tableCaption: 'इस बिल्ड में प्रकाशित सत्यापित प्रमाण',
-    fieldReviewer: 'क्षेत्रीय समीक्षक'
+    fieldReviewer: 'क्षेत्रीय समीक्षक',
+    evidenceTypes: { official_document: 'आधिकारिक दस्तावेज', academic_publication: 'शैक्षणिक प्रकाशन', field_survey: 'क्षेत्रीय सर्वेक्षण', interview: 'साक्षात्कार', community_account: 'सामुदायिक विवरण', photographic_evidence: 'फोटोग्राफिक प्रमाण', geospatial_dataset: 'भू-स्थानिक डेटा', government_dataset: 'सरकारी डेटा', institutional_record: 'संस्थागत रिकॉर्ड', researcher_observation: 'शोधकर्ता का अवलोकन', secondary_source: 'द्वितीयक स्रोत' }
   }
 };
 
 const t = titles[lang] || titles.en;
+const evidenceTypes = t.evidenceTypes as Record<string, string>;
 ---
 
 <BaseLayout title={t.pageTitle} description={t.description} lang={lang}>
@@ -107,7 +111,7 @@ const t = titles[lang] || titles.en;
                   </td>
                    <td class="px-6 py-4">
                     <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-800 border border-blue-200">
-                      {c.type.replace(/_/g, ' ')}
+                      {evidenceTypes[c.type] || c.type.replace(/_/g, ' ')}
                     </span>
                   </td>
                    <td class="px-6 py-4 font-mono text-[var(--color-text-muted)] break-words">

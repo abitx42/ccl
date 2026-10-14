@@ -21,7 +21,8 @@ const text = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Use',
     accessibility: 'Accessibility Statement (WCAG 2.2 AA)',
-    snapshot: 'Zenodo DOI snapshots scheduled'
+    snapshot: 'Zenodo DOI snapshots scheduled',
+    partners: ['University of Mumbai (CCCSS)', 'British Council India', 'HSBC Global CSR', 'University of Bristol']
   },
   mr: {
     partnersTitle: 'संस्थात्मक आणि निधी भागीदार',
@@ -36,7 +37,8 @@ const text = {
     privacy: 'गोपनीयता धोरण',
     terms: 'वापराच्या अटी',
     accessibility: 'प्रवेशयोग्यता निवेदन (WCAG 2.2 AA)',
-    snapshot: 'Zenodo DOI संग्रह नियोजित'
+    snapshot: 'Zenodo DOI संग्रह नियोजित',
+    partners: ['मुंबई विद्यापीठ (CCCSS)', 'ब्रिटिश कौन्सिल इंडिया', 'एचएसबीसी', 'ब्रिस्टल विद्यापीठ']
   },
   hi: {
     partnersTitle: 'संस्थागत एवं वित्तपोषण भागीदार',
@@ -51,7 +53,8 @@ const text = {
     privacy: 'गोपनीयता नीति',
     terms: 'उपयोग की शर्तें',
     accessibility: 'सुलभता वक्तव्य (WCAG 2.2 AA)',
-    snapshot: 'Zenodo DOI स्नैपशॉट निर्धारित'
+    snapshot: 'Zenodo DOI स्नैपशॉट निर्धारित',
+    partners: ['मुंबई विश्वविद्यालय (CCCSS)', 'ब्रिटिश काउंसिल इंडिया', 'एचएसबीसी', 'ब्रिस्टल विश्वविद्यालय']
   }
 };
 
@@ -66,10 +69,10 @@ const t = text[lang] || text.en;
           {t.partnersTitle}
         </h3>
         <ul class="space-y-2 text-xs">
-          <li class="font-medium text-[var(--color-text-main)]">University of Mumbai (CCCSS)</li>
-          <li>British Council India</li>
-          <li>HSBC Global CSR</li>
-          <li>University of Bristol</li>
+          <li class="font-medium text-[var(--color-text-main)]">{t.partners[0]}</li>
+          <li>{t.partners[1]}</li>
+          <li>{t.partners[2]}</li>
+          <li>{t.partners[3]}</li>
         </ul>
       </div>
 

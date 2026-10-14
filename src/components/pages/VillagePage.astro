@@ -96,6 +96,42 @@ const labels = {
 };
 
 const t = labels[lang] || labels.en;
+
+const display: {
+  community: Record<string, string>;
+  method: Record<string, string>;
+  kind: Record<string, string>;
+  category: Record<string, string>;
+  intervention: Record<string, string>;
+  indicator: Record<string, string>;
+} = {
+  en: {
+    community: { fishing: 'Fishing', tribal: 'Tribal', farming: 'Farming', mixed: 'Mixed', urban: 'Urban', other: 'Other' },
+    method: { household: 'Household survey', FGD: 'Group discussion', interview: 'Interview', transect: 'Transect', audit: 'Audit' },
+    kind: { flora: 'Flora', fauna: 'Fauna' },
+    category: { flooding: 'Flooding', heat: 'Heat', erosion: 'Erosion', water: 'Water', waste: 'Waste', livelihood: 'Livelihood', biodiversity: 'Biodiversity', infrastructure: 'Infrastructure', other: 'Other' },
+    intervention: { community: 'Community', student_led: 'Student-led', institutional: 'Institutional', proposed: 'Proposed', ongoing: 'Ongoing', completed: 'Completed' },
+    indicator: { soil_salinity: 'Soil salinity', mangrove_buffer_density: 'Mangrove buffer density' }
+  },
+  mr: {
+    community: { fishing: 'मासेमारी', tribal: 'आदिवासी', farming: 'शेती', mixed: 'मिश्र', urban: 'शहरी', other: 'इतर' },
+    method: { household: 'घरगुती सर्वेक्षण', FGD: 'गट चर्चा', interview: 'मुलाखत', transect: 'क्षेत्रीय सर्वेक्षण', audit: 'तपासणी' },
+    kind: { flora: 'वनस्पती', fauna: 'प्राणी' },
+    category: { flooding: 'पूरस्थिती', heat: 'उष्णता', erosion: 'धूप', water: 'पाणी', waste: 'कचरा', livelihood: 'उपजीविका', biodiversity: 'जैवविविधता', infrastructure: 'पायाभूत सुविधा', other: 'इतर' },
+    intervention: { community: 'समुदायाचा', student_led: 'विद्यार्थी-नेतृत्वाखालील', institutional: 'संस्थात्मक', proposed: 'प्रस्तावित', ongoing: 'सुरू असलेला', completed: 'पूर्ण झालेला' },
+    indicator: { soil_salinity: 'मातीतील क्षारता', mangrove_buffer_density: 'खारफुटी आच्छादन' }
+  },
+  hi: {
+    community: { fishing: 'मछुआरा', tribal: 'आदिवासी', farming: 'कृषि', mixed: 'मिश्रित', urban: 'शहरी', other: 'अन्य' },
+    method: { household: 'घरेलू सर्वेक्षण', FGD: 'समूह चर्चा', interview: 'साक्षात्कार', transect: 'क्षेत्रीय सर्वेक्षण', audit: 'ऑडिट' },
+    kind: { flora: 'वनस्पति', fauna: 'जीव' },
+    category: { flooding: 'बाढ़', heat: 'गर्मी', erosion: 'कटाव', water: 'पानी', waste: 'कचरा', livelihood: 'जीविका', biodiversity: 'जैव विविधता', infrastructure: 'बुनियादी ढांचा', other: 'अन्य' },
+    intervention: { community: 'सामुदायिक', student_led: 'छात्र-नेतृत्व', institutional: 'संस्थागत', proposed: 'प्रस्तावित', ongoing: 'जारी', completed: 'पूरा' },
+    indicator: { soil_salinity: 'मृदा लवणता', mangrove_buffer_density: 'मैंग्रोव आवरण' }
+  }
+}[lang] || {
+  community: {}, method: {}, kind: {}, category: {}, intervention: {}, indicator: {}
+};
 ---
 
 <BaseLayout title={`${vName} | ${dName}`} description={`${vName} · ${dName}`} theme={district.theme} lang={lang}>
@@ -112,7 +148,7 @@ const t = labels[lang] || labels.en;
         <div>
           <div class="flex items-center space-x-3 mb-2">
             <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)] uppercase">
-              {village.community_type}
+              {display.community[village.community_type] || village.community_type}
             </span>
             <span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-muted)]">
               {village.id}
@@ -183,7 +219,7 @@ const t = labels[lang] || labels.en;
                     <div>
                       <span class="font-mono text-xs text-[var(--color-text-muted)] mr-3">{s.id}</span>
                       <span class="px-2 py-0.5 text-xs font-semibold rounded bg-[var(--color-surface-subtle)] text-[var(--color-text-muted)] uppercase">
-                        {s.method}
+                        {display.method[s.method] || s.method}
                       </span>
                     </div>
                     <span class="text-xs text-[var(--color-text-muted)] mt-1 sm:mt-0 font-medium">
@@ -198,7 +234,7 @@ const t = labels[lang] || labels.en;
                     {s.findings.map(f => (
                       <div class="p-4 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs space-y-2">
                         <span class="font-bold text-[var(--color-primary)] uppercase tracking-wider block">
-                          {f.indicator.replace(/_/g, ' ')}
+                          {display.indicator[f.indicator] || f.indicator.replace(/_/g, ' ')}
                         </span>
                         <p class="text-[var(--color-text-main)] leading-relaxed">
                           {f.text[lang] || f.text.en}
@@ -237,7 +273,7 @@ const t = labels[lang] || labels.en;
                 <div class="p-5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-3">
                   <div class="flex items-center justify-between">
                     <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800">
-                      {sp.kind.toUpperCase()} · IUCN {sp.iucn_status}
+                      {(display.kind[sp.kind] || sp.kind).toUpperCase()} · IUCN {sp.iucn_status}
                     </span>
                     <span class="font-mono text-xs text-[var(--color-text-muted)]">{sp.id}</span>
                   </div>
@@ -277,7 +313,7 @@ const t = labels[lang] || labels.en;
                 <div class="p-6 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4">
                   <div class="flex items-center justify-between pb-3 border-b border-[var(--color-border)]">
                     <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-900 uppercase">
-                       {t.category}: {ch.category}
+                      {t.category}: {display.category[ch.category] || ch.category}
                     </span>
                     <span class="font-mono text-xs text-[var(--color-text-muted)]">{ch.id}</span>
                   </div>
@@ -300,7 +336,7 @@ const t = labels[lang] || labels.en;
                         <div class="p-4 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs space-y-2">
                           <div class="flex items-center space-x-2">
                             <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-100 text-blue-900">
-                              {it.type.toUpperCase()} INTERVENTION
+                              {(display.intervention[it.type] || it.type).toUpperCase()} · {lang === 'mr' ? 'उपाय' : lang === 'hi' ? 'समाधान' : 'INTERVENTION'}
                             </span>
                           </div>
                           <p class="text-[var(--color-text-main)]">{it.description[lang] || it.description.en}</p>

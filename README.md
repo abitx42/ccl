@@ -225,3 +225,13 @@ git status         # Verify the intended tree before committing and pushing
   - Added reproducible `npm run inspect:fonts` metadata checks and `npm run test` i18n route assertions, documented in [`docs/15-FONT-INTEGRATION.md`](docs/15-FONT-INTEGRATION.md).
   - Improved localized page metadata, language alternate links, skip-link labels, touch targets, mode/diagnostics ARIA state, and tablet breakpoint alignment across the story renderers.
   - Verification: `npm run inspect:fonts`, `npm run test`, `npm run lint`, `npm run build`, `git diff --check`, and HTTP 200 smoke checks for Marathi, English, and Hindi homepage, visit, sources, privacy, and accessibility routes.
+
+#### Session 12: Phase 2 Marathi Storytelling Completion
+- **User Prompt**: "CCL — PHASE 2: COMPLETE MARATHI STORYTELLING IMPLEMENTATION"
+- **Walkthrough**:
+  - Audited the live Marathi dictionaries and confirmed all 11 cinematic scene slots had Marathi copy, while identifying remaining mixed-language archive, footer, enum, evidence-type, and runtime-label gaps.
+  - Preserved the existing scene order, normalized progress intervals, fruit/handoff sequence, tree-felling sequence, globe transition, and archive transitions.
+  - Localized the remaining public-facing archive labels: community type, survey method, evidence type, biodiversity kind, challenge category, intervention type, indicator names, footer partner names, and Marathi research-access wording.
+  - Kept necessary Latin identifiers and proper names such as `CCL`, `CCCSS`, `UK`, `FPS`, `DPR`, record IDs, scientific names, and measurement units unchanged.
+  - Verified the production HTML contains the intended Marathi opening, partner, methodology, Palghar, and archive-entry copy.
+  - Verification: `npm run inspect:fonts`, `npm run test`, `npm run lint`, `npm run build`, `git diff --check`. Browser visual automation was not available in the current environment, so no visual browser pass is claimed.
