@@ -1,0 +1,19 @@
+---
+import DistrictPage from '../../../components/pages/DistrictPage.astro';
+import { getDistricts } from '../../../lib/content';
+import { locales, type Locale } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return locales.filter(locale => locale !== 'mr').flatMap(lang =>
+    getDistricts().map(district => ({
+      params: { lang, slug: district.slug },
+      props: { district }
+    }))
+  );
+}
+
+const { district } = Astro.props;
+const lang = Astro.params.lang as Exclude<Locale, 'mr'>;
+---
+
+<DistrictPage district={district} lang={lang} />

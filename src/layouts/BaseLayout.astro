@@ -13,7 +13,7 @@ interface Props {
 const {
   title,
   description = 'Community Co-creation Lab (CCL) / COOL CRYMB - University of Mumbai, British Council & HSBC climate resilience research platform.',
-  lang = 'en',
+  lang = 'mr',
   theme
 } = Astro.props;
 ---
@@ -26,6 +26,12 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {lang === 'mr' && (
+      <>
+        <link rel="preload" href="/fonts/AMS-Samanya-Regular.ttf" as="font" type="font/ttf" crossorigin />
+        <link rel="preload" href="/fonts/AMS-Kashi-Regular.ttf" as="font" type="font/ttf" crossorigin />
+      </>
+    )}
     <title>{title} | CCL Mumbai University</title>
   </head>
   <body data-theme={theme} class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text-main)]">

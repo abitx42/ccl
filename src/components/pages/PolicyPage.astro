@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+  lang: 'en' | 'mr' | 'hi';
+  kind: 'privacy' | 'terms' | 'accessibility';
+}
+
+const { lang, kind } = Astro.props;
+
+const copy = {
+  en: {
+    privacy: { title: 'Privacy & Consent', eyebrow: 'Privacy', intro: 'This public archive only displays records approved for public visibility. Restricted consent forms, raw survey responses, precise sensitive coordinates, and private contact details are not published here.', points: ['People and photographs appear only when the project record includes the required consent.', 'Sensitive places use coarse public geography; exact locations remain restricted.', 'Research-access requests are reviewed through the project process and are not public tourism bookings.'] },
+    terms: { title: 'Terms of Use', eyebrow: 'Terms', intro: 'Use this archive to read the published research record responsibly. Record IDs, source notes, consent boundaries, and verification states are part of each record.', points: ['Do not copy, republish, or interpret a community account as a universal claim without its source and context.', 'Do not attempt to identify people whose names or photographs are withheld.', 'Requests to visit a field location remain subject to review and local consent.'] },
+    accessibility: { title: 'Accessibility Statement', eyebrow: 'Accessibility', intro: 'CCL aims to keep its research archive usable with keyboard navigation, readable contrast, responsive layouts, reduced-motion preferences, and a static geographic fallback.', points: ['Marathi uses a Devanagari-capable font with generous line-height and fallback fonts.', 'The story provides a semantic text sequence even when interactive rendering is unavailable.', 'If a page remains difficult to use, contact the project team through the research-access route with the page URL and language selected.'] }
+  },
+  mr: {
+    privacy: { title: 'गोपनीयता आणि संमती', eyebrow: 'गोपनीयता', intro: 'या सार्वजनिक संग्रहात फक्त सार्वजनिक करण्यास मान्यता असलेल्या नोंदी दाखवल्या जातात. संमतीपत्रे, कच्चे सर्वेक्षण, संवेदनशील ठिकाणांची अचूक माहिती आणि खासगी संपर्क तपशील येथे प्रकाशित केले जात नाहीत.', points: ['आवश्यक संमती असलेल्या नोंदीतच व्यक्ती किंवा छायाचित्र दाखवले जाते.', 'संवेदनशील ठिकाणांसाठी नकाशावर अंदाजे माहिती वापरली जाते.', 'अभ्यास भेटीच्या विनंत्यांची स्वतंत्र पडताळणी होते; ही पर्यटनसेवा नाही.'] },
+    terms: { title: 'वापराच्या अटी', eyebrow: 'वापराच्या अटी', intro: 'हा संग्रह प्रकाशित संशोधन नोंदी समजून घेण्यासाठी वापरा. प्रत्येक नोंदीचा आयडी, स्रोत, संमती आणि पडताळणीची स्थिती लक्षात घ्या.', points: ['समुदायाचा अनुभव त्याच्या संदर्भ आणि स्रोताशिवाय सर्वत्र लागू होतो असे मानू नका.', 'नाव किंवा छायाचित्र न दाखवलेल्या व्यक्तीची ओळख शोधण्याचा प्रयत्न करू नका.', 'क्षेत्रभेटीची प्रत्येक विनंती स्थानिक संमती आणि पुनरावलोकनाच्या अधीन आहे.'] },
+    accessibility: { title: 'प्रवेशयोग्यता निवेदन', eyebrow: 'प्रवेशयोग्यता', intro: 'CCL संग्रह कीबोर्डने वापरता यावा, मजकूर स्पष्ट दिसावा, मोबाईलवर नीट वाचता यावा आणि हालचाल कमी करण्याची निवड मान्य व्हावी यासाठी तयार केला आहे.', points: ['मराठीसाठी देवनागरी अक्षरे स्पष्ट दिसतील असा फॉन्ट, मोठी ओळउंची आणि fallback फॉन्ट वापरले आहेत.', 'परस्परसंवादी नकाशा उपलब्ध नसला तरी कथानकाची अर्थपूर्ण मजकूर आवृत्ती राहते.', 'अडचण असल्यास पृष्ठाची लिंक आणि निवडलेली भाषा नमूद करून अभ्यास भेटीच्या मार्गाने कळवा.'] }
+  },
+  hi: {
+    privacy: { title: 'गोपनीयता एवं सहमति', eyebrow: 'गोपनीयता', intro: 'इस सार्वजनिक पुरालेख में केवल सार्वजनिक रूप से दिखाने योग्य रिकॉर्ड प्रकाशित किए जाते हैं। सहमति फॉर्म, कच्चे सर्वेक्षण, संवेदनशील स्थानों के सटीक निर्देशांक और निजी संपर्क विवरण प्रकाशित नहीं किए जाते।', points: ['लोग और तस्वीरें केवल आवश्यक सहमति वाले रिकॉर्ड में दिखते हैं।', 'संवेदनशील स्थानों के लिए अनुमानित भूगोल इस्तेमाल किया जाता है।', 'शोध पहुंच अनुरोधों की समीक्षा होती है; यह खुला पर्यटन नहीं है।'] },
+    terms: { title: 'उपयोग की शर्तें', eyebrow: 'उपयोग की शर्तें', intro: 'इस पुरालेख का उपयोग प्रकाशित शोध रिकॉर्ड को जिम्मेदारी से समझने के लिए करें। रिकॉर्ड आईडी, स्रोत, सहमति और सत्यापन स्थिति को साथ पढ़ें।', points: ['सामुदायिक वृत्तांत को उसके स्रोत और संदर्भ के बिना सार्वभौमिक दावा न समझें।', 'जिन लोगों के नाम या तस्वीरें रोकी गई हैं, उनकी पहचान खोजने का प्रयास न करें।', 'क्षेत्रीय यात्रा की हर अनुरोध समीक्षा और स्थानीय सहमति के अधीन है।'] },
+    accessibility: { title: 'सुलभता वक्तव्य', eyebrow: 'सुलभता', intro: 'CCL पुरालेख को कीबोर्ड, पढ़ने योग्य कंट्रास्ट, प्रतिक्रियाशील लेआउट, कम गति की पसंद और स्थिर भौगोलिक विकल्प के साथ उपयोगी रखने का प्रयास करता है।', points: ['हिन्दी और देवनागरी पाठ के लिए उपयुक्त फॉन्ट, पर्याप्त पंक्ति ऊंचाई और fallback फॉन्ट उपयोग किए जाते हैं।', 'इंटरैक्टिव मानचित्र उपलब्ध न होने पर भी अर्थपूर्ण पाठ क्रम उपलब्ध रहता है।', 'कठिनाई होने पर पृष्ठ URL और चुनी हुई भाषा के साथ शोध पहुंच मार्ग से बताएं।'] }
+  }
+} as const;
+
+const t = copy[lang][kind];
+---
+
+<BaseLayout title={t.title} description={t.intro} lang={lang}>
+  <section class="py-16 bg-[var(--color-surface-subtle)] border-b border-[var(--color-border)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-bold tracking-wider text-[var(--color-primary)]">{t.eyebrow}</p>
+      <h1 class="mt-2 text-3xl sm:text-5xl font-extrabold text-[var(--color-text-main)]">{t.title}</h1>
+      <p class="mt-5 max-w-3xl text-sm sm:text-base leading-relaxed text-[var(--color-text-muted)]">{t.intro}</p>
+    </div>
+  </section>
+  <section class="py-12 bg-[var(--color-bg)]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ul class="space-y-4" aria-label={t.title}>
+        {t.points.map(point => (
+          <li class="flex items-start gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 text-sm leading-relaxed text-[var(--color-text-main)]">
+            <span class="text-[var(--color-primary)]" aria-hidden="true">✦</span>
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

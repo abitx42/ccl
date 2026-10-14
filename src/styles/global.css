@@ -2,6 +2,22 @@
 @import "../themes/palghar.css";
 @import "../themes/mumbai-suburban.css";
 
+@font-face {
+  font-family: "AMS Samanya";
+  src: url("/fonts/AMS-Samanya-Regular.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "AMS Kashi";
+  src: url("/fonts/AMS-Kashi-Regular.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
 /* Base typography and accessibility styles */
 :root {
   --color-primary: #1E3A8A;
@@ -18,6 +34,7 @@
   --color-text-muted: #64748B;
 
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Noto Sans Devanagari', 'Helvetica Neue', sans-serif;
+  font-synthesis: none;
 }
 
 body {
@@ -27,6 +44,32 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+html[lang="mr"] body {
+  font-family: "AMS Samanya", "Noto Sans Devanagari", system-ui, sans-serif;
+  line-height: 1.78;
+}
+
+html[lang="mr"] h1,
+html[lang="mr"] h2,
+html[lang="mr"] h3,
+html[lang="mr"] h4,
+html[lang="mr"] .mr-display {
+  font-family: "AMS Kashi", "Noto Serif Devanagari", "AMS Samanya", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.28;
+}
+
+html[lang="mr"] p,
+html[lang="mr"] li,
+html[lang="mr"] label,
+html[lang="mr"] input,
+html[lang="mr"] select,
+html[lang="mr"] textarea,
+html[lang="mr"] button {
+  line-height: 1.78;
 }
 
 /* Reduced motion respect */
@@ -50,6 +93,26 @@ textarea:focus-visible {
 }
 
 /* Ensure no clipped diacritics in Marathi / Hindi */
-[lang="mr"], [lang="hi"] {
+html[lang="mr"],
+html[lang="hi"],
+html[lang="mr"] body,
+html[lang="hi"] body {
   line-height: 1.75;
+}
+
+html[lang="mr"] .font-mono {
+  font-family: "AMS Samanya", "Noto Sans Devanagari", system-ui, sans-serif;
+}
+
+html[lang="mr"] button,
+html[lang="mr"] input,
+html[lang="mr"] select,
+html[lang="mr"] textarea {
+  min-height: 44px;
+}
+
+html[lang="mr"] nav a,
+html[lang="mr"] header a,
+html[lang="mr"] form button {
+  min-height: 44px;
 }

@@ -204,3 +204,15 @@ git status         # Verify the intended tree before committing and pushing
   - Replaced the previous local-only exception in [`CLAUDE.md`](CLAUDE.md) and this section with the requested default: verify, commit, and push changes to `origin/main` after each completed change.
   - Pushed the current cinematic hand, character, scene-continuity, Canvas resize, and renderer lifecycle fixes together with this policy update.
   - Verification results and the resulting commit are recorded in the assistant response for this session.
+
+#### Session 10: Marathi-first Community Storytelling & Readability
+- **User Prompt**: Transform the CCL website into a Marathi-first, rural-community-friendly experience with original Marathi story copy, readable typography, accessible language selection, responsive layout, and verified archive navigation; use the supplied AMS Kashi, AMS Samanya, and Niagara font assets where appropriate.
+- **Walkthrough**:
+  - Audited the actual Astro production path separately from the standalone root `index.html` prototype. The Astro homepage now uses Marathi at `/`, English at `/en/`, and Hindi at `/hi/`.
+  - Added the scene-by-scene editorial map and evidence boundaries in [`docs/14-MARATHI-FIRST-READABILITY.md`](docs/14-MARATHI-FIRST-READABILITY.md).
+  - Rewrote the Marathi homepage scenes independently using concise, rural-readable language and conservative evidence wording; preserved English and Hindi experiences.
+  - Added localized route scaffolding for homepage, visit, sources, district, village, privacy, terms, and accessibility pages.
+  - Added the supplied `AMS Samanya Regular` and `AMS Kashi Regular` assets under `public/fonts/`. Samanya is used for Marathi UI/body text; Kashi is reserved for display headings. Niagara Solid is intentionally not used for Marathi readability-critical text.
+  - Added Marathi-specific line-height, fallback stacks, font preloads, accessible form labels/status messaging, localized navigation state, localized static-map labels, and policy pages so footer links resolve.
+  - Modified files include `astro.config.mjs`, `src/components/pages/**`, `src/components/story/**`, `src/components/{Header,Footer,DistrictCard,StatsCounter}.astro`, `src/layouts/BaseLayout.astro`, `src/styles/global.css`, localized route wrappers, and the supplied font assets.
+  - Verification: `npm run test`, `npm run lint`, `npm run build`, `git diff --check`, and local static route smoke checks for `/`, `/en/`, `/hi/`, `/visit/`, `/en/visit/`, `/privacy/`, and `/en/privacy/`.

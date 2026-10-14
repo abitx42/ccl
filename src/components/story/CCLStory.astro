@@ -1,5 +1,6 @@
 ---
 import StoryStatic from './StoryStatic.astro';
+import { localizedHref } from '../../lib/i18n';
 
 interface Props {
   lang?: 'en' | 'mr' | 'hi';
@@ -44,12 +45,14 @@ const I18N = {
     s5Title: 'Bristol, United Kingdom',
     s5Body: 'Drawing on Bristol\'s internationally recognized climate science and urban adaptation research, faculty and scholars collaborate on joint methodologies, risk models, and student training curricula.',
     s5Sub: 'University of Bristol · Collaborative Research Partner',
+    s5Badge: 'UK Research Partner',
 
     // Scene 06: Mumbai
     s6Eyebrow: 'Geographic Anchor 02',
     s6Title: 'Mumbai, India · CCCSS Kalina Campus',
     s6Body: 'The operational headquarters are anchored at the Centre for Climate Change and Sustainability Studies (CCCSS) at the University of Mumbai, directing field research, ethics protocols, and community governance.',
     s6Sub: 'University of Mumbai · CCCSS Lead & Operational Hub',
+    s6Badge: 'Mumbai Institutional Context',
 
     // Scene 07: Campus to Coastline
     s7Eyebrow: 'From Campus to Coastline',
@@ -80,6 +83,14 @@ const I18N = {
     s10Title: 'Palghar Coastal Field Laboratory',
     s10Body: 'Palghar serves as the platform\'s reference technical implementation, documenting estuarine salinity dynamics, Warli agro-forestry techniques, and community bio-shields along the Vaitarna river basin.',
     s10Badge: 'Technical Reference Implementation (Confirmed Scope: Unresolved)',
+    technicalReference: 'Technical Reference',
+    tier2Label: 'Living 3D Earth · mobile',
+    tier3Label: 'Tier 3 2D geographic projection',
+    tier1Label: 'Living 3D Earth · natural shading',
+    markerBristol: 'Bristol · UK Partner',
+    markerMumbai: 'Mumbai · CCCSS context',
+    markerPalghar: 'Palghar · Reference Lab',
+    diagnostics: { tier: 'Tier', fps: 'FPS', dpr: 'DPR', progress: 'Progress' },
 
     // Scene 11: Explore Threshold
     s11Eyebrow: 'Explore the Archive',
@@ -89,73 +100,83 @@ const I18N = {
     s11Cta2: 'Request Field Access →'
   },
   mr: {
-    skipLink: 'प्रस्तावना वगळा → थेट संशोधन पहा',
-    viewInteractive: 'परस्परसंवादी दृश्य',
-    viewSimple: 'साधे दृश्य',
+    skipLink: 'प्रस्तावना वगळा → संशोधन संग्रहाकडे जा',
+    viewInteractive: 'परस्परसंवादी दृश्य उघडा',
+    viewSimple: 'साधे दृश्य उघडा',
     audioOff: 'वातावरणीय ध्वनी: बंद',
     audioOn: 'वातावरणीय ध्वनी: सुरू',
 
     s1Eyebrow: 'कूल क्रिम (COOL CRYMB)',
-    s1Title: 'स्थानिक हवामान लवचिकतेसाठी कम्युनिटी को-क्रिएशन लॅब',
-    s1Body: 'मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांच्या सहकार्याने चालणाऱ्या स्थानिक हवामान लवचिकतेसाठीच्या सह-निर्मिती प्रयोगशाळा.',
-    s1Note: 'ब्रिटिश कौन्सिल आणि एचएसबीसी यांच्या "क्लायमेट स्किल्स - सीड्स फॉर ट्रान्झिशन इंडिया" उपक्रमांतर्गत समर्थित.',
+    s1Title: 'स्थानिक बदल समजून घेण्यासाठी समुदाय सह-निर्मिती प्रयोगशाळा',
+    s1Body: 'COOL CRYMB / CCL हा स्थानिक हवामान लवचिकतेशी संबंधित संशोधन उपक्रम आहे. मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांच्याशी त्याचा संबंध प्रकल्प नोंदीत नमूद आहे.',
+    s1Note: 'भागीदारीची माहिती: प्रकल्प नोंदीतील संदर्भ. संस्थात्मक स्थिती पुराव्याच्या नोंदवहीत स्पष्ट केली आहे.',
 
-    s2Eyebrow: 'कम्युनिटी को-क्रिएशन लॅब काय आहे?',
-    s2Title: 'स्थानिक समुदाय आणि हवामान विज्ञानातील जिवंत सेतू',
-    s2Body: 'ही केवळ हवामान जनजागृती मोहीम नाही. ही एक विकेंद्रित संशोधन संस्था आहे जिथे आधुनिक हवामान प्रारूपे आणि पिढ्यानपिढ्यांचे पारंपारिक ज्ञान एकत्र येऊन स्थानिक उपाय शोधतात.',
-    s2Triad: ['शास्त्रीय संशोधन', 'युवा हरित कौशल्ये', 'प्रत्यक्ष स्थानिक कृती'],
+    s2Eyebrow: 'CCL म्हणजे काय?',
+    s2Title: 'समुदाय, युवक आणि अभ्यास यांना जोडणारा उपक्रम',
+    s2Body: 'प्रकल्पाच्या आराखड्यानुसार विद्यापीठीय अभ्यास, युवकांचे हरित कौशल्य आणि स्थानिक अनुभव यांना स्थानिक कृतीशी जोडण्याचा प्रयत्न केला जातो.',
+    s2Triad: ['अभ्यास', 'युवकांचे हरित कौशल्य', 'स्थानिक कृती'],
 
-    s3Eyebrow: 'हे काम का आवश्यक आहे?',
-    s3Title: 'किनारा बदलतो, वैज्ञानिक नोंद मागे राहते',
-    s3Body: 'भरतीचे पाणी, विहिरींमधील वाढती क्षारता आणि नदीकाठची धूप खाडीकाठच्या वस्त्या बदलत आहेत. कमतरता चिंतेची नाही — कमतरता आहे ती स्थानिक, तारीखवार आणि पडताळता येणाऱ्या पुराव्यांची.',
-    s3Note: 'स्थानिक ज्ञानाला मोल आहे. सर्व नोंदी पडताळणीयोग्य आणि कायमस्वरूपी खुल्या असल्या पाहिजेत.',
+    s3Eyebrow: 'स्थानिक बदलांची नोंद आवश्यक आहे',
+    s3Title: 'वैतरणा खोऱ्यातील बदल समजून घेणे',
+    s3Body: 'पालघरमधील वैतरणा खोऱ्यात उच्च भरतीच्या वेळी खारे पाणी आत शिरते. उपलब्ध क्षेत्रीय नोंदी या बदलाचा पारंपरिक भातशेतीवरील परिणाम नोंदवतात.',
+    s3Note: 'स्थानिक नोंद स्पष्ट असावी: ठिकाण, पद्धत आणि पुराव्याचा संदर्भ दिसला पाहिजे.',
 
-    s4Eyebrow: 'आम्ही कोण आहोत?',
-    s4Title: 'दोन किनारी शहरे. दोन विद्यापीठे. एकच ध्येय.',
-    s4Body: 'ब्रिटिश कौन्सिलच्या क्लायमेट स्किल्स कार्यक्रमांतर्गत, एचएसबीसीच्या निधीतून, ब्रिस्टल विद्यापीठ आणि मुंबई विद्यापीठ एकत्र काम करतात.',
+    s4Eyebrow: 'संशोधनातील संस्थात्मक भागीदार',
+    s4Title: 'CCL शी जोडलेल्या संस्था',
+    s4Body: 'प्रकल्प नोंदीनुसार या उपक्रमाशी मुंबई विद्यापीठ, ब्रिस्टल विद्यापीठ, ब्रिटिश कौन्सिल आणि HSBC यांचा संबंध जोडला आहे. ही माहिती पुराव्याच्या नोंदवहीत दिलेल्या स्थितीनुसार वाचावी.',
     s4Nodes: ['ब्रिस्टल विद्यापीठ (UK)', 'मुंबई विद्यापीठ (IN)', 'ब्रिटिश कौन्सिल', 'एचएसबीसी'],
 
-    s5Eyebrow: 'भौगोलिक केंद्र ०१',
+    s5Eyebrow: 'संशोधन भागीदार संदर्भ',
     s5Title: 'ब्रिस्टल, युनायटेड किंगडम',
-    s5Body: 'ब्रिस्टल विद्यापीठाच्या आंतरराष्ट्रीय दर्जाच्या हवामान विज्ञान आणि शहरी लवचिकता संशोधनाचा उपयोग करून संयुक्त कार्यपद्धती व अभ्यासक्रम विकसित केले जातात.',
-    s5Sub: 'ब्रिस्टल विद्यापीठ · द्विपक्षीय संशोधन भागीदार',
+    s5Body: 'ब्रिस्टल विद्यापीठाचा या उपक्रमाशी संशोधन भागीदार म्हणून उल्लेख आहे. त्याची विशिष्ट भूमिका आणि कार्यक्षेत्र स्वतंत्रपणे स्पष्ट होईपर्यंत वर्णन मर्यादित ठेवले आहे.',
+    s5Sub: 'ब्रिस्टल विद्यापीठ · संशोधन भागीदार संदर्भ',
+    s5Badge: 'भागीदार संदर्भ',
 
-    s6Eyebrow: 'भौगोलिक केंद्र ०२',
-    s6Title: 'मुंबई, भारत · कलिना संकुल',
-    s6Body: 'मुंबई विद्यापीठाच्या कलिना संकुलातील हवामान बदल व शाश्वतता अभ्यास केंद्र (CCCSS) हे संपूर्ण क्षेत्रीय संशोधन आणि नीतिमत्ता नियमांचे संचालन करते.',
-    s6Sub: 'मुंबई विद्यापीठ · CCCSS मुख्य संचालन केंद्र',
+    s6Eyebrow: 'संस्थात्मक संदर्भ',
+    s6Title: 'मुंबई विद्यापीठ आणि CCCSS',
+    s6Body: 'मुंबई विद्यापीठातील CCCSS हे CCL प्रकल्पाच्या संस्थात्मक संदर्भात नमूद आहे. क्षेत्रीय संचालनाची व्यापक भूमिका स्वतंत्र पुराव्याशिवाय गृहीत धरलेली नाही.',
+    s6Sub: 'मुंबई विद्यापीठ · CCCSS · कलिना संकुल',
+    s6Badge: 'मुंबई संस्थात्मक संदर्भ',
 
-    s7Eyebrow: 'संकुलातून प्रत्यक्ष कार्यक्षेत्रात',
-    s7Title: 'विज्ञान थेट खाडी आणि गावांपर्यंत पोहोचवणे',
-    s7Body: 'संशोधन केवळ वर्गांपुरते मर्यादित राहत नाही. प्राध्यापक आणि विद्यार्थी थेट कोळीवाडे व शेती वस्त्यांमध्ये जाऊन ग्रामपंचायती आणि तरुणांसोबत प्रत्यक्ष काम करतात.',
-    s7Flow: ['संकुल प्रारूप', 'क्षेत्रीय प्रयोगशाळा', 'सह-रचना', 'सार्वजनिक संग्रह'],
+    s7Eyebrow: 'क्षेत्रीय अभ्यास आणि समुदायाचा अनुभव',
+    s7Title: 'स्थानिक नोंदी ठिकाणाशी जोडणे',
+    s7Body: 'मनोर, पालघर येथे पाणी आणि मातीच्या क्षारतेचा एकत्रित सर्वेक्षण रेकॉर्ड उपलब्ध आहे. क्षेत्रीय नोंदी आणि समुदायाचा अनुभव वेगवेगळ्या स्रोतांसह पाहता येतात.',
+    s7Flow: ['ठिकाण', 'सर्वेक्षण', 'समुदायाचा अनुभव', 'सार्वजनिक संग्रह'],
 
-    s8Eyebrow: 'पाच-टप्प्यांची पद्धती',
-    s8Title: 'टप्प्याटप्प्याने चालणारी सह-निर्मिती प्रक्रिया',
-    s8Body: 'प्रत्येक स्थानिक उपक्रम शास्त्रीय पद्धतशीरपणा आणि स्थानिक मालकी जपण्यासाठी निश्चित पाच टप्प्यांतून जातो.',
+    s8Eyebrow: 'अभ्यासाची पाच पावले',
+    s8Title: 'प्लॅटफॉर्मचा कार्यपद्धती आराखडा',
+    s8Body: 'प्लॅटफॉर्मच्या आराखड्यात क्षेत्र निवड, समुदायाशी संवाद, नकाशीकरण, सह-रचना आणि नोंद-संग्रह अशी पाच पावले सुचवली आहेत.',
     s8Steps: [
-      { num: '०१', title: 'क्षेत्र निवड', desc: 'संवेदनशील नदी खोरे आणि क्षारयुक्त शेती भागांची निवड.' },
-      { num: '०२', title: 'समुदाय ओळख', desc: 'स्थानिक शेतकरी, महिला व ज्येष्ठांसोबत सविस्तर संवाद.' },
-      { num: '०३', title: 'स्थानिक नकाशे', desc: 'तरुणांद्वारे क्षारता, वनस्पती आणि पुराचे सूक्ष्म नकाशे.' },
-      { num: '०४', title: 'सह-रचना', desc: 'नैसर्गिक बांध, मेढ्या आणि जलसाठ्यांची स्थानिक रचना.' },
-      { num: '०५', title: 'अंमलबजावणी व नोंद', desc: 'प्रत्यक्ष उपाययोजना, निरीक्षण आणि कायमस्वरूपी मुक्त संग्रह.' }
+      { num: '०१', title: 'क्षेत्र निवड', desc: 'अभ्यासासाठी योग्य नदीखोरे, खाड्या किंवा शेतीचा भाग ओळखणे.' },
+      { num: '०२', title: 'समुदायाशी संवाद', desc: 'स्थानिक अनुभव आणि बदलांविषयी ऐकणे.' },
+      { num: '०३', title: 'स्थानिक नकाशीकरण', desc: 'ठिकाणाशी संबंधित माहिती नकाशावर मांडणे.' },
+      { num: '०४', title: 'सह-रचना', desc: 'स्थानिक गरजांनुसार उपायांचा विचार करणे.' },
+      { num: '०५', title: 'नोंद आणि संग्रह', desc: 'पद्धत आणि पुराव्यांसह सार्वजनिक नोंद तयार करणे.' }
     ],
 
-    s9Eyebrow: 'संशोधन परिदृश्य',
-    s9Title: 'केवळ संकेतस्थळ नव्हे — एक कायमस्वरूपी संशोधन संग्रह',
-    s9Body: 'प्रत्येक निरीक्षण एका स्वतंत्र व पडताळलेल्या नोंदीच्या रूपात जतन केले जाते. हा संग्रह आठ मुख्य घटकांमध्ये मांडलेला आहे:',
-    s9Domains: ['गावे/वस्त्या', 'व्यक्ती', 'सर्वेक्षणे', 'प्रजाती', 'आव्हाने', 'उपाययोजना', 'वारसा', 'पुरावे'],
+    s9Eyebrow: 'प्रकाशित आणि सत्यापित संशोधन संग्रह',
+    s9Title: 'उपलब्ध नोंदी ठिकाणानुसार पाहा',
+    s9Body: 'सार्वजनिक संग्रहात ठिकाणे, समुदाय, एकत्रित सर्वेक्षणे, जैवविविधता, पर्यावरणीय आव्हाने, प्रतिसाद, वारसा आणि पुरावे असे विभाग आहेत. प्रत्येक विभागात फक्त उपलब्ध सार्वजनिक नोंदी दाखवल्या जातात.',
+    s9Domains: ['ठिकाणे आणि समुदाय', 'संमती असलेले योगदानकर्ते', 'क्षेत्रीय सर्वेक्षणे', 'जैवविविधता', 'पर्यावरणीय आव्हाने', 'समुदाय प्रतिसाद', 'वारसा / इतिहास', 'पुरावे आणि संदर्भ'],
 
     s10Eyebrow: 'तांत्रिक संदर्भ अंमलबजावणी',
-    s10Title: 'पालघर किनारपट्टी क्षेत्रीय प्रयोगशाळा',
-    s10Body: 'पालघर हे या व्यासपीठाचे तांत्रिक संदर्भ केंद्र आहे. वैतरणा खोऱ्यातील क्षारता, वारली बांध तंत्रज्ञान आणि खारफुटी संरक्षणाचा येथे अभ्यास होतो.',
-    s10Badge: 'तांत्रिक संदर्भ अंमलबजावणी (संशोधन जिल्हे: पडताळणी अंतर्गत)',
+    s10Title: 'पालघर · मनोर आणि वैतरणा खोरे',
+    s10Body: 'पालघरला या प्लॅटफॉर्मचा तांत्रिक संदर्भ म्हणून दाखवले आहे. उपलब्ध नोंदी वैतरणा खोऱ्यातील खाऱ्या पाण्याचा शिरकाव आणि नैसर्गिक वनस्पतीयुक्त बांधांची माहिती देतात.',
+    s10Badge: 'तांत्रिक संदर्भ · प्रकल्पाचा एकूण जिल्हा-विस्तार अद्याप निश्चित नाही',
 
-    s11Eyebrow: 'संशोधन संग्रह पहा',
-    s11Title: 'सत्यापित किनारपट्टी संशोधनाचा अभ्यास करा',
-    s11Body: 'प्रकाशित गावांची माहिती, पुरावे नोंदवही, समुदाय सहभाग आणि एकत्रित सर्वेक्षणे पहा.',
+    s11Eyebrow: 'संशोधन संग्रहाकडे प्रवेश',
+    s11Title: 'सत्यापित किनारपट्टी संशोधन पहा',
+    s11Body: 'प्रकाशित समुदाय, क्षेत्रीय सर्वेक्षणे, जैवविविधता नोंदी, पर्यावरणीय आव्हाने आणि पुरावे पहा. क्षेत्रभेटीसाठी आधी विनंती करावी; ही पर्यटनसेवा नाही.',
     s11Cta1: 'संशोधन संग्रह उघडा ↓',
-    s11Cta2: 'अभ्यास भेट परवानगी →'
+    s11Cta2: 'अभ्यास भेटीसाठी विनंती करा →',
+    technicalReference: 'तांत्रिक संदर्भ',
+    tier2Label: 'जिवंत 3D पृथ्वी · मोबाइल',
+    tier3Label: 'टियर ३ · 2D भौगोलिक दृश्य',
+    tier1Label: 'जिवंत 3D पृथ्वी · नैसर्गिक प्रकाश',
+    markerBristol: 'ब्रिस्टल · UK भागीदार',
+    markerMumbai: 'मुंबई · CCCSS संदर्भ',
+    markerPalghar: 'पालघर · संदर्भ प्रयोगशाळा',
+    diagnostics: { tier: 'टियर', fps: 'FPS', dpr: 'DPR', progress: 'प्रगती' }
   },
   hi: {
     skipLink: 'प्रस्तावना छोड़ें → सीधे शोध देखें',
@@ -188,11 +209,13 @@ const I18N = {
     s5Title: 'ब्रिस्टल, यूनाइटेड किंगडम',
     s5Body: 'ब्रिस्टल के अंतरराष्ट्रीय स्तर पर मान्यता प्राप्त जलवायु विज्ञान और अनुकूलन शोध के समन्वय से संयुक्त पद्धतियां और प्रशिक्षण तैयार किए जाते हैं।',
     s5Sub: 'ब्रिस्टल विश्वविद्यालय · सहयोगी अनुसंधान भागीदार',
+    s5Badge: 'UK Research Partner',
 
     s6Eyebrow: 'भौगोलिक केंद्र 02',
     s6Title: 'मुंबई, भारत · कलीना परिसर',
     s6Body: 'मुंबई विश्वविद्यालय के कलीना परिसर स्थित जलवायु परिवर्तन एवं स्थिरता अध्ययन केंद्र (CCCSS) द्वारा संपूर्ण शोध और क्षेत्रीय संचालन का नेतृत्व किया जाता है।',
     s6Sub: 'मुंबई विश्वविद्यालय · CCCSS मुख्य संचालन केंद्र',
+    s6Badge: 'Mumbai Institutional Context',
 
     s7Eyebrow: 'परिसर से सीधे तट तक',
     s7Title: 'विज्ञान को सीधे मुहानों और गांवों तक ले जाना',
@@ -219,6 +242,14 @@ const I18N = {
     s10Title: 'पालघर तटीय क्षेत्रीय प्रयोगशाला',
     s10Body: 'पालघर इस मंच का संदर्भ तकनीकी कार्यान्वयन है। वैतरणा बेसिन में मुहाना लवणता, पारंपरिक वारली वानिकी और तटीय जैव-दीवारों का यहां अध्ययन किया गया है।',
     s10Badge: 'तकनीकी संदर्भ कार्यान्वयन (अनुसंधान जिले: सत्यापन जारी)',
+    technicalReference: 'Technical Reference',
+    tier2Label: 'Living 3D Earth · mobile',
+    tier3Label: 'Tier 3 2D geographic projection',
+    tier1Label: 'Living 3D Earth · natural shading',
+    markerBristol: 'Bristol · UK Partner',
+    markerMumbai: 'Mumbai · CCCSS context',
+    markerPalghar: 'Palghar · Reference Lab',
+    diagnostics: { tier: 'Tier', fps: 'FPS', dpr: 'DPR', progress: 'Progress' },
 
     s11Eyebrow: 'शोध अभिलेख देखें',
     s11Title: 'सत्यापित तटीय अनुसंधान का अन्वेषण करें',
@@ -231,7 +262,17 @@ const I18N = {
 const t = I18N[lang] || I18N.en;
 ---
 
-<section id="ccl-story-container" class="relative bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+<section
+  id="ccl-story-container"
+  class="relative bg-[var(--color-bg)] border-b border-[var(--color-border)]"
+  data-audio-on={t.audioOn}
+  data-audio-off={t.audioOff}
+  data-view-interactive={t.viewInteractive}
+  data-view-simple={t.viewSimple}
+  data-tier-one={t.tier1Label}
+  data-tier-two={t.tier2Label}
+  data-tier-three={t.tier3Label}
+>
   <!-- B0: Skip Link & Top Utility Controls -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 flex flex-wrap items-center justify-between gap-4">
     <a
@@ -283,10 +324,10 @@ const t = I18N[lang] || I18N.en;
     class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2"
   >
     <div class="p-3 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-[11px] font-mono grid grid-cols-2 sm:grid-cols-4 gap-3 text-[var(--color-text-muted)]">
-      <div>Tier: <strong id="diag-tier" class="text-[var(--color-text-main)]">-</strong></div>
-      <div>FPS: <strong id="diag-fps" class="text-[var(--color-text-main)]">-</strong></div>
-      <div>DPR: <strong id="diag-dpr" class="text-[var(--color-text-main)]">-</strong></div>
-      <div>Progress: <strong id="diag-prog" class="text-[var(--color-text-main)]">0.000 (raw 0.000)</strong></div>
+       <div>{t.diagnostics.tier}: <strong id="diag-tier" class="text-[var(--color-text-main)]">-</strong></div>
+       <div>{t.diagnostics.fps}: <strong id="diag-fps" class="text-[var(--color-text-main)]">-</strong></div>
+       <div>{t.diagnostics.dpr}: <strong id="diag-dpr" class="text-[var(--color-text-main)]">-</strong></div>
+       <div>{t.diagnostics.progress}: <strong id="diag-prog" class="text-[var(--color-text-main)]">0.000 (raw 0.000)</strong></div>
     </div>
   </div>
 
@@ -379,7 +420,7 @@ const t = I18N[lang] || I18N.en;
               {t.s5Eyebrow}
             </span>
             <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-blue-100 text-blue-800">
-              UK Research Lead
+               {t.s5Badge}
             </span>
           </div>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
@@ -400,7 +441,7 @@ const t = I18N[lang] || I18N.en;
               {t.s6Eyebrow}
             </span>
             <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-800">
-              Indian Academic Lead
+               {t.s6Badge}
             </span>
           </div>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
@@ -488,7 +529,7 @@ const t = I18N[lang] || I18N.en;
               {t.s10Eyebrow}
             </span>
             <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">
-              Technical Reference
+               {t.technicalReference}
             </span>
           </div>
           <h3 class="text-2xl font-bold text-[var(--color-text-main)]">
@@ -521,7 +562,7 @@ const t = I18N[lang] || I18N.en;
               <span>{t.s11Cta1}</span>
             </a>
             <a
-              href={lang === 'en' ? '/visit' : `/${lang}/visit`}
+              href={localizedHref(lang, '/visit')}
               class="inline-flex items-center px-4 py-2 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-xs font-semibold text-[var(--color-text-main)] hover:bg-[var(--color-surface)] transition"
             >
               <span>{t.s11Cta2}</span>
@@ -544,7 +585,7 @@ const t = I18N[lang] || I18N.en;
           <div id="tier3-canvas-container" class="w-full h-full hidden flex-col items-center justify-center">
             <canvas id="fallback2d" class="max-w-full h-auto cursor-default"></canvas>
             <div class="mt-2 text-[11px] text-[var(--color-text-muted)] text-center font-mono">
-              ✦ Tier 3 2D Orthographic Vector Projection
+               ✦ {t.tier3Label}
             </div>
           </div>
 
@@ -552,7 +593,7 @@ const t = I18N[lang] || I18N.en;
           <div id="tier1-webgl-container" class="w-full h-full hidden flex-col items-center justify-center">
             <canvas id="gl-canvas" class="max-w-full h-auto cursor-default"></canvas>
             <div class="mt-2 text-[11px] text-[var(--color-text-muted)] text-center font-mono">
-              ✦ Living 3D Earth (Natural Satellite Shading & Damped Follow)
+               ✦ {t.tier1Label}
             </div>
           </div>
 
@@ -561,19 +602,19 @@ const t = I18N[lang] || I18N.en;
             <div id="mk-bristol" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
               <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-blue-200">
                 <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                <span class="text-[11px] font-bold text-slate-900">Bristol · UK Partner</span>
+                <span class="text-[11px] font-bold text-slate-900">{t.markerBristol}</span>
               </div>
             </div>
             <div id="mk-mumbai" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
               <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-red-200">
                 <span class="w-2 h-2 rounded-full bg-red-600"></span>
-                <span class="text-[11px] font-bold text-slate-900">Mumbai · CCCSS Lead</span>
+                <span class="text-[11px] font-bold text-slate-900">{t.markerMumbai}</span>
               </div>
             </div>
             <div id="mk-palghar" class="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200">
               <div class="flex items-center space-x-2 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-sm border border-emerald-200">
                 <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-                <span class="text-[11px] font-bold text-slate-900">Palghar · Reference Lab</span>
+                <span class="text-[11px] font-bold text-slate-900">{t.markerPalghar}</span>
               </div>
             </div>
           </div>
@@ -593,6 +634,15 @@ const t = I18N[lang] || I18N.en;
   import { AmbientAudio } from './AmbientAudio';
 
   const container = document.getElementById('ccl-story-container');
+  const i18n = {
+    audioOn: container?.dataset.audioOn || 'Ambient Sound: On',
+    audioOff: container?.dataset.audioOff || 'Ambient Sound: Off',
+    viewInteractive: container?.dataset.viewInteractive || 'Interactive View',
+    viewSimple: container?.dataset.viewSimple || 'Simple Version',
+    tier1Label: container?.dataset.tierOne || 'Tier 1 (WebGL)',
+    tier2Label: container?.dataset.tierTwo || 'Tier 2 (WebGL·M)',
+    tier3Label: container?.dataset.tierThree || 'Tier 3 (Canvas2D)'
+  };
   const staticContainer = document.getElementById('tier4-static-container');
   const canvas2dContainer = document.getElementById('tier3-canvas-container');
   const webglContainer = document.getElementById('tier1-webgl-container');
@@ -669,16 +719,16 @@ const t = I18N[lang] || I18N.en;
   function updateTierUI() {
     const tierName =
       currentTier === 1
-        ? 'Tier 1 (WebGL)'
+        ? i18n.tier1Label
         : currentTier === 2
-        ? 'Tier 2 (WebGL·M)'
+        ? i18n.tier2Label
         : currentTier === 3
-        ? 'Tier 3 (Canvas2D)'
-        : 'Tier 4 (Static)';
+        ? i18n.tier3Label
+        : i18n.viewSimple;
 
     if (diagPillText) diagPillText.textContent = tierName;
     if (diagTier) diagTier.textContent = tierName;
-    if (modeLabel) modeLabel.textContent = currentTier === 4 ? 'Interactive View' : 'Simple Version';
+    if (modeLabel) modeLabel.textContent = currentTier === 4 ? i18n.viewInteractive : i18n.viewSimple;
     if (diagDpr) diagDpr.textContent = (window.devicePixelRatio || 1).toFixed(2);
   }
 
@@ -883,12 +933,12 @@ const t = I18N[lang] || I18N.en;
       if (ambientAudioActive) {
         await ambientAudio.start();
         toggleAudioBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
-        if (audioLabel) audioLabel.textContent = 'Ambient Sound: On';
+        if (audioLabel) audioLabel.textContent = i18n.audioOn;
         if (audioIcon) audioIcon.textContent = '🎵';
       } else {
         ambientAudio.stop();
         toggleAudioBtn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-300');
-        if (audioLabel) audioLabel.textContent = 'Ambient Sound: Off';
+        if (audioLabel) audioLabel.textContent = i18n.audioOff;
         if (audioIcon) audioIcon.textContent = '🌊';
       }
     });

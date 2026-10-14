@@ -3,6 +3,8 @@ interface Props {
   lang?: 'en' | 'mr' | 'hi';
 }
 
+import { localizedHref, type Locale } from '../lib/i18n';
+
 const { lang = 'en' } = Astro.props;
 
 const labels = {
@@ -13,7 +15,8 @@ const labels = {
     districts: 'Districts',
     evidence: 'Evidence & Sources',
     visit: 'Research Access',
-    switchLang: 'Language'
+    switchLang: 'Language',
+    mobileNav: 'Mobile navigation'
   },
   mr: {
     title: 'कम्युनिटी को-क्रिएशन लॅब',
@@ -22,7 +25,8 @@ const labels = {
     districts: 'जिल्हे',
     evidence: 'पुरावे आणि संदर्भ',
     visit: 'अभ्यास भेट परवानगी',
-    switchLang: 'भाषा'
+    switchLang: 'भाषा',
+    mobileNav: 'मोबाइल नेव्हिगेशन'
   },
   hi: {
     title: 'कम्युनिटी को-क्रिएशन लैब',
@@ -31,29 +35,26 @@ const labels = {
     districts: 'जिले',
     evidence: 'प्रमाण एवं स्रोत',
     visit: 'शोध पहुंच अनुरोध',
-    switchLang: 'भाषा'
+    switchLang: 'भाषा',
+    mobileNav: 'मोबाइल नेविगेशन'
   }
 };
 
 const t = labels[lang] || labels.en;
 const pathname = Astro.url.pathname;
 
-// Function to construct path for other languages
-function getLangUrl(targetLang: string) {
-  let cleanPath = pathname;
-  if (cleanPath.startsWith('/mr')) cleanPath = cleanPath.slice(3);
-  else if (cleanPath.startsWith('/hi')) cleanPath = cleanPath.slice(3);
-  if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
-  if (targetLang === 'en') return cleanPath;
-  return `/${targetLang}${cleanPath === '/' ? '' : cleanPath}`;
-}
+const getLangUrl = (targetLang: Locale) => localizedHref(targetLang, pathname);
+const homeUrl = localizedHref(lang, '/');
+const districtsUrl = localizedHref(lang, '/#districts');
+const sourcesUrl = localizedHref(lang, '/sources');
+const visitUrl = localizedHref(lang, '/visit');
 ---
 
 <header class="border-b border-[var(--color-border)] bg-[var(--color-surface)] sticky top-0 z-40">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
       <div class="flex items-center space-x-4">
-        <a href={getLangUrl(lang)} class="flex flex-col text-decoration-none">
+        <a href={homeUrl} class="flex flex-col text-decoration-none">
           <span class="text-xl font-bold tracking-tight text-[var(--color-primary)]">
             CCL <span class="text-sm font-medium text-[var(--color-text-muted)]">COOL CRYMB</span>
           </span>
@@ -64,16 +65,16 @@ function getLangUrl(targetLang: string) {
       </div>
 
       <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-        <a href={getLangUrl(lang)} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
+        <a href={homeUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
           {t.home}
         </a>
-        <a href={`${getLangUrl(lang)}#districts`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
+        <a href={districtsUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
           {t.districts}
         </a>
-        <a href={lang === 'en' ? '/sources' : `/${lang}/sources`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
+        <a href={sourcesUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
           {t.evidence}
         </a>
-        <a href={lang === 'en' ? '/visit' : `/${lang}/visit`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
+        <a href={visitUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] transition">
           {t.visit}
         </a>
       </nav>
@@ -81,30 +82,30 @@ function getLangUrl(targetLang: string) {
       <!-- Language Selector -->
       <div class="flex items-center space-x-2 text-xs border border-[var(--color-border)] rounded-md p-1 bg-[var(--color-surface-subtle)] shrink-0">
         <span class="sr-only">{t.switchLang}</span>
-        <a href={getLangUrl('en')} class={`px-2 py-1 rounded font-medium ${lang === 'en' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('en')} aria-current={lang === 'en' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'en' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           EN
         </a>
-        <a href={getLangUrl('mr')} class={`px-2 py-1 rounded font-medium ${lang === 'mr' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('mr')} aria-current={lang === 'mr' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'mr' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           मराठी
         </a>
-        <a href={getLangUrl('hi')} class={`px-2 py-1 rounded font-medium ${lang === 'hi' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
+        <a href={getLangUrl('hi')} aria-current={lang === 'hi' ? 'page' : undefined} class={`px-2 py-1 rounded font-medium ${lang === 'hi' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}>
           हिन्दी
         </a>
       </div>
     </div>
 
     <!-- Mobile Navigation Bar (100% static HTML, no JS needed, scrollable on narrow screens) -->
-    <nav aria-label="Mobile Navigation" class="flex md:hidden items-center justify-start space-x-6 py-2.5 border-t border-[var(--color-border)] text-xs font-semibold overflow-x-auto">
-      <a href={getLangUrl(lang)} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+    <nav aria-label={t.mobileNav} class="flex md:hidden items-center justify-start space-x-6 py-2.5 border-t border-[var(--color-border)] text-xs font-semibold overflow-x-auto">
+      <a href={homeUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
         {t.home}
       </a>
-      <a href={`${getLangUrl(lang)}#districts`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+      <a href={districtsUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
         {t.districts}
       </a>
-      <a href={lang === 'en' ? '/sources' : `/${lang}/sources`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+      <a href={sourcesUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
         {t.evidence}
       </a>
-      <a href={lang === 'en' ? '/visit' : `/${lang}/visit`} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
+      <a href={visitUrl} class="text-[var(--color-text-main)] hover:text-[var(--color-primary)] whitespace-nowrap transition">
         {t.visit}
       </a>
     </nav>

@@ -1,0 +1,7 @@
+---
+import PolicyPage from '../../components/pages/PolicyPage.astro';
+import { locales, type Locale } from '../../lib/i18n';
+export function getStaticPaths() { return locales.filter(locale => locale !== 'mr').map(lang => ({ params: { lang } })); }
+const lang = Astro.params.lang as Exclude<Locale, 'mr'>;
+---
+<PolicyPage lang={lang} kind="privacy" />

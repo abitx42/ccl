@@ -10,19 +10,25 @@ const labels = {
     ukAnchor: 'University of Bristol (UK)',
     mumbaiAnchor: 'University of Mumbai (CCCSS, Kalina)',
     refAnchor: 'Palghar (Technical Reference Implementation)',
-    staticNote: 'Accessible Geographic Reference View'
+    staticNote: 'Accessible Geographic Reference View',
+    ariaLabel: 'Bilateral research geography diagram',
+    tierLabel: 'Tier 4 accessible vector'
   },
   mr: {
     ukAnchor: 'ब्रिस्टल विद्यापीठ (UK)',
-    mumbaiAnchor: 'मुंबई विद्यापीठ (CCCSS, कलिना)',
-    refAnchor: 'पालघर (तांत्रिक संदर्भ अंमलबजावणी)',
-    staticNote: 'भौगोलिक संदर्भ नकाशा'
+    mumbaiAnchor: 'मुंबई विद्यापीठ · CCCSS',
+    refAnchor: 'पालघर · तांत्रिक संदर्भ',
+    staticNote: 'भौगोलिक संदर्भ नकाशा',
+    ariaLabel: 'द्विपक्षीय संशोधनाचा भौगोलिक नकाशा',
+    tierLabel: 'टियर ४ · प्रवेशयोग्य नकाशा'
   },
   hi: {
     ukAnchor: 'ब्रिस्टल विश्वविद्यालय (UK)',
     mumbaiAnchor: 'मुंबई विश्वविद्यालय (CCCSS, कलीना)',
     refAnchor: 'पालघर (तकनीकी संदर्भ कार्यान्वयन)',
-    staticNote: 'भौगोलिक संदर्भ मानचित्र'
+    staticNote: 'भौगोलिक संदर्भ मानचित्र',
+    ariaLabel: 'द्विपक्षीय शोध भूगोल आरेख',
+    tierLabel: 'टियर ४ · सुलभ वेक्टर मानचित्र'
   }
 };
 
@@ -31,7 +37,7 @@ const t = labels[lang] || labels.en;
 
 <div class="relative w-full h-full min-h-[380px] max-h-[500px] flex items-center justify-center p-6 bg-[var(--color-surface-subtle)] rounded-2xl border border-[var(--color-border)] overflow-hidden">
   <!-- Clean, accessible SVG projection depicting bilateral link & Maharashtra coast -->
-  <svg viewBox="0 0 800 500" class="w-full h-full max-w-2xl text-[var(--color-text-main)]" aria-label="Bilateral Research Geography Diagram" role="img">
+   <svg viewBox="0 0 800 500" class="w-full h-full max-w-2xl text-[var(--color-text-main)]" aria-label={t.ariaLabel} role="img" font-family="inherit">
     <defs>
       <!-- Atmospheric & Oceanic Gradient -->
       <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
@@ -138,8 +144,8 @@ const t = labels[lang] || labels.en;
     </g>
 
     <!-- Map Legend / Note -->
-    <text x="400" y="445" font-size="11" fill="var(--color-text-muted)" text-anchor="middle" font-family="system-ui">
-      {t.staticNote} · Tier 4 Accessible Vector
+     <text x="400" y="445" font-size="11" fill="var(--color-text-muted)" text-anchor="middle" font-family="inherit">
+       {t.staticNote} · {t.tierLabel}
     </text>
   </svg>
 </div>

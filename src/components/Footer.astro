@@ -3,6 +3,8 @@ interface Props {
   lang?: 'en' | 'mr' | 'hi';
 }
 
+import { localizedHref } from '../lib/i18n';
+
 const { lang = 'en' } = Astro.props;
 
 const text = {
@@ -12,7 +14,14 @@ const text = {
     ethics: 'Ethics & Consent: All research participants, community accounts, and photography strictly observe informed consent protocols.',
     evidenceLink: 'View Evidence Register & Verified Sources',
     archiveNotice: 'This public platform functions as a permanent research archive with reproducible datasets.',
-    rights: 'All rights reserved. University of Mumbai (CCCSS).'
+    rights: 'All rights reserved. University of Mumbai (CCCSS).',
+    framework: 'Research Framework',
+    integrity: 'Integrity & Verification',
+    preservation: 'Preservation',
+    privacy: 'Privacy Policy',
+    terms: 'Terms of Use',
+    accessibility: 'Accessibility Statement (WCAG 2.2 AA)',
+    snapshot: 'Zenodo DOI snapshots scheduled'
   },
   mr: {
     partnersTitle: 'संस्थात्मक आणि निधी भागीदार',
@@ -20,7 +29,14 @@ const text = {
     ethics: 'नैतिकता आणि संमती: सर्व सहभागी, समुदाय माहिती आणि छायाचित्रे संमती नियमांचे काटेकोर पालन करतात.',
     evidenceLink: 'पुरावे नोंदवही आणि सत्यापित संदर्भ पहा',
     archiveNotice: 'हे व्यासपीठ कायमस्वरूपी संशोधन संग्रह म्हणून कार्य करते.',
-    rights: 'सर्व हक्क राखीव. मुंबई विद्यापीठ.'
+    rights: 'सर्व हक्क राखीव. मुंबई विद्यापीठ.',
+    framework: 'संशोधनाची रूपरेषा',
+    integrity: 'प्रामाणिकता आणि पडताळणी',
+    preservation: 'संग्रह जतन',
+    privacy: 'गोपनीयता धोरण',
+    terms: 'वापराच्या अटी',
+    accessibility: 'प्रवेशयोग्यता निवेदन (WCAG 2.2 AA)',
+    snapshot: 'Zenodo DOI संग्रह नियोजित'
   },
   hi: {
     partnersTitle: 'संस्थागत एवं वित्तपोषण भागीदार',
@@ -28,7 +44,14 @@ const text = {
     ethics: 'नैतिकता और सहमति: सभी शोध प्रतिभागियों और तस्वीरों में सहमति नियमों का कड़ाई से पालन किया गया है।',
     evidenceLink: 'प्रमाण रजिस्टर और सत्यापित स्रोत देखें',
     archiveNotice: 'यह सार्वजनिक मंच एक स्थायी शोध पुरालेख के रूप में कार्य करता है।',
-    rights: 'सर्वाधिकार सुरक्षित। मुंबई विश्वविद्यालय।'
+    rights: 'सर्वाधिकार सुरक्षित। मुंबई विश्वविद्यालय।',
+    framework: 'अनुसंधान रूपरेखा',
+    integrity: 'ईमानदारी और सत्यापन',
+    preservation: 'संरक्षण',
+    privacy: 'गोपनीयता नीति',
+    terms: 'उपयोग की शर्तें',
+    accessibility: 'सुलभता वक्तव्य (WCAG 2.2 AA)',
+    snapshot: 'Zenodo DOI स्नैपशॉट निर्धारित'
   }
 };
 
@@ -52,7 +75,7 @@ const t = text[lang] || text.en;
 
       <div class="space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
-          Research Framework
+          {t.framework}
         </h3>
         <p class="text-xs leading-relaxed">
           {t.partnershipDesc}
@@ -61,25 +84,25 @@ const t = text[lang] || text.en;
 
       <div class="space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
-          Integrity & Verification
+          {t.integrity}
         </h3>
         <p class="text-xs leading-relaxed">
           {t.ethics}
         </p>
-        <a href={lang === 'en' ? '/sources' : `/${lang}/sources`} class="inline-block text-xs font-semibold text-[var(--color-primary)] hover:underline">
+        <a href={localizedHref(lang, '/sources')} class="inline-block text-xs font-semibold text-[var(--color-primary)] hover:underline">
           {t.evidenceLink} →
         </a>
       </div>
 
       <div class="space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-main)]">
-          Preservation
+          {t.preservation}
         </h3>
         <p class="text-xs leading-relaxed">
           {t.archiveNotice}
         </p>
         <span class="inline-flex items-center text-xs px-2.5 py-1 rounded bg-[var(--color-surface-subtle)] border border-[var(--color-border)]">
-          Zenodo DOI Snapshots Scheduled
+           {t.snapshot}
         </span>
       </div>
     </div>
@@ -87,9 +110,9 @@ const t = text[lang] || text.en;
     <div class="border-t border-[var(--color-border)] pt-8 flex flex-col sm:flex-row items-center justify-between text-xs">
       <p>© {new Date().getFullYear()} {t.rights}</p>
       <div class="flex space-x-6 mt-4 sm:mt-0">
-        <a href="/privacy" class="hover:underline">Privacy Policy</a>
-        <a href="/terms" class="hover:underline">Terms of Use</a>
-        <a href="/accessibility" class="hover:underline">Accessibility Statement (WCAG 2.2 AA)</a>
+        <a href={localizedHref(lang, '/privacy')} class="hover:underline">{t.privacy}</a>
+        <a href={localizedHref(lang, '/terms')} class="hover:underline">{t.terms}</a>
+        <a href={localizedHref(lang, '/accessibility')} class="hover:underline">{t.accessibility}</a>
       </div>
     </div>
   </div>
