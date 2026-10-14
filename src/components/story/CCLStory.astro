@@ -746,6 +746,11 @@ const t = I18N[lang] || I18N.en;
     hideAllTiers();
     if (webglContainer) webglContainer.classList.remove('hidden');
 
+    if (canvas2dInstance) {
+      canvas2dInstance.destroy();
+      canvas2dInstance = null;
+    }
+
     try {
       const { GlobeWebGL } = await import('./GlobeWebGL');
       webglInstance = new GlobeWebGL(glCanvas, {
@@ -782,6 +787,11 @@ const t = I18N[lang] || I18N.en;
     if (webglInstance) {
       webglInstance.destroy();
       webglInstance = null;
+    }
+
+    if (canvas2dInstance) {
+      canvas2dInstance.destroy();
+      canvas2dInstance = null;
     }
 
     try {

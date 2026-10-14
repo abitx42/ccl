@@ -78,7 +78,10 @@ export class GlobeCanvas2D {
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
 
-    this.ctx.scale(dpr, dpr);
+    // Resizes can happen repeatedly when the sticky stage crosses responsive
+    // breakpoints. Replace the transform instead of stacking another scale on
+    // every call, otherwise the globe drifts and grows after each resize.
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const radius = Math.min(this.width, this.height) * 0.40;
     this.projection

@@ -28,7 +28,7 @@ The repo is **private**; only the built static site is public.
 5. **Every user-facing string exists in en/mr/hi** (or falls back to English with the visible fallback notice). No hard-coded text in components.
 6. **Themes only change tokens/motifs**, never structure or accessibility behaviour (docs/05).
 7. **Don't add dependencies casually.** Prefer the platform; justify any new package in the PR description.
-8. **Mandatory AI Collaboration Log**: Any AI assistant MUST update Section 5 of `README.md` (recording user prompt, walkthrough, files modified, verification results) on responses where modifications occur, and pass `npm run test`, `npm run lint`, and `npm run build`. **Do NOT automatically push to GitHub** — git push is performed only when explicitly requested by the user.
+8. **Mandatory AI Collaboration Log & Git Synchronization**: Any AI assistant MUST update Section 5 of `README.md` (recording user prompt, walkthrough, files modified, verification results) on responses where modifications occur, and pass `npm run test`, `npm run lint`, and `npm run build`. After checks pass, commit and push changes to `origin/main` (`git@github.com:abitx42/ccl.git`) by default. If authentication, conflicts, or remote policy prevent the push, report the exact blocker instead of silently leaving changes local.
 
 ## Conventions
 

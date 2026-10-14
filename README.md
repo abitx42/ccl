@@ -101,7 +101,7 @@ Each scene follows a strict **`[EYEBROW]` → `[LARGE HEADLINE]` → `[2–3 LIN
    - The UI must gracefully handle **zero confirmed project districts** without layout breakage.
 4. **Consent Gating**: No person profile, photo, or oral quote is published without verified consent (`consent.state === 'granted'`) and specific scope (`'name'`, `'photo'`, `'quote'`).
 5. **Dynamic Computed Stats**: All statistics on the public site are computed at build time by [`scripts/validate-content.ts`](scripts/validate-content.ts) into `content/site/stats.json`. Never type numbers manually.
-6. **Git Synchronization**: Always commit and push all code changes to GitHub `origin/main` after every change.
+6. **Git Synchronization**: Always commit and push all code and workflow changes to `origin/main` (`git@github.com:abitx42/ccl.git`) after verification. If authentication, conflicts, or remote policy prevent the push, report the exact blocker instead of silently leaving changes local.
 
 ---
 
@@ -114,7 +114,7 @@ Each scene follows a strict **`[EYEBROW]` → `[LARGE HEADLINE]` → `[2–3 LIN
 > 2. **Never violate Ground Rules** (no fact invention, strict consent gating, conservative terminology, zero scroll-jacking).
 > 3. **Run the Pre-Commit Verification Checklist** and ensure 100% pass rate.
 > 4. **Update the Chronicle of AI Prompts & Walkthroughs below** on responses where modifications occur, logging the prompt, technical rationale, modified files, and verification results.
-> 5. **Git Push Policy**: Do NOT automatically push to GitHub. Commits remain local unless the user explicitly requests a `git push`.
+> 5. **Git Push Policy**: After the verification checklist passes, commit and push changes to `origin/main` (`git@github.com:abitx42/ccl.git`) by default. If the push cannot be completed, record the blocker and the local commit state.
 
 ### Pre-Commit Verification Checklist
 Run these commands in order and verify **zero errors**:
@@ -123,7 +123,7 @@ npm run validate   # Validates content schemas, consent gates, and generates sto
 npm run test       # Executes validate + adversarial test suite (10 negative edge cases)
 npm run lint       # astro check (must report 0 errors, 0 warnings, 0 hints)
 npm run build      # Static production build
-git status         # Verify clean tree and stage/commit locally (push only when asked)
+git status         # Verify the intended tree before committing and pushing
 ```
 
 ---
@@ -196,3 +196,11 @@ git status         # Verify clean tree and stage/commit locally (push only when 
 - **Walkthrough**:
   - Updated [`CLAUDE.md`](CLAUDE.md) rule 8 and [`README.md`](README.md) Section 5.
   - Set git push policy to manual/explicit only: all commits remain local to the developer's environment unless explicitly directed to push.
+
+#### Session 9: Automatic CCL Remote Synchronization
+- **User Prompt**: "always push changes to git abitx42 ccl respo"
+- **Walkthrough**:
+  - Confirmed `origin` points to `git@github.com:abitx42/ccl.git` and the working branch is `main`.
+  - Replaced the previous local-only exception in [`CLAUDE.md`](CLAUDE.md) and this section with the requested default: verify, commit, and push changes to `origin/main` after each completed change.
+  - Pushed the current cinematic hand, character, scene-continuity, Canvas resize, and renderer lifecycle fixes together with this policy update.
+  - Verification results and the resulting commit are recorded in the assistant response for this session.
