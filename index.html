@@ -1045,7 +1045,7 @@ const CAMKEYS=[
  {p:0.696, x:HFX,      y:HFY+6,       s:6.52},
  {p:0.700, x:HFX,      y:HFY+5.8,     s:6.48},
  {p:0.706, x:HFX*0.97, y:HFY*0.9+3,   s:5.20},
- {p:0.716, x:HFX*0.55, y:-45,         s:3.30},
+ {p:0.716, x:HFX*0.55, y:HFY*0.9+3,   s:3.30},
  {p:0.724, x:HFX*0.30, y:-75,         s:2.40},
  {p:0.742, x:HFX*0.30, y:-75,         s:2.40},
  {p:0.770, x:HFX*0.15, y:-95,         s:1.80},
@@ -1596,7 +1596,10 @@ function handGeom(p){
   // p >= 0.700: 'hand' owned (stem snaps, hand pulls fruit downward and left)
   const isDetached=p>=0.700;
   const pullProgress=smooth(clamp((p-0.700)/0.024,0,1));
-  const pluckSnap=(p>=0.700 && p<=0.706)?Math.sin((p-0.700)/0.006*Math.PI)*1.4:0;
+  const snapT=clamp((p-0.700)/0.006,0,1);
+  // A smooth bump gives the pluck a tactile recoil without introducing a
+  // velocity discontinuity at either end of the detachment interval.
+  const pluckSnap=(p>=0.700 && p<=0.706)?Math.sin(Math.PI*smooth(snapT))*1.4:0;
   const pullDx=lerp(0,-42,pullProgress);
   const pullDy=lerp(0,44,Math.pow(pullProgress,0.85))+pluckSnap;
 
@@ -1646,14 +1649,16 @@ function drawHeroFruit(ctx,p,T,L,dark){
   paintFruit(ctx,cx,cy,r,ripeF,lit,dark,alpha);
 
   // F3 Stem handling with tactile branch spring recoil upon detachment
-  const recoil=(p>=0.700 && p<0.728)?-Math.sin((p-0.700)/0.007*Math.PI)*Math.exp(-(p-0.700)/0.008)*3.6:0;
+  const recoilT=clamp((p-0.700)/0.014,0,1);
+  const recoil=(p>=0.700 && p<0.724)?-Math.sin(Math.PI*smooth(recoilT))*Math.exp(-recoilT*3)*3.6:0;
 
   ctx.save(); ctx.globalAlpha=alpha;
   ctx.strokeStyle=mix('#3A2E18','#120C08',dark); ctx.lineWidth=Math.max(0.5,r*0.09); ctx.lineCap='round';
   if(!g.isDetached){
     // Branch-owned: connects fruit pedicel to branch attachment point
+    const ax=f.anchorX??f.x, ay=f.anchorY??f.y;
     ctx.beginPath(); ctx.moveTo(cx+r*0.05,cy-r*0.94);
-    ctx.quadraticCurveTo(cx+r*0.22,cy-r*1.2,f.x+r*0.4,f.y-r*1.18);
+    ctx.quadraticCurveTo(cx+r*0.22,cy-r*1.2,ax,ay);
     ctx.stroke();
   } else {
     // Hand-owned (detached):
@@ -1662,8 +1667,9 @@ function drawHeroFruit(ctx,p,T,L,dark){
     ctx.quadraticCurveTo(cx+r*0.16,cy-r*1.10,cx+r*0.24,cy-r*1.14);
     ctx.stroke();
     // 2) Severed stem stub recoils upward on the living branch where plucked
-    ctx.beginPath(); ctx.moveTo(f.x+r*0.4,f.y-r*1.18+recoil);
-    ctx.lineTo(f.x+r*0.34,f.y-r*1.12+recoil);
+    const ax=f.anchorX??f.x, ay=f.anchorY??f.y;
+    ctx.beginPath(); ctx.moveTo(ax,ay+recoil);
+    ctx.lineTo(ax-0.8,ay+6+recoil);
     ctx.stroke();
   }
   ctx.restore();
@@ -1994,6 +2000,7 @@ function drawCharacterGrip(ctx,cx,cy,r,angle,skin,skinHi,rim,lit,amount){
 function drawFigure(ctx,cam,p,L,dark,T){
   const a=seg(p,0.700,0.716,0.806,0.822);
   if(a<0.02) return;
+  const growF=smooth((p-0.578)/0.050);
   const s=cam.s, time=T||0, stance=Math.sin(time*0.0018)*0.8, bx=cam.X(FX-96)+stance, by=cam.Y(0), h=92*s, hw=h*0.115;
   const lit=clamp(L.amt,0,1);
   const wind=gustAt(time);
@@ -2071,13 +2078,13 @@ function drawFigure(ctx,cam,p,L,dark,T){
     // Watching the fruit, then easing the gaze down as ownership transfers.
     // The endpoint deliberately matches the next branch to avoid a visible
     // head snap at the pluck-to-character cut.
-    headAngle=lerp(-0.12,0.15,clamp((p-0.700)/0.020,0,1));
+    headAngle=lerp(-0.12,0.15,smooth(clamp((p-0.700)/0.020,0,1)));
   } else if(p<0.756){
     // Head tilts down/forward toward fruit being eaten
     headAngle=0.15;
   } else if(p<0.772){
     // Raising gaze from food
-    headAngle=lerp(0.15,-0.26,(p-0.756)/0.016);
+    headAngle=lerp(0.15,-0.28,smooth(clamp((p-0.756)/0.016,0,1)));
   } else if(p<0.812){
     // Looking purposefully toward tree while pointing
     headAngle=-0.28;
@@ -2141,24 +2148,28 @@ function drawFigure(ctx,cam,p,L,dark,T){
 
   ctx.fillStyle=skin;
   const rHand=limbShape(ctx,rShX,rShY,rAngle,rBend,h*0.25,h*0.22,hw*0.62,hw*0.50,hw*0.34);
-  const rightGrip=clamp((p-0.716)/0.012,0,1);
+  // Start the character-scale grip when the close-up hand begins fading.
+  // One shared handoff clock prevents a duplicate or half-held fruit.
+  const handoff=smooth(clamp((p-0.724)/0.008,0,1));
   drawCharacterHand(ctx,rHand,rAngle+rBend,hw,skin,skinHi,'rgba(24,14,8,0.58)',lit);
 
   // Fruit in Right Hand Handling
   if(p>=0.700 && p<0.758){
-    const transfer=smooth(rightGrip);
+    const transfer=handoff;
     const closeup=handGeom(p);
     const oldFruitX=cam.X(closeup.fruitX), oldFruitY=cam.Y(closeup.fruitY);
     const fruitX=lerp(oldFruitX,rHand.hx,transfer);
     const fruitY=lerp(oldFruitY,rHand.hy,transfer);
-    const holdIn=smooth(clamp((p-0.716)/0.008,0,1));
+    const closeupRadius=closeup.f.r*clamp((growF-closeup.f.off)/0.7,0,1)*cam.s;
+    const heldRadius=hw*0.48;
+    const holdIn=handoff;
 
     // Fruit in hand: shrinks naturally as it is eaten during 0.738 → 0.754
     const bite=smooth(clamp((p-0.738)/0.016,0,1));
-    const fr=hw*0.48*(1-bite);
+    const fr=lerp(closeupRadius,heldRadius,transfer)*(1-bite);
     if(fr>0.3 && holdIn>0.01){
       paintFruit(ctx,fruitX,fruitY,fr,1,lit,dark,holdIn);
-      drawCharacterGrip(ctx,fruitX,fruitY,fr,rAngle+rBend,skin,skinHi,'rgba(24,14,8,0.58)',lit,holdIn*rightGrip);
+      drawCharacterGrip(ctx,fruitX,fruitY,fr,rAngle+rBend,skin,skinHi,'rgba(24,14,8,0.58)',lit,holdIn);
     }
   }
 
