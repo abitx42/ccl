@@ -152,62 +152,132 @@ body.arc #progress{display:none}
 .partners div span{font-family:var(--ui); font-size:11.5px; color:#9FAEA8; letter-spacing:.04em}
 
 /* ── Partner Film Slide & Card Grid ──────────────────────── */
+.partners-film-wrap{
+  width:100%;
+  max-width:640px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.partner-film-title{
+  font-family:var(--ui);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--signal);
+  margin-bottom:1.1em;
+  text-align:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+.partner-film-title::before, .partner-film-title::after{
+  content:'';
+  display:inline-block;
+  width:24px;
+  height:1px;
+  background:rgba(200,169,110,0.45);
+}
 .partners-film-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:12px;
-  margin-top:1.2em;
+  width:100%;
+  margin:0 auto;
   text-align:left;
-  max-width:540px;
 }
 .partner-film-item{
-  background:rgba(10,18,16,0.76);
-  border:1px solid rgba(143,183,198,0.24);
-  border-radius:6px;
-  padding:12px 14px;
+  background:linear-gradient(145deg,rgba(14,24,21,0.88) 0%,rgba(7,13,11,0.92) 100%);
+  border:1px solid rgba(247,243,230,0.14);
+  border-top:1px solid rgba(200,169,110,0.40);
+  border-radius:8px;
+  padding:13px 15px;
   display:flex;
   flex-direction:column;
-  gap:5px;
-  backdrop-filter:blur(8px);
-  transition:border-color 0.2s, background 0.2s;
+  gap:6px;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.48), 0 1px 0 rgba(255,255,255,0.05) inset;
+  transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .partner-film-item:hover{
-  background:rgba(16,26,24,0.92);
-  border-color:rgba(143,183,198,0.5);
+  background:linear-gradient(145deg,rgba(20,32,28,0.95) 0%,rgba(10,18,15,0.96) 100%);
+  border-color:rgba(200,169,110,0.55);
+  transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.6), 0 0 18px rgba(200,169,110,0.15);
 }
-.partner-film-logo-wrap{
-  height:34px;
+.partner-film-head{
   display:flex;
   align-items:center;
-  margin-bottom:3px;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:2px;
+}
+.partner-film-logo-wrap{
+  height:30px;
+  padding:3px 8px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 .partner-film-logo{
-  max-height:30px;
-  max-width:140px;
+  height:22px;
+  max-height:22px;
+  max-width:110px;
+  width:auto;
   object-fit:contain;
-  filter:brightness(1.08) contrast(1.02);
+  filter:brightness(1.05) contrast(1.02);
+  display:block;
 }
 .partner-film-tag{
   font-family:var(--ui);
-  font-size:9px;
-  letter-spacing:0.14em;
+  font-size:8.5px;
+  letter-spacing:0.12em;
   text-transform:uppercase;
   font-weight:700;
-  color:var(--signal);
+  color:#E2C485;
+  background:rgba(200,169,110,0.12);
+  border:1px solid rgba(200,169,110,0.28);
+  padding:3px 7px;
+  border-radius:3px;
+  white-space:nowrap;
 }
 .partner-film-item strong{
   font-family:var(--ui);
   font-size:13.5px;
   font-weight:600;
-  color:#F2EFE9;
-  line-height:1.24;
+  color:#F6F4ED;
+  line-height:1.25;
+  letter-spacing:0.01em;
 }
 .partner-film-loc{
   font-family:var(--ui);
   font-size:11px;
-  color:#9FAEA8;
+  color:#9EB2A9;
   letter-spacing:0.02em;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
 }
+@media(max-width:620px){
+  .partners-film-grid{
+    grid-template-columns:1fr;
+    max-width:300px;
+    gap:9px;
+  }
+  .partner-film-item{
+    padding:10px 12px;
+  }
+}
+
 
 /* ── Dedicated Partners Section ──────────────────────────── */
 .partner-grid{
@@ -771,125 +841,155 @@ const TEXT_FACT_DATA={
     '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · Act and share</b><br>Teams build a Green Project, write an action plan and carry evidence back into the public archive.</p>'+ 
     '<div class="chips"><span>Climate resilience</span><span>Green skills</span><span>Solid waste</span><span>Community action</span></div>'+ 
     '</div>',
-   '<p class="micro" style="margin-bottom:1.1em">The Bilateral Partnership</p>'+
+   '<div class="partners-film-wrap">'+
+    '<p class="partner-film-title">The Bilateral Partnership</p>'+
     '<div class="partners-film-grid">'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=\'assets/logos/british-council.png\'"/></div>'+
-      '<span class="partner-film-tag">Programme Organisation</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;assets/logos/british-council.png&apos;"/></div>'+
+       '<span class="partner-film-tag">Programme Organisation</span>'+
+      '</div>'+
       '<strong>British Council</strong>'+
-      '<span class="partner-film-loc">London, UK</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>London, UK</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=\'assets/logos/hsbc.png\'"/></div>'+
-      '<span class="partner-film-tag">Programme Partner</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;assets/logos/hsbc.png&apos;"/></div>'+
+       '<span class="partner-film-tag">Programme Partner</span>'+
+      '</div>'+
       '<strong>HSBC</strong>'+
-      '<span class="partner-film-loc">London, UK</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>London, UK</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=\'assets/logos/university-of-bristol.png\'"/></div>'+
-      '<span class="partner-film-tag">Implementing Institution</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-bristol.png&apos;"/></div>'+
+       '<span class="partner-film-tag">Implementing Institution</span>'+
+      '</div>'+
       '<strong>University of Bristol</strong>'+
-      '<span class="partner-film-loc">Bristol, UK</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>Bristol, UK</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=\'assets/logos/university-of-mumbai.png\'"/></div>'+
-      '<span class="partner-film-tag">Implementing Institution</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-mumbai.png&apos;"/></div>'+
+       '<span class="partner-film-tag">Implementing Institution</span>'+
+      '</div>'+
       '<strong>University of Mumbai</strong>'+
-      '<span class="partner-film-loc">Mumbai, India</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>Mumbai, India</span>'+
      '</div>'+
-    '</div>',
-   '<p>The need is local.</p>',
-   '<p>The response is shared.</p>',
-   '<p>Explore the work.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">Keep scrolling ↓</p>'
-  ],
- mr:[
-   '<div class="plate">'+
-    '<p class="micro">CCL म्हणजे काय</p>'+ 
-    '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB हा स्थानिक हवामान-लवचिकतेसाठीचा आंतरराष्ट्रीय living lab आहे.</p>'+ 
-    '<p>तो युवा, प्राध्यापक, स्वयंसेवी संस्था आणि समुदायांना मुंबई विद्यापीठ व ब्रिस्टल विद्यापीठाशी जोडतो, जेणेकरून हवामान ज्ञानाचे स्थानिक कृतीत रूपांतर होईल.</p>'+ 
-    '</div>',
-   '<div class="plate fact-two">'+
-    '<p class="micro">प्रयोगशाळेची पद्धत</p>'+ 
-    '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · शिकणे</b><br>हवामान विज्ञान आणि हरित कौशल्यांचे प्रशिक्षण.</p>'+ 
-    '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · ऐकणे आणि रचना</b><br>समुदाय संवादातून कचरा-विभाजनासारख्या स्थानिक अडचणी समजून घेणे.</p>'+ 
-    '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कृती आणि वाटणी</b><br>Green Project, action plan आणि सार्वजनिक पुरावा तयार करणे.</p>'+ 
-    '<div class="chips"><span>हवामान</span><span>हरित कौशल्ये</span><span>घनकचरा</span><span>समुदाय कृती</span></div>'+ 
-    '</div>',
-   '<p class="micro" style="margin-bottom:1.1em">द्विपक्षीय सहकार्य (The Partnership)</p>'+
+    '</div>'+
+   '</div>',
+    '<p>The need is local.</p>',
+    '<p>The response is shared.</p>',
+    '<p>Explore the work.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">Keep scrolling ↓</p>'
+   ],
+  mr:[
+    '<div class="plate">'+
+     '<p class="micro">CCL म्हणजे काय</p>'+ 
+     '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB हा स्थानिक हवामान-लवचिकतेसाठीचा आंतरराष्ट्रीय living lab आहे.</p>'+ 
+     '<p>तो युवा, प्राध्यापक, स्वयंसेवी संस्था आणि समुदायांना मुंबई विद्यापीठ व ब्रिस्टल विद्यापीठाशी जोडतो, जेणेकरून हवामान ज्ञानाचे स्थानिक कृतीत रूपांतर होईल.</p>'+ 
+     '</div>',
+    '<div class="plate fact-two">'+
+     '<p class="micro">प्रयोगशाळेची पद्धत</p>'+ 
+     '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · शिकणे</b><br>हवामान विज्ञान आणि हरित कौशल्यांचे प्रशिक्षण.</p>'+ 
+     '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · ऐकणे आणि रचना</b><br>समुदाय संवादातून कचरा-विभाजनासारख्या स्थानिक अडचणी समजून घेणे.</p>'+ 
+     '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कृती आणि वाटणी</b><br>Green Project, action plan आणि सार्वजनिक पुरावा तयार करणे.</p>'+ 
+     '<div class="chips"><span>हवामान</span><span>हरित कौशल्ये</span><span>घनकचरा</span><span>समुदाय कृती</span></div>'+ 
+     '</div>',
+   '<div class="partners-film-wrap">'+
+    '<p class="partner-film-title">द्विपक्षीय सहकार्य (The Partnership)</p>'+
     '<div class="partners-film-grid">'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यक्रम संस्था</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;assets/logos/british-council.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यक्रम संस्था</span>'+
+      '</div>'+
       '<strong>ब्रिटिश कौन्सिल</strong>'+
-      '<span class="partner-film-loc">लंडन, युनायटेड किंगडम</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>लंडन, युनायटेड किंगडम</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यक्रम भागीदार</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;assets/logos/hsbc.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यक्रम भागीदार</span>'+
+      '</div>'+
       '<strong>HSBC</strong>'+
-      '<span class="partner-film-loc">लंडन, युनायटेड किंगडम</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>लंडन, युनायटेड किंगडम</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-bristol.png&apos;"/></div>'+
+       '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '</div>'+
       '<strong>ब्रिस्टल विद्यापीठ</strong>'+
-      '<span class="partner-film-loc">ब्रिस्टल, युके</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>ब्रिस्टल, युके</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-mumbai.png&apos;"/></div>'+
+       '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '</div>'+
       '<strong>मुंबई विद्यापीठ</strong>'+
-      '<span class="partner-film-loc">मुंबई, भारत</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>मुंबई, भारत</span>'+
      '</div>'+
-    '</div>',
-   '<p>गरज स्थानिक आहे.</p>',
-   '<p>उपाय सामायिक आहे.</p>',
-   '<p>कार्य पहा.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">खाली स्क्रोल करा ↓</p>'
-  ],
- hi:[
-   '<div class="plate">'+
-    '<p class="micro">CCL क्या है</p>'+ 
-    '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB स्थानीय जलवायु-लचीलेपन के लिए एक अंतरराष्ट्रीय living lab है।</p>'+ 
-    '<p>यह युवाओं, शिक्षकों, NGOs और समुदायों को मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय से जोड़ता है, ताकि जलवायु ज्ञान स्थानीय कार्रवाई में बदल सके।</p>'+ 
-    '</div>',
-   '<div class="plate fact-two">'+
-    '<p class="micro">लैब की प्रक्रिया</p>'+ 
-    '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · सीखना</b><br>जलवायु विज्ञान और हरित कौशल का प्रशिक्षण।</p>'+ 
-    '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · सुनना और बनाना</b><br>समुदाय के साथ मिलकर कचरा-विभाजन जैसी स्थानीय समस्याओं को समझना।</p>'+ 
-    '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कार्रवाई और साझा करना</b><br>Green Project, action plan और सार्वजनिक प्रमाण तैयार करना।</p>'+ 
-    '<div class="chips"><span>जलवायु</span><span>हरित कौशल</span><span>ठोस कचरा</span><span>सामुदायिक कार्रवाई</span></div>'+ 
-    '</div>',
-   '<p class="micro" style="margin-bottom:1.1em">द्विपक्षीय साझेदारी (The Partnership)</p>'+
+    '</div>'+
+   '</div>',
+    '<p>गरज स्थानिक आहे.</p>',
+    '<p>उपाय सामायिक आहे.</p>',
+    '<p>कार्य पहा.</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">खाली स्क्रोल करा ↓</p>'
+   ],
+  hi:[
+    '<div class="plate">'+
+     '<p class="micro">CCL क्या है</p>'+ 
+     '<p style="font-family:var(--film);font-size:clamp(19px,2.3vw,30px);line-height:1.38;color:#EFEDE4;margin:.6em 0 .8em">COOL CRYMB स्थानीय जलवायु-लचीलेपन के लिए एक अंतरराष्ट्रीय living lab है।</p>'+ 
+     '<p>यह युवाओं, शिक्षकों, NGOs और समुदायों को मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय से जोड़ता है, ताकि जलवायु ज्ञान स्थानीय कार्रवाई में बदल सके।</p>'+ 
+     '</div>',
+    '<div class="plate fact-two">'+
+     '<p class="micro">लैब की प्रक्रिया</p>'+ 
+     '<p style="margin-top:.9em"><b style="color:#EFEDE4">०१ · सीखना</b><br>जलवायु विज्ञान और हरित कौशल का प्रशिक्षण।</p>'+ 
+     '<p style="margin-top:1em"><b style="color:#EFEDE4">०२ · सुनना और बनाना</b><br>समुदाय के साथ मिलकर कचरा-विभाजन जैसी स्थानीय समस्याओं को समझना।</p>'+ 
+     '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कार्रवाई और साझा करना</b><br>Green Project, action plan और सार्वजनिक प्रमाण तैयार करना।</p>'+ 
+     '<div class="chips"><span>जलवायु</span><span>हरित कौशल</span><span>ठोस कचरा</span><span>सामुदायिक कार्रवाई</span></div>'+ 
+     '</div>',
+   '<div class="partners-film-wrap">'+
+    '<p class="partner-film-title">द्विपक्षीय साझेदारी (The Partnership)</p>'+
     '<div class="partners-film-grid">'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यक्रम संगठन</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;assets/logos/british-council.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यक्रम संगठन</span>'+
+      '</div>'+
       '<strong>ब्रिटिश काउंसिल</strong>'+
-      '<span class="partner-film-loc">लंदन, यूनाइटेड किंगडम</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>लंदन, यूनाइटेड किंगडम</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यक्रम साझेदार</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;assets/logos/hsbc.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यक्रम साझेदार</span>'+
+      '</div>'+
       '<strong>HSBC</strong>'+
-      '<span class="partner-film-loc">लंदन, यूनाइटेड किंगडम</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>लंदन, यूनाइटेड किंगडम</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-bristol.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '</div>'+
       '<strong>ब्रिस्टल विश्वविद्यालय</strong>'+
-      '<span class="partner-film-loc">ब्रिस्टल, यूके</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>ब्रिस्टल, यूके</span>'+
      '</div>'+
      '<div class="partner-film-item">'+
-      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
-      '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '<div class="partner-film-head">'+
+       '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;assets/logos/university-of-mumbai.png&apos;"/></div>'+
+       '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '</div>'+
       '<strong>मुंबई विश्वविद्यालय</strong>'+
-      '<span class="partner-film-loc">मुंबई, भारत</span>'+
+      '<span class="partner-film-loc"><svg width="10" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>मुंबई, भारत</span>'+
      '</div>'+
-    '</div>',
-   '<p>ज़रूरत स्थानीय है।</p>',
-   '<p>प्रतिक्रिया साझा है।</p>',
-   '<p>कार्य देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
-  ]
+    '</div>'+
+   '</div>',
+    '<p>ज़रूरत स्थानीय है।</p>',
+    '<p>प्रतिक्रिया साझा है।</p>',
+    '<p>कार्य देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
+   ]
 };
 
 /* ── Marathi cinematic narrative (swapped in when lang=mr) ── */
@@ -1021,13 +1121,13 @@ const TEXT_FACT=[
  html:TEXT_FACT_DATA.en[0]},
 {a:.922,b:.932,c:.944,d:.956, L:'front', k:'small', x:'94%', y:'50%', w:'min(54ch,82vw)', al:'right',
  html:TEXT_FACT_DATA.en[1]},
-{a:.950,b:.960,c:.974,d:.984, L:'front', k:'small', x:'50%', y:'76%', w:'min(74ch,90vw)', al:'center',
+{a:.948,b:.956,c:.970,d:.976, L:'front', k:'small', x:'50%', y:'63%', w:'min(660px,94vw)', al:'center',
  html:TEXT_FACT_DATA.en[2]},
-{a:.958,b:.966,c:.974,d:.980, L:'front', k:'med', x:'50%', y:'24%', w:'min(30ch,86vw)', al:'center', m:'rise',
+{a:.976,b:.982,c:.988,d:.992, L:'front', k:'med', x:'50%', y:'22%', w:'min(30ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[3]},
-{a:.976,b:.982,c:.988,d:.993, L:'front', k:'med', x:'50%', y:'24%', w:'min(26ch,86vw)', al:'center', m:'rise',
+{a:.988,b:.993,c:.998,d:1.002, L:'front', k:'med', x:'50%', y:'22%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[4]},
-{a:.988,b:.993,c:1.02,d:1.03, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
+{a:.998,b:1.003,c:1.025,d:1.030, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[5]}
 ];
 
@@ -2877,10 +2977,10 @@ function sampleEarth(p,T){
 }
 
 let ANCHORS=[
-  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.928,0.936],kind:'city',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (Bristol) · ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल (Bristol) · ब्रिस्टल विश्वविद्यालय'}},
-  {k:'London',lat:51.5074,lon:-0.1278,a:[0.902,0.910,0.928,0.936],kind:'city',label:{en:'London · British Council & HSBC',mr:'लंडन · ब्रिटिश कौन्सिल आणि HSBC',hi:'लंदन · ब्रिटिश काउंसिल एवं HSBC'}},
-  {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.942,0.950,0.968,0.976],kind:'city',label:{en:'Mumbai · University of Mumbai',mr:'मुंबई (Mumbai) · मुंबई विद्यापीठ',hi:'मुंबई (Mumbai) · मुंबई विश्वविद्यालय'}},
-  {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.970,0.986,0.994],kind:'region',label:{en:'Maharashtra Coastal Living Lab',mr:'महाराष्ट्र किनारपट्टी कार्यक्षेत्र',hi:'महाराष्ट्र तटीय कार्यक्षेत्र'}}
+  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'NE',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल · ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल · ब्रिस्टल विश्वविद्यालय'}},
+  {k:'London',lat:51.5074,lon:-0.1278,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'SE',label:{en:'London · British Council & HSBC',mr:'लंडन · ब्रिटिश कौन्सिल आणि HSBC',hi:'लंदन · ब्रिटिश काउंसिल एवं HSBC'}},
+  {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.938,0.944,0.952,0.956],kind:'city',dir:'NW',label:{en:'Mumbai · University of Mumbai',mr:'मुंबई · मुंबई विद्यापीठ',hi:'मुंबई · मुंबई विश्वविद्यालय'}},
+  {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.968,0.974,0.978],kind:'region',dir:'NE',label:{en:'Maharashtra Coastal Living Lab',mr:'महाराष्ट्र किनारपट्टी कार्यक्षेत्र',hi:'महाराष्ट्र तटीय कार्यक्षेत्र'}}
 ];
 
 function rebuildStoryAnchors(){
@@ -2888,11 +2988,12 @@ function rebuildStoryAnchors(){
   const count=published.length;
   if(!count) return;
   published.forEach((d,i)=>{
-    const a0=0.976+(i/count)*0.008;
-    const a1=0.976+((i+1)/count)*0.008;
-    const mrName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
-    const hiName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
-    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug,label:{en:d.name,mr:mrName,hi:hiName}});
+    const a0=0.978+(i/count)*0.003;
+    const a1=a0+0.005;
+    const mrName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर (Mumbai Suburban)' : d.name;
+    const hiName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर (Mumbai Suburban)' : d.name;
+    const dir = (d.slug === 'palghar' ? 'NW' : 'SE');
+    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug,dir:dir,label:{en:d.name,mr:mrName,hi:hiName}});
   });
 }
 rebuildStoryAnchors();
@@ -3455,12 +3556,14 @@ function drawEarth(ctx,W,H,p,T,q){
   fl.addColorStop(1,'rgba(2,5,8,0.85)');
   ctx.fillStyle=fl; ctx.fillRect(0,H*0.56,W,H*0.44);
 
-  // ── 10. High-Contrast Interactive Anchor Pins & Labels ─────────
+  // ── 10. High-Contrast Interactive Anchor Pins & Collision-Free Labels ─────────
   const currentCode=(typeof currentLang!=='undefined'?currentLang:'en');
   const labelFontFamily=currentCode==='mr'?'"Noto Sans Devanagari",system-ui,sans-serif':currentCode==='hi'?'"Noto Sans Devanagari",system-ui,sans-serif':'Archivo,system-ui,sans-serif';
-  ctx.font=`600 ${Math.max(11,Math.round(H*0.0165))}px ${labelFontFamily}`;
+  const labelFontSize=Math.max(11,Math.round(H*0.016));
+  ctx.font=`600 ${labelFontSize}px ${labelFontFamily}`;
   ctx.textBaseline='middle';
 
+  const visibleAnchors=[];
   for(const an of ANCHORS){
     const a=seg(p,an.a[0],an.a[1],an.a[2],an.a[3]);
     if(a<0.03) continue;
@@ -3469,53 +3572,92 @@ function drawEarth(ctx,W,H,p,T,q){
     const rr=k.roll*RAD, ox=o[0]*R, oy=-o[1]*R;
     const sxp=cx+ox*Math.cos(rr)-oy*Math.sin(rr), syp=cy+ox*Math.sin(rr)+oy*Math.cos(rr);
 
-    ctx.save();
-    ctx.globalAlpha=a*clamp(o[2]*3.2,0,1);
-
-    // Glowing target center pin
-    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(3.0,R*0.009),0,7);
-    ctx.fillStyle='#F7F3E6'; ctx.fill();
-
-    // Concentric target ring
-    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(6.5,R*0.022),0,7);
-    ctx.strokeStyle='rgba(247,243,230,0.55)'; ctx.lineWidth=1.2; ctx.stroke();
-
-    // Smart non-overlapping lead lines for partner pins
-    const isLeft = (an.k === 'Bristol');
-    let lx, ly;
-    if(isLeft){
-      lx = sxp - Math.max(18, R*0.044);
-      ly = syp - Math.max(14, R*0.034);
-    } else if(an.k==='London'){
-      lx = sxp + Math.max(18, R*0.044);
-      ly = syp + Math.max(16, R*0.038);
-    } else {
-      lx = sxp + Math.max(14, R*0.036);
-      ly = syp - Math.max(12, R*0.032);
-    }
-
-    ctx.beginPath();
-    ctx.moveTo(sxp + (isLeft ? -4 : 4), syp + (an.k==='London' ? 4 : -4));
-    ctx.lineTo(lx, ly);
-    ctx.strokeStyle='rgba(247,243,230,0.45)'; ctx.lineWidth=1; ctx.stroke();
-
     const labelText = (an.label && an.label[currentCode]) ? an.label[currentCode] : an.k;
     const tw = ctx.measureText(labelText).width;
-    const padX=7, padY=4;
-    const pillH=Math.max(18,Math.round(H*0.024));
-    const boxX = isLeft ? (lx - tw - padX*2) : (lx + 2);
+    const padX=9, padY=5;
+    const pillH=Math.max(22,Math.round(H*0.026));
+    const pillW=tw+padX*2;
 
-    ctx.fillStyle='rgba(6,12,16,0.85)';
-    ctx.strokeStyle='rgba(247,243,230,0.26)';
-    ctx.lineWidth=0.8;
+    // Directional leader placement (NW, NE, SW, SE)
+    const dir = an.dir || ((an.k==='Bristol'||an.slug==='palghar')?'NW':(an.k==='Mumbai'?'SW':'SE'));
+    const isWest = dir.includes('W');
+    const isNorth = dir.includes('N');
+
+    const isBristol = (an.k === 'Bristol');
+    const leadDistX = isBristol ? Math.max(16, Math.round(R * 0.038)) : Math.max(34, Math.round(R * 0.075));
+    const leadDistY = isBristol ? Math.max(48, Math.round(R * 0.110)) : Math.max(26, Math.round(R * 0.058));
+
+    const lx = isWest ? (sxp - leadDistX) : (sxp + leadDistX);
+    const ly = isNorth ? (syp - leadDistY) : (syp + leadDistY);
+
+    const boxX = isWest ? (lx - pillW - 4) : (lx + 4);
+    const boxY = ly - pillH * 0.5;
+
+    visibleAnchors.push({
+      an, a, o2: o[2], sxp, syp, lx, ly,
+      boxX, boxY, boxW: pillW, boxH: pillH,
+      tw, padX, pillH, labelText,
+      isWest, isNorth
+    });
+  }
+
+  // 3-Pass Universal Collision Resolver (AABB overlap avoidance)
+  for(let pass=0; pass<3; pass++){
+    for(let i=0; i<visibleAnchors.length; i++){
+      for(let j=i+1; j<visibleAnchors.length; j++){
+        const b1 = visibleAnchors[i], b2 = visibleAnchors[j];
+        const gapX = 12, gapY = 10;
+        const overlapX = (Math.min(b1.boxX + b1.boxW, b2.boxX + b2.boxW) - Math.max(b1.boxX, b2.boxX));
+        const overlapY = (Math.min(b1.boxY + b1.boxH, b2.boxY + b2.boxH) - Math.max(b1.boxY, b2.boxY));
+        if(overlapX > -gapX && overlapY > -gapY){
+          const shiftY = (overlapY + gapY) * 0.5;
+          if(b1.boxY <= b2.boxY){
+            b1.boxY -= shiftY; b1.ly -= shiftY;
+            b2.boxY += shiftY; b2.ly += shiftY;
+          } else {
+            b1.boxY += shiftY; b1.ly += shiftY;
+            b2.boxY -= shiftY; b2.ly -= shiftY;
+          }
+        }
+      }
+    }
+  }
+
+  // Render all collision-free pins and labels
+  for(const va of visibleAnchors){
+    ctx.save();
+    ctx.globalAlpha=va.a*clamp(va.o2*3.2,0,1);
+
+    // Glowing target center pin
+    ctx.beginPath(); ctx.arc(va.sxp,va.syp,Math.max(3.2,R*0.0095),0,7);
+    ctx.fillStyle='#FDFCF7'; ctx.fill();
+
+    // Concentric target ring
+    ctx.beginPath(); ctx.arc(va.sxp,va.syp,Math.max(7.0,R*0.024),0,7);
+    ctx.strokeStyle='rgba(200,169,110,0.65)'; ctx.lineWidth=1.2; ctx.stroke();
+
+    // Elegant angled leader line
     ctx.beginPath();
-    if(ctx.roundRect) ctx.roundRect(boxX, ly-pillH*0.5, tw+padX*2, pillH, 3);
-    else ctx.rect(boxX, ly-pillH*0.5, tw+padX*2, pillH);
+    const pinOffsetX = va.isWest ? -4 : 4;
+    const pinOffsetY = va.isNorth ? -4 : 4;
+    ctx.moveTo(va.sxp + pinOffsetX, va.syp + pinOffsetY);
+    ctx.lineTo(va.lx, va.ly);
+    ctx.lineTo(va.isWest ? (va.boxX + va.boxW) : va.boxX, va.ly);
+    ctx.strokeStyle='rgba(200,169,110,0.50)'; ctx.lineWidth=1; ctx.stroke();
+
+    // High contrast frosted pill box
+    ctx.fillStyle='rgba(6,12,10,0.92)';
+    ctx.strokeStyle='rgba(200,169,110,0.40)';
+    ctx.lineWidth=0.9;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(va.boxX, va.boxY, va.boxW, va.boxH, 4);
+    else ctx.rect(va.boxX, va.boxY, va.boxW, va.boxH);
     ctx.fill(); ctx.stroke();
 
-    ctx.fillStyle='#F8F5EC';
+    // Crisp typography
+    ctx.fillStyle='#F7F5EE';
     ctx.textAlign='left';
-    ctx.fillText(labelText, boxX + padX, ly);
+    ctx.fillText(va.labelText, va.boxX + va.padX, va.boxY + va.boxH * 0.5);
 
     ctx.restore();
   }
@@ -3619,19 +3761,38 @@ function updateGeoNarrative(p){
   const detail=document.getElementById('geoDetail');
   if(!box||!title||!detail) return;
   let kicker='',t='',d='';
-  if(p>=0.914 && p<0.930){ kicker='Global context'; t='Bristol, UK'; d='A collaboration point in the CCL story.'; }
-  else if(p>=0.930 && p<0.960){ kicker='Global → local'; t='Mumbai, Maharashtra'; d='The story moves from international collaboration into the local research context.'; }
-  else if(p>=0.988 && p<0.995){
+  const lang = (typeof currentLang!=='undefined'?currentLang:'en');
+  if(p>=0.912 && p<0.932){
+    kicker = lang==='mr'?'जागतिक संदर्भ':lang==='hi'?'वैश्विक संदर्भ':'Global context';
+    t = lang==='mr'?'ब्रिस्टल आणि लंडन, युके':lang==='hi'?'ब्रिस्टल एवं लंदन, यूके':'Bristol & London, UK';
+    d = lang==='mr'?'हवामान-लवचिकतेसाठी द्विपक्षीय आंतरराष्ट्रीय सहकार्य.':lang==='hi'?'जलवायु-लचीलेपन के लिए द्विपक्षीय अंतरराष्ट्रीय सहयोग।':'A bilateral research collaboration for local climate resilience.';
+  } else if(p>=0.932 && p<0.948){
+    kicker = lang==='mr'?'जागतिक → स्थानिक':lang==='hi'?'वैश्विक → स्थानीय':'Global → local';
+    t = lang==='mr'?'यूके ↔ भारत नेटवर्क':lang==='hi'?'यूके ↔ भारत नेटवर्क':'UK ↔ India Climate Network';
+    d = lang==='mr'?'जागतिक संशोधन स्थानिक समुदायांपर्यंत पोहोचवणारा सेतू.':lang==='hi'?'वैश्विक शोध को स्थानीय समुदायों तक पहुंचाने वाला सेतु।':'Connecting higher education and sustainability across borders.';
+  } else if(p>=0.976 && p<0.988){
+    kicker = lang==='mr'?'भारत':lang==='hi'?'भारत':'India';
+    t = lang==='mr'?'महाराष्ट्र किनारपट्टी':lang==='hi'?'महाराष्ट्र तटीय क्षेत्र':'Maharashtra Coastal Living Lab';
+    d = lang==='mr'?'स्थानिक जिल्हे आणि समुदाय स्तरावरील संशोधन.':lang==='hi'?'स्थानीय ज़िले एवं सामुदायिक स्तर का शोध कार्य।':'A single regional view anchors the transition into the project archive.';
+  } else if(p>=0.988 && p<0.998){
     const published=DISTRICTS.filter(x=>x.records>0);
     if(published.length){
-      const q=clamp((p-0.988)/0.007,0,0.999999);
+      const q=clamp((p-0.988)/0.009,0,0.999999);
       const idx=Math.min(published.length-1,Math.floor(q*published.length));
       const d0=published[idx];
-      kicker='Published district'; t=d0.name; d=d0.tagline||'Explore the verified records available in the archive.';
-    } else { kicker='Project geography'; t='Maharashtra'; d='District details appear here only when published records are available.'; }
-  } else if(p>=0.9995){ kicker='Explore'; t='The project archive'; d='Choose a published district to continue into the research record.'; }
-  else if(p>=0.960 && p<0.988){ kicker='India'; t='Maharashtra'; d='A single regional view anchors the transition into the project archive.'; }
-  else { box.classList.remove('is-visible'); lastGeoNarrativeKey=''; const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent=''; return; }
+      kicker = lang==='mr'?'प्रकाशित जिल्हा':lang==='hi'?'प्रकाशित ज़िला':'Published district';
+      t = (lang==='mr' && d0.slug==='palghar')?'पालघर':(lang==='mr' && d0.slug==='mumbai-suburban')?'मुंबई उपनगर':d0.name;
+      d = d0.tagline||'Explore the verified records available in the archive.';
+    } else {
+      kicker = 'Project geography'; t = 'Maharashtra'; d = 'District details appear here only when published records are available.';
+    }
+  } else if(p>=0.998){
+    kicker = lang==='mr'?'संशोधन संग्रह':lang==='hi'?'शोध संग्रह':'Explore';
+    t = lang==='mr'?'प्रकल्प दस्तऐवज':lang==='hi'?'परियोजना संग्रह':'The project archive';
+    d = lang==='mr'?'स्थानिक पुरावे आणि क्षेत्रीय नोंदी पाहण्यासाठी खाली स्क्रोल करा.':lang==='hi'?'स्थानीय प्रमाण एवं क्षेत्रीय रिकॉर्ड देखने के लिए आगे बढ़ें।':'Choose a published district to continue into the research record.';
+  } else {
+    box.classList.remove('is-visible'); lastGeoNarrativeKey=''; const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent=''; return;
+  }
   const key=kicker+'|'+t+'|'+d;
   if(key===lastGeoNarrativeKey) return;
   lastGeoNarrativeKey=key;
@@ -4738,6 +4899,8 @@ function applyLanguage(code){
      nodes[i].innerHTML = src;
    }
  }
+ lastGeoNarrativeKey='';
+ if(typeof cur!=='undefined') updateGeoNarrative(cur);
  store.set('ccl-language',code);
  if(document.body.classList.contains('arc')){
    const h=location.hash;
