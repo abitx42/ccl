@@ -917,9 +917,24 @@ const FRUITS=(function(){
   cand.sort((a,b)=>a.x2-b.x2);
   const pick=cand.length?cand[Math.floor(cand.length*0.82)]:{x2:150,y2:-90};
   const out=[];
+  const offsets=[
+    {dx:-32, dy:-4, r:6.2, off:0.12},
+    {dx:-16, dy: 4, r:5.8, off:0.22},
+    {dx:  0, dy: 0, r:7.2, off:0.00}, // HERO fruit
+    {dx: 22, dy:-3, r:6.0, off:0.18},
+    {dx: 42, dy: 5, r:5.5, off:0.28}
+  ];
   for(let i=0;i<5;i++){
-    out.push({x:pick.x2+(R()-0.5)*40, y:pick.y2+8+(R()-0.5)*26,
-              r:5.4+R()*2.4, ph:R()*6.28, off:R()*0.30});
+    const cfg=offsets[i];
+    out.push({
+      x:pick.x2+cfg.dx,
+      y:pick.y2+8+cfg.dy,
+      r:cfg.r,
+      ph:(i*1.35)%6.28,
+      off:cfg.off,
+      anchorX:pick.x2+cfg.dx*0.55,
+      anchorY:pick.y2+Math.min(0,cfg.dy*0.35)
+    });
   }
   return {pos:{x:pick.x2,y:pick.y2}, list:out};
 })();
@@ -1045,10 +1060,10 @@ const CAMKEYS=[
  {p:0.696, x:HFX,      y:HFY+6,       s:6.52},
  {p:0.700, x:HFX,      y:HFY+5.8,     s:6.48},
  {p:0.706, x:HFX*0.97, y:HFY*0.9+3,   s:5.20},
- {p:0.716, x:HFX*0.55, y:HFY*0.9+3,   s:3.30},
- {p:0.724, x:HFX*0.30, y:-75,         s:2.40},
- {p:0.742, x:HFX*0.30, y:-75,         s:2.40},
- {p:0.770, x:HFX*0.15, y:-95,         s:1.80},
+ {p:0.716, x:HFX*0.78, y:-55,         s:3.30},
+ {p:0.724, x:HFX*0.65, y:-75,         s:2.40},
+ {p:0.742, x:HFX*0.62, y:-75,         s:2.40},
+ {p:0.770, x:HFX*0.42, y:-95,         s:1.80},
  {p:0.800, x:-5,       y:-110,        s:1.50},
  {p:0.822, x:16,       y:-116,        s:1.30},
  {p:0.872, x:0,        y:-116,        s:1.24},
@@ -1541,26 +1556,80 @@ function drawTree(ctx,W,H,cam,p,T,L,S,q,dark){
   ctx.restore();
 }
 
-function paintFruit(ctx,cx,cy,r,ripe,lit,dark,alpha){
-  const skin=mix(mix('#7E8E3A','#A8401F',ripe),'#100A08',(1-lit)*0.55+dark*0.6);
+function paintFruit(ctx,cx,cy,r,ripe,lit,dark,alpha,glow){
+  if(r<=0.2) return;
   ctx.save();
   if(alpha!==undefined) ctx.globalAlpha*=alpha;
-  ctx.fillStyle='rgba(0,0,0,0.26)';
-  ctx.beginPath(); ctx.ellipse(cx+r*0.18,cy+r*0.3,r*0.9,r,0,0,7); ctx.fill();
-  const grad=ctx.createRadialGradient(cx-r*0.3,cy-r*0.34,r*0.05,cx,cy,r*1.1);
-  grad.addColorStop(0,mix(skin,'#F2C48A',0.35)); grad.addColorStop(0.5,skin); grad.addColorStop(1,mix(skin,'#000000',0.35));
-  ctx.fillStyle=grad;
-  ctx.beginPath(); ctx.ellipse(cx,cy,r*0.92,r,0,0,7); ctx.fill();
-  ctx.save(); ctx.beginPath(); ctx.ellipse(cx,cy,r*0.92,r,0,0,7); ctx.clip();
-  for(let i=0;i<14;i++){
-    const a=sc(i*3+40)*6.283, d=Math.sqrt(sc(i*7+40))*r*0.95;
-    ctx.fillStyle=sc(i*11+40)>0.5?'rgba(255,220,180,0.28)':'rgba(60,20,12,0.22)';
-    const rr=r*0.05+sc(i*9+40)*r*0.05;
-    ctx.beginPath(); ctx.ellipse(cx+Math.cos(a)*d,cy+Math.sin(a)*d,rr,rr*0.7,sc(i)*3,0,7); ctx.fill();
+
+  // Base palette: unripe orchard green (#688A34) to lush golden-amber ripe mango/sapote (#E68A22 / #D84A1B)
+  const colBase=mix(mix('#688A34','#E89824',ripe),'#C44618',ripe*0.45);
+  const skin=mix(colBase,'#120804',(1-lit)*0.55+dark*0.65);
+  const skinHi=mix(mix('#F5B848','#FFE6A2',0.4),'#341A0A',(1-lit)*0.55+dark*0.65);
+
+  // 1. Ethereal atmospheric glow around fruit (symbol of shared climate knowledge)
+  const glowAmt=(glow||ripe*0.35)*(0.4+0.6*lit)*(1-dark*0.7);
+  if(glowAmt>0.02){
+    const radGlow=ctx.createRadialGradient(cx,cy,r*0.3,cx,cy,r*2.5);
+    radGlow.addColorStop(0,`rgba(245,185,75,${(0.26*glowAmt).toFixed(3)})`);
+    radGlow.addColorStop(0.5,`rgba(220,130,40,${(0.10*glowAmt).toFixed(3)})`);
+    radGlow.addColorStop(1,'rgba(200,100,20,0)');
+    ctx.fillStyle=radGlow;
+    ctx.beginPath(); ctx.arc(cx,cy,r*2.5,0,7); ctx.fill();
   }
+
+  // 2. Soft ambient cast shadow behind fruit
+  ctx.fillStyle='rgba(10,6,4,0.28)';
+  ctx.beginPath();
+  ctx.ellipse(cx+r*0.14,cy+r*0.28,r*0.90,r*0.96,0.15,0,7);
+  ctx.fill();
+
+  // 3. Organic fruit silhouette path (smooth Konkan mango/sapote contour)
+  function fruitPath(c,x,y,radius){
+    c.beginPath();
+    c.moveTo(x,y-radius*0.95);
+    c.bezierCurveTo(x+radius*0.96,y-radius*0.75,x+radius*1.05,y+radius*0.20,x+radius*0.45,y+radius*0.96);
+    c.bezierCurveTo(x+radius*0.20,y+radius*1.08,x-radius*0.25,y+radius*1.05,x-radius*0.55,y+radius*0.85);
+    c.bezierCurveTo(x-radius*1.02,y+radius*0.35,x-radius*0.92,y-radius*0.65,x,y-radius*0.95);
+    c.closePath();
+  }
+
+  // 4. Main body gradient
+  const grad=ctx.createRadialGradient(cx-r*0.28,cy-r*0.32,r*0.08,cx+r*0.15,cy+r*0.25,r*1.22);
+  grad.addColorStop(0,skinHi);
+  grad.addColorStop(0.35,mix(skin,'#F2A038',ripe*0.5));
+  grad.addColorStop(0.75,skin);
+  grad.addColorStop(1,mix(skin,'#0A0503',0.45));
+  ctx.fillStyle=grad;
+  fruitPath(ctx,cx,cy,r);
+  ctx.fill();
+
+  // 5. Sun-kissed vermilion blush and specular sheen
+  ctx.save();
+  fruitPath(ctx,cx,cy,r);
+  ctx.clip();
+
+  const blush=ctx.createRadialGradient(cx+r*0.18,cy-r*0.10,r*0.05,cx,cy,r*0.95);
+  blush.addColorStop(0,`rgba(205,55,20,${((0.32+0.35*ripe)*lit).toFixed(3)})`);
+  blush.addColorStop(0.75,'rgba(180,50,15,0)');
+  ctx.fillStyle=blush;
+  ctx.fillRect(cx-r*1.5,cy-r*1.5,r*3,r*3);
+
+  const specGrad=ctx.createLinearGradient(cx-r*0.5,cy-r*0.6,cx,cy-r*0.1);
+  specGrad.addColorStop(0,`rgba(255,250,220,${(0.42*lit*(1-dark*0.6)).toFixed(3)})`);
+  specGrad.addColorStop(0.5,`rgba(255,240,190,${(0.18*lit).toFixed(3)})`);
+  specGrad.addColorStop(1,'rgba(255,240,190,0)');
+  ctx.fillStyle=specGrad;
+  ctx.beginPath();
+  ctx.ellipse(cx-r*0.28,cy-r*0.36,r*0.35,r*0.20,-0.42,0,7);
+  ctx.fill();
   ctx.restore();
-  ctx.fillStyle=rgba(mix('#E6E2C0','#FFF6E2',0.4),0.34*lit);
-  ctx.beginPath(); ctx.ellipse(cx-r*0.32,cy-r*0.36,r*0.24,r*0.26,0,0,7); ctx.fill();
+
+  // 6. Natural calyx / pedicel collar at stem junction
+  ctx.fillStyle=mix('#3E4B22','#140E06',dark*0.7);
+  ctx.beginPath();
+  ctx.ellipse(cx,cy-r*0.94,r*0.18,r*0.08,0,0,7);
+  ctx.fill();
+
   ctx.restore();
 }
 
@@ -1580,44 +1649,38 @@ function drawFruit(ctx,p,T,L,dark,wind){
 
 function handGeom(p){
   const f=FRUITS.list[HERO];
-  // F1 Contact: approach 0.648 → 0.680, hold to 0.684
-  const appr=clamp((p-0.648)/0.032,0,1);
+  // F1 Contact: approach 0.640 → 0.680
+  const appr=clamp((p-0.640)/0.040,0,1);
   // F2 Physical Grab Sequence:
-  // 1. Fingers curl around fruit: 0.684 → 0.694
-  const fingerCurl=smooth(clamp((p-0.684)/0.010,0,1));
-  // 2. Thumb closes across to oppose fingers: 0.690 → 0.698
-  const thumbClose=smooth(clamp((p-0.690)/0.008,0,1));
-  // 3. Palm cups & grip tightens: 0.692 → 0.700
-  const grip=smooth(clamp((p-0.692)/0.008,0,1));
+  // 1. Fingers curl around underside: 0.680 → 0.694
+  const fingerCurl=smooth(clamp((p-0.680)/0.014,0,1));
+  // 2. Thumb closes across upper curve to oppose fingers: 0.684 → 0.696
+  const thumbClose=smooth(clamp((p-0.684)/0.012,0,1));
+  // 3. Palm cups & grip tightens: 0.688 → 0.700
+  const grip=smooth(clamp((p-0.688)/0.012,0,1));
   const curl=Math.max(fingerCurl,thumbClose);
 
   // F3 Detachment & Ownership Transfer:
-  // p < 0.700: 'branch' owned (fruit stationary at f.x, f.y)
-  // p >= 0.700: 'hand' owned (stem snaps, hand pulls fruit downward and left)
+  // p < 0.700: 'branch' owned (fruit attached at branch)
+  // p >= 0.700: 'hand' owned (stem snaps cleanly, hand guides fruit downward toward torso)
   const isDetached=p>=0.700;
   const pullProgress=smooth(clamp((p-0.700)/0.024,0,1));
   const snapT=clamp((p-0.700)/0.006,0,1);
-  // A smooth bump gives the pluck a tactile recoil without introducing a
-  // velocity discontinuity at either end of the detachment interval.
-  const pluckSnap=(p>=0.700 && p<=0.706)?Math.sin(Math.PI*smooth(snapT))*1.4:0;
-  const pullDx=lerp(0,-42,pullProgress);
-  const pullDy=lerp(0,44,Math.pow(pullProgress,0.85))+pluckSnap;
+  const pluckSnap=(p>=0.700 && p<=0.706)?Math.sin(Math.PI*smooth(snapT))*1.2:0;
+  const pullDx=lerp(0,-36,pullProgress);
+  const pullDy=lerp(0,38,Math.pow(pullProgress,0.88))+pluckSnap;
 
-  const dirA=Math.PI-0.42, ux=Math.cos(dirA), uy=Math.sin(dirA);
-  // Palm distance: approaches to contactDist (f.r*0.30),
-  // then snugs in to finalGripDist (f.r*0.14) as grip completes
-  const contactDist=f.r*0.30;
-  const finalGripDist=f.r*0.14;
+  // Entry vector: right arm reaching up naturally from bottom-left toward overhead fruit
+  const dirA=Math.PI*0.64, ux=Math.cos(dirA), uy=Math.sin(dirA);
+  const contactDist=f.r*1.15;
+  const finalGripDist=f.r*0.92;
   const targetDist=lerp(contactDist,finalGripDist,grip);
-  const D=lerp(44,targetDist,smooth(appr));
+  const D=lerp(38,targetDist,smooth(appr));
 
   // Hand Anchor:
   const px=f.x+pullDx+ux*D;
   const py=f.y+pullDy+uy*D;
 
-  // Explicit fruit position:
-  // When 'branch': f.x, f.y
-  // When 'hand': locked to palm anchor (px - ux*D, py - uy*D) === f.x + pullDx, f.y + pullDy
   const fx=isDetached?(f.x+pullDx):f.x;
   const fy=isDetached?(f.y+pullDy):f.y;
 
@@ -1630,7 +1693,7 @@ function handGeom(p){
 
 function heroFruitOffset(p){
   const g=handGeom(p);
-  const alpha=1-smooth((p-0.735)/0.012);
+  const alpha=1-smooth((p-0.730)/0.012);
   return {dx:g.fruitX-g.f.x, dy:g.fruitY-g.f.y, alpha:clamp(alpha,0,1)};
 }
 
@@ -1641,170 +1704,223 @@ function drawHeroFruit(ctx,p,T,L,dark){
   const t=clamp((growF-f.off)/0.7,0,1); if(t<=0) return;
   const ripeF=smooth((p-0.606)/0.040);
   const g=handGeom(p);
-  // Cross-fade with figure's held fruit over the same interval as the close-up hand
-  const alpha=1-smooth((p-0.724)/0.008);
+  // Cross-fade with character-held fruit over 0.718 → 0.728
+  const alpha=1-smooth((p-0.718)/0.010);
   if(alpha<=0.01) return;
   const r=f.r*t, lit=clamp(L.amt,0,1);
   const cx=g.fruitX, cy=g.fruitY;
-  paintFruit(ctx,cx,cy,r,ripeF,lit,dark,alpha);
+  paintFruit(ctx,cx,cy,r,ripeF,lit,dark,alpha,0.65);
 
-  // F3 Stem handling with tactile branch spring recoil upon detachment
-  const recoilT=clamp((p-0.700)/0.014,0,1);
-  const recoil=(p>=0.700 && p<0.724)?-Math.sin(Math.PI*smooth(recoilT))*Math.exp(-recoilT*3)*3.6:0;
+  // F3 Living branch stem & recoil
+  const recoilT=clamp((p-0.700)/0.016,0,1);
+  const recoil=(p>=0.700 && p<0.726)?-Math.sin(Math.PI*smooth(recoilT))*Math.exp(-recoilT*3.2)*4.0:0;
 
   ctx.save(); ctx.globalAlpha=alpha;
-  ctx.strokeStyle=mix('#3A2E18','#120C08',dark); ctx.lineWidth=Math.max(0.5,r*0.09); ctx.lineCap='round';
+  ctx.strokeStyle=mix('#3A2E18','#120C08',dark); ctx.lineWidth=Math.max(0.6,r*0.09); ctx.lineCap='round';
+  const ax=f.anchorX??f.x, ay=f.anchorY??(f.y-r*1.8);
   if(!g.isDetached){
-    // Branch-owned: connects fruit pedicel to branch attachment point
-    const ax=f.anchorX??f.x, ay=f.anchorY??f.y;
-    ctx.beginPath(); ctx.moveTo(cx+r*0.05,cy-r*0.94);
-    ctx.quadraticCurveTo(cx+r*0.22,cy-r*1.2,ax,ay);
+    // Branch-owned: connects branch anchor to fruit pedicel top
+    ctx.beginPath();
+    ctx.moveTo(cx,cy-r*0.94);
+    ctx.quadraticCurveTo(cx+(ax-cx)*0.4,cy-r*1.3,ax,ay);
     ctx.stroke();
   } else {
     // Hand-owned (detached):
-    // 1) Severed fruit pedicel travels with the fruit in hand
-    ctx.beginPath(); ctx.moveTo(cx+r*0.05,cy-r*0.94);
-    ctx.quadraticCurveTo(cx+r*0.16,cy-r*1.10,cx+r*0.24,cy-r*1.14);
+    // 1) Small severed pedicel travels with the fruit
+    ctx.beginPath();
+    ctx.moveTo(cx,cy-r*0.94);
+    ctx.quadraticCurveTo(cx+r*0.12,cy-r*1.12,cx+r*0.18,cy-r*1.16);
     ctx.stroke();
-    // 2) Severed stem stub recoils upward on the living branch where plucked
-    const ax=f.anchorX??f.x, ay=f.anchorY??f.y;
-    ctx.beginPath(); ctx.moveTo(ax,ay+recoil);
-    ctx.lineTo(ax-0.8,ay+6+recoil);
+    // 2) Stem stub on living branch recoils upward
+    ctx.beginPath();
+    ctx.moveTo(ax,ay+recoil);
+    ctx.quadraticCurveTo(ax+(cx-ax)*0.15,ay+r*0.35+recoil,ax+r*0.2,ay+r*0.45+recoil);
     ctx.stroke();
   }
   ctx.restore();
 }
+
 function drawHandBack(ctx,p,T,L,dark){
-  const aH=seg(p,0.648,0.660,0.724,0.732);
+  const aH=seg(p,0.640,0.655,0.704,0.714);
   if(aH<=0.004) return;
   const g=handGeom(p), f=g.f, lit=clamp(L.amt,0,1);
   const trem=Math.sin(T*0.021)*0.35*(1-g.curl);
   const skin=mix(mix('#B97A4E','#7A4A28',1-lit*0.55),'#241608',dark*0.75);
   const skinHi=mix(mix('#D9A067','#8F5A32',1-lit*0.55),'#301C0C',dark*0.75);
+  const cloth=mix(mix('#3C3320','#221B10',1-lit*0.55),'#0C0906',dark*0.75);
   const rim='rgba(24,14,8,0.55)';
   ctx.save(); ctx.globalAlpha=aH;
-  // Forearm extends fully off-screen along entry vector
-  const farmLen=140;
-  const wristW=Math.max(3.0,f.r*0.62), upperW=Math.max(4.8,f.r*1.15);
-  const hp0=[g.px+g.ux*6,g.py+g.uy*6+trem], hp1=[g.px+g.ux*farmLen,g.py+g.uy*farmLen+trem];
-  const armGrad=ctx.createLinearGradient(hp0[0],hp0[1],hp1[0],hp1[1]);
-  armGrad.addColorStop(0,skin); armGrad.addColorStop(1,mix(skin,'#181008',0.4));
-  if(branchPath(ctx,[hp0,hp1],wristW+1.4,upperW+1.8,1)){ ctx.fillStyle=rim; ctx.fill(); }
-  if(branchPath(ctx,[hp0,hp1],wristW,upperW,1)){ ctx.fillStyle=armGrad; ctx.fill(); }
-  // Wrist tendon / anatomical styloid contour
-  ctx.beginPath(); ctx.ellipse(hp0[0]+g.ux*3,hp0[1]+g.uy*3,wristW*0.35,wristW*0.22,g.dirA,0,7);
+
+  // Forearm extends back toward lower edge naturally
+  const farmLen=55;
+  const wristW=Math.max(4.2,f.r*0.78), midW=Math.max(6.5,f.r*1.15), elbowW=Math.max(8.8,f.r*1.45);
+  const perpx=-g.uy, perpy=g.ux;
+
+  const wx=g.px+g.ux*3, wy=g.py+g.uy*3+trem;
+  const mx=g.px+g.ux*(farmLen*0.45), my=g.py+g.uy*(farmLen*0.45)+trem;
+  const ex=g.px+g.ux*farmLen, ey=g.py+g.uy*farmLen+trem;
+
+  // Forearm contour path
+  ctx.beginPath();
+  ctx.moveTo(wx+perpx*wristW*0.5, wy+perpy*wristW*0.5);
+  ctx.quadraticCurveTo(mx+perpx*midW*0.56, my+perpy*midW*0.56, ex+perpx*elbowW*0.54, ey+perpy*elbowW*0.54);
+  ctx.lineTo(ex-perpx*elbowW*0.54, ey-perpy*elbowW*0.54);
+  ctx.quadraticCurveTo(mx-perpx*midW*0.52, my-perpy*midW*0.52, wx-perpx*wristW*0.5, wy-perpy*wristW*0.5);
+  ctx.closePath();
+
+  const armGrad=ctx.createLinearGradient(wx,wy,ex,ey);
+  armGrad.addColorStop(0,skinHi);
+  armGrad.addColorStop(0.35,skin);
+  armGrad.addColorStop(0.70,mix(skin,cloth,0.45));
+  armGrad.addColorStop(0.92,cloth);
+  ctx.fillStyle=armGrad;
+  ctx.fill();
+  ctx.strokeStyle=rim; ctx.lineWidth=0.7; ctx.stroke();
+
+  // Natural rounded Kurta sleeve cuff at forearm base
+  ctx.save();
+  ctx.fillStyle=cloth;
+  ctx.beginPath();
+  ctx.ellipse(ex,ey,elbowW*0.68,elbowW*0.38,g.dirA+Math.PI*0.5,0,7);
+  ctx.fill();
+  ctx.strokeStyle=rim; ctx.lineWidth=0.8; ctx.stroke();
+  ctx.restore();
+
+  // Wrist contour & radial styloid highlight
+  ctx.beginPath();
+  ctx.ellipse(wx+g.ux*2,wy+g.uy*2,wristW*0.36,wristW*0.22,g.dirA,0,7);
   ctx.fillStyle=skinHi; ctx.fill();
 
-  const pw=f.r*1.25, ph=f.r*0.94;
-  ctx.save(); ctx.translate(g.px,g.py+trem); ctx.rotate(g.dirA+Math.PI);
-  ctx.beginPath(); ctx.ellipse(0,0,pw*0.64,ph*0.64,0,0,7);
-  ctx.strokeStyle=rim; ctx.lineWidth=1.1; ctx.stroke();
-  const pg=ctx.createLinearGradient(-pw*0.6,0,pw*0.6,0);
-  pg.addColorStop(0,skin); pg.addColorStop(0.5,skinHi); pg.addColorStop(1,skin);
-  ctx.fillStyle=pg; ctx.fill();
-  ctx.strokeStyle='rgba(60,34,18,0.4)'; ctx.lineWidth=0.6;
-  ctx.beginPath(); ctx.arc(pw*0.1,0,pw*0.34,-0.7,0.9); ctx.stroke();
-  ctx.beginPath(); ctx.arc(-pw*0.12,0,pw*0.42,-0.5,1.1); ctx.stroke();
-  ctx.restore();
+  // Natural carpal heel under the fruit connecting wrist to hand
+  ctx.beginPath();
+  ctx.moveTo(wx-perpx*wristW*0.5, wy-perpy*wristW*0.5);
+  ctx.quadraticCurveTo(g.px-perpx*f.r*0.65, g.py-perpy*f.r*0.65+trem, g.px-f.r*0.2, g.py+f.r*0.1+trem);
+  ctx.lineTo(g.px+f.r*0.35, g.py+f.r*0.1+trem);
+  ctx.quadraticCurveTo(g.px+perpx*f.r*0.65, g.py+perpy*f.r*0.65+trem, wx+perpx*wristW*0.5, wy+perpy*wristW*0.5);
+  ctx.closePath();
+  ctx.fillStyle=skin; ctx.fill();
+  ctx.strokeStyle=rim; ctx.lineWidth=0.7; ctx.stroke();
+
   ctx.restore();
 }
+
+function drawCurvedFinger(ctx,bx,by,mx,my,tx,ty,w0,w1,w2,skin,skinHi,rim,lit,tAng){
+  const d1x=mx-bx, d1y=my-by, len1=Math.hypot(d1x,d1y)||1;
+  const nx1=-d1y/len1, ny1=d1x/len1;
+  const d2x=tx-mx, d2y=ty-my, len2=Math.hypot(d2x,d2y)||1;
+  const nx2=-d2y/len2, ny2=d2x/len2;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(bx+nx1*w0*0.5, by+ny1*w0*0.5);
+  ctx.quadraticCurveTo(mx+nx1*w1*0.5, my+ny1*w1*0.5, tx+nx2*w2*0.5, ty+ny2*w2*0.5);
+  ctx.arc(tx,ty,w2*0.5,Math.atan2(ny2,nx2),Math.atan2(-ny2,-nx2));
+  ctx.quadraticCurveTo(mx-nx1*w1*0.5, my-ny1*w1*0.5, bx-nx1*w0*0.5, by-ny1*w0*0.5);
+  ctx.closePath();
+
+  ctx.fillStyle=skin; ctx.fill();
+  ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
+
+  // Fleshy joint and fingertip pad highlights
+  if(lit>0.2){
+    ctx.fillStyle=rgba(skinHi,0.50*lit);
+    ctx.beginPath();
+    ctx.ellipse(mx,my,w1*0.35,w1*0.22,Math.atan2(d1y,d1x),0,7);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.ellipse(tx,ty,w2*0.36,w2*0.22,tAng||Math.atan2(d2y,d2x),0,7);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
 function drawHandFront(ctx,p,T,L,dark){
-  const aH=seg(p,0.648,0.660,0.724,0.732);
+  const aH=seg(p,0.640,0.655,0.704,0.714);
   if(aH<=0.004) return;
   const g=handGeom(p), f=g.f, lit=clamp(L.amt,0,1);
   const trem=Math.sin(T*0.021)*0.35*(1-g.curl);
   const skin=mix(mix('#B97A4E','#7A4A28',1-lit*0.55),'#241608',dark*0.75);
   const skinHi=mix(mix('#D9A067','#8F5A32',1-lit*0.55),'#301C0C',dark*0.75);
-  const rim='rgba(24,14,8,0.6)';
-  const perpx=-g.uy, perpy=g.ux, pw=f.r*1.25, ph=f.r*0.94;
-  const fingerBaseLen=f.r*0.95;
+  const rim='rgba(24,14,8,0.58)';
+  const cx=g.fx, cy=g.fy, R=f.r;
+  const perpx=-g.uy, perpy=g.ux;
   ctx.save(); ctx.globalAlpha=aH;
 
-  // Contact shadow on fruit surface under curling fingers and thumb
+  // Soft contact shadow on fruit under fingers
   if(g.fingerCurl>0.04 || g.thumbClose>0.04){
-    const shAlpha=Math.max(g.fingerCurl,g.thumbClose)*0.48;
+    const shAlpha=Math.max(g.fingerCurl,g.thumbClose)*0.38;
     ctx.fillStyle=`rgba(18,10,6,${shAlpha.toFixed(3)})`;
     ctx.beginPath();
-    ctx.ellipse(g.fx-f.r*0.05,g.fy+f.r*0.15,f.r*0.78,f.r*0.54,g.dirA+0.35,0,7);
+    ctx.ellipse(cx+R*0.25,cy+R*0.15,R*0.75,R*0.52,-0.35,0,7);
     ctx.fill();
   }
 
-  // Palm coverage: thenar eminence cups lower contour of fruit as grip locks
-  if(g.grip>0.06){
+  // Knuckle bases along the palm ridge under the fruit
+  const kArc=[-0.42,-0.14,0.14,0.42].map(off=>({
+    x:g.px-perpx*R*off,
+    y:g.py-perpy*R*off+trem
+  }));
+  const thBase={x:g.px+perpx*R*0.50, y:g.py+perpy*R*0.50+trem};
+
+  // Palm front body connecting knuckles
+  ctx.beginPath();
+  ctx.moveTo(thBase.x,thBase.y);
+  ctx.quadraticCurveTo(g.px+perpx*R*0.2,g.py+perpy*R*0.2+trem,kArc[0].x,kArc[0].y);
+  ctx.lineTo(kArc[3].x,kArc[3].y);
+  ctx.quadraticCurveTo(g.px+g.ux*R*0.35,g.py+g.uy*R*0.35+trem,thBase.x,thBase.y);
+  ctx.fillStyle=skin; ctx.fill();
+  ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
+
+  // Thenar eminence (fleshy thumb mound on lower-left flank)
+  if(g.grip>0.05){
     ctx.save();
     ctx.globalAlpha=aH*Math.min(1,g.grip*1.2);
-    const thX=g.px+perpx*pw*(-0.22)-g.ux*f.r*0.06;
-    const thY=g.py+perpy*pw*(-0.22)-g.uy*f.r*0.06+trem;
-    const thW=pw*0.40, thH=ph*0.32;
     ctx.beginPath();
-    ctx.ellipse(thX,thY,thW,thH,g.dirA+Math.PI*0.82,0,7);
+    ctx.ellipse(cx-R*0.48,cy+R*0.55+trem,R*0.46,R*0.32,-0.65,0,7);
     ctx.fillStyle=skin; ctx.fill();
-    ctx.strokeStyle=rim; ctx.lineWidth=0.9; ctx.stroke();
-    ctx.strokeStyle='rgba(60,34,18,0.45)'; ctx.lineWidth=0.6;
-    ctx.beginPath(); ctx.arc(thX+thW*0.1,thY,thW*0.3,-0.6,0.8); ctx.stroke();
+    ctx.strokeStyle=rim; ctx.lineWidth=0.6; ctx.stroke();
     ctx.restore();
   }
 
-  // 5 Digits articulated with 3 anatomical phalanges:
-  const fingers=[
-    {spread:-1.02,len1:0.55,len2:0.42,len3:0.32,w0:0.44,w1:0.32,w2:0.24,th:true},
-    {spread:-0.55,len1:0.48,len2:0.38,len3:0.32,w0:0.34,w1:0.26,w2:0.18},
-    {spread:-0.18,len1:0.56,len2:0.44,len3:0.36,w0:0.37,w1:0.28,w2:0.19},
-    {spread: 0.20,len1:0.52,len2:0.42,len3:0.34,w0:0.36,w1:0.27,w2:0.18},
-    {spread: 0.56,len1:0.44,len2:0.34,len3:0.28,w0:0.31,w1:0.22,w2:0.15}
-  ];
-  const baseAngle=g.dirA+Math.PI;
+  // 1. Thumb: curves up along left flank, pad rests on upper-left curve of fruit
+  {
+    const thOpen=1-g.thumbClose;
+    const tAng=lerp(-2.45,-2.90,thOpen); // resting angle on fruit
+    const tDist=R*lerp(0.96,1.25,thOpen);
+    const tMx=cx+Math.cos(tAng-0.35)*(tDist*1.10);
+    const tMy=cy+Math.sin(tAng-0.35)*(tDist*1.10)+trem;
+    const tTx=cx+Math.cos(tAng)*tDist;
+    const tTy=cy+Math.sin(tAng)*tDist+trem;
 
-  fingers.forEach((fgr,fi)=>{
-    let bx,by,a1,l1,mx,my,a2,l2,jx,jy,a3,l3,tx,ty,w0,w1,w2;
-    if(fgr.th){
-      // Thumb: opposes palm and wraps across fruit equator
-      bx=g.px+perpx*pw*0.42*fgr.spread-g.ux*f.r*(0.08+g.thumbClose*0.10);
-      by=g.py+perpy*pw*0.42*fgr.spread-g.uy*f.r*(0.08+g.thumbClose*0.10)+trem;
-      a1=baseAngle+lerp(-0.48,0.22,g.thumbClose);
-      l1=fingerBaseLen*fgr.len1;
-      mx=bx+Math.cos(a1)*l1; my=by+Math.sin(a1)*l1;
-      const bend1=lerp(0.08,0.85,g.thumbClose);
-      a2=a1-bend1;
-      l2=fingerBaseLen*fgr.len2;
-      jx=mx+Math.cos(a2)*l2; jy=my+Math.sin(a2)*l2;
-      const bend2=lerp(0.05,0.72,g.thumbClose);
-      a3=a2-bend2;
-      l3=fingerBaseLen*fgr.len3;
-      tx=jx+Math.cos(a3)*l3; ty=jy+Math.sin(a3)*l3;
-    } else {
-      // 4 Fingers: proximal -> intermediate -> distal phalanx curling smoothly around sphere
-      const indCurl=clamp(g.fingerCurl*1.12-(fi-1)*0.04,0,1);
-      bx=g.px+perpx*pw*0.42*fgr.spread-g.ux*f.r*0.08;
-      by=g.py+perpy*pw*0.42*fgr.spread-g.uy*f.r*0.08+trem;
-      a1=baseAngle+fgr.spread*lerp(0.24,0.08,indCurl)-indCurl*0.16;
-      l1=fingerBaseLen*fgr.len1;
-      mx=bx+Math.cos(a1)*l1; my=by+Math.sin(a1)*l1;
-      const bend1=lerp(0.06,1.15,indCurl);
-      a2=a1+bend1;
-      l2=fingerBaseLen*fgr.len2;
-      jx=mx+Math.cos(a2)*l2; jy=my+Math.sin(a2)*l2;
-      const bend2=lerp(0.05,1.12,indCurl);
-      a3=a2+bend2;
-      l3=fingerBaseLen*fgr.len3;
-      tx=jx+Math.cos(a3)*l3; ty=jy+Math.sin(a3)*l3;
-    }
-    w0=f.r*fgr.w0; w1=f.r*fgr.w1; w2=f.r*fgr.w2;
-    // 3-segment anatomical branch path
-    if(branchPath(ctx,[[bx,by],[mx,my],[jx,jy],[tx,ty]],w0+0.35,w2+0.35,1)){ ctx.fillStyle=rim; ctx.fill(); }
-    if(branchPath(ctx,[[bx,by],[mx,my],[jx,jy],[tx,ty]],w0,w2,1)){ ctx.fillStyle=skinHi; ctx.fill(); }
-    // Knuckle highlight
-    ctx.beginPath(); ctx.arc(mx,my,w1*0.75,0,7); ctx.fillStyle=skinHi; ctx.fill();
-    // Fingertip pad & rim
-    ctx.beginPath(); ctx.arc(tx,ty,w2*0.82,0,7); ctx.fillStyle=skinHi; ctx.fill();
-    ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
-    // Fingernail plate highlight
-    if(lit>0.2){
-      ctx.beginPath();
-      ctx.ellipse(tx-Math.cos(a3)*w2*0.2,ty-Math.sin(a3)*w2*0.2,w2*0.45,w2*0.28,a3,0,7);
-      ctx.fillStyle=rgba(skinHi,0.45*lit); ctx.fill();
-    }
+    drawCurvedFinger(ctx,thBase.x,thBase.y,tMx,tMy,tTx,tTy,R*0.42,R*0.34,R*0.26,skin,skinHi,rim,lit,tAng);
+  }
+
+  // 2. Four Fingers (Index, Middle, Ring, Pinky) spanning the right hemisphere of the fruit
+  const fingerConfigs=[
+    {targetAng:-0.85, kIdx:0, w0:0.38, w1:0.30, w2:0.22, curlLag:0.00}, // Index (upper right)
+    {targetAng:-0.42, kIdx:1, w0:0.40, w1:0.32, w2:0.23, curlLag:0.04}, // Middle (mid right)
+    {targetAng: 0.02, kIdx:2, w0:0.38, w1:0.30, w2:0.22, curlLag:0.08}, // Ring (lower right)
+    {targetAng: 0.44, kIdx:3, w0:0.34, w1:0.26, w2:0.19, curlLag:0.12}  // Pinky (bottom right)
+  ];
+
+  fingerConfigs.forEach((fc)=>{
+    const indCurl=clamp(g.fingerCurl*1.15-fc.curlLag,0,1);
+    const fOpen=1-indCurl;
+    const tAng=lerp(fc.targetAng,fc.targetAng+0.32,fOpen);
+    const tDist=R*lerp(0.95,1.32,fOpen);
+
+    const k=kArc[fc.kIdx];
+    // Mid knuckle extends around fruit contour
+    const mx=cx+Math.cos(tAng+0.32)*(tDist*1.10);
+    const my=cy+Math.sin(tAng+0.32)*(tDist*1.10)+trem;
+    // Fingertip pad on fruit surface
+    const tx=cx+Math.cos(tAng)*tDist;
+    const ty=cy+Math.sin(tAng)*tDist+trem;
+
+    drawCurvedFinger(ctx,k.x,k.y,mx,my,tx,ty,R*fc.w0,R*fc.w1,R*fc.w2,skin,skinHi,rim,lit,tAng);
   });
+
   ctx.restore();
 }
 
@@ -1955,7 +2071,7 @@ function limbShape(ctx,shoulderX,shoulderY,angle,bend,len1,len2,w0,w1,w2){
 // Small, readable hand silhouettes keep the figure connected to the gesture
 // even when the fruit is between poses. The close-up hand has its own more
 // detailed renderer above; this is the character-scale handoff/idle pose.
-function drawCharacterHand(ctx,hand,angle,scale,skin,skinHi,rim,lit){
+function drawCharacterHand(ctx,hand,angle,scale,skin,skinHi,rim,lit,isCupping){
   ctx.save();
   ctx.translate(hand.hx,hand.hy);
   ctx.rotate(angle);
@@ -1963,15 +2079,17 @@ function drawCharacterHand(ctx,hand,angle,scale,skin,skinHi,rim,lit){
   ctx.beginPath(); ctx.ellipse(scale*0.08,scale*0.02,scale*0.34,scale*0.22,0,0,7); ctx.fill();
   ctx.fillStyle=skin;
   ctx.beginPath(); ctx.ellipse(0,0,scale*0.30,scale*0.19,0,0,7); ctx.fill();
-  ctx.strokeStyle=rgba(skinHi,0.52*lit+0.12); ctx.lineWidth=Math.max(0.45,scale*0.055); ctx.lineCap='round';
-  ctx.beginPath(); ctx.moveTo(scale*0.08,-scale*0.10); ctx.quadraticCurveTo(scale*0.22,-scale*0.03,scale*0.30,scale*0.04); ctx.stroke();
-  for(const offset of [-0.13,-0.04,0.05,0.14]){
-    ctx.beginPath();
-    ctx.moveTo(scale*0.19,offset*scale);
-    ctx.quadraticCurveTo(scale*0.34,(offset-0.025)*scale,scale*0.43,(offset+0.01)*scale);
-    ctx.strokeStyle=skin;
-    ctx.lineWidth=Math.max(0.75,scale*0.075);
-    ctx.stroke();
+  if(!isCupping){
+    ctx.strokeStyle=rgba(skinHi,0.52*lit+0.12); ctx.lineWidth=Math.max(0.45,scale*0.055); ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(scale*0.08,-scale*0.10); ctx.quadraticCurveTo(scale*0.22,-scale*0.03,scale*0.30,scale*0.04); ctx.stroke();
+    for(const offset of [-0.13,-0.04,0.05,0.14]){
+      ctx.beginPath();
+      ctx.moveTo(scale*0.19,offset*scale);
+      ctx.quadraticCurveTo(scale*0.34,(offset-0.025)*scale,scale*0.43,(offset+0.01)*scale);
+      ctx.strokeStyle=skin;
+      ctx.lineWidth=Math.max(0.75,scale*0.075);
+      ctx.stroke();
+    }
   }
   ctx.restore();
 }
@@ -1982,17 +2100,22 @@ function drawCharacterGrip(ctx,cx,cy,r,angle,skin,skinHi,rim,lit,amount){
   ctx.globalAlpha=clamp(amount,0,1);
   ctx.translate(cx,cy);
   ctx.rotate(angle);
-  // The pads sit over the fruit edge rather than hiding the fruit entirely.
-  ctx.strokeStyle=rim; ctx.lineCap='round'; ctx.lineWidth=Math.max(0.8,r*0.18);
-  ctx.beginPath(); ctx.arc(-r*0.18,0,r*0.94,-1.15,0.82); ctx.stroke();
+  // Natural cupping palm contour and soft rounded finger pads supporting the fruit
+  ctx.strokeStyle=rim; ctx.lineCap='round'; ctx.lineWidth=Math.max(0.9,r*0.22);
+  ctx.beginPath(); ctx.arc(-r*0.12,0,r*0.92,-1.25,0.95); ctx.stroke();
   ctx.strokeStyle=skin;
-  ctx.lineWidth=Math.max(0.7,r*0.13);
-  ctx.beginPath(); ctx.arc(-r*0.12,-r*0.03,r*0.82,-1.05,0.52); ctx.stroke();
+  ctx.lineWidth=Math.max(0.75,r*0.16);
+  ctx.beginPath(); ctx.arc(-r*0.08,-r*0.02,r*0.84,-1.15,0.65); ctx.stroke();
+  // Individual rounded finger pad highlights cupping the surface
   ctx.fillStyle=skinHi;
-  ctx.beginPath(); ctx.ellipse(-r*0.18,-r*0.10,r*0.18,r*0.12,-0.3,0,7); ctx.fill();
+  for(const fOffset of [-0.45, -0.15, 0.15, 0.42]){
+    const fx=Math.cos(fOffset)*r*0.78-r*0.06;
+    const fy=Math.sin(fOffset)*r*0.78;
+    ctx.beginPath(); ctx.ellipse(fx,fy,r*0.16,r*0.11,fOffset,0,7); ctx.fill();
+  }
   if(lit>0.2){
-    ctx.strokeStyle=rgba(skinHi,0.46*lit); ctx.lineWidth=Math.max(0.35,r*0.045);
-    ctx.beginPath(); ctx.arc(-r*0.06,-r*0.08,r*0.54,-0.9,0.2); ctx.stroke();
+    ctx.strokeStyle=rgba(skinHi,0.48*lit); ctx.lineWidth=Math.max(0.35,r*0.05);
+    ctx.beginPath(); ctx.arc(-r*0.04,-r*0.06,r*0.56,-0.9,0.3); ctx.stroke();
   }
   ctx.restore();
 }
@@ -2001,7 +2124,7 @@ function drawFigure(ctx,cam,p,L,dark,T){
   const a=seg(p,0.700,0.716,0.806,0.822);
   if(a<0.02) return;
   const growF=smooth((p-0.578)/0.050);
-  const s=cam.s, time=T||0, stance=Math.sin(time*0.0018)*0.8, bx=cam.X(FX-96)+stance, by=cam.Y(0), h=92*s, hw=h*0.115;
+  const s=cam.s, time=T||0, stance=Math.sin(time*0.0018)*0.8, bx=cam.X(HFX-36)+stance, by=cam.Y(0), h=92*s, hw=h*0.115;
   const lit=clamp(L.amt,0,1);
   const wind=gustAt(time);
 
@@ -2074,19 +2197,17 @@ function drawFigure(ctx,cam,p,L,dark,T){
 
   // ── 5. Gaze / Head Rotation Kinematics ──────────────────────
   let headAngle=0;
-  if(p<0.720){
-    // Watching the fruit, then easing the gaze down as ownership transfers.
-    // The endpoint deliberately matches the next branch to avoid a visible
-    // head snap at the pluck-to-character cut.
-    headAngle=lerp(-0.12,0.15,smooth(clamp((p-0.700)/0.020,0,1)));
-  } else if(p<0.756){
-    // Head tilts down/forward toward fruit being eaten
-    headAngle=0.15;
+  if(p<0.718){
+    // Watching the fruit descend toward hands from canopy
+    headAngle=lerp(-0.25,0.18,smooth(clamp((p-0.700)/0.018,0,1)));
+  } else if(p<0.750){
+    // Head tilted down, gazing reverently at the held fruit of knowledge
+    headAngle=0.18;
   } else if(p<0.772){
-    // Raising gaze from food
-    headAngle=lerp(0.15,-0.28,smooth(clamp((p-0.756)/0.016,0,1)));
+    // Raising gaze forward with inspired purpose as fruit is presented
+    headAngle=lerp(0.18,-0.12,smooth(clamp((p-0.750)/0.022,0,1)));
   } else if(p<0.812){
-    // Looking purposefully toward tree while pointing
+    // Looking purposefully toward future / community while pointing
     headAngle=-0.28;
   } else {
     // Facing forward toward horizon as machine approaches
@@ -2120,92 +2241,80 @@ function drawFigure(ctx,cam,p,L,dark,T){
   const rShX=bx+hw*0.75, rShY=by-h*0.78;
   let rAngle, rBend;
 
-  if(p<0.720){
-    // Pulling fruit down from branch toward chest
-    const pullProg=smooth(clamp((p-0.700)/0.020,0,1));
-    rAngle=lerp(-0.75,-0.35,pullProg);
-    rBend=lerp(-0.35,-0.75,pullProg);
-  } else if(p<0.740){
-    // Bringing fruit up to mouth
-    const raiseProg=smooth(clamp((p-0.720)/0.020,0,1));
-    rAngle=lerp(-0.35,-1.85,raiseProg);
-    rBend=lerp(-0.75,-1.15,raiseProg);
-  } else if(p<0.756){
-    // Holding at mouth while eating
-    rAngle=-1.85;
-    rBend=-1.15;
-  } else if(p<0.776){
-    // Lowering arm down from mouth to hip
-    const lowerProg=smooth(clamp((p-0.756)/0.020,0,1));
-    rAngle=lerp(-1.85,1.30,lowerProg);
-    rBend=lerp(-1.15,0.15,lowerProg);
+  if(p<0.718){
+    // Reaching up to branch, guiding plucked fruit down toward chest
+    const pullProg=smooth(clamp((p-0.700)/0.018,0,1));
+    rAngle=lerp(-0.95,1.48,pullProg);
+    rBend=lerp(-0.35,-3.83,pullProg);
+  } else if(p<0.750){
+    // Cradling the fruit securely in front of chest with cupped hands
+    rAngle=1.48;
+    rBend=-3.83;
+  } else if(p<0.772){
+    // Raising fruit forward and upward in proud presentation
+    const presProg=smooth(clamp((p-0.750)/0.022,0,1));
+    rAngle=lerp(1.48,1.20,presProg);
+    rBend=lerp(-3.83,-3.35,presProg);
+  } else if(p<0.816){
+    // Holding fruit securely at right waist/side while pointing
+    const carryProg=smooth(clamp((p-0.772)/0.018,0,1));
+    rAngle=lerp(1.20,1.42,carryProg);
+    rBend=lerp(-3.35,-2.85,carryProg);
   } else {
-    // Resting naturally at side with respiratory sway
+    // Resting with fruit held safely at waist/side
     const resp=Math.sin(time*0.002)*0.025;
-    rAngle=1.30+resp;
-    rBend=0.15;
+    rAngle=1.42+resp;
+    rBend=-2.85;
   }
 
+  const rCupping=(p>=0.710 && p<0.824);
   ctx.fillStyle=skin;
   const rHand=limbShape(ctx,rShX,rShY,rAngle,rBend,h*0.25,h*0.22,hw*0.62,hw*0.50,hw*0.34);
-  // Start the character-scale grip when the close-up hand begins fading.
-  // One shared handoff clock prevents a duplicate or half-held fruit.
-  const handoff=smooth(clamp((p-0.724)/0.008,0,1));
-  drawCharacterHand(ctx,rHand,rAngle+rBend,hw,skin,skinHi,'rgba(24,14,8,0.58)',lit);
-
-  // Fruit in Right Hand Handling
-  if(p>=0.700 && p<0.758){
-    const transfer=handoff;
-    const closeup=handGeom(p);
-    const oldFruitX=cam.X(closeup.fruitX), oldFruitY=cam.Y(closeup.fruitY);
-    const fruitX=lerp(oldFruitX,rHand.hx,transfer);
-    const fruitY=lerp(oldFruitY,rHand.hy,transfer);
-    const closeupRadius=closeup.f.r*clamp((growF-closeup.f.off)/0.7,0,1)*cam.s;
-    const heldRadius=hw*0.48;
-    const holdIn=handoff;
-
-    // Fruit in hand: shrinks naturally as it is eaten during 0.738 → 0.754
-    const bite=smooth(clamp((p-0.738)/0.016,0,1));
-    const fr=lerp(closeupRadius,heldRadius,transfer)*(1-bite);
-    if(fr>0.3 && holdIn>0.01){
-      paintFruit(ctx,fruitX,fruitY,fr,1,lit,dark,holdIn);
-      drawCharacterGrip(ctx,fruitX,fruitY,fr,rAngle+rBend,skin,skinHi,'rgba(24,14,8,0.58)',lit,holdIn);
-    }
-  }
+  drawCharacterHand(ctx,rHand,rAngle+rBend,hw,skin,skinHi,'rgba(24,14,8,0.58)',lit,rCupping);
 
   // ── 7. Continuous Left Arm Kinematics ────────────────────────
   const lShX=bx-hw*0.75, lShY=by-h*0.78;
   let lAngle, lBend, lPointing=false;
 
-  if(p<0.760){
-    // Resting naturally at left side, counterbalancing reach
+  if(p<0.704){
+    // Resting at side before pluck
     const resp=Math.sin(time*0.002+1.2)*0.025;
-    lAngle=1.32+resp;
-    lBend=0.12;
-  } else if(p<0.776){
-    // Raising left arm toward tree
-    const raiseProg=smooth(clamp((p-0.760)/0.016,0,1));
-    lAngle=lerp(1.32,-2.85,raiseProg);
-    lBend=lerp(0.12,0.16,raiseProg);
-  } else if(p<0.812){
-    // Purposeful pointing gesture toward tree
-    lAngle=-2.85;
+    lAngle=1.45+resp;
+    lBend=0.08;
+  } else if(p<0.718){
+    // Rising to meet the right hand at the chest
+    const lRise=smooth(clamp((p-0.704)/0.014,0,1));
+    lAngle=lerp(1.45,1.66,lRise);
+    lBend=lerp(0.08,-2.33,lRise);
+  } else if(p<0.750){
+    // Cupping fruit together at chest in two-handed cradle
+    lAngle=1.66;
+    lBend=-2.33;
+  } else if(p<0.768){
+    // Supporting presentation, then transitioning to point
+    const lTrans=smooth(clamp((p-0.750)/0.018,0,1));
+    lAngle=lerp(1.66,-2.82,lTrans);
+    lBend=lerp(-2.33,0.16,lTrans);
+  } else if(p<0.816){
+    // Commanding pointing gesture toward tree/community
+    lAngle=-2.82;
     lBend=0.16;
     lPointing=true;
   } else if(p<0.826){
     // Lowering pointing arm back to side
-    const lowerProg=smooth(clamp((p-0.812)/0.014,0,1));
-    lAngle=lerp(-2.85,1.32,lowerProg);
-    lBend=lerp(0.16,0.12,lowerProg);
+    const lowerProg=smooth(clamp((p-0.816)/0.014,0,1));
+    lAngle=lerp(-2.82,1.45,lowerProg);
+    lBend=lerp(0.16,0.08,lowerProg);
   } else {
     // Resting at side
-    lAngle=1.32;
-    lBend=0.12;
+    lAngle=1.45;
+    lBend=0.08;
   }
 
+  const lCupping=(p>=0.712 && p<0.756);
   ctx.fillStyle=skin;
   const lHand=limbShape(ctx,lShX,lShY,lAngle,lBend,h*0.24,h*0.22,hw*0.58,hw*0.42,hw*0.16);
-  drawCharacterHand(ctx,lHand,lAngle+lBend,hw*0.92,skin,skinHi,'rgba(24,14,8,0.58)',lit);
+  drawCharacterHand(ctx,lHand,lAngle+lBend,hw*0.92,skin,skinHi,'rgba(24,14,8,0.58)',lit,lCupping);
 
   // Outstretched pointing finger
   if(lPointing){
@@ -2219,6 +2328,41 @@ function drawFigure(ctx,cam,p,L,dark,T){
     if(lit>0.2){
       ctx.fillStyle=skinHi;
       ctx.beginPath(); ctx.arc(lHand.hx,lHand.hy,hw*0.18,0,7); ctx.fill();
+    }
+  }
+
+  // ── 8. Radiant Fruit of Knowledge Held in Hand ─────────────
+  if(p>=0.700 && p<0.824){
+    const closeup=handGeom(p);
+    const oldFruitX=cam.X(closeup.fruitX), oldFruitY=cam.Y(closeup.fruitY);
+    const transfer=smooth(clamp((p-0.708)/0.014,0,1));
+    const targetX=(p>=0.718 && p<0.756)?(rHand.hx+lHand.hx)*0.5:(rHand.hx-hw*0.08);
+    const targetY=(p>=0.718 && p<0.756)?((rHand.hy+lHand.hy)*0.5-hw*0.12):(rHand.hy-hw*0.14);
+    const fruitX=lerp(oldFruitX,targetX,transfer);
+    const fruitY=lerp(oldFruitY,targetY,transfer);
+    const closeupRadius=closeup.f.r*clamp((growF-closeup.f.off)/0.7,0,1)*cam.s;
+    const heldRadius=hw*0.46;
+    const fr=lerp(closeupRadius,heldRadius,transfer);
+
+    if(fr>0.3){
+      // Warm golden reflection on character's chest & palms
+      const warmRef=ctx.createRadialGradient(fruitX,fruitY,fr*0.4,fruitX,fruitY,fr*2.8);
+      warmRef.addColorStop(0,`rgba(255,200,90,${(0.24*lit*(1-dark*0.5)).toFixed(3)})`);
+      warmRef.addColorStop(1,'rgba(255,180,60,0)');
+      ctx.fillStyle=warmRef;
+      ctx.beginPath(); ctx.arc(fruitX,fruitY,fr*2.8,0,7); ctx.fill();
+
+      // The golden fruit
+      paintFruit(ctx,fruitX,fruitY,fr,1,lit,dark,1,0.85);
+
+      // Right hand cupping grip
+      drawCharacterGrip(ctx,fruitX,fruitY,fr,rAngle+rBend,skin,skinHi,'rgba(24,14,8,0.58)',lit,1);
+
+      // When two hands hold the fruit (0.712 → 0.754), left hand also supports the fruit
+      if(p>=0.712 && p<0.756){
+        const twoHandAmt=seg(p,0.712,0.722,0.748,0.756);
+        drawCharacterGrip(ctx,fruitX,fruitY,fr,lAngle+lBend,skin,skinHi,'rgba(24,14,8,0.58)',lit,twoHandAmt*0.85);
+      }
     }
   }
 
