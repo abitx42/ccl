@@ -2591,27 +2591,53 @@ function vignette(ctx,W,H,strength){
 const LAND=[[[-180.0,68.96],[-174.34,66.34],[-169.9,65.98],[-172.95,64.25],[-179.88,65.87],[-180.0,64.98],[-180.01,64.97],[-182.59,64.61],[-180.77,62.3],[-189.67,59.88],[-196.46,59.87],[-197.98,58.24],[-196.81,57.62],[-197.88,54.85],[-203.21,51.01],[-204.08,56.77],[-195.53,62.55],[-199.88,60.55],[-200.7,61.77],[-203.28,61.43],[-205.78,59.76],[-204.96,59.15],[-217.8,59.04],[-224.87,54.73],[-220.1,54.19],[-218.62,52.24],[-221.78,46.31],[-232.47,39.76],[-230.91,35.08],[-233.51,34.39],[-233.14,36.89],[-235.29,38.11],[-234.68,39.55],[-238.95,38.9],[-238.36,40.95],[-241.96,39.2],[-241.09,37.45],[-237.64,37.46],[-240.85,34.91],[-238.09,31.69],[-238.32,28.23],[-244.11,22.78],[-249.56,20.34],[-251.48,21.72],[-254.12,19.75],[-250.67,13.43],[-250.8,11.67],[-254.84,8.6],[-259.9,13.41],[-260.78,9.24],[-257.04,5.53],[-255.77,1.29],[-258.61,2.76],[-261.66,7.79],[-262.84,16.93],[-265.81,16.04],[-265.67,18.21],[-268.58,22.77],[-273.02,21.5],[-279.67,15.9],[-280.14,10.36],[-282.46,7.97],[-286.47,15.99],[-287.37,21.36],[-289.53,20.88],[-293.63,25.42],[-302.6,25.74],[-303.51,27.14],[-305.28,26.48],[-308.48,27.87],[-309.89,30.15],[-312.02,29.98],[-308.2,24.02],[-305.99,24.12],[-303.64,26.4],[-303.15,24.24],[-300.19,22.31],[-304.73,17.23],[-316.52,12.64],[-317.35,16.78],[-325.37,28.06],[-325.08,29.5],[-326.08,27.65],[-327.58,29.85],[-322.52,18.61],[-317.28,11.74],[-315.39,10.44],[-308.89,12.02],[-308.95,10.64],[-312.26,4.22],[-320.8,-4.68],[-319.22,-14.69],[-325.21,-19.78],[-324.54,-24.12],[-327.43,-25.73],[-327.8,-28.75],[-331.78,-32.77],[-340.39,-34.82],[-348.2,-18.07],[-346.31,-10.73],[-348.09,-5.04],[-351.2,-1.11],[-350.59,3.73],[-354.1,4.26],[-355.67,6.27],[-369.01,4.83],[-376.61,12.17],[-377.62,14.73],[-376.15,18.11],[-376.97,21.89],[-365.93,35.76],[-362.17,35.17],[-350.49,37.35],[-348.9,36.9],[-349.66,33.79],[-340.91,30.27],[-338.46,32.84],[-326.23,30.97],[-323.84,36.65],[-332.36,36.66],[-333.83,39.46],[-326.49,42.02],[-321.65,40.95],[-318.3,41.96],[-323.32,45.24],[-320.88,47.26],[-325.04,46.27],[-323.67,45.11],[-326.12,44.36],[-327.55,45.33],[-326.7,46.08],[-329.25,46.58],[-332.32,42.58],[-331.19,41.06],[-337.37,40.26],[-335.96,37.65],[-337.51,36.41],[-340.46,41.72],[-346.86,45.74],[-347.41,44.09],[-341.52,40.17],[-343.13,40.44],[-343.9,37.99],[-344.59,40.05],[-351.11,44.37],[-356.9,43.07],[-362.15,36.67],[-368.9,36.87],[-369.39,43.03],[-361.38,44.02],[-361.19,46.01],[-364.59,48.68],[-361.62,48.64],[-361.94,49.78],[-351.88,53.53],[-351.46,57.11],[-349.42,57.73],[-350.35,55.47],[-349.06,54.01],[-340.34,54.43],[-338.73,55.19],[-338.42,57.41],[-335.88,57.03],[-336.66,59.19],[-330.88,60.03],[-338.68,60.72],[-338.46,63.19],[-334.6,65.11],[-337.82,65.72],[-342.15,62.75],[-342.88,61.34],[-341.21,60.08],[-344.12,56.1],[-347.06,55.36],[-349.64,59.47],[-354.34,58.59],[-354.09,62.62],[-340.82,69.82],[-335.45,71.03],[-331.84,71.19],[-318.94,67.46],[-321.62,66.0],[-326.82,66.63],[-322.99,63.85],[-322.82,65.14],[-320.41,64.52],[-317.91,66.48],[-316.05,66.07],[-316.55,68.57],[-313.75,68.25],[-313.65,66.67],[-306.28,68.86],[-300.06,68.28],[-299.45,69.85],[-291.49,68.09],[-293.3,71.03],[-290.81,72.84],[-287.41,72.78],[-288.15,71.41],[-286.33,68.41],[-288.72,66.32],[-287.58,66.17],[-284.95,67.76],[-286.9,71.45],[-285.34,72.83],[-283.64,71.15],[-282.42,72.27],[-278.5,71.75],[-279.49,73.65],[-255.65,77.7],[-245.87,75.85],[-250.6,74.18],[-233.02,73.57],[-228.71,70.79],[-227.75,71.84],[-220.13,71.49],[-220.85,72.42],[-219.53,72.85],[-201.0,70.87],[-199.06,69.44],[-181.4,69.4],[-180.0,68.96]],[[-90.55,69.5],[-87.35,67.2],[-85.52,69.88],[-82.62,69.66],[-81.26,67.6],[-85.77,66.56],[-93.16,62.02],[-94.68,58.95],[-92.3,57.09],[-82.27,55.15],[-79.91,51.21],[-78.6,52.56],[-79.83,54.67],[-76.54,56.53],[-78.52,58.81],[-77.34,59.85],[-78.11,62.32],[-73.84,62.44],[-69.59,61.06],[-69.29,58.96],[-67.65,58.21],[-64.58,60.34],[-61.8,56.34],[-57.33,54.63],[-55.68,52.15],[-60.03,50.24],[-66.4,50.23],[-71.11,46.82],[-65.05,49.23],[-64.47,46.24],[-61.52,45.88],[-60.52,47.01],[-59.8,45.92],[-65.36,43.55],[-66.16,44.47],[-64.42,45.29],[-67.14,45.14],[-70.69,43.03],[-69.96,41.64],[-75.53,39.5],[-75.94,37.22],[-76.35,39.15],[-75.73,35.55],[-81.34,31.44],[-80.38,25.21],[-84.1,30.09],[-93.85,29.71],[-96.59,28.31],[-97.87,22.44],[-96.29,19.32],[-92.04,18.71],[-90.28,21.0],[-87.05,21.54],[-88.93,15.89],[-83.41,15.27],[-83.81,11.1],[-81.44,8.79],[-76.84,8.64],[-71.75,12.44],[-71.7,9.07],[-69.94,12.16],[-68.19,10.56],[-61.88,10.72],[-62.39,9.95],[-57.15,5.97],[-51.32,4.2],[-50.39,-0.08],[-44.91,-1.55],[-44.58,-2.69],[-39.98,-2.87],[-35.6,-5.15],[-34.73,-7.34],[-38.67,-13.06],[-40.95,-21.94],[-47.65,-24.89],[-48.89,-28.67],[-53.81,-34.4],[-58.43,-33.91],[-56.79,-36.9],[-59.23,-38.72],[-62.34,-38.83],[-62.75,-41.03],[-65.12,-41.06],[-63.46,-42.56],[-67.29,-45.55],[-65.99,-48.13],[-69.14,-50.73],[-68.15,-52.35],[-71.01,-53.83],[-74.95,-52.26],[-75.61,-48.67],[-74.13,-46.94],[-75.65,-46.65],[-72.72,-42.38],[-74.33,-43.23],[-71.44,-32.42],[-70.16,-19.76],[-71.46,-17.36],[-76.01,-14.65],[-81.25,-6.14],[-79.77,-2.66],[-80.93,-1.06],[-77.13,3.85],[-78.18,8.32],[-79.56,8.93],[-80.89,7.22],[-85.66,9.93],[-87.49,13.3],[-103.5,18.29],[-105.49,19.95],[-106.03,22.77],[-114.78,31.8],[-109.43,23.19],[-112.18,24.74],[-117.29,33.05],[-120.62,34.61],[-124.4,40.31],[-124.69,48.18],[-122.59,47.1],[-122.84,49.0],[-127.44,50.83],[-134.08,58.12],[-147.11,60.89],[-151.71,59.16],[-150.62,61.28],[-158.43,55.99],[-164.79,54.4],[-157.04,58.92],[-161.97,58.67],[-166.12,61.5],[-160.78,64.79],[-168.11,65.67],[-161.68,66.12],[-166.76,68.36],[-156.58,71.36],[-136.5,68.9],[-128.14,70.48],[-108.88,67.38],[-106.15,68.8],[-101.45,67.65],[-97.67,68.58],[-96.13,67.29],[-94.23,69.07],[-96.47,70.09],[-95.21,71.92],[-90.55,69.5]],[[-180.0,-84.71],[-169.95,-83.88],[-158.07,-85.37],[-143.11,-85.04],[-153.59,-83.69],[-152.86,-82.04],[-156.84,-81.1],[-146.42,-80.34],[-155.33,-79.06],[-158.36,-76.89],[-151.33,-77.4],[-144.91,-75.2],[-113.94,-73.72],[-107.56,-75.18],[-100.12,-74.87],[-103.68,-72.62],[-76.22,-73.97],[-68.94,-73.01],[-67.14,-72.05],[-68.54,-69.72],[-67.25,-66.88],[-57.81,-63.27],[-65.67,-67.95],[-61.81,-70.72],[-60.83,-73.7],[-70.6,-76.64],[-77.24,-76.71],[-73.65,-77.91],[-78.03,-79.18],[-58.22,-83.22],[-28.55,-80.34],[-29.68,-79.26],[-35.64,-79.46],[-35.78,-78.34],[-17.52,-75.13],[-15.45,-73.15],[-6.87,-70.93],[27.09,-70.46],[33.87,-68.5],[38.65,-69.78],[54.54,-65.82],[61.43,-67.95],[68.89,-67.93],[69.67,-69.23],[67.81,-70.3],[69.06,-70.68],[67.95,-71.85],[69.87,-72.26],[73.86,-69.88],[87.99,-66.21],[95.78,-67.39],[102.83,-65.56],[106.18,-66.94],[113.6,-65.88],[119.83,-67.27],[135.07,-65.31],[137.46,-66.96],[145.49,-66.91],[171.21,-71.7],[163.57,-76.24],[167.0,-78.75],[161.77,-79.16],[159.79,-80.95],[169.41,-83.83],[178.28,-84.47],[180.0,-84.71]],[[143.56,-13.76],[145.37,-14.99],[146.39,-18.96],[153.14,-26.07],[153.09,-30.92],[150.0,-37.43],[146.32,-39.04],[140.64,-38.02],[138.21,-34.39],[136.83,-35.26],[137.81,-32.9],[135.99,-34.89],[131.33,-31.5],[118.03,-35.06],[115.03,-34.2],[115.69,-31.61],[113.34,-26.12],[114.23,-26.3],[114.15,-21.76],[120.86,-19.68],[125.69,-14.23],[129.62,-14.97],[132.36,-11.13],[136.49,-11.86],[135.5,-15.0],[140.22,-17.71],[142.52,-10.67],[143.56,-13.76]],[[-27.1,83.52],[-20.85,82.73],[-31.9,82.2],[-12.21,81.29],[-20.05,80.18],[-17.73,80.13],[-19.7,78.75],[-18.47,76.98],[-21.68,76.63],[-19.83,76.1],[-20.67,75.16],[-19.37,74.3],[-23.57,73.31],[-22.3,72.18],[-24.79,72.33],[-21.75,70.66],[-25.54,71.43],[-26.36,70.23],[-22.35,70.13],[-39.81,65.46],[-42.82,62.68],[-43.38,60.1],[-48.26,60.86],[-51.63,63.63],[-53.97,67.19],[-50.87,69.93],[-54.68,69.61],[-54.36,70.82],[-51.39,70.57],[-55.83,71.66],[-54.72,72.59],[-58.59,75.52],[-68.5,76.06],[-71.4,77.01],[-66.76,77.38],[-73.3,78.04],[-65.71,79.4],[-68.02,80.12],[-62.65,81.77],[-44.52,81.66],[-46.76,82.63],[-27.1,83.52]],[[-86.56,73.16],[-82.32,73.75],[-80.75,72.06],[-72.24,71.56],[-66.97,69.19],[-68.81,68.72],[-61.85,66.86],[-63.92,65.0],[-68.01,66.26],[-64.67,63.39],[-68.78,63.75],[-66.17,61.93],[-74.84,64.68],[-77.71,64.23],[-77.9,65.31],[-73.96,65.46],[-72.93,67.73],[-78.96,70.17],[-89.89,71.22],[-89.44,73.13],[-85.83,73.8],[-86.56,73.16]],[[-68.5,83.11],[-61.85,82.63],[-76.91,79.32],[-75.39,78.53],[-80.56,76.18],[-89.49,76.47],[-88.26,77.9],[-84.98,77.54],[-87.96,78.37],[-85.1,79.35],[-86.93,80.25],[-81.85,80.46],[-91.59,81.9],[-68.5,83.11]],[[134.14,-1.15],[135.46,-3.37],[138.33,-1.7],[144.58,-3.86],[150.69,-10.58],[144.74,-7.63],[142.63,-9.33],[137.61,-8.41],[138.67,-7.32],[137.93,-5.39],[132.98,-4.11],[131.99,-2.82],[133.7,-2.21],[130.52,-0.94],[134.14,-1.15]],[[117.87,1.83],[119.0,0.9],[117.81,0.78],[116.15,-4.01],[110.22,-2.93],[109.09,-0.46],[109.66,2.01],[113.0,3.1],[116.73,6.92],[119.18,5.41],[117.31,3.24],[117.87,1.83]],[[-114.17,73.12],[-108.19,71.65],[-108.4,73.09],[-106.52,73.08],[-100.98,70.03],[-102.43,68.75],[-113.31,68.54],[-117.34,69.96],[-112.42,70.37],[-119.4,71.56],[-114.17,73.12]],[[50.06,-13.56],[47.1,-24.94],[44.04,-24.99],[43.25,-22.06],[44.45,-16.22],[47.71,-14.59],[49.2,-12.04],[50.06,-13.56]],[[105.82,-5.85],[102.58,-4.22],[95.29,5.48],[97.48,5.25],[103.84,0.1],[106.11,-3.06],[105.82,-5.85]],[[-3.0,58.63],[-4.07,57.55],[-1.96,57.68],[-3.12,55.97],[1.68,52.74],[1.45,51.29],[-5.24,49.96],[-3.41,51.43],[-5.27,51.99],[-4.58,53.5],[-2.95,53.98],[-6.15,56.78],[-5.01,58.63],[-3.0,58.63]],[[140.98,37.14],[140.25,35.14],[135.79,33.46],[135.08,34.6],[130.99,33.89],[132.0,33.15],[130.2,31.42],[129.41,33.3],[132.62,35.43],[135.68,35.53],[141.37,41.38],[140.98,37.14]],[[57.53,70.72],[51.46,72.02],[55.63,75.08],[68.85,76.54],[58.48,74.31],[55.42,72.37],[57.53,70.72]],[[-14.51,66.46],[-13.61,65.13],[-18.66,63.5],[-22.76,63.96],[-21.78,64.4],[-23.96,64.89],[-22.23,65.38],[-24.33,65.61],[-14.51,66.46]],[[-45.15,-78.05],[-43.33,-80.03],[-54.16,-80.63],[-48.66,-78.05],[-45.15,-78.05]],[[-120.46,71.4],[-125.93,71.87],[-123.94,73.68],[-124.92,74.29],[-115.51,73.47],[-120.46,71.4]],[[-87.02,79.66],[-85.82,79.34],[-90.81,78.22],[-96.71,80.16],[-92.41,81.26],[-87.02,79.66]],[[-94.68,77.1],[-79.83,74.92],[-89.77,74.52],[-97.12,76.75],[-94.68,77.1]],[[18.25,79.7],[21.54,78.96],[15.91,76.77],[10.45,79.65],[18.25,79.7]],[[173.02,-40.92],[174.25,-41.35],[173.08,-43.85],[169.33,-46.64],[166.68,-46.22],[173.02,-40.92]],[[125.24,1.42],[120.18,0.24],[120.93,-1.41],[123.34,-0.62],[121.51,-1.91],[123.16,-5.34],[120.97,-2.63],[120.43,-5.53],[119.37,-5.38],[120.03,0.57],[125.24,1.42]],[[-56.13,50.69],[-56.8,49.81],[-53.48,49.25],[-53.07,46.66],[-54.24,47.75],[-59.27,47.6],[-55.41,51.59],[-56.13,50.69]],[[-108.21,76.2],[-105.71,75.48],[-112.22,74.42],[-117.71,75.22],[-115.4,76.48],[-108.21,76.2]],[[99.94,78.88],[91.18,80.34],[95.94,81.25],[99.94,78.88]],[[174.61,-36.16],[178.52,-37.7],[175.24,-41.69],[173.82,-39.51],[174.7,-37.38],[172.63,-34.53],[174.61,-36.16]],[[-68.45,-70.96],[-71.08,-72.5],[-75.01,-71.66],[-72.07,-71.19],[-70.25,-68.88],[-68.45,-70.96]],[[-67.75,-53.85],[-65.05,-54.7],[-69.23,-55.5],[-74.66,-52.84],[-71.11,-54.07],[-69.35,-52.52],[-67.75,-53.85]]];
 const RAD=Math.PI/180;
 const EKEYS=[
- {p:0.860,lon:40.0,lat:14.0,s:2.45,roll:0.0},
- {p:0.900,lon:8.0,lat:22.0,s:0.95,roll:-2.0},
- {p:0.920,lon:-2.603,lat:51.46,s:1.02,roll:-1.2},
- {p:0.940,lon:72.871,lat:19.07,s:1.12,roll:1.6},
- {p:0.962,lon:72.90,lat:19.35,s:1.30,roll:0.8},
- {p:0.985,lon:72.90,lat:19.35,s:1.30,roll:0.8},
- {p:1.000,lon:72.90,lat:19.35,s:1.30,roll:0.8}
+  {p:0.875,lon:12.0,lat:26.0,s:0.92,roll:-1.0},
+  {p:0.912,lon:-2.603,lat:51.46,s:1.05,roll:-0.6},
+  {p:0.932,lon:35.0,lat:38.0,s:1.08,roll:0.3},
+  {p:0.952,lon:72.871,lat:19.07,s:1.15,roll:1.2},
+  {p:0.975,lon:72.95,lat:19.32,s:1.34,roll:0.8},
+  {p:1.000,lon:72.95,lat:19.32,s:1.34,roll:0.8}
 ];
+
+function catmullRom(p0,p1,p2,p3,t){
+  const t2=t*t, t3=t2*t;
+  return 0.5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3);
+}
+
+function sampleEarth(p,T){
+  let i=0; while(i<EKEYS.length-2 && p>EKEYS[i+1].p) i++;
+  const k0=EKEYS[Math.max(0,i-1)], k1=EKEYS[i];
+  const k2=EKEYS[Math.min(EKEYS.length-1,i+1)], k3=EKEYS[Math.min(EKEYS.length-1,i+2)];
+  const span=k2.p-k1.p;
+  const t=span<=0?0:clamp((p-k1.p)/span,0,1);
+  const lat=catmullRom(k0.lat,k1.lat,k2.lat,k3.lat,t);
+  const s=catmullRom(k0.s,k1.s,k2.s,k3.s,t);
+  const roll=catmullRom(k0.roll,k1.roll,k2.roll,k3.roll,t);
+  let l0=k0.lon, l1=k1.lon, l2=k2.lon, l3=k3.lon;
+  while(l0-l1>180)l0-=360; while(l0-l1<-180)l0+=360;
+  while(l2-l1>180)l2-=360; while(l2-l1<-180)l2+=360;
+  while(l3-l2>180)l3-=360; while(l3-l2<-180)l3+=360;
+  const lon=catmullRom(l0,l1,l2,l3,t);
+  const ambientSpin=(T||0)*0.00018;
+  return {lon:lon+ambientSpin, lat, s, roll};
+}
+
 let ANCHORS=[
- {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.900,0.907,0.914,0.925],kind:'city'},
- {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.925,0.934,0.944,0.955],kind:'city'},
- {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.955,0.965,0.978,0.988],kind:'region'}
+  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.926,0.934],kind:'city',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (Bristol) · ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल (Bristol) · ब्रिस्टल विश्वविद्यालय'}},
+  {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.942,0.950,0.968,0.976],kind:'city',label:{en:'Mumbai · University of Mumbai',mr:'मुंबई (Mumbai) · मुंबई विद्यापीठ',hi:'मुंबई (Mumbai) · मुंबई विश्वविद्यालय'}},
+  {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.970,0.986,0.994],kind:'region',label:{en:'Maharashtra Coastal Living Lab',mr:'महाराष्ट्र किनारपट्टी कार्यक्षेत्र',hi:'महाराष्ट्र तटीय कार्यक्षेत्र'}}
 ];
+
 function rebuildStoryAnchors(){
   const published=DISTRICTS.filter(d=>d.records>0 && Number.isFinite(d.lat) && Number.isFinite(d.lon));
   const count=published.length;
   if(!count) return;
   published.forEach((d,i)=>{
-    const a0=0.988+(i/count)*0.007;
-    const a1=0.988+((i+1)/count)*0.007;
-    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug});
+    const a0=0.976+(i/count)*0.008;
+    const a1=0.976+((i+1)/count)*0.008;
+    const mrName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
+    const hiName = d.slug === 'palghar' ? 'पालघर (Palghar)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
+    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug,label:{en:d.name,mr:mrName,hi:hiName}});
   });
 }
 rebuildStoryAnchors();
@@ -2621,17 +2647,90 @@ function orth(lon,lat,lon0,lat0){
   const cph=Math.cos(ph), sph=Math.sin(ph), cl=Math.cos(l);
   return [cph*Math.sin(l), Math.cos(p0)*sph-Math.sin(p0)*cph*cl, Math.sin(p0)*sph+Math.cos(p0)*cph*cl];
 }
+
+function toCart(lon,lat){
+  const ph=lat*RAD, l=lon*RAD;
+  return [Math.cos(ph)*Math.cos(l), Math.cos(ph)*Math.sin(l), Math.sin(ph)];
+}
+
+function fromCart(x,y,z){
+  const lat=Math.asin(clamp(z,-1,1))/RAD;
+  const lon=Math.atan2(y,x)/RAD;
+  return [lon,lat];
+}
+
+function slerp3D(v1,v2,t){
+  const dot=clamp(v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2],-1,1);
+  const om=Math.acos(dot);
+  if(om<1e-5) return v1;
+  const s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
+  return [v1[0]*s1+v2[0]*s2, v1[1]*s1+v2[1]*s2, v1[2]*s1+v2[2]*s2];
+}
+
+function subdivideRing(ring,maxDeg=3.5){
+  const sub=[], n=ring.length;
+  for(let i=0;i<n;i++){
+    const p1=ring[i], p2=ring[(i+1)%n];
+    const v1=toCart(p1[0],p1[1]), v2=toCart(p2[0],p2[1]);
+    const dot=clamp(v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2],-1,1);
+    const deg=Math.acos(dot)/RAD;
+    const steps=Math.max(1,Math.ceil(deg/maxDeg));
+    for(let s=0;s<steps;s++){
+      const t=s/steps;
+      if(t===0) sub.push(p1);
+      else { const v=slerp3D(v1,v2,t); sub.push(fromCart(v[0],v[1],v[2])); }
+    }
+  }
+  return sub;
+}
+
+const SUB_LAND=LAND.map(r=>subdivideRing(r,3.5));
+
+function clipRingToHemisphere(ring,lon0,lat0){
+  const p0=lat0*RAD;
+  const cLat0=Math.cos(p0), sLat0=Math.sin(p0);
+  const n=ring.length;
+  const v3=new Array(n);
+  for(let i=0;i<n;i++){
+    const lon=ring[i][0], lat=ring[i][1];
+    const l=(lon-lon0)*RAD, ph=lat*RAD;
+    const cph=Math.cos(ph), sph=Math.sin(ph), cl=Math.cos(l);
+    v3[i]=[cph*Math.sin(l), cLat0*sph-sLat0*cph*cl, sLat0*sph+cLat0*cph*cl];
+  }
+  const out=[];
+  for(let i=0;i<n;i++){
+    const p1=v3[i], p2=v3[(i+1)%n];
+    const z1=p1[2], z2=p2[2];
+    if(z1>=0){
+      out.push({x:p1[0], y:p1[1], z:p1[2], isCoast:true});
+      if(z2<0){
+        const t=z1/(z1-z2);
+        const x=p1[0]+(p2[0]-p1[0])*t, y=p1[1]+(p2[1]-p1[1])*t;
+        const d=Math.hypot(x,y)||1e-6;
+        out.push({x:x/d, y:y/d, z:0, isCoast:false});
+      }
+    } else if(z2>=0){
+      const t=-z1/(z2-z1);
+      const x=p1[0]+(p2[0]-p1[0])*t, y=p1[1]+(p2[1]-p1[1])*t;
+      const d=Math.hypot(x,y)||1e-6;
+      out.push({x:x/d, y:y/d, z:0, isCoast:false});
+    }
+  }
+  return out;
+}
+
 function biome(lon,lat){
   const a=Math.abs(lat), n=fbm(lon*0.035+7.1,lat*0.055+2.3,4);
   let base;
-  if(a>72) base='#C4CED3';
-  else if(a>62) base=mix('#34472F','#46583A',n);
-  else if(a>44) base=mix('#3C5A33','#54673B',n);
-  else if(a>29) base=mix('#6E6442','#7E7048',n);
-  else if(a>16) base=mix('#5C6E36','#46662E',n);
-  else base=mix('#2B5029','#3D5C2D',n);
-  return mix(base, n>0.62?'#7C7350':'#1D331B', Math.abs(n-0.5)*0.42);
+  if(a>72) base='#D2DBDF';
+  else if(a>60) base=mix('#3C4F37','#4D6140',n);
+  else if(a>42) base=mix('#44643A','#5E7443',n);
+  else if(a>28) base=mix('#7D724D','#8E8053',n);
+  else if(a>15) base=mix('#657A3C','#4E7333',n);
+  else base=mix('#2E592C','#426431',n);
+  return mix(base, n>0.62?'#8C825B':'#1F381D', Math.abs(n-0.5)*0.42);
 }
+
 function inRing(ring,x,y){
   let inside=false;
   for(let i=0,j=ring.length-1;i<ring.length;j=i++){
@@ -2640,10 +2739,11 @@ function inRing(ring,x,y){
   }
   return inside;
 }
+
 const LANDP=(function(){
   const out=[];
-  for(let i=0;i<LAND.length;i++){
-    const ring=LAND[i];
+  for(let i=0;i<SUB_LAND.length;i++){
+    const ring=SUB_LAND[i];
     let ax=0,ay=0,minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9,ar=0;
     for(let j=0;j<ring.length;j++){
       const [x,y]=ring[j],[x2,y2]=ring[(j+1)%ring.length];
@@ -2651,9 +2751,9 @@ const LANDP=(function(){
       if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
     }
     ax/=ring.length; ay/=ring.length; ar=Math.abs(ar)/2;
-    const pts=[], want=clamp(Math.round(Math.sqrt(ar)*0.85),3,46), r=mulberry32(1000+i*37);
+    const pts=[], want=clamp(Math.round(Math.sqrt(ar)*0.75),2,36), r=mulberry32(1000+i*37);
     let guard=0;
-    while(pts.length<want && guard++<want*30){
+    while(pts.length<want && guard++<want*25){
       const lx=minx+r()*(maxx-minx), ly=miny+r()*(maxy-miny);
       if(!inRing(ring,lx,ly)) continue;
       const n=fbm(lx*0.06+3.7,ly*0.09+9.1,4);
@@ -2663,212 +2763,421 @@ const LANDP=(function(){
   }
   return out;
 })();
+
 const CLOUDS=(function(){
   const r=mulberry32(7717), a=[];
-  for(let i=0;i<150;i++){
+  for(let i=0;i<160;i++){
     const lat=-72+r()*144;
-    a.push({lon:-180+r()*360, lat, r:5+r()*17, seed:r(),
-      band:Math.exp(-Math.pow(lat/9,2))*0.55+Math.exp(-Math.pow((Math.abs(lat)-52)/13,2))*0.45});
+    a.push({lon:-180+r()*360, lat, r:6+r()*18, seed:r(),
+      band:Math.exp(-Math.pow(lat/10,2))*0.55+Math.exp(-Math.pow((Math.abs(lat)-50)/14,2))*0.45});
   }
   return a;
 })();
 
-function _tracePoly(ctx, ring, px, py){
-  ctx.beginPath();
-  for(let i=0;i<ring.length;i++) i?ctx.lineTo(px[i],py[i]):ctx.moveTo(px[i],py[i]);
-  ctx.closePath();
-}
+const CITIES=[
+  {lon:-2.603,lat:51.458,pop:1.1,name:'Bristol'},
+  {lon:-0.127,lat:51.507,pop:1.6,name:'London'},
+  {lon:2.352,lat:48.856,pop:1.4,name:'Paris'},
+  {lon:4.900,lat:52.370,pop:1.0,name:'Amsterdam'},
+  {lon:7.000,lat:50.900,pop:1.2,name:'Rhine-Ruhr'},
+  {lon:12.496,lat:41.902,pop:1.1,name:'Rome'},
+  {lon:31.235,lat:30.044,pop:1.5,name:'Cairo'},
+  {lon:55.270,lat:25.204,pop:1.3,name:'Dubai'},
+  {lon:72.871,lat:19.072,pop:1.9,name:'Mumbai'},
+  {lon:73.856,lat:18.520,pop:1.2,name:'Pune'},
+  {lon:72.770,lat:19.700,pop:0.8,name:'Palghar'},
+  {lon:77.209,lat:28.613,pop:1.7,name:'Delhi'},
+  {lon:77.594,lat:12.971,pop:1.4,name:'Bengaluru'},
+  {lon:80.270,lat:13.082,pop:1.2,name:'Chennai'},
+  {lon:88.363,lat:22.572,pop:1.4,name:'Kolkata'},
+  {lon:72.571,lat:23.022,pop:1.2,name:'Ahmedabad'},
+  {lon:100.501,lat:13.756,pop:1.3,name:'Bangkok'},
+  {lon:103.819,lat:1.352,pop:1.4,name:'Singapore'},
+  {lon:114.169,lat:22.319,pop:1.4,name:'Hong Kong'},
+  {lon:121.473,lat:31.230,pop:1.6,name:'Shanghai'},
+  {lon:139.691,lat:35.689,pop:1.8,name:'Tokyo'}
+];
+
+const STARS=(function(){
+  const r=mulberry32(4201), a=[];
+  for(let i=0;i<180;i++){
+    a.push({
+      x:r(), y:r(), size:r()>0.88?1.8:r()>0.6?1.2:0.8,
+      baseAlpha:0.18+r()*0.75,
+      twinkleSpeed:0.001+r()*0.003,
+      twinklePhase:r()*7,
+      color:r()>0.75?'#DCEAF5':r()>0.4?'#FDF6E2':'#E8ECF0'
+    });
+  }
+  return a;
+})();
 
 function drawEarth(ctx,W,H,p,T,q){
-  const k=sample(EKEYS,p,['lon','lat','s','roll']);
-  // Continuous slow ambient rotation: ~1 revolution per 35 min of real time
-  const ambientSpin = T * 0.0003;
-  k.lon = k.lon + ambientSpin;
+  const k=sampleEarth(p,T);
   const R=Math.min(W,H)*0.34*k.s, cx=W*0.5, cy=H*0.5;
   const zoom=clamp((k.s-0.9)/1.1,0,1), bud=clamp(360/R,0.28,1);
-  ctx.fillStyle='#03060A'; ctx.fillRect(0,0,W,H);
 
-  const starA=clamp((1.7-k.s)/1.0,0,1)*0.6;
+  // Deep space base
+  ctx.fillStyle='#02050A'; ctx.fillRect(0,0,W,H);
+
+  // Soft cosmic nebula centered behind Earth
+  const starA=clamp((1.7-k.s)/1.0,0,1);
   if(starA>0.02){
+    const neb=ctx.createRadialGradient(cx-R*0.2,cy-R*0.2,R*0.5,cx,cy,Math.hypot(W,H)*0.65);
+    neb.addColorStop(0,'rgba(14,28,48,0.45)');
+    neb.addColorStop(0.5,'rgba(8,16,28,0.20)');
+    neb.addColorStop(1,'rgba(2,5,10,0)');
+    ctx.fillStyle=neb; ctx.fillRect(0,0,W,H);
+
+    // Multi-temperature starry background
     ctx.save();
-    for(let i=0;i<150;i++){
-      const x=sc(i*3)*W, y=sc(i*7)*H, dx=x-cx, dy=y-cy;
-      if(dx*dx+dy*dy<R*R*1.12) continue;
-      ctx.globalAlpha=starA*(0.14+sc(i*11)*0.66);
-      ctx.fillStyle='#C6D6DE'; ctx.fillRect(x,y,sc(i*13)>0.9?1.6:1,sc(i*13)>0.9?1.6:1);
+    for(let i=0;i<STARS.length;i++){
+      const st=STARS[i];
+      const sx=st.x*W, sy=st.y*H;
+      const dx=sx-cx, dy=sy-cy;
+      if(dx*dx+dy*dy<R*R*1.15) continue;
+      const tw=0.7+0.3*Math.sin(T*st.twinkleSpeed+st.twinklePhase);
+      ctx.globalAlpha=starA*st.baseAlpha*tw;
+      ctx.fillStyle=st.color;
+      ctx.fillRect(sx,sy,st.size,st.size);
     }
     ctx.restore();
   }
-  const S=orth(k.lon+36+Math.sin(T*0.00002)*6,14,k.lon,k.lat);
+
+  // Sun position vector
+  const sunLon=k.lon+44+Math.sin(T*0.00003)*8, sunLat=16;
+  const S=orth(sunLon,sunLat,k.lon,k.lat);
   const sMag=Math.hypot(S[0],S[1])||1e-6;
+  const ux=S[0]/sMag, uy=S[1]/sMag, lin=clamp(sMag,0,1);
 
   ctx.save();
   ctx.translate(cx,cy); ctx.rotate(k.roll*RAD); ctx.translate(-cx,-cy);
-  const at=ctx.createRadialGradient(cx,cy,R*0.95,cx,cy,R*1.26);
-  at.addColorStop(0,'rgba(126,186,220,0.34)');
-  at.addColorStop(0.4,'rgba(96,152,196,0.11)');
-  at.addColorStop(1,'rgba(90,146,190,0)');
-  ctx.fillStyle=at; ctx.beginPath(); ctx.arc(cx,cy,R*1.26,0,7); ctx.fill();
 
-  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
-  const oc=ctx.createRadialGradient(cx-R*0.3,cy-R*0.34,R*0.05,cx,cy,R*1.08);
-  oc.addColorStop(0,'#2F6E8C'); oc.addColorStop(0.42,'#1A4A64');
-  oc.addColorStop(0.78,'#0E3049'); oc.addColorStop(1,'#061826');
+  // ── 1. Outer Atmospheric Rayleigh Halo ────────────────────────
+  const at=ctx.createRadialGradient(cx,cy,R*0.96,cx,cy,R*1.32);
+  at.addColorStop(0,'rgba(112,192,242,0.42)');
+  at.addColorStop(0.35,'rgba(72,154,216,0.18)');
+  at.addColorStop(0.70,'rgba(46,110,180,0.06)');
+  at.addColorStop(1,'rgba(30,80,150,0)');
+  ctx.fillStyle=at; ctx.beginPath(); ctx.arc(cx,cy,R*1.32,0,7); ctx.fill();
+
+  // Forward atmospheric scattering flare on sunward limb
+  const fx=cx+ux*R*0.95, fy=cy-uy*R*0.95;
+  const flare=ctx.createRadialGradient(fx,fy,R*0.1,cx,cy,R*1.28);
+  flare.addColorStop(0,'rgba(230,244,255,0.30)');
+  flare.addColorStop(0.4,'rgba(130,205,250,0.12)');
+  flare.addColorStop(1,'rgba(100,180,240,0)');
+  ctx.save(); ctx.globalCompositeOperation='screen';
+  ctx.fillStyle=flare; ctx.beginPath(); ctx.arc(cx,cy,R*1.28,0,7); ctx.fill();
+  ctx.restore();
+
+  // ── 2. Earth Disc (Clipped Surface) ───────────────────────────
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.clip();
+
+  // Deep oceanic sphere
+  const oc=ctx.createRadialGradient(cx-ux*R*0.35,cy+uy*R*0.35,R*0.08,cx,cy,R*1.08);
+  oc.addColorStop(0,'#2A7294');
+  oc.addColorStop(0.36,'#194B68');
+  oc.addColorStop(0.72,'#0E2E48');
+  oc.addColorStop(1,'#051524');
   ctx.fillStyle=oc; ctx.fillRect(cx-R,cy-R,R*2,R*2);
-  ctx.globalAlpha=0.5;
-  for(let i=0;i<Math.round(22*q*bud)+4;i++){
+
+  // Ocean ambient bathymetry variation
+  ctx.globalAlpha=0.45;
+  for(let i=0;i<Math.round(20*q*bud)+4;i++){
     const a=sc(i*5)*6.283, d=Math.sqrt(sc(i*9))*R;
     const px=cx+Math.cos(a)*d, py=cy+Math.sin(a)*d, rr=R*(0.14+sc(i*3)*0.36);
-    if(px+rr<0||px-rr>W||py+rr<0||py-rr>H) continue;
+    if(px+rr<cx-R||px-rr>cx+R||py+rr<cy-R||py-rr>cy+R) continue;
     const og=ctx.createRadialGradient(px,py,0,px,py,rr);
-    og.addColorStop(0,sc(i*7)>0.5?'rgba(8,34,54,0.42)':'rgba(56,120,150,0.22)');
+    og.addColorStop(0,sc(i*7)>0.5?'rgba(6,30,50,0.40)':'rgba(52,130,165,0.20)');
     og.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=og; ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
   }
   ctx.globalAlpha=1;
-  ctx.save(); ctx.globalCompositeOperation='lighter';
-  const gx=cx+S[0]*R*0.62, gy2=cy-S[1]*R*0.62;
-  const sg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.62);
-  sg.addColorStop(0,'rgba(180,214,232,0.20)'); sg.addColorStop(0.5,'rgba(150,190,214,0.07)');
-  sg.addColorStop(1,'rgba(150,190,214,0)');
-  ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.62,0,7); ctx.fill();
-  ctx.restore();
 
-  const lw=Math.max(0.5,R*0.0022);
-  for(const poly of LANDP){
-    const ring=poly.ring;
-    let any=false,bx0=1e9,bx1=-1e9,by0=1e9,by1=-1e9;
-    const px=new Array(ring.length), py=new Array(ring.length);
-    for(let i=0;i<ring.length;i++){
-      const v=orth(ring[i][0],ring[i][1],k.lon,k.lat);
-      let x=v[0],y=v[1];
-      if(v[2]<=0){ const d=Math.hypot(x,y)||1e-6; x/=d; y/=d; } else any=true;
-      const sx2=cx+x*R, sy2=cy-y*R;
-      px[i]=sx2; py[i]=sy2;
-      if(sx2<bx0)bx0=sx2; if(sx2>bx1)bx1=sx2; if(sy2<by0)by0=sy2; if(sy2>by1)by1=sy2;
+  // Ocean sun specular glint (caustic specular bloom)
+  const gx=cx+S[0]*R*0.62, gy2=cy-S[1]*R*0.62;
+  if(S[2]>0.05){
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    const sg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.55);
+    sg.addColorStop(0,'rgba(235,248,255,0.28)');
+    sg.addColorStop(0.35,'rgba(170,220,245,0.12)');
+    sg.addColorStop(1,'rgba(140,195,225,0)');
+    ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.55,0,7); ctx.fill();
+    ctx.restore();
+  }
+
+  // ── 3. Continents with True Hemisphere Clipping (No Chords) ──
+  const lw=Math.max(0.6,R*0.0022);
+  for(let pIdx=0;pIdx<SUB_LAND.length;pIdx++){
+    const ring=SUB_LAND[pIdx];
+    const clipped=clipRingToHemisphere(ring,k.lon,k.lat);
+    if(clipped.length<3) continue;
+
+    // Build 2D polygon path on disc
+    ctx.beginPath();
+    for(let i=0;i<clipped.length;i++){
+      const pt=clipped[i];
+      const sx2=cx+pt.x*R, sy2=cy-pt.y*R;
+      i===0?ctx.moveTo(sx2,sy2):ctx.lineTo(sx2,sy2);
     }
-    if(!any) continue;
-    if(bx1<-8||bx0>W+8||by1<-8||by0>H+8) continue;
-    _tracePoly(ctx, ring, px, py);
+    ctx.closePath();
+
+    // Shallow coastal shelf water fringing
     ctx.save();
-    ctx.strokeStyle='rgba(122,186,206,0.20)';
-    ctx.lineWidth=Math.max(1.5,Math.min(R*0.016,14));
-    ctx.stroke(); ctx.restore();
-    const vN=orth(poly.cx,poly.n,k.lon,k.lat), vS=orth(poly.cx,poly.s,k.lon,k.lat);
+    ctx.strokeStyle='rgba(42,168,188,0.22)';
+    ctx.lineWidth=Math.max(1.8,Math.min(R*0.016,12));
+    ctx.stroke();
+    ctx.restore();
+
+    // Biome fill with latitude gradient
+    const polyMeta=LANDP[pIdx]||{cx:0,cy:0,n:40,s:-40,patches:[]};
+    const vN=orth(polyMeta.cx,polyMeta.n,k.lon,k.lat);
+    const vS=orth(polyMeta.cx,polyMeta.s,k.lon,k.lat);
     const gN=[cx+vN[0]*R,cy-vN[1]*R], gS=[cx+vS[0]*R,cy-vS[1]*R];
     if(Math.hypot(gN[0]-gS[0],gN[1]-gS[1])>2){
       const lgd=ctx.createLinearGradient(gN[0],gN[1],gS[0],gS[1]);
-      for(let t=0;t<=4;t++) lgd.addColorStop(t/4,biome(poly.cx,lerp(poly.n,poly.s,t/4)));
+      for(let t=0;t<=4;t++) lgd.addColorStop(t/4,biome(polyMeta.cx,lerp(polyMeta.n,polyMeta.s,t/4)));
       ctx.fillStyle=lgd;
-    } else ctx.fillStyle=biome(poly.cx,poly.cy);
+    } else ctx.fillStyle=biome(polyMeta.cx,polyMeta.cy);
     ctx.fill();
-    ctx.save(); ctx.clip();
-    const lim=Math.min(poly.patches.length,Math.max(2,Math.round(poly.patches.length*(0.5+0.5*q)*(0.7+0.5*zoom)*(0.45+0.55*bud))));
-    for(let i=0;i<lim;i++){
-      const pt=poly.patches[i];
-      const v=orth(pt.lon,pt.lat,k.lon,k.lat);
-      if(v[2]<=0.03) continue;
-      const sxp=cx+v[0]*R, syp=cy-v[1]*R, rr=pt.r*R*0.016*(0.55+v[2]*0.7);
-      if(rr<0.7) continue;
-      if(sxp+rr*1.3<0||sxp-rr*1.3>W||syp+rr<0||syp-rr>H) continue;
-      const tone=pt.hi?mix(biome(pt.lon,pt.lat),'#B9AE8E',0.5)
-                :pt.lo?mix(biome(pt.lon,pt.lat),'#152A18',0.52)
-                      :mix(biome(pt.lon,pt.lat),'#6F7A4A',0.28);
-      ctx.globalAlpha=0.3+pt.n*0.3; ctx.fillStyle=tone;
-      ctx.beginPath(); ctx.ellipse(sxp,syp,rr*1.25,rr*0.85,pt.seed*3,0,7); ctx.fill();
-      if(pt.hi&&rr>2){
-        ctx.globalAlpha=0.26; ctx.fillStyle='rgba(238,232,208,0.9)';
-        ctx.beginPath(); ctx.ellipse(sxp+rr*0.22,syp-rr*0.24,rr*0.6,rr*0.34,pt.seed*3,0,7); ctx.fill();
-        ctx.fillStyle='rgba(18,22,16,0.8)';
-        ctx.beginPath(); ctx.ellipse(sxp-rr*0.26,syp+rr*0.26,rr*0.55,rr*0.3,pt.seed*3,0,7); ctx.fill();
+
+    // Continent topography relief shading & vegetation patches
+    if(polyMeta.patches && polyMeta.patches.length>0){
+      ctx.save(); ctx.clip();
+      const lim=Math.min(polyMeta.patches.length,Math.max(2,Math.round(polyMeta.patches.length*(0.5+0.5*q)*(0.7+0.5*zoom)*(0.45+0.55*bud))));
+      for(let i=0;i<lim;i++){
+        const pt=polyMeta.patches[i];
+        const v=orth(pt.lon,pt.lat,k.lon,k.lat);
+        if(v[2]<=0.03) continue;
+        const sxp=cx+v[0]*R, syp=cy-v[1]*R, rr=pt.r*R*0.016*(0.55+v[2]*0.7);
+        if(rr<0.7) continue;
+        const tone=pt.hi?mix(biome(pt.lon,pt.lat),'#C8BE9E',0.48)
+                  :pt.lo?mix(biome(pt.lon,pt.lat),'#1A331E',0.50)
+                        :mix(biome(pt.lon,pt.lat),'#7A8550',0.26);
+        ctx.globalAlpha=0.28+pt.n*0.28; ctx.fillStyle=tone;
+        ctx.beginPath(); ctx.ellipse(sxp,syp,rr*1.25,rr*0.85,pt.seed*3,0,7); ctx.fill();
       }
+      ctx.restore();
     }
-    ctx.globalAlpha=1; ctx.restore();
-    _tracePoly(ctx, ring, px, py);
-    ctx.strokeStyle='rgba(206,222,206,0.16)'; ctx.lineWidth=lw; ctx.stroke();
+
+    // Stroke ONLY genuine coastlines (never cut-lines across horizon)
+    ctx.save();
+    ctx.strokeStyle='rgba(195,228,212,0.34)';
+    ctx.lineWidth=lw;
+    ctx.beginPath();
+    let penDown=false;
+    for(let i=0;i<clipped.length;i++){
+      const p1=clipped[i], p2=clipped[(i+1)%clipped.length];
+      if(p1.isCoast && p2.isCoast){
+        const sx1=cx+p1.x*R, sy1=cy-p1.y*R;
+        const sx2=cx+p2.x*R, sy2=cy-p2.y*R;
+        if(!penDown){ ctx.moveTo(sx1,sy1); penDown=true; }
+        ctx.lineTo(sx2,sy2);
+      } else penDown=false;
+    }
+    ctx.stroke();
+    ctx.restore();
   }
 
+  // ── 4. Twinkling Urban Night Lights (Night Hemisphere) ────────
+  ctx.save();
+  for(let i=0;i<CITIES.length;i++){
+    const ct=CITIES[i];
+    const v=orth(ct.lon,ct.lat,k.lon,k.lat);
+    if(v[2]<=0.04) continue;
+    // Illumination dot product with sun
+    const sunDot=v[0]*S[0]+v[1]*S[1]+v[2]*S[2];
+    if(sunDot<0.18){
+      const nightA=clamp((0.18-sunDot)/0.36,0,1)*clamp(v[2]*3.0,0,1);
+      const twinkle=0.75+0.25*Math.sin(T*0.0035+i*2.1);
+      const sxp=cx+v[0]*R, syp=cy-v[1]*R;
+      const glowR=Math.max(2.5,R*0.016*ct.pop);
+
+      // Warm golden glow of human settlement
+      const cg=ctx.createRadialGradient(sxp,syp,0,sxp,syp,glowR);
+      cg.addColorStop(0,`rgba(255,220,130,${(0.85*nightA*twinkle).toFixed(3)})`);
+      cg.addColorStop(0.4,`rgba(255,170,70,${(0.45*nightA*twinkle).toFixed(3)})`);
+      cg.addColorStop(1,'rgba(255,140,40,0)');
+      ctx.fillStyle=cg;
+      ctx.beginPath(); ctx.arc(sxp,syp,glowR,0,7); ctx.fill();
+
+      // Pinpoint core
+      ctx.fillStyle=`rgba(255,250,220,${(0.95*nightA).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(sxp,syp,Math.max(1.0,R*0.0035),0,7); ctx.fill();
+    }
+  }
+  ctx.restore();
+
+  // ── 5. Volumetric Cloud Deck with Ground Drop Shadow ──────────
   const cn=Math.min(CLOUDS.length,Math.round(CLOUDS.length*q*0.85*bud));
   const drift=T*0.00035;
+
+  // Cloud drop-shadow pass (creates true 3D altitude separation)
+  ctx.save();
+  for(let i=0;i<cn;i++){
+    const c=CLOUDS[i], lon=c.lon+drift*(6+c.seed*4);
+    const dens=clamp(fbm(lon*0.022+c.seed*4,c.lat*0.05+1.9,3)*1.25-0.42+c.band,0,1);
+    if(dens<0.08) continue;
+    const v=orth(lon,c.lat,k.lon,k.lat);
+    if(v[2]<=0.08) continue;
+    const shOffX=ux*R*0.008, shOffY=-uy*R*0.008;
+    const sxp=cx+v[0]*R+shOffX, syp=cy-v[1]*R+shOffY;
+    const rr=c.r*R*0.013*(0.4+v[2]*0.8)*(0.8+dens*0.7);
+    if(rr<0.8) continue;
+    const shg=ctx.createRadialGradient(sxp,syp,0,sxp,syp,rr);
+    shg.addColorStop(0,`rgba(3,10,18,${(0.24*dens*clamp(v[2]*2.0,0,1)).toFixed(3)})`);
+    shg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=shg;
+    ctx.save(); ctx.translate(sxp,syp); ctx.scale(1.4,0.72); ctx.translate(-sxp,-syp);
+    ctx.beginPath(); ctx.arc(sxp,syp,rr,0,7); ctx.fill(); ctx.restore();
+  }
+  ctx.restore();
+
+  // Sunlit cloud bodies
   for(let i=0;i<cn;i++){
     const c=CLOUDS[i], lon=c.lon+drift*(6+c.seed*4);
     const dens=clamp(fbm(lon*0.022+c.seed*4,c.lat*0.05+1.9,3)*1.25-0.42+c.band,0,1);
     if(dens<0.06) continue;
     const v=orth(lon,c.lat,k.lon,k.lat);
     if(v[2]<=0.07) continue;
-    const sxp=cx+v[0]*R*1.005, syp=cy-v[1]*R*1.005;
+    const sxp=cx+v[0]*R*1.006, syp=cy-v[1]*R*1.006;
     const rr=c.r*R*0.013*(0.4+v[2]*0.8)*(0.8+dens*0.7);
     if(rr<0.8) continue;
-    if(sxp+rr*1.6<0||sxp-rr*1.6>W||syp+rr<0||syp-rr>H) continue;
     const lit=clamp((v[0]*S[0]+v[1]*S[1]+v[2]*S[2])*1.4+0.25,0,1);
-    const val=Math.round(lerp(96,252,lit));
+    const val=Math.round(lerp(105,255,lit));
     const cg=ctx.createRadialGradient(sxp,syp,0,sxp,syp,rr);
-    cg.addColorStop(0,`rgba(${val},${val},${val-4},${0.34*dens*clamp(v[2]*2.2,0,1)})`);
-    cg.addColorStop(0.5,`rgba(${val-16},${val-14},${val-16},${0.16*dens})`);
-    cg.addColorStop(1,'rgba(200,200,200,0)');
+    cg.addColorStop(0,`rgba(${val},${val},${val-3},${(0.42*dens*clamp(v[2]*2.2,0,1)).toFixed(3)})`);
+    cg.addColorStop(0.55,`rgba(${val-18},${val-14},${val-18},${(0.18*dens).toFixed(3)})`);
+    cg.addColorStop(1,'rgba(220,230,240,0)');
     ctx.fillStyle=cg;
     ctx.save(); ctx.translate(sxp,syp); ctx.scale(1.5,0.72); ctx.translate(-sxp,-syp);
     ctx.beginPath(); ctx.arc(sxp,syp,rr,0,7); ctx.fill(); ctx.restore();
   }
 
-  const ux=S[0]/sMag, uy=S[1]/sMag, lin=clamp(sMag,0,1);
+  // ── 6. Day/Night Cosine Terminator ────────────────────────────
   const lg=ctx.createLinearGradient(cx+ux*R,cy-uy*R,cx-ux*R,cy+uy*R);
-  lg.addColorStop(0,'rgba(3,7,14,0)');
-  lg.addColorStop(0.44,`rgba(3,7,14,${0.02*lin})`);
-  lg.addColorStop(0.6,`rgba(3,7,14,${0.3*lin})`);
-  lg.addColorStop(0.78,`rgba(3,7,14,${0.64*lin})`);
-  lg.addColorStop(1,`rgba(2,5,10,${0.86*lin})`);
+  lg.addColorStop(0,'rgba(2,5,10,0)');
+  lg.addColorStop(0.46,`rgba(2,5,10,${(0.04*lin).toFixed(3)})`);
+  lg.addColorStop(0.62,`rgba(2,5,10,${(0.35*lin).toFixed(3)})`);
+  lg.addColorStop(0.78,`rgba(2,5,10,${(0.70*lin).toFixed(3)})`);
+  lg.addColorStop(1,`rgba(1,3,7,${(0.92*lin).toFixed(3)})`);
   ctx.fillStyle=lg; ctx.fillRect(cx-R,cy-R,R*2,R*2);
-  const rg=ctx.createRadialGradient(cx,cy,R*0.25,cx,cy,R);
-  rg.addColorStop(0,'rgba(3,7,14,0)');
-  rg.addColorStop(1,`rgba(3,7,14,${0.16+0.26*Math.abs(S[2])})`);
+
+  // Night limb falloff
+  const rg=ctx.createRadialGradient(cx,cy,R*0.35,cx,cy,R);
+  rg.addColorStop(0,'rgba(2,5,10,0)');
+  rg.addColorStop(1,`rgba(2,5,10,${(0.18+0.24*Math.abs(S[2])).toFixed(3)})`);
   ctx.fillStyle=rg; ctx.fillRect(cx-R,cy-R,R*2,R*2);
+
+  // Sunlight bloom wash over day hemisphere
+  if(S[2]>0){
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    const wg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.95);
+    wg.addColorStop(0,'rgba(255,238,198,0.18)');
+    wg.addColorStop(1,'rgba(255,238,198,0)');
+    ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.95,0,7); ctx.fill();
+    ctx.restore();
+  }
+
+  // ── 7. "Thin Blue Line" Electric Atmospheric Rim ──────────────
   ctx.save(); ctx.globalCompositeOperation='lighter';
-  const wg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.95);
-  wg.addColorStop(0,'rgba(255,230,184,0.16)'); wg.addColorStop(1,'rgba(255,230,184,0)');
-  ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.95,0,7); ctx.fill();
-  ctx.restore();
-  ctx.restore();
-
-  ctx.save();
-  ctx.beginPath(); ctx.arc(cx,cy,R*1.01,0,7);
-  ctx.strokeStyle='rgba(150,200,226,0.20)'; ctx.lineWidth=Math.max(1,R*0.012); ctx.stroke();
-  ctx.globalCompositeOperation='lighter';
-  const rim=ctx.createRadialGradient(cx+ux*R*0.75,cy-uy*R*0.75,R*0.5,cx+ux*R*0.75,cy-uy*R*0.75,R*1.35);
-  rim.addColorStop(0,'rgba(0,0,0,0)'); rim.addColorStop(0.62,'rgba(146,198,230,0.16)');
-  rim.addColorStop(1,'rgba(146,198,230,0)');
-  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.35,0,7); ctx.fill();
+  const rim=ctx.createRadialGradient(cx,cy,R*0.92,cx,cy,R*1.01);
+  rim.addColorStop(0,'rgba(80,180,240,0)');
+  rim.addColorStop(0.65,'rgba(100,205,255,0.22)');
+  rim.addColorStop(1,'rgba(140,225,255,0.48)');
+  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.01,0,7); ctx.fill();
   ctx.restore();
 
-  const arcA=seg(p,0.960,0.968,0.978,0.986);
+  ctx.restore(); // End of clipped Earth disc
+
+  // ── 8. Elevated Great-Circle Flight Trajectory (Bristol ↔ Mumbai)
+  const arcA=seg(p,0.908,0.916,0.985,0.994);
   if(arcA>0.02){
-    const A=[51.4584,-2.6030], B=[19.0728,72.8711];
-    const va=[Math.cos(A[0]*RAD)*Math.cos(A[1]*RAD),Math.cos(A[0]*RAD)*Math.sin(A[1]*RAD),Math.sin(A[0]*RAD)];
-    const vb=[Math.cos(B[0]*RAD)*Math.cos(B[1]*RAD),Math.cos(B[0]*RAD)*Math.sin(B[1]*RAD),Math.sin(B[0]*RAD)];
-    const dot=clamp(va[0]*vb[0]+va[1]*vb[1]+va[2]*vb[2],-1,1), om=Math.acos(dot);
-    ctx.save(); ctx.globalAlpha=arcA; ctx.beginPath();
+    const A=[51.4584,-2.6030], B=[19.0728,72.8711]; // Bristol to Mumbai
+    const va=toCart(A[1],A[0]), vb=toCart(B[1],B[0]);
+    const dot=clamp(va[0]*vb[0]+va[1]*vb[1]+va[2]*vb[2],-1,1);
+    const om=Math.acos(dot);
+
+    // Dynamic trajectory growth from Bristol to Mumbai during camera flight
+    const arcProgress=smooth(clamp((p-0.912)/0.038,0,1));
+    const arcSteps=Math.max(4,Math.round(80*arcProgress));
+
+    // Dual-pass glowing great-circle arc
+    ctx.save();
+    ctx.globalAlpha=arcA;
+
+    // Outer cyan bloom
+    ctx.beginPath();
     let started=false;
-    for(let i=0;i<=80;i++){
-      const t=i/80, s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
+    for(let i=0;i<=arcSteps;i++){
+      const t=(i/80);
+      const s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
       const v=[va[0]*s1+vb[0]*s2,va[1]*s1+vb[1]*s2,va[2]*s1+vb[2]*s2];
       const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
       const o=orth(lon,lat,k.lon,k.lat);
-      if(o[2]<=0){ started=false; continue; }
-      const lift=1+0.05*Math.sin(t*Math.PI);
+      if(o[2]<=-0.04){ started=false; continue; }
+      const lift=1.0+0.09*Math.sin(t*Math.PI);
       const sxp=cx+o[0]*R*lift, syp=cy-o[1]*R*lift;
       started?ctx.lineTo(sxp,syp):ctx.moveTo(sxp,syp); started=true;
     }
-    ctx.strokeStyle='rgba(228,216,182,0.72)'; ctx.lineWidth=Math.max(1,R*0.005); ctx.stroke();
+    ctx.strokeStyle='rgba(80,215,245,0.36)'; ctx.lineWidth=Math.max(2.5,R*0.010); ctx.stroke();
+
+    // Inner bright ivory-gold beam
+    ctx.strokeStyle='rgba(255,245,215,0.92)'; ctx.lineWidth=Math.max(1.2,R*0.0035); ctx.stroke();
+
+    // Traveling incandescent photon pulses along the flight beam
+    if(arcProgress>0.05){
+      for(let pkt=0;pkt<2;pkt++){
+        const u=((T*0.0013+pkt*0.5)%1.0)*arcProgress;
+        const s1=Math.sin((1-u)*om)/Math.sin(om), s2=Math.sin(u*om)/Math.sin(om);
+        const v=[va[0]*s1+vb[0]*s2,va[1]*s1+vb[1]*s2,va[2]*s1+vb[2]*s2];
+        const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
+        const o=orth(lon,lat,k.lon,k.lat);
+        if(o[2]>0){
+          const lift=1.0+0.09*Math.sin(u*Math.PI);
+          const px=cx+o[0]*R*lift, py=cy-o[1]*R*lift;
+          const pg=ctx.createRadialGradient(px,py,0,px,py,Math.max(5,R*0.022));
+          pg.addColorStop(0,'rgba(255,255,255,0.98)');
+          pg.addColorStop(0.35,'rgba(255,230,140,0.75)');
+          pg.addColorStop(1,'rgba(80,215,245,0)');
+          ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(px,py,Math.max(5,R*0.022),0,7); ctx.fill();
+        }
+      }
+    }
+
+    // Pulsing radar beacon rings at Bristol and Mumbai
+    [[A,'#90E4F8',0],[B,'#FFD782',0.5]].forEach(([coords,color,phase])=>{
+      const o=orth(coords[1],coords[0],k.lon,k.lat);
+      if(o[2]>0.02){
+        const px=cx+o[0]*R, py=cy-o[1]*R;
+        const ringProg=(T*0.0016+phase)%1.0;
+        const ringR=Math.max(4,R*0.015)+ringProg*Math.max(14,R*0.055);
+        ctx.strokeStyle=color;
+        ctx.globalAlpha=arcA*(1-ringProg)*0.65;
+        ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.arc(px,py,ringR,0,7); ctx.stroke();
+      }
+    });
+
     ctx.restore();
   }
-  ctx.restore();
 
-  const fl=ctx.createLinearGradient(0,H*0.54,0,H);
-  fl.addColorStop(0,'rgba(2,5,8,0)'); fl.addColorStop(1,'rgba(2,5,8,0.80)');
-  ctx.fillStyle=fl; ctx.fillRect(0,H*0.54,W,H*0.46);
+  ctx.restore(); // End of camera rotation transform
 
-  ctx.font=`500 ${Math.max(10,Math.round(H*0.0155))}px Archivo, system-ui, sans-serif`;
+  // ── 9. Vignette Floor Gradient into Content ───────────────────
+  const fl=ctx.createLinearGradient(0,H*0.56,0,H);
+  fl.addColorStop(0,'rgba(2,5,8,0)');
+  fl.addColorStop(1,'rgba(2,5,8,0.85)');
+  ctx.fillStyle=fl; ctx.fillRect(0,H*0.56,W,H*0.44);
+
+  // ── 10. High-Contrast Interactive Anchor Pins & Labels ─────────
+  const currentCode=(typeof currentLang!=='undefined'?currentLang:'en');
+  const labelFontFamily=currentCode==='mr'?'"Noto Sans Devanagari",system-ui,sans-serif':currentCode==='hi'?'"Noto Sans Devanagari",system-ui,sans-serif':'Archivo,system-ui,sans-serif';
+  ctx.font=`600 ${Math.max(11,Math.round(H*0.0165))}px ${labelFontFamily}`;
   ctx.textBaseline='middle';
+
   for(const an of ANCHORS){
     const a=seg(p,an.a[0],an.a[1],an.a[2],an.a[3]);
     if(a<0.03) continue;
@@ -2876,15 +3185,43 @@ function drawEarth(ctx,W,H,p,T,q){
     if(o[2]<=0.02) continue;
     const rr=k.roll*RAD, ox=o[0]*R, oy=-o[1]*R;
     const sxp=cx+ox*Math.cos(rr)-oy*Math.sin(rr), syp=cy+ox*Math.sin(rr)+oy*Math.cos(rr);
-    ctx.save(); ctx.globalAlpha=a*clamp(o[2]*3.2,0,1);
-    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(2.2,R*0.008),0,7); ctx.fillStyle='#F0E8CE'; ctx.fill();
-    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(5,R*0.02),0,7);
-    ctx.strokeStyle='rgba(240,232,206,0.5)'; ctx.lineWidth=1; ctx.stroke();
-    const lx=sxp+Math.max(10,R*0.03), ly=syp-Math.max(10,R*0.03);
-    ctx.beginPath(); ctx.moveTo(sxp+3,syp-3); ctx.lineTo(lx,ly);
-    ctx.strokeStyle='rgba(240,232,206,0.35)'; ctx.stroke();
-    ctx.fillStyle='rgba(244,240,228,0.94)'; ctx.textAlign='left';
-    ctx.fillText(an.k,lx+5,ly-1);
+
+    ctx.save();
+    ctx.globalAlpha=a*clamp(o[2]*3.2,0,1);
+
+    // Glowing target center pin
+    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(3.0,R*0.009),0,7);
+    ctx.fillStyle='#F7F3E6'; ctx.fill();
+
+    // Concentric target ring
+    ctx.beginPath(); ctx.arc(sxp,syp,Math.max(6.5,R*0.022),0,7);
+    ctx.strokeStyle='rgba(247,243,230,0.55)'; ctx.lineWidth=1.2; ctx.stroke();
+
+    // Lead line to badge label
+    const lx=sxp+Math.max(14,R*0.036), ly=syp-Math.max(12,R*0.032);
+    ctx.beginPath(); ctx.moveTo(sxp+4,syp-4); ctx.lineTo(lx,ly);
+    ctx.strokeStyle='rgba(247,243,230,0.40)'; ctx.lineWidth=1; ctx.stroke();
+
+    // Language-aware label text
+    const labelText = (an.label && an.label[currentCode]) ? an.label[currentCode] : an.k;
+    const tw = ctx.measureText(labelText).width;
+
+    // Dark translucent backdrop pill for readability
+    ctx.fillStyle='rgba(6,12,16,0.78)';
+    ctx.strokeStyle='rgba(247,243,230,0.22)';
+    ctx.lineWidth=0.8;
+    const padX=7, padY=4;
+    const pillH=Math.max(18,Math.round(H*0.024));
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(lx+2,ly-pillH*0.5,tw+padX*2,pillH,3);
+    else ctx.rect(lx+2,ly-pillH*0.5,tw+padX*2,pillH);
+    ctx.fill(); ctx.stroke();
+
+    // Crisp text fill
+    ctx.fillStyle='#F8F5EC';
+    ctx.textAlign='left';
+    ctx.fillText(labelText,lx+2+padX,ly);
+
     ctx.restore();
   }
 }
