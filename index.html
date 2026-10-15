@@ -151,6 +151,203 @@ body.arc #progress{display:none}
 .partners div strong{display:block; font-family:var(--ui); font-size:14px; font-weight:600; color:#F0EEE6; letter-spacing:.01em}
 .partners div span{font-family:var(--ui); font-size:11.5px; color:#9FAEA8; letter-spacing:.04em}
 
+/* ── Partner Film Slide & Card Grid ──────────────────────── */
+.partners-film-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:1.2em;
+  text-align:left;
+  max-width:540px;
+}
+.partner-film-item{
+  background:rgba(10,18,16,0.76);
+  border:1px solid rgba(143,183,198,0.24);
+  border-radius:6px;
+  padding:12px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  backdrop-filter:blur(8px);
+  transition:border-color 0.2s, background 0.2s;
+}
+.partner-film-item:hover{
+  background:rgba(16,26,24,0.92);
+  border-color:rgba(143,183,198,0.5);
+}
+.partner-film-logo-wrap{
+  height:34px;
+  display:flex;
+  align-items:center;
+  margin-bottom:3px;
+}
+.partner-film-logo{
+  max-height:30px;
+  max-width:140px;
+  object-fit:contain;
+  filter:brightness(1.08) contrast(1.02);
+}
+.partner-film-tag{
+  font-family:var(--ui);
+  font-size:9px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--signal);
+}
+.partner-film-item strong{
+  font-family:var(--ui);
+  font-size:13.5px;
+  font-weight:600;
+  color:#F2EFE9;
+  line-height:1.24;
+}
+.partner-film-loc{
+  font-family:var(--ui);
+  font-size:11px;
+  color:#9FAEA8;
+  letter-spacing:0.02em;
+}
+
+/* ── Dedicated Partners Section ──────────────────────────── */
+.partner-official-banner{
+  background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  padding:18px 24px;
+  margin-bottom:2.4em;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 30px rgba(0,0,0,0.35);
+}
+.partner-official-banner img{
+  max-width:100%;
+  height:auto;
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+  display:block;
+}
+.partner-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+  margin-bottom:2.6em;
+}
+.partner-card{
+  background:rgba(12,18,17,0.75);
+  border:1px solid rgba(255,255,255,0.11);
+  border-radius:8px;
+  padding:22px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  backdrop-filter:blur(10px);
+  position:relative;
+  transition:transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.partner-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(143,183,198,0.42);
+  box-shadow:0 12px 32px rgba(0,0,0,0.4);
+}
+.partner-card-header{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.partner-card-logo-box{
+  height:54px;
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:6px;
+  padding:8px 14px;
+}
+.partner-card-logo{
+  max-height:42px;
+  max-width:100%;
+  object-fit:contain;
+}
+.partner-tag{
+  display:inline-block;
+  align-self:flex-start;
+  font-family:var(--ui);
+  font-size:9.5px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:3px 8px;
+  border-radius:3px;
+  background:rgba(239,237,228,0.08);
+  border:1px solid rgba(239,237,228,0.22);
+  color:#EFEDE4;
+}
+.partner-tag.lead{
+  background:rgba(230,165,70,0.14);
+  border-color:rgba(230,165,70,0.45);
+  color:var(--signal);
+}
+.partner-card-name{
+  font-family:var(--ui);
+  font-size:16.5px;
+  font-weight:700;
+  color:#FAF8F2;
+  margin:0;
+  line-height:1.25;
+}
+.partner-card-sub{
+  font-family:var(--ui);
+  font-size:12px;
+  color:#9FAEA8;
+  margin:4px 0 0;
+}
+.partner-coords{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--ui);
+  font-size:11px;
+  color:#82928C;
+  letter-spacing:0.04em;
+}
+.partner-coords svg{
+  width:12px;
+  height:12px;
+  fill:currentColor;
+  opacity:0.75;
+}
+.partner-desc{
+  font-family:var(--ui);
+  font-size:13px;
+  line-height:1.55;
+  color:#C6D2CC;
+  margin:0;
+  flex-grow:1;
+}
+.partner-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--ui);
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--signal);
+  text-decoration:none;
+  margin-top:4px;
+  transition:color 0.2s ease, gap 0.2s ease;
+}
+.partner-link:hover{
+  color:#FAF8F2;
+  gap:9px;
+}
+@media (max-width:640px){
+  .partners-film-grid{grid-template-columns:1fr; gap:8px}
+  .partner-grid{grid-template-columns:1fr}
+}
+
 /* ── scroll cue ────────────────────────────────────────────── */
 #cue{
   position:fixed; z-index:20; left:50%; bottom:calc(env(safe-area-inset-bottom, 0px) + 26px); transform:translateX(-50%);
@@ -434,6 +631,25 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   <div class="wrap">
     <p class="note" id="scopeNote"></p>
   </div>
+  <div class="wrap" id="partnersSection" style="margin-top:clamp(48px,7vw,96px);padding-top:clamp(40px,5vw,72px);border-top:1px solid var(--line);">
+    <div class="partners-header">
+      <p class="eyebrow" id="partnersEyebrow">Partners & Governance</p>
+      <h2 class="sect" id="partnersTitle" style="font-size:clamp(24px,3.2vw,38px);margin-bottom:.5em">The Bilateral Partnership</h2>
+      <p class="lede" id="partnersLede" style="max-width:76ch;margin-bottom:2.2em">
+        COOL CRYMB operates through an international collaboration connecting higher education, scientific research, and global sustainability leadership across the United Kingdom and India.
+      </p>
+    </div>
+
+    <!-- Official Verified Banner -->
+    <div class="partner-official-banner">
+      <img src="assets/logos/partner-banner-verified.png" alt="Official CCL Partner Lockup: British Council, HSBC, University of Bristol, University of Mumbai" />
+    </div>
+
+    <!-- 4 Interactive Institutional Cards Grid -->
+    <div class="partner-grid" id="partnerCards">
+      <!-- Dynamically populated and language-reactive -->
+    </div>
+  </div>
   <footer>
     <div class="wrap">
       <div id="footText"></div>
@@ -577,12 +793,32 @@ const TEXT_FACT_DATA={
     '<p style="margin-top:1em"><b style="color:#EFEDE4">03 · Act and share</b><br>Teams build a Green Project, write an action plan and carry evidence back into the public archive.</p>'+ 
     '<div class="chips"><span>Climate resilience</span><span>Green skills</span><span>Solid waste</span><span>Community action</span></div>'+ 
     '</div>',
-   '<p class="micro" style="margin-bottom:1.2em">The collaboration</p>'+ 
-    '<div class="partners">'+
-     '<div><strong>University of Mumbai</strong><span>Lead host · CCCSS, Kalina campus</span></div>'+ 
-     '<div><strong>University of Bristol</strong><span>International research partner</span></div>'+ 
-     '<div><strong>British Council</strong><span>Programme support</span></div>'+ 
-     '<div><strong>HSBC</strong><span>Programme support</span></div>'+ 
+   '<p class="micro" style="margin-bottom:1.1em">The Bilateral Partnership</p>'+
+    '<div class="partners-film-grid">'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=\'assets/logos/british-council.png\'"/></div>'+
+      '<span class="partner-film-tag">Programme Organisation</span>'+
+      '<strong>British Council</strong>'+
+      '<span class="partner-film-loc">London, UK</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=\'assets/logos/hsbc.png\'"/></div>'+
+      '<span class="partner-film-tag">Programme Partner</span>'+
+      '<strong>HSBC</strong>'+
+      '<span class="partner-film-loc">London, UK</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=\'assets/logos/university-of-bristol.png\'"/></div>'+
+      '<span class="partner-film-tag">Implementing Institution</span>'+
+      '<strong>University of Bristol</strong>'+
+      '<span class="partner-film-loc">Bristol, UK</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=\'assets/logos/university-of-mumbai.png\'"/></div>'+
+      '<span class="partner-film-tag">Implementing Institution</span>'+
+      '<strong>University of Mumbai</strong>'+
+      '<span class="partner-film-loc">Mumbai, India</span>'+
+     '</div>'+
     '</div>',
    '<p>The need is local.</p>',
    '<p>The response is shared.</p>',
@@ -601,12 +837,32 @@ const TEXT_FACT_DATA={
     '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कृती आणि वाटणी</b><br>Green Project, action plan आणि सार्वजनिक पुरावा तयार करणे.</p>'+ 
     '<div class="chips"><span>हवामान</span><span>हरित कौशल्ये</span><span>घनकचरा</span><span>समुदाय कृती</span></div>'+ 
     '</div>',
-   '<p class="micro" style="margin-bottom:1.2em">सहकार्य</p>'+ 
-    '<div class="partners">'+
-     '<div><strong>मुंबई विद्यापीठ</strong><span>मुख्य यजमान · CCCSS</span></div>'+ 
-     '<div><strong>ब्रिस्टल विद्यापीठ</strong><span>आंतरराष्ट्रीय भागीदार</span></div>'+ 
-     '<div><strong>ब्रिटिश कौन्सिल</strong><span>कार्यक्रम सहाय्य</span></div>'+ 
-     '<div><strong>HSBC</strong><span>कार्यक्रम सहाय्य</span></div>'+ 
+   '<p class="micro" style="margin-bottom:1.1em">द्विपक्षीय सहकार्य (The Partnership)</p>'+
+    '<div class="partners-film-grid">'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यक्रम संस्था</span>'+
+      '<strong>ब्रिटिश कौन्सिल</strong>'+
+      '<span class="partner-film-loc">लंडन, युनायटेड किंगडम</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यक्रम भागीदार</span>'+
+      '<strong>HSBC</strong>'+
+      '<span class="partner-film-loc">लंडन, युनायटेड किंगडम</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '<strong>ब्रिस्टल विद्यापीठ</strong>'+
+      '<span class="partner-film-loc">ब्रिस्टल, युके</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">अंमलबजावणी संस्था</span>'+
+      '<strong>मुंबई विद्यापीठ</strong>'+
+      '<span class="partner-film-loc">मुंबई, भारत</span>'+
+     '</div>'+
     '</div>',
    '<p>गरज स्थानिक आहे.</p>',
    '<p>उपाय सामायिक आहे.</p>',
@@ -625,12 +881,32 @@ const TEXT_FACT_DATA={
     '<p style="margin-top:1em"><b style="color:#EFEDE4">०३ · कार्रवाई और साझा करना</b><br>Green Project, action plan और सार्वजनिक प्रमाण तैयार करना।</p>'+ 
     '<div class="chips"><span>जलवायु</span><span>हरित कौशल</span><span>ठोस कचरा</span><span>सामुदायिक कार्रवाई</span></div>'+ 
     '</div>',
-   '<p class="micro" style="margin-bottom:1.2em">साझेदारी</p>'+ 
-    '<div class="partners">'+
-     '<div><strong>मुंबई विश्वविद्यालय</strong><span>मुख्य मेजबान · CCCSS</span></div>'+ 
-     '<div><strong>ब्रिस्टल विश्वविद्यालय</strong><span>अंतरराष्ट्रीय भागीदार</span></div>'+ 
-     '<div><strong>ब्रिटिश काउंसिल</strong><span>कार्यक्रम सहयोग</span></div>'+ 
-     '<div><strong>HSBC</strong><span>कार्यक्रम सहयोग</span></div>'+ 
+   '<p class="micro" style="margin-bottom:1.1em">द्विपक्षीय साझेदारी (The Partnership)</p>'+
+    '<div class="partners-film-grid">'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/british-council.svg" alt="British Council" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यक्रम संगठन</span>'+
+      '<strong>ब्रिटिश काउंसिल</strong>'+
+      '<span class="partner-film-loc">लंदन, यूनाइटेड किंगडम</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/hsbc.svg" alt="HSBC" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यक्रम साझेदार</span>'+
+      '<strong>HSBC</strong>'+
+      '<span class="partner-film-loc">लंदन, यूनाइटेड किंगडम</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-bristol.svg" alt="University of Bristol" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '<strong>ब्रिस्टल विश्वविद्यालय</strong>'+
+      '<span class="partner-film-loc">ब्रिस्टल, यूके</span>'+
+     '</div>'+
+     '<div class="partner-film-item">'+
+      '<div class="partner-film-logo-wrap"><img src="assets/logos/university-of-mumbai.svg" alt="University of Mumbai" class="partner-film-logo" onerror="this.src=&apos;&apos;"/></div>'+
+      '<span class="partner-film-tag">कार्यान्वयन संस्थान</span>'+
+      '<strong>मुंबई विश्वविद्यालय</strong>'+
+      '<span class="partner-film-loc">मुंबई, भारत</span>'+
+     '</div>'+
     '</div>',
    '<p>ज़रूरत स्थानीय है।</p>',
    '<p>प्रतिक्रिया साझा है।</p>',
@@ -2623,7 +2899,8 @@ function sampleEarth(p,T){
 }
 
 let ANCHORS=[
-  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.926,0.934],kind:'city',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (Bristol) · ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल (Bristol) · ब्रिस्टल विश्वविद्यालय'}},
+  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.928,0.936],kind:'city',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (Bristol) · ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल (Bristol) · ब्रिस्टल विश्वविद्यालय'}},
+  {k:'London',lat:51.5074,lon:-0.1278,a:[0.902,0.910,0.928,0.936],kind:'city',label:{en:'London · British Council & HSBC',mr:'लंडन · ब्रिटिश कौन्सिल आणि HSBC',hi:'लंदन · ब्रिटिश काउंसिल एवं HSBC'}},
   {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.942,0.950,0.968,0.976],kind:'city',label:{en:'Mumbai · University of Mumbai',mr:'मुंबई (Mumbai) · मुंबई विद्यापीठ',hi:'मुंबई (Mumbai) · मुंबई विश्वविद्यालय'}},
   {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.970,0.986,0.994],kind:'region',label:{en:'Maharashtra Coastal Living Lab',mr:'महाराष्ट्र किनारपट्टी कार्यक्षेत्र',hi:'महाराष्ट्र तटीय कार्यक्षेत्र'}}
 ];
@@ -3092,70 +3369,98 @@ function drawEarth(ctx,W,H,p,T,q){
 
   ctx.restore(); // End of clipped Earth disc
 
-  // ── 8. Elevated Great-Circle Flight Trajectory (Bristol ↔ Mumbai)
+  // ── 8. Bilateral Collaboration Network (UK ↔ India) ──────────
   const arcA=seg(p,0.908,0.916,0.985,0.994);
   if(arcA>0.02){
-    const A=[51.4584,-2.6030], B=[19.0728,72.8711]; // Bristol to Mumbai
-    const va=toCart(A[1],A[0]), vb=toCart(B[1],B[0]);
-    const dot=clamp(va[0]*vb[0]+va[1]*vb[1]+va[2]*vb[2],-1,1);
-    const om=Math.acos(dot);
-
-    // Dynamic trajectory growth from Bristol to Mumbai during camera flight
-    const arcProgress=smooth(clamp((p-0.912)/0.038,0,1));
-    const arcSteps=Math.max(4,Math.round(80*arcProgress));
-
-    // Dual-pass glowing great-circle arc
     ctx.save();
     ctx.globalAlpha=arcA;
 
-    // Outer cyan bloom
-    ctx.beginPath();
-    let started=false;
-    for(let i=0;i<=arcSteps;i++){
-      const t=(i/80);
-      const s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
-      const v=[va[0]*s1+vb[0]*s2,va[1]*s1+vb[1]*s2,va[2]*s1+vb[2]*s2];
-      const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
-      const o=orth(lon,lat,k.lon,k.lat);
-      if(o[2]<=-0.04){ started=false; continue; }
-      const lift=1.0+0.09*Math.sin(t*Math.PI);
-      const sxp=cx+o[0]*R*lift, syp=cy-o[1]*R*lift;
-      started?ctx.lineTo(sxp,syp):ctx.moveTo(sxp,syp); started=true;
-    }
-    ctx.strokeStyle='rgba(80,215,245,0.36)'; ctx.lineWidth=Math.max(2.5,R*0.010); ctx.stroke();
+    const BRISTOL = [51.4584, -2.6030]; // Univ. of Bristol (Implementing Institution)
+    const LONDON  = [51.5074, -0.1278]; // British Council & HSBC (Programme Partners)
+    const MUMBAI  = [19.0728, 72.8711]; // Univ. of Mumbai, CCCSS (Implementing Institution)
+    const PALGHAR = [19.6967, 72.7699]; // Maharashtra Coastal Living Lab Field District
 
-    // Inner bright ivory-gold beam
-    ctx.strokeStyle='rgba(255,245,215,0.92)'; ctx.lineWidth=Math.max(1.2,R*0.0035); ctx.stroke();
+    // Helper to render high-contrast great-circle arcs with elevation, glow and photons
+    function renderArc(P1, P2, glowCol, coreCol, progress, liftScale, numPhotons, photonCol, photonPhase){
+      const v1=toCart(P1[1],P1[0]), v2=toCart(P2[1],P2[0]);
+      const dot=clamp(v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2],-1,1);
+      const om=Math.acos(dot);
+      if(om<0.005) return;
+      const steps=Math.max(4,Math.round(80*progress));
 
-    // Traveling incandescent photon pulses along the flight beam
-    if(arcProgress>0.05){
-      for(let pkt=0;pkt<2;pkt++){
-        const u=((T*0.0013+pkt*0.5)%1.0)*arcProgress;
-        const s1=Math.sin((1-u)*om)/Math.sin(om), s2=Math.sin(u*om)/Math.sin(om);
-        const v=[va[0]*s1+vb[0]*s2,va[1]*s1+vb[1]*s2,va[2]*s1+vb[2]*s2];
+      // Outer diffuse atmospheric glow
+      ctx.beginPath();
+      let started=false;
+      for(let i=0;i<=steps;i++){
+        const t=(i/80);
+        const s1=Math.sin((1-t)*om)/Math.sin(om), s2=Math.sin(t*om)/Math.sin(om);
+        const v=[v1[0]*s1+v2[0]*s2,v1[1]*s1+v2[1]*s2,v1[2]*s1+v2[2]*s2];
         const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
         const o=orth(lon,lat,k.lon,k.lat);
-        if(o[2]>0){
-          const lift=1.0+0.09*Math.sin(u*Math.PI);
-          const px=cx+o[0]*R*lift, py=cy-o[1]*R*lift;
-          const pg=ctx.createRadialGradient(px,py,0,px,py,Math.max(5,R*0.022));
-          pg.addColorStop(0,'rgba(255,255,255,0.98)');
-          pg.addColorStop(0.35,'rgba(255,230,140,0.75)');
-          pg.addColorStop(1,'rgba(80,215,245,0)');
-          ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(px,py,Math.max(5,R*0.022),0,7); ctx.fill();
+        if(o[2]<=-0.04){ started=false; continue; }
+        const lift=1.0+(liftScale||0.08)*Math.sin(t*Math.PI);
+        const sxp=cx+o[0]*R*lift, syp=cy-o[1]*R*lift;
+        started?ctx.lineTo(sxp,syp):ctx.moveTo(sxp,syp); started=true;
+      }
+      ctx.strokeStyle=glowCol; ctx.lineWidth=Math.max(2.6,R*0.010); ctx.stroke();
+
+      // Inner incandescent core beam
+      ctx.strokeStyle=coreCol; ctx.lineWidth=Math.max(1.2,R*0.0035); ctx.stroke();
+
+      // Traveling incandescent photon pulses along trajectory
+      if(progress>0.05 && numPhotons>0){
+        for(let pkt=0;pkt<numPhotons;pkt++){
+          const u=((T*0.0013+(photonPhase||0)+pkt*(1/numPhotons))%1.0)*progress;
+          const s1=Math.sin((1-u)*om)/Math.sin(om), s2=Math.sin(u*om)/Math.sin(om);
+          const v=[v1[0]*s1+v2[0]*s2,v1[1]*s1+v2[1]*s2,v1[2]*s1+v2[2]*s2];
+          const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
+          const o=orth(lon,lat,k.lon,k.lat);
+          if(o[2]>0){
+            const lift=1.0+(liftScale||0.08)*Math.sin(u*Math.PI);
+            const px=cx+o[0]*R*lift, py=cy-o[1]*R*lift;
+            const pr=Math.max(5,R*0.022);
+            const pg=ctx.createRadialGradient(px,py,0,px,py,pr);
+            pg.addColorStop(0,'rgba(255,255,255,0.98)');
+            pg.addColorStop(0.35,photonCol||'rgba(255,230,140,0.75)');
+            pg.addColorStop(1,'rgba(80,215,245,0)');
+            ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(px,py,pr,0,7); ctx.fill();
+          }
         }
       }
     }
 
-    // Pulsing radar beacon rings at Bristol and Mumbai
-    [[A,'#90E4F8',0],[B,'#FFD782',0.5]].forEach(([coords,color,phase])=>{
+    // Dynamic trajectory growth during transcontinental camera swoop
+    const arcProgress=smooth(clamp((p-0.912)/0.038,0,1));
+
+    // 1. UK Inland Cluster Link (Bristol ↔ London)
+    renderArc(BRISTOL, LONDON, 'rgba(120,200,255,0.30)', 'rgba(230,245,255,0.85)', 1.0, 0.02, 1, 'rgba(180,220,255,0.7)', 0.1);
+
+    // 2. Academic & Climate Science Arc: Bristol (Univ. of Bristol) ↔ Mumbai (Univ. of Mumbai)
+    renderArc(BRISTOL, MUMBAI, 'rgba(80,215,245,0.40)', 'rgba(240,252,255,0.95)', arcProgress, 0.09, 2, 'rgba(90,225,255,0.8)', 0.0);
+
+    // 3. Programme & Green Skills Arc: London (British Council + HSBC) ↔ Mumbai (Univ. of Mumbai)
+    renderArc(LONDON, MUMBAI, 'rgba(255,195,75,0.38)', 'rgba(255,248,220,0.95)', arcProgress, 0.115, 2, 'rgba(255,220,110,0.8)', 0.5);
+
+    // 4. Maharashtra Coastal Field Link: Mumbai ↔ Palghar (Living Lab Field Deployments)
+    if(p>0.948){
+      const fieldProg=clamp((p-0.948)/0.022,0,1);
+      renderArc(MUMBAI, PALGHAR, 'rgba(80,230,170,0.42)', 'rgba(220,255,235,0.90)', fieldProg, 0.025, 1, 'rgba(100,240,180,0.75)', 0.25);
+    }
+
+    // 5. Pulsing radar beacon rings at all 4 partner nodes
+    [
+      [BRISTOL, '#90E4F8', 0.0],   // Bristol (Cabot / UoB)
+      [LONDON,  '#FFD782', 0.25],  // London (British Council / HSBC)
+      [MUMBAI,  '#7EE7C7', 0.50],  // Mumbai (CCCSS / UoM)
+      [PALGHAR, '#F5BE6B', 0.75]   // Palghar (Field District)
+    ].forEach(([coords,color,phase])=>{
       const o=orth(coords[1],coords[0],k.lon,k.lat);
       if(o[2]>0.02){
         const px=cx+o[0]*R, py=cy-o[1]*R;
         const ringProg=(T*0.0016+phase)%1.0;
-        const ringR=Math.max(4,R*0.015)+ringProg*Math.max(14,R*0.055);
+        const ringR=Math.max(4,R*0.015)+ringProg*Math.max(16,R*0.058);
         ctx.strokeStyle=color;
-        ctx.globalAlpha=arcA*(1-ringProg)*0.65;
+        ctx.globalAlpha=arcA*(1-ringProg)*0.68;
         ctx.lineWidth=1.4;
         ctx.beginPath(); ctx.arc(px,py,ringR,0,7); ctx.stroke();
       }
@@ -3197,30 +3502,42 @@ function drawEarth(ctx,W,H,p,T,q){
     ctx.beginPath(); ctx.arc(sxp,syp,Math.max(6.5,R*0.022),0,7);
     ctx.strokeStyle='rgba(247,243,230,0.55)'; ctx.lineWidth=1.2; ctx.stroke();
 
-    // Lead line to badge label
-    const lx=sxp+Math.max(14,R*0.036), ly=syp-Math.max(12,R*0.032);
-    ctx.beginPath(); ctx.moveTo(sxp+4,syp-4); ctx.lineTo(lx,ly);
-    ctx.strokeStyle='rgba(247,243,230,0.40)'; ctx.lineWidth=1; ctx.stroke();
+    // Smart non-overlapping lead lines for partner pins
+    const isLeft = (an.k === 'Bristol');
+    let lx, ly;
+    if(isLeft){
+      lx = sxp - Math.max(18, R*0.044);
+      ly = syp - Math.max(14, R*0.034);
+    } else if(an.k==='London'){
+      lx = sxp + Math.max(18, R*0.044);
+      ly = syp + Math.max(16, R*0.038);
+    } else {
+      lx = sxp + Math.max(14, R*0.036);
+      ly = syp - Math.max(12, R*0.032);
+    }
 
-    // Language-aware label text
+    ctx.beginPath();
+    ctx.moveTo(sxp + (isLeft ? -4 : 4), syp + (an.k==='London' ? 4 : -4));
+    ctx.lineTo(lx, ly);
+    ctx.strokeStyle='rgba(247,243,230,0.45)'; ctx.lineWidth=1; ctx.stroke();
+
     const labelText = (an.label && an.label[currentCode]) ? an.label[currentCode] : an.k;
     const tw = ctx.measureText(labelText).width;
-
-    // Dark translucent backdrop pill for readability
-    ctx.fillStyle='rgba(6,12,16,0.78)';
-    ctx.strokeStyle='rgba(247,243,230,0.22)';
-    ctx.lineWidth=0.8;
     const padX=7, padY=4;
     const pillH=Math.max(18,Math.round(H*0.024));
+    const boxX = isLeft ? (lx - tw - padX*2) : (lx + 2);
+
+    ctx.fillStyle='rgba(6,12,16,0.85)';
+    ctx.strokeStyle='rgba(247,243,230,0.26)';
+    ctx.lineWidth=0.8;
     ctx.beginPath();
-    if(ctx.roundRect) ctx.roundRect(lx+2,ly-pillH*0.5,tw+padX*2,pillH,3);
-    else ctx.rect(lx+2,ly-pillH*0.5,tw+padX*2,pillH);
+    if(ctx.roundRect) ctx.roundRect(boxX, ly-pillH*0.5, tw+padX*2, pillH, 3);
+    else ctx.rect(boxX, ly-pillH*0.5, tw+padX*2, pillH);
     ctx.fill(); ctx.stroke();
 
-    // Crisp text fill
     ctx.fillStyle='#F8F5EC';
     ctx.textAlign='left';
-    ctx.fillText(labelText,lx+2+padX,ly);
+    ctx.fillText(labelText, boxX + padX, ly);
 
     ctx.restore();
   }
@@ -3573,6 +3890,106 @@ const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
 })();
 
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+const PARTNERS_DATA = [
+  {
+    id: 'british-council',
+    tag: { en: 'Programme Organisation', mr: 'कार्यक्रम संस्था', hi: 'कार्यक्रम संगठन' },
+    isLead: false,
+    logoSvg: 'assets/logos/british-council.svg',
+    logoPng: 'assets/logos/british-council.png',
+    name: { en: 'British Council', mr: 'ब्रिटिश कौन्सिल', hi: 'ब्रिटिश काउंसिल' },
+    sub: { en: 'Going Global Partnerships · Climate Skills India', mr: 'गोइंग ग्लोबल पार्टनरशिप्स · क्लायमेट स्किल्स इंडिया', hi: 'गोइंग ग्लोबल पार्टनरशिप्स · क्लाइमेट स्किल्स इंडिया' },
+    coords: 'London, UK · 51.5138° N, 0.1283° W',
+    desc: {
+      en: 'The UK\'s international organisation for cultural relations and educational opportunities, fostering academic partnerships and youth green skills curricula between the UK and India.',
+      mr: 'युनायटेड किंगडमची आंतरराष्ट्रीय सांस्कृतिक व शैक्षणिक संस्था; ब्रिटन आणि भारत यांच्यातील Going Global Partnerships द्वारे युवा हरित कौशल्ये व हवामान शिक्षण सहकार्याला बळ देते.',
+      hi: 'यूनाइटेड किंगडम की अंतरराष्ट्रीय सांस्कृतिक और शैक्षिक संस्था; गोइंग ग्लोबल पार्टनरशिप के माध्यम से यूके और भारत के बीच हरित कौशल और जलवायु शिक्षा सहयोग को बढ़ावा।'
+    },
+    url: 'https://www.britishcouncil.in/',
+    linkText: { en: 'Visit British Council', mr: 'ब्रिटिश कौन्सिल वेबसाइट', hi: 'ब्रिटिश काउंसिल वेबसाइट' }
+  },
+  {
+    id: 'hsbc',
+    tag: { en: 'Programme Partner', mr: 'कार्यक्रम भागीदार', hi: 'कार्यक्रम साझेदार' },
+    isLead: false,
+    logoSvg: 'assets/logos/hsbc.svg',
+    logoPng: 'assets/logos/hsbc.png',
+    name: { en: 'HSBC', mr: 'HSBC', hi: 'HSBC' },
+    sub: { en: 'Global Climate & Sustainability Support', mr: 'जागतिक हवामान व शाश्वतता सहकार्य', hi: 'वैश्विक जलवायु एवं स्थिरता समर्थन' },
+    coords: 'London, UK · 51.5055° N, 0.0185° W',
+    desc: {
+      en: 'Global banking and financial services partner, supporting climate resilience, green-skills curricula, and community-level environmental action in developing metropolitan and rural areas.',
+      mr: 'जागतिक वित्तीय संस्था; हवामान कौशल्य विकास, युवा नेतृत्व आणि स्थानिक पर्यावरणीय प्रकल्पांसाठी रणनीतिक आर्थिक सहाय्य व कार्यक्रम भागीदारी पुरवते.',
+      hi: 'वैश्विक वित्तीय संस्था; जलवायु कौशल विकास, युवा नेतृत्व और स्थानीय पर्यावरणीय परियोजनाओं के लिए रणनीतिक वित्तीय सहायता और कार्यक्रम साझेदारी प्रदान करती है।'
+    },
+    url: 'https://www.hsbc.com/sustainability',
+    linkText: { en: 'Visit HSBC Sustainability', mr: 'HSBC सस्टेनेबिलिटी', hi: 'HSBC सस्टेनेबिलिटी' }
+  },
+  {
+    id: 'university-of-bristol',
+    tag: { en: 'Implementing Institution', mr: 'अंमलबजावणी संस्था', hi: 'कार्यान्वयन संस्थान' },
+    isLead: true,
+    logoSvg: 'assets/logos/university-of-bristol.svg',
+    logoPng: 'assets/logos/university-of-bristol.png',
+    name: { en: 'University of Bristol', mr: 'ब्रिस्टल विद्यापीठ', hi: 'ब्रिस्टल विश्वविद्यालय' },
+    sub: { en: 'Cabot Institute for the Environment', mr: 'कॅबॉट इन्स्टिट्यूट फॉर द एन्व्हायर्नमेंट', hi: 'कैबोट इंस्टीट्यूट फॉर द एनवायरनमेंट' },
+    coords: 'Bristol, UK · 51.4584° N, 2.6030° W',
+    desc: {
+      en: 'World-leading research institution co-directing academic climate science methodology, interdisciplinary curricula, and international living lab research architecture alongside the University of Mumbai.',
+      mr: 'जागतिक दर्जाचे अग्रगण्य संशोधन विद्यापीठ; कॅबॉट इन्स्टिट्यूट फॉर द एन्व्हायर्नमेंटमार्फत आंतरराष्ट्रीय हवामान विज्ञान, संशोधन पद्धती आणि अभ्यासक्रमाचे नेतृत्व.',
+      hi: 'विश्व-अग्रणी शोध विश्वविद्यालय; कैबोट इंस्टीट्यूट फॉर द एनवायरनमेंट के माध्यम से अंतरराष्ट्रीय जलवायु विज्ञान, अनुसंधान पद्धति और पाठ्यक्रम का नेतृत्व।'
+    },
+    url: 'https://www.bristol.ac.uk/cabot/',
+    linkText: { en: 'Cabot Institute', mr: 'कॅबॉट इन्स्टिट्यूट', hi: 'कैबोट इंस्टीट्यूट' }
+  },
+  {
+    id: 'university-of-mumbai',
+    tag: { en: 'Implementing Institution', mr: 'अंमलबजावणी संस्था', hi: 'कार्यान्वयन संस्थान' },
+    isLead: true,
+    logoSvg: 'assets/logos/university-of-mumbai.svg',
+    logoPng: 'assets/logos/university-of-mumbai.png',
+    name: { en: 'University of Mumbai', mr: 'मुंबई विद्यापीठ', hi: 'मुंबई विश्वविद्यालय' },
+    sub: { en: 'Centre for Climate Change & Sustainability Studies (CCCSS)', mr: 'सेंटर फॉर क्लायमेट चेंज अँड सस्टेनेबिलिटी स्टडीज', hi: 'सेंटर फॉर क्लाइमेट चेंज एंड सस्टेनेबिलिटी स्टडीज' },
+    coords: 'Mumbai, India · 19.0728° N, 72.8711° E',
+    desc: {
+      en: 'Primary project host in India; coordinates student cohorts, local living lab field deployments, municipal stakeholder dialogues, and community-driven action across Maharashtra.',
+      mr: 'भारतातील मुख्य यजमान विद्यापीठ; CCCSS द्वारे विद्यार्थी संशोधन, स्थानिक क्षेत्रीय प्रयोगशाळा, नागरी संवाद आणि महाराष्ट्रभर समुदाय सह-निर्मितीचे नेतृत्व.',
+      hi: 'भारत में मुख्य मेजबान विश्वविद्यालय; CCCSS द्वारा छात्र अनुसंधान, स्थानीय फील्ड लैब, नागरिक संवाद और महाराष्ट्र में सामुदायिक सह-निर्माण का नेतृत्व।'
+    },
+    url: 'https://mu.ac.in/',
+    linkText: { en: 'University of Mumbai', mr: 'मुंबई विद्यापीठ', hi: 'मुंबई विश्वविद्यालय' }
+  }
+];
+
+function renderPartnersSection(code){
+  const lang = (code==='mr'||code==='hi')?code:'en';
+  const grid = document.getElementById('partnerCards');
+  if(!grid) return;
+  grid.innerHTML = PARTNERS_DATA.map(p => {
+    return `<article class="partner-card" aria-label="${esc(p.name[lang])}">`+
+      `<div class="partner-card-header">`+
+        `<span class="partner-tag${p.isLead?' lead':''}">${esc(p.tag[lang])}</span>`+
+        `<div class="partner-card-logo-box">`+
+          `<img src="${p.logoSvg}" alt="${esc(p.name[lang])} logo" class="partner-card-logo" onerror="this.src='${p.logoPng}'" loading="lazy" />`+
+        `</div>`+
+      `</div>`+
+      `<div>`+
+        `<h3 class="partner-card-name">${esc(p.name[lang])}</h3>`+
+        (p.sub&&p.sub[lang]?`<p class="partner-card-sub">${esc(p.sub[lang])}</p>`:'')+
+      `</div>`+
+      `<div class="partner-coords">`+
+        `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`+
+        `<span>${esc(p.coords)}</span>`+
+      `</div>`+
+      `<p class="partner-desc">${esc(p.desc[lang])}</p>`+
+      `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="partner-link">`+
+        `<span>${esc(p.linkText[lang])}</span>`+
+        `<span aria-hidden="true">→</span>`+
+      `</a>`+
+    `</article>`;
+  }).join('');
+}
 
 const ALL_EVIDENCE = [
   {
@@ -4305,9 +4722,9 @@ const store=(function(){const mem={};
  return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
         set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
 const UI_LANG={
- en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',backStory:'Story',global:'Global context',world:'The world',detail:'CCL connects global research context with local climate-resilience work.',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.',navStory:'Story',navDistricts:'Districts',navSources:'Sources',navVisit:'Access',badgePublished:'Published record'},
- mr:{title:'तुमची भाषा निवडा',sub:'डीफॉल्ट म्हणजे इंग्रजी. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',backStory:'कथा',global:'जागतिक संदर्भ',world:'जग',detail:'CCL जागतिक संशोधन संदर्भाला स्थानिक हवामान-लवचिकता कार्याशी जोडते.',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.',navStory:'कथा',navDistricts:'जिल्हे',navSources:'संदर्भ',navVisit:'प्रवेश',badgePublished:'प्रकाशित नोंद'},
- hi:{title:'अपनी भाषा चुनें',sub:'हिन्दी डिफ़ॉल्ट रूप से चुनी गई है। आप इसे कभी भी बदल सकते हैं।',enter:'कहानी शुरू करें →',skip:'परिचय छोड़कर परियोजना पर जाएँ',sound:'ध्वनि बंद',still:'स्थिर संस्करण',scroll:'स्क्रॉल',projectEyebrow:'परियोजना देखें',projectTitle:'प्रकाशित शोध संग्रह देखें.',projectLede:'प्रकाशित ज़िलों में दर्ज स्थानों, सर्वेक्षणों, प्रजातियों, चुनौतियों और साक्ष्यों को देखें। सत्यापित रिकॉर्ड जुड़ने के साथ संग्रह बढ़ता है — सत्यापन से पहले कुछ भी प्रकाशित नहीं होता।',archive:'शोध संग्रह खोलें',count:'प्रकाशित ज़िला रिकॉर्ड',archiveTitle:'शोध संग्रह',archiveIntro:'प्रकाशित ज़िले का शोध रिकॉर्ड देखने के लिए एक ज़िला चुनें.',back:'← मुख्य पृष्ठ',backStory:'कहानी',global:'वैश्विक संदर्भ',world:'दुनिया',detail:'CCL वैश्विक शोध संदर्भ को स्थानीय जलवायु-लचीलापन कार्य से जोड़ता है.',soundOn:'ध्वनि चालू',motionOn:'गति चालू',archiveH1:'प्रकाशित रिकॉर्ड देखें.',routeNote:'साक्ष्य और सहमति जाँच पूरी होने के साथ सत्यापित रिकॉर्ड से संग्रह बढ़ता है.',navStory:'कहानी',navDistricts:'ज़िले',navSources:'स्रोत',navVisit:'पहुंच',badgePublished:'प्रकाशित रिकॉर्ड'}
+ en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',backStory:'Story',global:'Global Partnership',world:'UK ↔ India Climate Network',detail:'Connecting University of Bristol, British Council & HSBC in the UK with University of Mumbai and Maharashtra coastal communities.',partnersEyebrow:'Partners & Governance',partnersTitle:'The Bilateral Partnership',partnersLede:'COOL CRYMB operates through an international collaboration connecting higher education, scientific research, and global sustainability leadership across the United Kingdom and India.',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol. A bilateral partnership between the University of Mumbai and the University of Bristol, funded by the British Council and HSBC.</p><p style="margin-top:14px">The opening sequence on this page is an illustrative narrative device. The tree, the person, the machinery and the building are symbolic; they are not a documented field event, not a CCL site, and not evidence. Everything in the archive is a verified record and carries its own evidence reference.</p>',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.',navStory:'Story',navDistricts:'Districts',navSources:'Sources',navVisit:'Access',badgePublished:'Published record'},
+ mr:{title:'तुमची भाषा निवडा',sub:'डीफॉल्ट म्हणजे इंग्रजी. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',backStory:'कथा',global:'जागतिक सहकार्य',world:'युके ↔ भारत हवामान सहकार्य',detail:'ब्रिस्टल विद्यापीठ, ब्रिटिश कौन्सिल आणि HSBC (युके) यांना मुंबई विद्यापीठ व महाराष्ट्रातील किनारपट्टी समुदायाशी जोडणारे जागतिक नेटवर्क.',partnersEyebrow:'भागीदार संस्था आणि प्रशासन',partnersTitle:'द्विपक्षीय भागीदारी आणि नेतृत्व',partnersLede:'COOL CRYMB हे युनायटेड किंगडम आणि भारत यांच्यातील उच्च शिक्षण, वैज्ञानिक संशोधन आणि जागतिक शाश्वतता नेतृत्वाला जोडणाऱ्या आंतरराष्ट्रीय सहकार्यातून कार्यरत आहे.',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — स्थानिक हवामान लवचिकतेसाठी समुदाय सह-निर्मिती प्रयोगशाळा: मुंबई आणि ब्रिस्टलमधील तरुणांना हरित कौशल्यांनी सक्षम करणे. मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांच्यातील द्विपक्षीय भागीदारी, ज्याला ब्रिटिश कौन्सिल आणि HSBC चे सहाय्य लाभले आहे.</p><p style="margin-top:14px">या पानावर दिसणारा सुरुवातीचा क्रम हा एक प्रतिकात्मक कथापट आहे. झाड, व्यक्ती, यंत्रे आणि इमारत ही प्रतिकात्मक आहेत; ती कोणतीही क्षेत्रीय घटना किंवा CCL चे प्रत्यक्ष पुरावे नाहीत. संशोधन संग्रहातील प्रत्येक नोंद ही प्रत्यक्ष पडताळलेली असून तिचा स्वतंत्र पुरावा संदर्भ उपलब्ध आहे.</p>',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.',navStory:'कथा',navDistricts:'जिल्हे',navSources:'संदर्भ',navVisit:'प्रवेश',badgePublished:'प्रकाशित नोंद'},
+ hi:{title:'अपनी भाषा चुनें',sub:'हिन्दी डिफ़ॉल्ट रूप से चुनी गई है। आप इसे कभी भी बदल सकते हैं।',enter:'कहानी शुरू करें →',skip:'परिचय छोड़कर परियोजना पर जाएँ',sound:'ध्वनि बंद',still:'स्थिर संस्करण',scroll:'स्क्रॉल',projectEyebrow:'परियोजना देखें',projectTitle:'प्रकाशित शोध संग्रह देखें.',projectLede:'प्रकाशित ज़िलों में दर्ज स्थानों, सर्वेक्षणों, प्रजातियों, चुनौतियों और साक्ष्यों को देखें। सत्यापित रिकॉर्ड जुड़ने के साथ संग्रह बढ़ता है — सत्यापन से पहले कुछ भी प्रकाशित नहीं होता।',archive:'शोध संग्रह खोलें',count:'प्रकाशित ज़िला रिकॉर्ड',archiveTitle:'शोध संग्रह',archiveIntro:'प्रकाशित ज़िले का शोध रिकॉर्ड देखने के लिए एक ज़िला चुनें.',back:'← मुख्य पृष्ठ',backStory:'कहानी',global:'वैश्विक साझेदारी',world:'यूके ↔ भारत जलवायु नेटवर्क',detail:'ब्रिस्टल विश्वविद्यालय, ब्रिटिश काउंसिल और HSBC (यूके) को मुंबई विश्वविद्यालय और महाराष्ट्र के तटीय समुदायों से जोड़ने वाला वैश्विक नेटवर्क।',partnersEyebrow:'साझेदार संस्था एवं प्रशासन',partnersTitle:'द्विपक्षीय साझेदारी एवं नेतृत्व',partnersLede:'COOL CRYMB यूनाइटेड किंगडम और भारत के बीच उच्च शिक्षा, वैज्ञानिक अनुसंधान और वैश्विक स्थिरता नेतृत्व को जोड़ने वाले अंतरराष्ट्रीय सहयोग के माध्यम से संचालित होता है।',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — स्थानीय जलवायु लचीलेपन के लिए सामुदायिक सह-निर्माण प्रयोगशाला: मुंबई और ब्रिस्टल में युवाओं को हरित कौशल से सशक्त बनाना। मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय के बीच एक द्विपक्षीय साझेदारी, जिसे ब्रिटिश काउंसिल और HSBC द्वारा समर्थित किया गया है।</p><p style="margin-top:14px">इस पृष्ठ पर प्रारंभिक दृश्य एक प्रतीकात्मक कथा युक्ति है। पेड़, व्यक्ति, मशीनरी और इमारत प्रतीकात्मक हैं; वे कोई क्षेत्र घटना या CCL साक्ष्य नहीं हैं। शोध संग्रह में प्रत्येक रिकॉर्ड सत्यापित है और उसका अपना साक्ष्य संदर्भ है।</p>',soundOn:'ध्वनी चालू',motionOn:'गति चालू',archiveH1:'प्रकाशित रिकॉर्ड देखें.',routeNote:'साक्ष्य और सहमति जाँच पूरी होने के साथ सत्यापित रिकॉर्ड से संग्रह बढ़ता है.',navStory:'कहानी',navDistricts:'ज़िले',navSources:'स्रोत',navVisit:'पहुंच',badgePublished:'प्रकाशित रिकॉर्ड'}
 };
 function applyLanguage(code){
  const l=UI_LANG[code]||UI_LANG.en;
@@ -4321,6 +4738,11 @@ function applyLanguage(code){
  const pl=document.querySelector('#project .lede'); if(pl) pl.textContent=l.projectLede;
  const ac=document.querySelector('.archive-cta'); if(ac) ac.childNodes[0].textContent=l.archive+' ';
  const cs=document.querySelector('#publishedCount + small'); if(cs) cs.textContent=l.count;
+ const peb=document.getElementById('partnersEyebrow'); if(peb&&l.partnersEyebrow) peb.textContent=l.partnersEyebrow;
+ const ptit=document.getElementById('partnersTitle'); if(ptit&&l.partnersTitle) ptit.textContent=l.partnersTitle;
+ const pled=document.getElementById('partnersLede'); if(pled&&l.partnersLede) pled.textContent=l.partnersLede;
+ const ft=document.getElementById('footText'); if(ft&&l.footDesc) ft.innerHTML=l.footDesc;
+ if(typeof renderPartnersSection==='function') renderPartnersSection(code);
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===code)));
  if(typeof TEXT_FACT_DATA!=='undefined' && typeof nodes!=='undefined' && typeof TEXT!=='undefined'){
    const factTexts=TEXT_FACT_DATA[code]||TEXT_FACT_DATA.en;

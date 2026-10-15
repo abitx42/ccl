@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="University of Bristol">
+  <!-- Crimson heraldic shield -->
+  <path d="M6,6 H38 V28 C38,38 22,46 22,46 C22,46 6,38 6,28 Z" fill="#B01C2E"/>
+  <!-- Shield charges: Golden Sun, Book, Ship -->
+  <path d="M12,12 H32 V15 H12 Z" fill="#FFDC40" opacity="0.9"/>
+  <circle cx="22" cy="20" r="4" fill="#FFDC40"/>
+  <path d="M14,28 Q22,34 30,28 L28,32 Q22,36 16,32 Z" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Typography -->
+  <text x="46" y="20" font-family="'Newsreader',Georgia,serif" font-style="italic" font-size="13" fill="#C5D0CC">University of</text>
+  <text x="46" y="38" font-family="'Archivo',system-ui,sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">BRISTOL</text>
+</svg>

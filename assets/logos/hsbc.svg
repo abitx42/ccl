@@ -1,0 +1,11 @@
+<svg viewBox="0 0 148 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="HSBC">
+  <!-- Hexagon origami bowtie -->
+  <polygon points="4,24 18,10 18,38" fill="#DB0011"/>
+  <polygon points="46,24 32,10 32,38" fill="#DB0011"/>
+  <polygon points="18,10 32,10 25,24" fill="#FFFFFF"/>
+  <polygon points="18,38 32,38 25,24" fill="#FFFFFF"/>
+  <polygon points="18,10 25,24 4,24" fill="#DB0011"/>
+  <polygon points="32,10 25,24 46,24" fill="#DB0011"/>
+  <!-- HSBC wordmark -->
+  <text x="56" y="32" font-family="'Archivo',system-ui,sans-serif" font-size="24" font-weight="700" fill="#FFFFFF" letter-spacing="1.2">HSBC</text>
+</svg>
