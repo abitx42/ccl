@@ -371,7 +371,7 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
       <button class="btn" data-lang="mr" aria-pressed="false">मराठी</button>
       <button class="btn" data-lang="hi" aria-pressed="false">हिन्दी</button>
     </div>
-    <p style="font-size:11px;color:var(--dim);margin:14px 0 0">Sets the interface language. The film narrative remains in English.</p>
+    <p style="font-size:11px;color:var(--dim);margin:14px 0 0">Sets the interface and film narrative language. English is the default.</p>
     <button class="btn" id="enterStory">Enter the story →</button>
   </div>
 </div>
@@ -637,6 +637,130 @@ const TEXT_FACT_DATA={
    '<p>कार्य देखें।</p><p class="sub" style="letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:var(--signal)">नीचे स्क्रॉल करें ↓</p>'
   ]
 };
+
+/* ── Marathi cinematic narrative (swapped in when lang=mr) ── */
+const TEXT_MR=[
+{a:.000,b:.008,c:.056,d:.074, L:'front', k:'micro', x:'50%', y:'13%', w:'86vw', al:'center',
+  html:'COOL CRYMB · हवामान लवचिकतेसाठी समुदाय सह-निर्माण प्रयोगशाळा'},
+{a:.005,b:.018,c:.042,d:.058, L:'front', k:'large', x:'50%', y:'50%', w:'min(20ch,84vw)', al:'center', m:'rise',
+  html:'<p>हवामानाच्या समस्या आपल्या दारात येतात.</p>'},
+{a:.050,b:.062,c:.078,d:.090, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+  html:'<p>पण उपाय अनेकदा जे भोगतात त्यांच्यापर्यंत पोहोचत नाही.</p>'},
+{a:.086,b:.098,c:.112,d:.124, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+  html:'<p>समुदायांना वापरता येईल असे ज्ञान हवे आहे.</p>'},
+{a:.120,b:.132,c:.148,d:.160, L:'front', k:'med', x:'50%', y:'44%', w:'min(22ch,80vw)', al:'center', m:'rise',
+  html:'<p>CCL हवामान ज्ञानाचे सामायिक स्थानिक कृतीत रूपांतर करते.</p>'},
+{a:.126,b:.140,c:.156,d:.168, L:'front', k:'small', x:'50%', y:'62%', w:'min(36ch,82vw)', al:'center',
+  html:'<p>विद्यार्थी, शिक्षक, स्वयंसेवी संस्था आणि समुदायांसाठी एक जिवंत प्रयोगशाळा.</p>'},
+{a:.168,b:.190,c:.232,d:.256, L:'back', k:'giant', x:'50%', y:'42%', w:'120vw', al:'center', m:'drift-r', par:.55,
+  html:'सह-निर्मिती'},
+{a:.200,b:.216,c:.238,d:.252, L:'front', k:'med', x:'50%', y:'72%', w:'min(26ch,80vw)', al:'center', m:'rise',
+  html:'<p>उष्णता, पूर, कचरा आणि असुरक्षित ठिकाणे — हवामान बदल अशा अनेक रूपांत येतो.</p>'},
+{a:.248,b:.262,c:.284,d:.298, L:'front', k:'small', x:'50%', y:'78%', w:'min(42ch,84vw)', al:'center',
+  html:'<p>समस्या म्हणजे उदासीनता नव्हे — पुरावा, कौशल्य आणि अंमलबजावणी यांतील दरी आहे.</p>'},
+{a:.284,b:.298,c:.320,d:.336, L:'front', k:'large', x:'7%', y:'66%', w:'min(20ch,74vw)', al:'left', m:'rise',
+  html:'<p>एक समुदाय म्हणजे<br>एक संपूर्ण यंत्रणाच.</p>'},
+{a:.312,b:.322,c:.336,d:.346, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'सकाळ'},
+{a:.346,b:.354,c:.366,d:.374, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'स्थानिक ऐकणे'},
+{a:.352,b:.364,c:.382,d:.394, L:'front', k:'large', x:'50%', y:'32%', w:'min(24ch,84vw)', al:'center', m:'rise',
+  html:'<p>ज्यांना समस्येचा सामना करावा लागतो तेच उपायाचा भाग आहेत.</p>'},
+{a:.386,b:.394,c:.408,d:.416, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'एकत्र शिकणे'},
+{a:.392,b:.402,c:.418,d:.428, L:'front', k:'small', x:'50%', y:'74%', w:'min(42ch,84vw)', al:'center',
+  html:'<p>CCL शैक्षणिक हवामान विज्ञान आणि जगण्याचा अनुभव एकाच प्रक्रियेत आणतो.</p>'},
+{a:.420,b:.428,c:.440,d:.448, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'एकत्र रचणे'},
+{a:.434,b:.452,c:.512,d:.540, L:'back', k:'giant', x:'50%', y:'38%', w:'120vw', al:'center', m:'drift-l', par:.6,
+  html:'सहकार्य'},
+{a:.446,b:.454,c:.470,d:.478, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'मुंबई'},
+{a:.482,b:.490,c:.510,d:.518, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'ब्रिस्टल'},
+{a:.488,b:.500,c:.514,d:.524, L:'front', k:'small', x:'50%', y:'76%', w:'min(46ch,84vw)', al:'center',
+  html:'<p>मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ, ब्रिटिश कौन्सिल आणि HSBC यांच्या सहाय्याने, सीमांपलीकडे काम करतात.</p>'},
+{a:.518,b:.526,c:.544,d:.552, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'सुलभ करणे'},
+{a:.552,b:.560,c:.578,d:.586, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'उपयोजन'},
+{a:.554,b:.566,c:.582,d:.594, L:'front', k:'med', x:'50%', y:'70%', w:'min(30ch,84vw)', al:'center', m:'rise',
+  html:'<p>कार्यशाळा हवामान लवचिकता, घनकचरा व्यवस्थापन आणि शाश्वत समुदायांसाठी हरित कौशल्ये विकसित करतात.</p>'},
+{a:.594,b:.606,c:.624,d:.638, L:'front', k:'med', x:'50%', y:'24%', w:'min(28ch,84vw)', al:'center', m:'rise',
+  html:'<p>सहभागी ऐकतात, तपास करतात, प्रकल्प आखतात आणि कृती योजना लिहितात.</p>'},
+{a:.700,b:.714,c:.734,d:.748, L:'front', k:'large', x:'50%', y:'28%', w:'min(24ch,84vw)', al:'center', m:'rise',
+  html:'<p>शिकणे म्हणजे असे कौशल्य जे तुम्ही तुमच्या गाव किंवा परिसरात परत घेऊन जाता.</p>'},
+{a:.734,b:.744,c:.758,d:.770, L:'front', k:'small', x:'50%', y:'76%', w:'min(48ch,84vw)', al:'center',
+  html:'<p>फळ हे एक रूपक आहे: ज्ञान उपयुक्त ठरते जेव्हा ते एखाद्या हाताला, संघाला आणि ठिकाणाला पोहोचते.</p>'},
+{a:.780,b:.802,c:.838,d:.862, L:'back', k:'giant', x:'50%', y:'46%', w:'130vw', al:'center', m:'scale', par:.4,
+  html:'कृती'},
+{a:.802,b:.814,c:.828,d:.838, L:'front', k:'large', x:'50%', y:'38%', w:'min(24ch,86vw)', al:'center', m:'rise',
+  html:'<p>स्थानिक लोकांकडे नेतृत्वाची साधने असतील तर काय बदलते?</p>'},
+{a:.834,b:.844,c:.856,d:.864, L:'front', k:'med', x:'50%', y:'34%', w:'min(34ch,86vw)', al:'center', m:'rise',
+  html:'<p>संघ एखाद्या सामायिक समस्येला व्यावहारिक हरित प्रकल्पात बदलू शकतात.</p>'},
+{a:.838,b:.848,c:.856,d:.864, L:'front', k:'small', x:'50%', y:'62%', w:'min(62ch,88vw)', al:'center',
+  html:'<p>ते एखाद्या अडचणीचे नकाशे काढू शकतात, दृष्टिकोन तपासू शकतात, समुदायाला सहभागी करू शकतात आणि पुरावे खुले ठेवू शकतात.</p>'},
+{a:.856,b:.868,c:.888,d:.898, L:'front', k:'huge', x:'50%', y:'40%', w:'90vw', al:'center', m:'scale',
+  html:'CCL'},
+{a:.862,b:.872,c:.888,d:.898, L:'front', k:'micro', x:'50%', y:'53%', w:'80vw', al:'center',
+  html:'समुदाय सह-निर्माण प्रयोगशाळा'},
+{a:.868,b:.876,c:.890,d:.900, L:'front', k:'small', x:'50%', y:'63%', w:'min(64ch,88vw)', al:'center',
+  html:'<p style="font-family:var(--film);font-size:clamp(15px,1.9vw,22px);line-height:1.6;color:#D9E0DB">मुंबई आणि ब्रिस्टलमधील युवा, विद्यापीठे, स्वयंसेवी संस्था आणि समुदायांना जोडणारा २०२६–२०२७ हवामान-लवचिकता उपक्रम.</p>'}
+];
+
+/* ── Hindi cinematic narrative (swapped in when lang=hi) ── */
+const TEXT_HI=[
+{a:.000,b:.008,c:.056,d:.074, L:'front', k:'micro', x:'50%', y:'13%', w:'86vw', al:'center',
+  html:'COOL CRYMB · स्थानीय जलवायु लचीलेपन के लिए सामुदायिक सह-निर्माण प्रयोगशाला'},
+{a:.005,b:.018,c:.042,d:.058, L:'front', k:'large', x:'50%', y:'50%', w:'min(20ch,84vw)', al:'center', m:'rise',
+  html:'<p>जलवायु की चुनौतियाँ स्थानीय हैं।</p>'},
+{a:.050,b:.062,c:.078,d:.090, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+  html:'<p>लेकिन कार्रवाई अक्सर उन लोगों से कटी होती है जो प्रभावित होते हैं।</p>'},
+{a:.086,b:.098,c:.112,d:.124, L:'front', k:'med', x:'50%', y:'44%', w:'min(18ch,80vw)', al:'center', m:'rise',
+  html:'<p>समुदायों को ऐसा ज्ञान चाहिए जिसका वे उपयोग कर सकें।</p>'},
+{a:.120,b:.132,c:.148,d:.160, L:'front', k:'med', x:'50%', y:'44%', w:'min(22ch,80vw)', al:'center', m:'rise',
+  html:'<p>CCL जलवायु ज्ञान को साझा स्थानीय कार्रवाई में बदलती है।</p>'},
+{a:.126,b:.140,c:.156,d:.168, L:'front', k:'small', x:'50%', y:'62%', w:'min(36ch,82vw)', al:'center',
+  html:'<p>छात्रों, शिक्षकों, NGOs और समुदायों के लिए एक जीवंत प्रयोगशाला।</p>'},
+{a:.168,b:.190,c:.232,d:.256, L:'back', k:'giant', x:'50%', y:'42%', w:'120vw', al:'center', m:'drift-r', par:.55,
+  html:'सह-निर्माण'},
+{a:.200,b:.216,c:.238,d:.252, L:'front', k:'med', x:'50%', y:'72%', w:'min(26ch,80vw)', al:'center', m:'rise',
+  html:'<p>गर्मी, बाढ़, कचरा और असुरक्षित स्थानों तक असमान पहुँच — जलवायु परिवर्तन ऐसे दिखता है।</p>'},
+{a:.248,b:.262,c:.284,d:.298, L:'front', k:'small', x:'50%', y:'78%', w:'min(42ch,84vw)', al:'center',
+  html:'<p>समस्या उदासीनता नहीं है — साक्ष्य, कौशल और कार्यान्वयन के बीच की खाई है।</p>'},
+{a:.284,b:.298,c:.320,d:.336, L:'front', k:'large', x:'7%', y:'66%', w:'min(20ch,74vw)', al:'left', m:'rise',
+  html:'<p>एक समुदाय<br>पहले से एक प्रणाली है।</p>'},
+{a:.312,b:.322,c:.336,d:.346, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'सुबह'},
+{a:.346,b:.354,c:.366,d:.374, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'स्थानीय सुनें'},
+{a:.352,b:.364,c:.382,d:.394, L:'front', k:'large', x:'50%', y:'32%', w:'min(24ch,84vw)', al:'center', m:'rise',
+  html:'<p>जो समस्या के सबसे करीब हैं वे समाधान का हिस्सा हैं।</p>'},
+{a:.386,b:.394,c:.408,d:.416, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'साथ सीखें'},
+{a:.392,b:.402,c:.418,d:.428, L:'front', k:'small', x:'50%', y:'74%', w:'min(42ch,84vw)', al:'center',
+  html:'<p>CCL शैक्षणिक जलवायु विज्ञान और जीवित अनुभव को एक प्रक्रिया में लाता है।</p>'},
+{a:.420,b:.428,c:.440,d:.448, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'साथ बनाएं'},
+{a:.434,b:.452,c:.512,d:.540, L:'back', k:'giant', x:'50%', y:'38%', w:'120vw', al:'center', m:'drift-l', par:.6,
+  html:'सहयोग'},
+{a:.446,b:.454,c:.470,d:.478, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'मुंबई'},
+{a:.482,b:.490,c:.510,d:.518, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'ब्रिस्टल'},
+{a:.488,b:.500,c:.514,d:.524, L:'front', k:'small', x:'50%', y:'76%', w:'min(46ch,84vw)', al:'center',
+  html:'<p>मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय, ब्रिटिश काउंसिल और HSBC के समर्थन से, सीमाओं के पार काम करते हैं।</p>'},
+{a:.518,b:.526,c:.544,d:.552, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'सुगम बनाएं'},
+{a:.552,b:.560,c:.578,d:.586, L:'front', k:'micro', x:'7%', y:'20%', w:'40ch', al:'left', html:'लागू करें'},
+{a:.554,b:.566,c:.582,d:.594, L:'front', k:'med', x:'50%', y:'70%', w:'min(30ch,84vw)', al:'center', m:'rise',
+  html:'<p>कार्यशालाएँ जलवायु लचीलेपन, ठोस कचरा प्रबंधन और टिकाऊ समुदायों के लिए हरित कौशल बनाती हैं।</p>'},
+{a:.594,b:.606,c:.624,d:.638, L:'front', k:'med', x:'50%', y:'24%', w:'min(28ch,84vw)', al:'center', m:'rise',
+  html:'<p>प्रतिभागी सुनते हैं, जाँच करते हैं, परियोजनाएँ बनाते हैं और कार्य योजनाएँ लिखते हैं।</p>'},
+{a:.700,b:.714,c:.734,d:.748, L:'front', k:'large', x:'50%', y:'28%', w:'min(24ch,84vw)', al:'center', m:'rise',
+  html:'<p>सीखना एक ऐसा कौशल बन जाता है जिसे आप अपने परिसर या पड़ोस में वापस ले जा सकते हैं।</p>'},
+{a:.734,b:.744,c:.758,d:.770, L:'front', k:'small', x:'50%', y:'76%', w:'min(48ch,84vw)', al:'center',
+  html:'<p>फल एक रूपक है: ज्ञान तब उपयोगी होता है जब वह किसी हाथ, टीम और स्थान तक पहुँचे।</p>'},
+{a:.780,b:.802,c:.838,d:.862, L:'back', k:'giant', x:'50%', y:'46%', w:'130vw', al:'center', m:'scale', par:.4,
+  html:'कार्रवाई'},
+{a:.802,b:.814,c:.828,d:.838, L:'front', k:'large', x:'50%', y:'38%', w:'min(24ch,86vw)', al:'center', m:'rise',
+  html:'<p>जब स्थानीय लोगों के पास नेतृत्व के उपकरण हों तो क्या बदलता है?</p>'},
+{a:.834,b:.844,c:.856,d:.864, L:'front', k:'med', x:'50%', y:'34%', w:'min(34ch,86vw)', al:'center', m:'rise',
+  html:'<p>टीमें एक साझी समस्या को एक व्यावहारिक हरित परियोजना में बदल सकती हैं।</p>'},
+{a:.838,b:.848,c:.856,d:.864, L:'front', k:'small', x:'50%', y:'62%', w:'min(62ch,88vw)', al:'center',
+  html:'<p>वे एक दर्द बिंदु का नक्शा बना सकते हैं, एक दृष्टिकोण परख सकते हैं, समुदाय को शामिल कर सकते हैं और साक्ष्य खुले रख सकते हैं।</p>'},
+{a:.856,b:.868,c:.888,d:.898, L:'front', k:'huge', x:'50%', y:'40%', w:'90vw', al:'center', m:'scale',
+  html:'CCL'},
+{a:.862,b:.872,c:.888,d:.898, L:'front', k:'micro', x:'50%', y:'53%', w:'80vw', al:'center',
+  html:'सामुदायिक सह-निर्माण प्रयोगशाला'},
+{a:.868,b:.876,c:.890,d:.900, L:'front', k:'small', x:'50%', y:'63%', w:'min(64ch,88vw)', al:'center',
+  html:'<p style="font-family:var(--film);font-size:clamp(15px,1.9vw,22px);line-height:1.6;color:#D9E0DB">मुंबई और ब्रिस्टल में युवाओं, विश्वविद्यालयों, NGOs और समुदायों को जोड़ने वाली २०२६–२०२७ जलवायु-लचीलापन पहल.</p>'}
+];
 
 const TEXT_FACT=[
 {a:.896,b:.906,c:.922,d:.934, L:'front', k:'small', x:'6%', y:'50%', w:'min(52ch,80vw)', al:'left',
@@ -1804,7 +1928,7 @@ function drawHandBack(ctx,p,T,L,dark){
   ctx.restore();
 }
 
-function drawCurvedFinger(ctx,bx,by,mx,my,tx,ty,w0,w1,w2,skin,skinHi,rim,lit,tAng){
+ function drawCurvedFinger(ctx,bx,by,mx,my,tx,ty,w0,w1,w2,skin,skinHi,rim,lit,tAng){
   const d1x=mx-bx, d1y=my-by, len1=Math.hypot(d1x,d1y)||1;
   const nx1=-d1y/len1, ny1=d1x/len1;
   const d2x=tx-mx, d2y=ty-my, len2=Math.hypot(d2x,d2y)||1;
@@ -1817,13 +1941,20 @@ function drawCurvedFinger(ctx,bx,by,mx,my,tx,ty,w0,w1,w2,skin,skinHi,rim,lit,tAn
   ctx.arc(tx,ty,w2*0.5,Math.atan2(ny2,nx2),Math.atan2(-ny2,-nx2));
   ctx.quadraticCurveTo(mx-nx1*w1*0.5, my-ny1*w1*0.5, bx-nx1*w0*0.5, by-ny1*w0*0.5);
   ctx.closePath();
-
   ctx.fillStyle=skin; ctx.fill();
-  ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
+  // No harsh stroke — a very faint crease line only if the finger has visible width
+  if(w1>3){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(bx+nx1*w0*0.2, by+ny1*w0*0.2);
+    ctx.quadraticCurveTo(mx+nx1*w1*0.15, my+ny1*w1*0.15, tx+nx2*w2*0.1, ty+ny2*w2*0.1);
+    ctx.strokeStyle='rgba(28,14,6,0.22)'; ctx.lineWidth=0.8; ctx.stroke();
+    ctx.restore();
+  }
 
   // Fleshy joint and fingertip pad highlights
   if(lit>0.2){
-    ctx.fillStyle=rgba(skinHi,0.50*lit);
+    ctx.fillStyle=rgba(skinHi,0.48*lit);
     ctx.beginPath();
     ctx.ellipse(mx,my,w1*0.35,w1*0.22,Math.atan2(d1y,d1x),0,7);
     ctx.fill();
@@ -1870,7 +2001,6 @@ function drawHandFront(ctx,p,T,L,dark){
   ctx.lineTo(kArc[3].x,kArc[3].y);
   ctx.quadraticCurveTo(g.px+g.ux*R*0.35,g.py+g.uy*R*0.35+trem,thBase.x,thBase.y);
   ctx.fillStyle=skin; ctx.fill();
-  ctx.strokeStyle=rim; ctx.lineWidth=0.5; ctx.stroke();
 
   // Thenar eminence (fleshy thumb mound on lower-left flank)
   if(g.grip>0.05){
@@ -1879,9 +2009,9 @@ function drawHandFront(ctx,p,T,L,dark){
     ctx.beginPath();
     ctx.ellipse(cx-R*0.48,cy+R*0.55+trem,R*0.46,R*0.32,-0.65,0,7);
     ctx.fillStyle=skin; ctx.fill();
-    ctx.strokeStyle=rim; ctx.lineWidth=0.6; ctx.stroke();
     ctx.restore();
   }
+
 
   // 1. Thumb: curves up along left flank, pad rests on upper-left curve of fruit
   {
@@ -2551,6 +2681,9 @@ function _tracePoly(ctx, ring, px, py){
 
 function drawEarth(ctx,W,H,p,T,q){
   const k=sample(EKEYS,p,['lon','lat','s','roll']);
+  // Continuous slow ambient rotation: ~1 revolution per 35 min of real time
+  const ambientSpin = T * 0.0003;
+  k.lon = k.lon + ambientSpin;
   const R=Math.min(W,H)*0.34*k.s, cx=W*0.5, cy=H*0.5;
   const zoom=clamp((k.s-0.9)/1.1,0,1), bud=clamp(360/R,0.28,1);
   ctx.fillStyle='#03060A'; ctx.fillRect(0,0,W,H);
@@ -3836,7 +3969,7 @@ const store=(function(){const mem={};
         set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
 const UI_LANG={
  en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',backStory:'Story',global:'Global context',world:'The world',detail:'CCL connects global research context with local climate-resilience work.',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.',navStory:'Story',navDistricts:'Districts',navSources:'Sources',navVisit:'Access',badgePublished:'Published record'},
- mr:{title:'तुमची भाषा निवडा',sub:'मराठी निवडली आहे. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',backStory:'कथा',global:'जागतिक संदर्भ',world:'जग',detail:'CCL जागतिक संशोधन संदर्भाला स्थानिक हवामान-लवचिकता कार्याशी जोडते.',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.',navStory:'कथा',navDistricts:'जिल्हे',navSources:'संदर्भ',navVisit:'प्रवेश',badgePublished:'प्रकाशित नोंद'},
+ mr:{title:'तुमची भाषा निवडा',sub:'डीफॉल्ट म्हणजे इंग्रजी. तुम्ही ती कधीही बदलू शकता.',enter:'कथा सुरू करा →',skip:'प्रस्तावना वगळा आणि प्रकल्पाकडे जा',sound:'ध्वनी बंद',still:'स्थिर आवृत्ती',scroll:'स्क्रोल',projectEyebrow:'प्रकल्प पहा',projectTitle:'प्रकाशित संशोधन संग्रह पहा.',projectLede:'प्रकाशित जिल्ह्यांमधील ठिकाणे, सर्वेक्षणे, प्रजाती, आव्हाने आणि नोंदवलेले पुरावे पहा. नोंदी पडताळल्यानंतर संग्रह वाढतो — पडताळणी होईपर्यंत काहीही येथे दाखवले जात नाही.',archive:'संशोधन संग्रह उघडा',count:'प्रकाशित जिल्हा नोंदी',archiveTitle:'संशोधन संग्रह',archiveIntro:'प्रकाशित जिल्ह्याची नोंद पाहण्यासाठी जिल्हा निवडा.',back:'← मुख्यपृष्ठ',backStory:'कथा',global:'जागतिक संदर्भ',world:'जग',detail:'CCL जागतिक संशोधन संदर्भाला स्थानिक हवामान-लवचिकता कार्याशी जोडते.',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'प्रकाशित नोंद पहा.',routeNote:'पुरावा व संमती तपासणी पूर्ण झाल्यावर सत्यापित नोंदींसह संग्रह वाढतो.',navStory:'कथा',navDistricts:'जिल्हे',navSources:'संदर्भ',navVisit:'प्रवेश',badgePublished:'प्रकाशित नोंद'},
  hi:{title:'अपनी भाषा चुनें',sub:'हिन्दी डिफ़ॉल्ट रूप से चुनी गई है। आप इसे कभी भी बदल सकते हैं।',enter:'कहानी शुरू करें →',skip:'परिचय छोड़कर परियोजना पर जाएँ',sound:'ध्वनि बंद',still:'स्थिर संस्करण',scroll:'स्क्रॉल',projectEyebrow:'परियोजना देखें',projectTitle:'प्रकाशित शोध संग्रह देखें.',projectLede:'प्रकाशित ज़िलों में दर्ज स्थानों, सर्वेक्षणों, प्रजातियों, चुनौतियों और साक्ष्यों को देखें। सत्यापित रिकॉर्ड जुड़ने के साथ संग्रह बढ़ता है — सत्यापन से पहले कुछ भी प्रकाशित नहीं होता।',archive:'शोध संग्रह खोलें',count:'प्रकाशित ज़िला रिकॉर्ड',archiveTitle:'शोध संग्रह',archiveIntro:'प्रकाशित ज़िले का शोध रिकॉर्ड देखने के लिए एक ज़िला चुनें.',back:'← मुख्य पृष्ठ',backStory:'कहानी',global:'वैश्विक संदर्भ',world:'दुनिया',detail:'CCL वैश्विक शोध संदर्भ को स्थानीय जलवायु-लचीलापन कार्य से जोड़ता है.',soundOn:'ध्वनि चालू',motionOn:'गति चालू',archiveH1:'प्रकाशित रिकॉर्ड देखें.',routeNote:'साक्ष्य और सहमति जाँच पूरी होने के साथ सत्यापित रिकॉर्ड से संग्रह बढ़ता है.',navStory:'कहानी',navDistricts:'ज़िले',navSources:'स्रोत',navVisit:'पहुंच',badgePublished:'प्रकाशित रिकॉर्ड'}
 };
 function applyLanguage(code){
@@ -3857,6 +3990,15 @@ function applyLanguage(code){
    for(let i=0;i<factTexts.length;i++){
      const idx=TEXT.length+i;
      if(nodes[idx]) nodes[idx].innerHTML=factTexts[i];
+   }
+   // Swap cinematic TEXT nodes for localised narrative
+   const filmSrc = code==='mr' ? (typeof TEXT_MR!=='undefined'?TEXT_MR:null)
+                 : code==='hi' ? (typeof TEXT_HI!=='undefined'?TEXT_HI:null)
+                 : null;
+   for(let i=0;i<TEXT.length;i++){
+     if(!nodes[i]) continue;
+     const src = filmSrc && filmSrc[i] ? filmSrc[i].html : TEXT[i].html;
+     nodes[i].innerHTML = src;
    }
  }
  store.set('ccl-language',code);
