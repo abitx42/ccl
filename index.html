@@ -125,7 +125,15 @@ body.arc #progress{display:none}
 #geoNarrative .geo-kicker{display:block;font:700 10px/1.4 var(--ui);letter-spacing:.22em;text-transform:uppercase;color:var(--signal);margin-bottom:6px}
 #geoNarrative strong{display:block;font:400 clamp(22px,3vw,34px)/1.15 var(--film);color:#FAF8F2;letter-spacing:-0.01em}
 #geoNarrative #geoDetail{display:block;margin-top:8px;font:400 13.5px/1.55 var(--ui);color:#C8D6CF}
-@media(max-width:640px){#geoNarrative{left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);width:auto;padding:12px 15px}#geoNarrative #geoDetail{font-size:12.5px}}
+@media(max-width:640px){
+  #geoNarrative{
+    left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom, 0px) + 18px);
+    width:auto; padding:11px 14px; border-radius:8px;
+    background:rgba(6,12,10,0.92);
+  }
+  #geoNarrative strong{font-size:clamp(17px,4.5vw,22px); line-height:1.2}
+  #geoNarrative #geoDetail{font-size:12px; line-height:1.45; margin-top:5px}
+}
 @media(prefers-reduced-motion:reduce){#geoNarrative{transition:none}}
 #track{position:relative; z-index:2; pointer-events:none}
 
@@ -314,9 +322,18 @@ body.arc #progress{display:none}
 }
 @media(max-width:620px){
   .partners-film-wrap{
-    max-width:calc(100vw - 24px);
+    max-width:calc(100vw - 20px);
     width:100%;
     margin:0 auto;
+    position:relative;
+    bottom:auto;
+    left:auto;
+    transform:none;
+  }
+  .partners-film-title{
+    font-size:10px;
+    letter-spacing:.22em;
+    margin-bottom:8px;
   }
   .partners-film-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -325,46 +342,55 @@ body.arc #progress{display:none}
     box-sizing:border-box;
   }
   .partner-film-item{
-    padding:6px 8px;
-    gap:3px;
+    padding:8px 9px;
+    gap:4px;
     border-radius:6px;
+    background:rgba(6,12,10,0.92);
+    border:1px solid rgba(144,188,205,0.22);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     min-width:0;
     box-sizing:border-box;
   }
   .partner-film-head{
-    flex-wrap:wrap;
-    gap:3px;
-    justify-content:flex-start;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
   }
   .partner-film-logo-wrap{
-    height:20px;
-    padding:2px 4px;
+    height:22px;
+    padding:2px 5px;
     max-width:100%;
+    background:rgba(255,255,255,0.06);
+    border-radius:3px;
   }
   .partner-film-logo{
-    height:14px;
-    max-height:14px;
-    max-width:60px;
+    height:16px;
+    max-height:16px;
+    max-width:64px;
   }
   .partner-film-tag{
-    font-size:7px;
-    padding:1px 4px;
-    letter-spacing:0.04em;
+    font-size:7.5px;
+    padding:1px 5px;
+    letter-spacing:0.06em;
     max-width:100%;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
   }
   .partner-film-item strong{
-    font-size:10.5px;
+    font-size:11.5px;
     line-height:1.2;
+    color:#FAF8F2;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
   .partner-film-loc{
-    font-size:8.5px;
-    gap:2px;
+    font-size:9px;
+    color:#BAC7C1;
+    gap:3px;
   }
 }
 
@@ -488,7 +514,19 @@ body.arc #progress{display:none}
   gap:10px;
 }
 @media (max-width:640px){
-  .partner-grid{grid-template-columns:1fr}
+  .partner-grid{grid-template-columns:1fr; gap:16px}
+  .partner-card{padding:18px 16px}
+  .partner-link{
+    min-height:44px;
+    padding:10px 14px;
+    border:1px solid rgba(144,188,205,0.25);
+    border-radius:6px;
+    background:rgba(144,188,205,0.06);
+    justify-content:center;
+    width:100%;
+    margin-top:10px;
+    box-sizing:border-box;
+  }
 }
 
 /* ── scroll cue ────────────────────────────────────────────── */
@@ -541,6 +579,9 @@ h2.sect{
 
 #districts{margin-top:clamp(40px,6vw,80px); border-top:1px solid var(--line)}
 .archive-intro{display:flex;justify-content:space-between;gap:24px;align-items:end;flex-wrap:wrap;margin-top:28px;padding:18px 0 0}
+.count-badge{display:inline-flex;align-items:baseline;gap:8px}
+.count-badge .count{font-family:var(--film);font-size:clamp(28px,3.8vw,44px);font-weight:400;color:#FAF8F2;line-height:1}
+.count-badge .count-label{font-family:var(--ui);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .archive-intro .count{font-family:var(--film);font-size:clamp(24px,3.5vw,42px);font-weight:300;color:#EDEBE2}
 .archive-intro .count small{font-family:var(--ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-left:8px}
 .archive-cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
@@ -548,7 +589,7 @@ h2.sect{
 .archive-home h1{font-family:var(--film);font-weight:200;font-size:clamp(48px,9vw,112px);line-height:1;margin:.18em 0 .3em;letter-spacing:-.02em;color:#F2F0E7}
 .archive-home p{max-width:68ch;color:#C0CBC5;line-height:1.65}
 .route-note{font-size:11.5px;color:var(--mute);margin-top:18px}
-@media(max-width:620px){.archive-intro{align-items:start;flex-direction:column}}
+@media(max-width:620px){.archive-intro{align-items:start;flex-direction:column;gap:16px}}
 .drow{
   display:grid; grid-template-columns:64px 1fr auto; align-items:center; gap:clamp(12px,3vw,36px);
   padding:clamp(20px,2.6vw,32px) 0; border-bottom:1px solid var(--line);
@@ -580,10 +621,43 @@ h2.sect{
 .drow[aria-disabled="true"]:hover{padding-left:0; background:transparent}
 .drow[aria-disabled="true"]:hover .arrow{transform:none}
 @media (max-width:620px){
-  .drow{grid-template-columns:32px 1fr; gap:6px 12px; align-items:start}
-  .drow .meta{grid-column:2; margin-top:8px; gap:12px; width:100%; justify-content:space-between}
+  .drow{
+    grid-template-columns:26px 1fr;
+    gap:4px 10px;
+    padding:16px 0;
+    align-items:start;
+  }
+  .drow[aria-disabled="true"] .arrow{display:none}
+  .drow:not([aria-disabled="true"]){
+    padding:16px 14px;
+    margin:8px 0;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(144,188,205,0.20);
+    border-radius:8px;
+    transition:background-color .2s var(--ease-spring), border-color .2s var(--ease-spring);
+  }
+  .drow:not([aria-disabled="true"]):active{
+    background:rgba(144,188,205,0.08);
+    border-color:var(--signal);
+  }
+  .drow .meta{
+    grid-column:2;
+    margin-top:10px;
+    gap:12px;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
   .drow .meta .tag{display:none}
-  .drow .meta .tag.live{display:inline-block; font-size:9.5px; padding:4px 8px}
+  .drow .meta .tag.live{
+    display:inline-flex;
+    align-items:center;
+    font-size:9.5px;
+    font-weight:700;
+    padding:4px 8px;
+    border-radius:3px;
+  }
 }
 
 footer{padding:clamp(48px,7vw,96px) 0 60px; color:var(--mute); font-size:12.5px; line-height:1.75}
@@ -695,20 +769,62 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   .partners{gap:14px 18px}
   .chips{gap:6px}
   .chips span{letter-spacing:.10em;padding:5px 8px}
+
+  /* Phase 8: Fact plates positioning on mobile portrait */
+  .fact-node-0, .fact-node-1{
+    left:50% !important;
+    top:auto !important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 20px) !important;
+    width:min(92vw, 420px) !important;
+    max-width:calc(100vw - 28px) !important;
+    text-align:left !important;
+  }
+  .fact-node-0 .plate, .fact-node-1 .plate{
+    border-left:2px solid var(--signal) !important;
+    border-right:none !important;
+    border-radius:8px !important;
+    background:rgba(6, 12, 10, 0.92) !important;
+    padding:13px 15px !important;
+    box-shadow:0 12px 36px rgba(0,0,0,0.7);
+  }
+  .fact-node-2{
+    left:50% !important;
+    top:auto !important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+    width:min(94vw, 440px) !important;
+    max-width:calc(100vw - 20px) !important;
+  }
+
+  /* Archive stats balanced 2-col grid */
+  .stats{
+    grid-template-columns:repeat(2, 1fr) !important;
+  }
+  .stats div:last-child:nth-child(odd){
+    grid-column:span 2;
+    text-align:center;
+  }
 }
-@media (hover:none) and (pointer:coarse){
+@media (hover:none) and (pointer:coarse), (max-width:620px){
   .btn,.lang button,#skip,.skip-btn{min-height:44px}
+  .sub-link{min-height:38px; display:inline-flex; align-items:center; padding:7px 11px}
 }
 
 /* Phase 3 — keep the narrative readable on narrow screens without changing
    the cinematic timeline or the fixed film stage. */
 @media (max-width:760px){
-  #chrome{gap:6px;padding-inline:10px;overflow-x:auto;scrollbar-width:none;height:52px}
+  #chrome{gap:6px;padding-inline:8px;overflow-x:hidden;scrollbar-width:none;height:48px}
   #chrome::-webkit-scrollbar{display:none}
-  #mark{display:none}
-  #chrome .btn{font-size:11px;min-height:34px;padding:6px 10px;display:inline-flex;align-items:center;justify-content:center}
+  #mark{display:inline-flex;align-items:center;font-weight:700;font-size:12.5px;letter-spacing:.08em;color:var(--signal);white-space:nowrap;padding:0 2px}
+  #mark span{display:none}
+  #chrome .btn{font-size:10.5px;min-height:32px;padding:4px 8px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
   .lang-pills{flex:none;padding:2px;gap:2px}
-  .btn-sm{min-height:32px;padding:5px 9px;font-size:11px;display:inline-flex;align-items:center;justify-content:center}
+  .btn-sm{min-height:28px;padding:3px 7px;font-size:10.5px;display:inline-flex;align-items:center;justify-content:center}
+}
+@media (max-width:380px){
+  #chrome{gap:4px;padding-inline:6px;height:46px}
+  #mark{font-size:11.5px}
+  #chrome .btn{font-size:9.5px;padding:3px 5px;min-height:28px}
+  .btn-sm{min-height:26px;padding:2px 5px;font-size:9.5px}
 }
 
 /* Phase 2 — language gateway */
@@ -972,7 +1088,7 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   </div>
   <div class="wrap">
     <div class="archive-intro" aria-label="Published archive status">
-      <div><span class="count" id="publishedCount">0</span><small>published district records</small></div>
+      <div class="count-badge"><span class="count" id="publishedCount">0</span><small class="count-label">published district records</small></div>
       <a class="btn archive-cta" href="#/archive" target="_blank" rel="noopener noreferrer">Open the research archive <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <div id="districts"></div>
@@ -3471,7 +3587,10 @@ const STARS=(function(){
 
 function drawEarth(ctx,W,H,p,T,q){
   const k=sampleEarth(p,T);
-  const R=Math.min(W,H)*0.34*k.s, cx=W*0.5, cy=H*0.5;
+  const isPortrait = H > W * 1.25;
+  const cx=W*0.5;
+  const cy=isPortrait ? H*0.36 : H*0.5;
+  const R=Math.min(W,H)*(isPortrait ? 0.36 : 0.34)*k.s;
   const zoom=clamp((k.s-0.9)/1.1,0,1), bud=clamp(360/R,0.28,1);
 
   // Deep space base
@@ -4042,10 +4161,11 @@ function drawEarth(ctx,W,H,p,T,q){
   ctx.restore(); // End of camera rotation transform
 
   // ── 9. Vignette Floor Gradient into Content ───────────────────
-  const fl=ctx.createLinearGradient(0,H*0.56,0,H);
+  const gradStartY = isPortrait ? H * 0.48 : H * 0.56;
+  const fl=ctx.createLinearGradient(0,gradStartY,0,H);
   fl.addColorStop(0,'rgba(2,5,8,0)');
   fl.addColorStop(1,'rgba(2,5,8,0.85)');
-  ctx.fillStyle=fl; ctx.fillRect(0,H*0.56,W,H*0.44);
+  ctx.fillStyle=fl; ctx.fillRect(0,gradStartY,W,H - gradStartY);
 
   // ── 10. High-Contrast Interactive Anchor Pins & Collision-Free Labels ─────────
   const currentCode=(typeof currentLang!=='undefined'?currentLang:'en');
@@ -4191,6 +4311,7 @@ const nodes=ALL.map((t,idx)=>{
   d.style.left=t.x; d.style.top=t.y; d.style.width=t.w||'auto';
   if(idx >= TEXT.length){
     const fi = idx - TEXT.length;
+    d.classList.add('fact-node', 'fact-node-'+fi);
     const factTexts = (typeof currentLang!=='undefined' && TEXT_FACT_DATA[currentLang]) ? TEXT_FACT_DATA[currentLang] : TEXT_FACT_DATA.en;
     d.innerHTML = factTexts[fi] || t.html;
   } else {
@@ -4229,6 +4350,7 @@ function scrollP(){
   return max>0?clamp(window.scrollY/max,0,1):0;
 }
 function paintText(p){
+  const isMobilePortrait = (W < 640 && H > W);
   for(let i=0;i<ALL.length;i++){
     const t=ALL[i], n=nodes[i], a=seg(p,t.a,t.b,t.c,t.d);
     if(a<0.008){ if(n.style.visibility!=='hidden'){n.style.visibility='hidden'; n.style.opacity='0';} continue; }
@@ -4236,16 +4358,20 @@ function paintText(p){
     n.style.opacity=a.toFixed(3);
     const span=t.d-t.a, local=clamp((p-t.a)/(span||1),0,1);
     let tr='translate(-50%,-50%)';
-    if(t.al==='left') tr='translate(0,-50%)';
-    if(t.al==='right') tr='translate(-100%,-50%)';
-    const par=(t.par||0)*(local-0.5);
-    switch(t.m){
-      case 'rise':    tr+=` translateY(${((1-a)*34).toFixed(1)}px)`; break;
-      case 'scale':   tr+=` scale(${(0.74+local*0.52).toFixed(3)})`; break;
-      case 'drift-r': tr+=` translateX(${(par*90).toFixed(1)}vw)`; break;
-      case 'drift-l': tr+=` translateX(${(-par*90).toFixed(1)}vw)`; break;
+    if(isMobilePortrait && i >= TEXT.length && i <= TEXT.length + 2){
+      tr = `translate(-50%, ${((1-a)*14).toFixed(1)}px)`;
+    } else {
+      if(t.al==='left') tr='translate(0,-50%)';
+      if(t.al==='right') tr='translate(-100%,-50%)';
+      const par=(t.par||0)*(local-0.5);
+      switch(t.m){
+        case 'rise':    tr+=` translateY(${((1-a)*34).toFixed(1)}px)`; break;
+        case 'scale':   tr+=` scale(${(0.74+local*0.52).toFixed(3)})`; break;
+        case 'drift-r': tr+=` translateX(${(par*90).toFixed(1)}vw)`; break;
+        case 'drift-l': tr+=` translateX(${(-par*90).toFixed(1)}vw)`; break;
+      }
+      if(t.L==='back') tr+=` translateY(${(par*-10).toFixed(1)}vh)`;
     }
-    if(t.L==='back') tr+=` translateY(${(par*-10).toFixed(1)}vh)`;
     n.style.transform=tr;
     if(n.style.filter) n.style.filter='';
   }
@@ -4264,6 +4390,13 @@ function updateGeoNarrative(p){
   const title=document.getElementById('geoTitle');
   const detail=document.getElementById('geoDetail');
   if(!box||!title||!detail) return;
+  const isMobilePortrait = (W < 640 && H > W);
+  if(isMobilePortrait && p < 0.976){
+    box.classList.remove('is-visible');
+    lastGeoNarrativeKey='';
+    const a11y=document.getElementById('geoA11y'); if(a11y) a11y.textContent='';
+    return;
+  }
   let kicker='',t='',d='';
   const lang = (typeof currentLang!=='undefined'?currentLang:'en');
   if(p>=0.912 && p<0.932){
@@ -4562,7 +4695,7 @@ const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
       `<div class="meta">`+
         `<span class="tag${open?' live':''}">${open?d.records+' published records':'No published records yet'}</span>`+
         (d.reference?`<span class="tag">Technical reference</span>`:'')+
-        `<span class="arrow" aria-hidden="true">→</span>`+
+        (open?`<span class="arrow" aria-hidden="true">→</span>`:'')+
       `</div>`;
     host.appendChild(el);
   });
