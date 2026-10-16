@@ -827,134 +827,136 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   .btn-sm{min-height:26px;padding:2px 5px;font-size:9.5px}
 }
 
-/* Phase 2 — language gateway */
+/* Phase 2 — language gateway (Architectural Console Design) */
 #languageGate{
   position:fixed; inset:0; z-index:120; display:grid; place-items:center;
-  background:rgba(4,8,6,.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  padding:24px;
-  transition:opacity 0.4s var(--ease-spring), visibility 0.4s var(--ease-spring);
+  background:rgba(3,6,5,.94); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  padding:20px;
+  transition:opacity 0.35s var(--ease-spring), visibility 0.35s var(--ease-spring);
 }
 #languageGate.is-hidden{opacity:0; visibility:hidden; pointer-events:none}
 .lang-card{
-  width:min(660px,94vw); padding:clamp(26px,5vw,44px);
-  border:1px solid rgba(144,188,205,0.25); border-radius:14px;
-  background:rgba(11,18,15,.96);
-  box-shadow:0 30px 100px rgba(0,0,0,.65), 0 0 45px rgba(144,188,205,0.08);
+  width:min(480px,94vw); padding:clamp(22px,4.5vw,34px);
+  border:1px solid rgba(255,255,255,0.12); border-top:2px solid var(--signal);
+  border-radius:4px;
+  background:rgba(9,15,12,.98);
+  box-shadow:0 30px 90px rgba(0,0,0,.85), 0 0 1px rgba(255,255,255,0.12) inset;
   transform:scale(1);
-  transition:transform 0.4s var(--ease-spring);
+  transition:transform 0.35s var(--ease-spring);
 }
 #languageGate.is-hidden .lang-card{
-  transform:scale(0.94);
+  transform:scale(0.96);
 }
-.lang-card-header{margin-bottom:20px}
-.lang-card-header .eyebrow{
-  display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;
-  font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--signal); font-weight:700; margin-bottom:8px;
+.lang-card-header{margin-bottom:18px}
+.lang-eyebrow{
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:var(--ui); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--signal); font-weight:700; margin:0 0 10px;
 }
-.lang-card-header .eyebrow span{color:var(--mute); font-weight:400; text-transform:none; letter-spacing:.02em}
+.lang-tag-year{color:var(--mute); font-weight:400; letter-spacing:.12em}
 
-.lang-titles-wrap{margin:6px 0 12px}
 .lang-card h1{
-  font-family:var(--film); font-weight:400; font-size:clamp(34px,5.8vw,58px);
-  line-height:1.06; margin:0 0 8px; color:#FAF8F2; letter-spacing:-.015em;
+  font-family:var(--film); font-weight:400; font-size:clamp(28px,4.5vw,38px);
+  line-height:1.15; margin:0 0 8px; color:#FAF8F2; letter-spacing:-.01em;
 }
-.lang-subheadings-row{
-  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  font-family:var(--mr); font-size:clamp(15px,2.2vw,20px); font-weight:500;
-  color:#BAC7C1; line-height:1.5;
-}
-.lang-subhead-pill{color:#BAC7C1; transition:color 0.25s ease}
-.lang-subhead-pill.active{color:var(--signal); font-weight:600}
-.lang-subhead-dot{color:var(--line); font-size:12px}
-
 .lang-desc{
-  max-width:54ch; color:#C4D2CB; font-size:clamp(13px,1.25vw,14.5px);
-  line-height:1.6; margin:0;
+  max-width:44ch; color:#9FB2A9; font-size:clamp(12.5px,1.2vw,14px);
+  line-height:1.55; margin:0;
 }
 
-/* 3-Column Language Tile Grid */
-.lang-grid{
-  display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
-  margin:22px 0 16px;
+/* Unified Architectural Selector Group (Bans AI Curve Boxes) */
+.lang-selector-group{
+  display:flex; flex-direction:column;
+  border:1px solid rgba(255,255,255,0.10); border-radius:4px;
+  background:rgba(255,255,255,0.02);
+  overflow:hidden; margin:18px 0 14px;
 }
-.lang-tile{
-  position:relative; background:rgba(255,255,255,0.03);
-  border:1.5px solid rgba(255,255,255,0.11); border-radius:10px;
-  padding:16px 14px; text-align:left; cursor:pointer;
-  display:flex; flex-direction:column; gap:8px;
-  color:#FAF8F2; font-family:inherit;
-  transition:border-color 0.28s var(--ease-spring), background-color 0.28s var(--ease-spring), transform 0.28s var(--ease-spring), box-shadow 0.28s var(--ease-spring);
+.lang-option{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:13px 16px;
+  background:transparent; border:none;
+  border-left:3px solid transparent;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  color:#FAF8F2; font-family:inherit; cursor:pointer; text-align:left; width:100%;
+  transition:background-color 0.2s ease, border-color 0.2s ease;
+  outline:none;
 }
-.lang-tile:hover{
-  border-color:rgba(144,188,205,0.45);
-  background:rgba(144,188,205,0.06);
-  transform:translateY(-2px);
+.lang-option:last-child{border-bottom:none}
+.lang-option:hover{
+  background:rgba(255,255,255,0.04);
 }
-.lang-tile[aria-pressed="true"], .lang-tile[aria-checked="true"]{
-  border-color:var(--signal);
-  background:linear-gradient(145deg, rgba(144,188,205,0.16), rgba(144,188,205,0.04));
-  box-shadow:0 0 22px rgba(144,188,205,0.22), inset 0 0 14px rgba(144,188,205,0.12);
+.lang-option:focus-visible{
+  outline:1px solid var(--signal); outline-offset:-1px;
 }
-.lang-tile-header{
-  display:flex; justify-content:space-between; align-items:center; width:100%;
+.lang-option[aria-checked="true"], .lang-option[aria-pressed="true"]{
+  background:rgba(144,188,205,0.08);
+  border-left-color:var(--signal);
 }
-.lang-tile-code{
-  font-family:var(--ui); font-size:9.5px; font-weight:700; letter-spacing:.16em;
-  padding:2px 6px; border-radius:3px; background:rgba(255,255,255,0.06);
-  color:var(--mute);
+
+.lang-option-lead{
+  display:flex; align-items:center; gap:12px; min-width:0;
 }
-.lang-tile[aria-pressed="true"] .lang-tile-code{
-  background:var(--signal); color:#06100D; font-weight:800;
+.lang-indicator{
+  width:7px; height:7px; border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.25);
+  flex-shrink:0; transition:all 0.2s ease;
 }
-.lang-tile-check{
-  width:16px; height:16px; border-radius:50%;
-  display:inline-flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:700; color:transparent;
-  border:1px solid rgba(255,255,255,0.2);
-  transition:all 0.25s var(--ease-spring);
+.lang-option[aria-checked="true"] .lang-indicator, .lang-option[aria-pressed="true"] .lang-indicator{
+  background:var(--signal); border-color:var(--signal);
+  box-shadow:0 0 8px var(--signal);
 }
-.lang-tile[aria-pressed="true"] .lang-tile-check{
-  color:#06100D; background:var(--signal); border-color:var(--signal);
-}
-.lang-tile-names{
+.lang-option-text{
   display:flex; flex-direction:column; gap:2px;
 }
-.lang-tile-title{
-  font-family:var(--mr); font-size:18px; font-weight:600; color:#FAF8F2; line-height:1.2;
+.lang-name{
+  font-family:var(--mr); font-size:16px; font-weight:500; color:#FAF8F2; line-height:1.25;
 }
-.lang-tile[data-lang="en"] .lang-tile-title{
-  font-family:var(--ui); font-size:17px; font-weight:600;
+.lang-option[data-lang="en"] .lang-name{
+  font-family:var(--ui); font-size:15.5px;
 }
-.lang-tile-native{
-  font-family:var(--ui); font-size:10.5px; color:#9BB0A6; line-height:1.3;
+.lang-option[aria-checked="true"] .lang-name, .lang-option[aria-pressed="true"] .lang-name{
+  color:#FFFFFF; font-weight:600;
 }
-.lang-tile[aria-pressed="true"] .lang-tile-native{
-  color:#D6E5DF;
+.lang-desc-sub{
+  font-family:var(--ui); font-size:11.5px; color:#8C9E96; line-height:1.35;
 }
-.lang-tile-sample{
-  font-family:var(--mr); font-size:11.5px; color:#A4B5AD;
-  padding-top:6px; border-top:1px solid rgba(255,255,255,0.07);
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  line-height:1.4;
+.lang-option[aria-checked="true"] .lang-desc-sub, .lang-option[aria-pressed="true"] .lang-desc-sub{
+  color:#B8CCC3;
 }
-.lang-tile[data-lang="en"] .lang-tile-sample{
-  font-family:var(--ui);
+.lang-code-tag{
+  font-family:var(--ui); font-size:10px; font-weight:700; letter-spacing:.12em;
+  padding:3px 7px; border-radius:2px; border:1px solid rgba(255,255,255,0.10);
+  color:#7D8F87; background:rgba(255,255,255,0.03); flex-shrink:0;
+  transition:all 0.2s ease;
+}
+.lang-option[aria-checked="true"] .lang-code-tag, .lang-option[aria-pressed="true"] .lang-code-tag{
+  color:var(--signal); border-color:rgba(144,188,205,0.4); background:rgba(144,188,205,0.12);
 }
 
 .lang-helper-note{
-  font-size:11.5px; color:var(--dim); line-height:1.55; margin:14px 0 20px;
+  font-family:var(--ui); font-size:11.5px; color:#72847C; line-height:1.5; margin:12px 0 20px;
 }
 .lang-actions{
-  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  display:flex; flex-direction:column; gap:10px;
 }
 #enterStory{
-  min-height:44px; padding:10px 22px; font-size:13.5px; font-weight:600;
-  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:11px 20px; width:100%;
+  font-family:var(--ui); font-size:13.5px; font-weight:600; letter-spacing:.02em;
+  color:#040A07; background:var(--signal);
+  border:none; border-radius:3px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4), 0 0 16px rgba(144,188,205,0.2);
+  transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#enterStory:hover{
+  background:#B4DDD0; transform:translateY(-1px); box-shadow:0 6px 22px rgba(144,188,205,0.35);
+}
+#enterStory:active{
+  transform:translateY(0);
 }
 .lang-skip-link{
-  font-family:var(--ui); font-size:12px; color:var(--mute);
-  text-decoration:none; letter-spacing:.04em;
-  transition:color 0.25s var(--ease-spring);
+  font-family:var(--ui); font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:#7B8C85; text-decoration:none; text-align:center; padding:5px 0;
+  transition:color 0.2s ease;
 }
 .lang-skip-link:hover{color:var(--signal)}
 
@@ -962,14 +964,8 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 @media(max-width:620px){
   #languageGate{padding:14px}
   .lang-card{padding:22px 18px; max-height:calc(100dvh - 28px); overflow-y:auto}
-  .lang-grid{grid-template-columns:1fr; gap:8px; margin:16px 0 14px}
-  .lang-tile{padding:12px 14px; flex-direction:row; align-items:center; justify-content:space-between}
-  .lang-tile-header{width:auto; order:2; gap:8px}
-  .lang-tile-names{order:1}
-  .lang-tile-sample{display:none}
-  .lang-actions{flex-direction:column; align-items:stretch; gap:12px}
-  #enterStory{width:100%}
-  .lang-skip-link{text-align:center; padding:4px 0}
+  .lang-option{padding:12px 14px}
+  .lang-option-lead{gap:10px}
 }
 </style>
 </head>
@@ -977,62 +973,56 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 <div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="langTitle">
   <div class="lang-card">
     <div class="lang-card-header">
-      <p class="eyebrow">CCL · COOL CRYMB <span>· द्विपक्षीय संशोधन व संवाद</span></p>
-      <div class="lang-titles-wrap">
-        <h1 id="langTitle">Choose your language</h1>
-        <div class="lang-subheadings-row" aria-hidden="true">
-          <span class="lang-subhead-pill en active">Choose your language</span>
-          <span class="lang-subhead-dot">·</span>
-          <span class="lang-subhead-pill mr">तुमची भाषा निवडा</span>
-          <span class="lang-subhead-dot">·</span>
-          <span class="lang-subhead-pill hi">अपनी भाषा चुनें</span>
-        </div>
+      <div class="lang-eyebrow">
+        <span>CCL · COOL CRYMB</span>
+        <span class="lang-tag-year">2026–2027</span>
       </div>
-      <p id="langSub" class="lang-desc">English is selected by default. You can change it at any time from the top menu.</p>
+      <h1 id="langTitle">Choose your language</h1>
+      <p id="langSub" class="lang-desc">A bilateral climate-resilience research initiative connecting Mumbai and Bristol.</p>
     </div>
 
-    <div class="lang-grid" role="radiogroup" aria-label="Language selection">
-      <button type="button" role="radio" class="lang-tile" data-lang="en" aria-checked="true" aria-pressed="true">
-        <div class="lang-tile-header">
-          <span class="lang-tile-code">EN</span>
-          <span class="lang-tile-check" aria-hidden="true">✓</span>
+    <div class="lang-selector-group" role="radiogroup" aria-label="Language selection">
+      <button type="button" role="radio" class="lang-option" data-lang="en" aria-checked="true" aria-pressed="true">
+        <div class="lang-option-lead">
+          <span class="lang-indicator" aria-hidden="true"></span>
+          <div class="lang-option-text">
+            <strong class="lang-name">English</strong>
+            <span class="lang-desc-sub">Default · Academic & International</span>
+          </div>
         </div>
-        <div class="lang-tile-names">
-          <strong class="lang-tile-title">English</strong>
-          <span class="lang-tile-native">Default · Academic</span>
-        </div>
-        <div class="lang-tile-sample">Community Co-creation Lab</div>
+        <span class="lang-code-tag">EN</span>
       </button>
 
-      <button type="button" role="radio" class="lang-tile" data-lang="mr" aria-checked="false" aria-pressed="false">
-        <div class="lang-tile-header">
-          <span class="lang-tile-code">MR</span>
-          <span class="lang-tile-check" aria-hidden="true">✓</span>
+      <button type="button" role="radio" class="lang-option" data-lang="mr" aria-checked="false" aria-pressed="false">
+        <div class="lang-option-lead">
+          <span class="lang-indicator" aria-hidden="true"></span>
+          <div class="lang-option-text">
+            <strong class="lang-name">मराठी</strong>
+            <span class="lang-desc-sub">स्थानिक भाषा · महाराष्ट्र व कोकण</span>
+          </div>
         </div>
-        <div class="lang-tile-names">
-          <strong class="lang-tile-title">मराठी</strong>
-          <span class="lang-tile-native">स्थानिक भाषा · मातृभाषा</span>
-        </div>
-        <div class="lang-tile-sample">आपल्या माणसांची प्रयोगशाळा</div>
+        <span class="lang-code-tag">MR</span>
       </button>
 
-      <button type="button" role="radio" class="lang-tile" data-lang="hi" aria-checked="false" aria-pressed="false">
-        <div class="lang-tile-header">
-          <span class="lang-tile-code">HI</span>
-          <span class="lang-tile-check" aria-hidden="true">✓</span>
+      <button type="button" role="radio" class="lang-option" data-lang="hi" aria-checked="false" aria-pressed="false">
+        <div class="lang-option-lead">
+          <span class="lang-indicator" aria-hidden="true"></span>
+          <div class="lang-option-text">
+            <strong class="lang-name">हिन्दी</strong>
+            <span class="lang-desc-sub">साझी समझ · राष्ट्रीय संवाद</span>
+          </div>
         </div>
-        <div class="lang-tile-names">
-          <strong class="lang-tile-title">हिन्दी</strong>
-          <span class="lang-tile-native">साझी समझ · राष्ट्रभाषा</span>
-        </div>
-        <div class="lang-tile-sample">हमारी साझी प्रयोगशाला</div>
+        <span class="lang-code-tag">HI</span>
       </button>
     </div>
 
-    <p id="langNote" class="lang-helper-note">Sets the interface, cinematic timeline, and local district research archive. English is active.</p>
+    <p id="langNote" class="lang-helper-note">You can change the language at any time from the top menu.</p>
 
     <div class="lang-actions">
-      <button class="btn" id="enterStory">Enter the story →</button>
+      <button class="btn btn-primary" id="enterStory">
+        <span>Enter the story</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </button>
       <a href="#project" class="lang-skip-link" id="gateSkip">Skip introduction & explore archive →</a>
     </div>
   </div>
@@ -5542,8 +5532,8 @@ const store=(function(){const mem={};
 const UI_LANG={
  en:{
    title:'Choose your language',
-   sub:'English is selected by default. You can change it at any time from the top menu.',
-   note:'Sets the interface, cinematic timeline, and local district research archive. English is active.',
+   sub:'A bilateral climate-resilience research initiative connecting Mumbai and Bristol.',
+   note:'You can change the language at any time from the top menu.',
    enter:'Enter the story →',
    skip:'Skip the introduction and go to the project',
    skipGate:'Skip introduction & explore archive →',
@@ -5578,8 +5568,8 @@ const UI_LANG={
  },
  mr:{
    title:'तुमची भाषा निवडा',
-   sub:'तुम्ही हवी तेव्हा वरच्या मेनूमधून भाषा बदलू शकता.',
-   note:'संवाद, कथा आणि गावनिहाय संशोधन संग्रह मराठीत पाहता येईल.',
+   sub:'मुंबई आणि ब्रिस्टल दरम्यानचा हवामान संशोधन उपक्रम. सुरू करण्यासाठी भाषा निवडा.',
+   note:'तुम्ही हवी तेव्हा वरच्या मेनूमधून भाषा बदलू शकता.',
    enter:'कथा सुरू करा →',
    skip:'थेट प्रकल्पाची माहिती पहा',
    skipGate:'थेट गावांचे संशोधन संग्रह पहा →',
@@ -5614,8 +5604,8 @@ const UI_LANG={
  },
  hi:{
    title:'अपनी भाषा चुनें',
-   sub:'आप ऊपर दिए गए मेन्यू से कभी भी भाषा बदल सकते हैं।',
-   note:'पूरी वेबसाइट, कहानी और ज़मीनी शोध संग्रह हिन्दी में उपलब्ध होगा।',
+   sub:'मुंबई और ब्रिस्टल के बीच पर्यावरण एवं जलवायु शोध की साझी पहल।',
+   note:'आप ऊपर दिए गए मेन्यू से कभी भी भाषा बदल सकते हैं।',
    enter:'कहानी शुरू करें →',
    skip:'सीधे परियोजना की जानकारी देखें',
    skipGate:'सीधे परियोजना रिकॉर्ड देखें →',
@@ -5668,7 +5658,7 @@ function applyLanguage(code){
  document.querySelectorAll('.lang-subhead-pill').forEach(pill=>{
    pill.classList.toggle('active', pill.classList.contains(code));
  });
- document.querySelectorAll('.lang-tile').forEach(tile=>{
+ document.querySelectorAll('.lang-option, .lang-tile').forEach(tile=>{
    const active = tile.dataset.lang === code;
    tile.setAttribute('aria-pressed', String(active));
    tile.setAttribute('aria-checked', String(active));
