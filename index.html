@@ -714,59 +714,211 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 /* Phase 2 — language gateway */
 #languageGate{
   position:fixed; inset:0; z-index:120; display:grid; place-items:center;
-  background:rgba(4,8,6,.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  background:rgba(4,8,6,.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   padding:24px;
   transition:opacity 0.4s var(--ease-spring), visibility 0.4s var(--ease-spring);
 }
 #languageGate.is-hidden{opacity:0; visibility:hidden; pointer-events:none}
 .lang-card{
-  width:min(620px,94vw); padding:clamp(28px,6vw,56px);
-  border:1px solid rgba(144,188,205,0.25); border-radius:12px;
+  width:min(660px,94vw); padding:clamp(26px,5vw,44px);
+  border:1px solid rgba(144,188,205,0.25); border-radius:14px;
   background:rgba(11,18,15,.96);
-  box-shadow:0 30px 100px rgba(0,0,0,.6), 0 0 40px rgba(144,188,205,0.08);
+  box-shadow:0 30px 100px rgba(0,0,0,.65), 0 0 45px rgba(144,188,205,0.08);
   transform:scale(1);
   transition:transform 0.4s var(--ease-spring);
 }
 #languageGate.is-hidden .lang-card{
   transform:scale(0.94);
 }
+.lang-card-header{margin-bottom:20px}
+.lang-card-header .eyebrow{
+  display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;
+  font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--signal); font-weight:700; margin-bottom:8px;
+}
+.lang-card-header .eyebrow span{color:var(--mute); font-weight:400; text-transform:none; letter-spacing:.02em}
+
+.lang-titles-wrap{margin:6px 0 12px}
 .lang-card h1{
-  font-family:var(--film); font-weight:400; font-size:clamp(40px,7vw,76px);
-  line-height:1.02; margin:.12em 0 .28em; color:#FAF8F2;
+  font-family:var(--film); font-weight:400; font-size:clamp(34px,5.8vw,58px);
+  line-height:1.06; margin:0 0 8px; color:#FAF8F2; letter-spacing:-.015em;
 }
-.lang-card p:not(.eyebrow){max-width:48ch; color:#C4D2CB; font-size:15px; line-height:1.6}
-.lang-card .lang{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 18px}
-.lang-card .lang button[aria-pressed="true"]{
-  color:#06100D; background:var(--signal); border-color:var(--signal); font-weight:600;
-  box-shadow:0 0 16px rgba(144,188,205,0.35);
+.lang-subheadings-row{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  font-family:var(--mr); font-size:clamp(15px,2.2vw,20px); font-weight:500;
+  color:#BAC7C1; line-height:1.5;
 }
-#enterStory{margin-top:6px}
+.lang-subhead-pill{color:#BAC7C1; transition:color 0.25s ease}
+.lang-subhead-pill.active{color:var(--signal); font-weight:600}
+.lang-subhead-dot{color:var(--line); font-size:12px}
+
+.lang-desc{
+  max-width:54ch; color:#C4D2CB; font-size:clamp(13px,1.25vw,14.5px);
+  line-height:1.6; margin:0;
+}
+
+/* 3-Column Language Tile Grid */
+.lang-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
+  margin:22px 0 16px;
+}
+.lang-tile{
+  position:relative; background:rgba(255,255,255,0.03);
+  border:1.5px solid rgba(255,255,255,0.11); border-radius:10px;
+  padding:16px 14px; text-align:left; cursor:pointer;
+  display:flex; flex-direction:column; gap:8px;
+  color:#FAF8F2; font-family:inherit;
+  transition:border-color 0.28s var(--ease-spring), background-color 0.28s var(--ease-spring), transform 0.28s var(--ease-spring), box-shadow 0.28s var(--ease-spring);
+}
+.lang-tile:hover{
+  border-color:rgba(144,188,205,0.45);
+  background:rgba(144,188,205,0.06);
+  transform:translateY(-2px);
+}
+.lang-tile[aria-pressed="true"], .lang-tile[aria-checked="true"]{
+  border-color:var(--signal);
+  background:linear-gradient(145deg, rgba(144,188,205,0.16), rgba(144,188,205,0.04));
+  box-shadow:0 0 22px rgba(144,188,205,0.22), inset 0 0 14px rgba(144,188,205,0.12);
+}
+.lang-tile-header{
+  display:flex; justify-content:space-between; align-items:center; width:100%;
+}
+.lang-tile-code{
+  font-family:var(--ui); font-size:9.5px; font-weight:700; letter-spacing:.16em;
+  padding:2px 6px; border-radius:3px; background:rgba(255,255,255,0.06);
+  color:var(--mute);
+}
+.lang-tile[aria-pressed="true"] .lang-tile-code{
+  background:var(--signal); color:#06100D; font-weight:800;
+}
+.lang-tile-check{
+  width:16px; height:16px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; color:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  transition:all 0.25s var(--ease-spring);
+}
+.lang-tile[aria-pressed="true"] .lang-tile-check{
+  color:#06100D; background:var(--signal); border-color:var(--signal);
+}
+.lang-tile-names{
+  display:flex; flex-direction:column; gap:2px;
+}
+.lang-tile-title{
+  font-family:var(--mr); font-size:18px; font-weight:600; color:#FAF8F2; line-height:1.2;
+}
+.lang-tile[data-lang="en"] .lang-tile-title{
+  font-family:var(--ui); font-size:17px; font-weight:600;
+}
+.lang-tile-native{
+  font-family:var(--ui); font-size:10.5px; color:#9BB0A6; line-height:1.3;
+}
+.lang-tile[aria-pressed="true"] .lang-tile-native{
+  color:#D6E5DF;
+}
+.lang-tile-sample{
+  font-family:var(--mr); font-size:11.5px; color:#A4B5AD;
+  padding-top:6px; border-top:1px solid rgba(255,255,255,0.07);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  line-height:1.4;
+}
+.lang-tile[data-lang="en"] .lang-tile-sample{
+  font-family:var(--ui);
+}
+
+.lang-helper-note{
+  font-size:11.5px; color:var(--dim); line-height:1.55; margin:14px 0 20px;
+}
+.lang-actions{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+#enterStory{
+  min-height:44px; padding:10px 22px; font-size:13.5px; font-weight:600;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.lang-skip-link{
+  font-family:var(--ui); font-size:12px; color:var(--mute);
+  text-decoration:none; letter-spacing:.04em;
+  transition:color 0.25s var(--ease-spring);
+}
+.lang-skip-link:hover{color:var(--signal)}
+
 @media(prefers-reduced-motion:reduce){#languageGate,#languageGate .lang-card{transition:none}}
-
-#geoA11y,#geoLabels{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
-
-@media(max-width:620px){.fact-two{margin-top:12vh}}
 @media(max-width:620px){
-  #languageGate{padding:16px}
-  .lang-card{max-height:calc(100dvh - 32px);overflow:auto;padding:24px 22px}
-  .lang-card h1{font-size:clamp(38px,12vw,56px)}
-  .lang-card .lang{margin:20px 0 14px}
+  #languageGate{padding:14px}
+  .lang-card{padding:22px 18px; max-height:calc(100dvh - 28px); overflow-y:auto}
+  .lang-grid{grid-template-columns:1fr; gap:8px; margin:16px 0 14px}
+  .lang-tile{padding:12px 14px; flex-direction:row; align-items:center; justify-content:space-between}
+  .lang-tile-header{width:auto; order:2; gap:8px}
+  .lang-tile-names{order:1}
+  .lang-tile-sample{display:none}
+  .lang-actions{flex-direction:column; align-items:stretch; gap:12px}
+  #enterStory{width:100%}
+  .lang-skip-link{text-align:center; padding:4px 0}
 }
 </style>
 </head>
 <body>
 <div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="langTitle">
   <div class="lang-card">
-    <p class="eyebrow">CCL · COOL CRYMB</p>
-    <h1 id="langTitle">Choose your language</h1>
-    <p id="langSub">English is selected by default. You can change it any time.</p>
-    <div class="lang" role="group" aria-label="Language">
-      <button class="btn" data-lang="en" aria-pressed="true">English</button>
-      <button class="btn" data-lang="mr" aria-pressed="false">मराठी</button>
-      <button class="btn" data-lang="hi" aria-pressed="false">हिन्दी</button>
+    <div class="lang-card-header">
+      <p class="eyebrow">CCL · COOL CRYMB <span>· द्विपक्षीय संशोधन व संवाद</span></p>
+      <div class="lang-titles-wrap">
+        <h1 id="langTitle">Choose your language</h1>
+        <div class="lang-subheadings-row" aria-hidden="true">
+          <span class="lang-subhead-pill en active">Choose your language</span>
+          <span class="lang-subhead-dot">·</span>
+          <span class="lang-subhead-pill mr">तुमची भाषा निवडा</span>
+          <span class="lang-subhead-dot">·</span>
+          <span class="lang-subhead-pill hi">अपनी भाषा चुनें</span>
+        </div>
+      </div>
+      <p id="langSub" class="lang-desc">English is selected by default. You can change it at any time from the top menu.</p>
     </div>
-    <p style="font-size:11px;color:var(--dim);margin:14px 0 0">Sets the interface and film narrative language. English is the default.</p>
-    <button class="btn" id="enterStory">Enter the story →</button>
+
+    <div class="lang-grid" role="radiogroup" aria-label="Language selection">
+      <button type="button" role="radio" class="lang-tile" data-lang="en" aria-checked="true" aria-pressed="true">
+        <div class="lang-tile-header">
+          <span class="lang-tile-code">EN</span>
+          <span class="lang-tile-check" aria-hidden="true">✓</span>
+        </div>
+        <div class="lang-tile-names">
+          <strong class="lang-tile-title">English</strong>
+          <span class="lang-tile-native">Default · Academic</span>
+        </div>
+        <div class="lang-tile-sample">Community Co-creation Lab</div>
+      </button>
+
+      <button type="button" role="radio" class="lang-tile" data-lang="mr" aria-checked="false" aria-pressed="false">
+        <div class="lang-tile-header">
+          <span class="lang-tile-code">MR</span>
+          <span class="lang-tile-check" aria-hidden="true">✓</span>
+        </div>
+        <div class="lang-tile-names">
+          <strong class="lang-tile-title">मराठी</strong>
+          <span class="lang-tile-native">स्थानिक भाषा · मातृभाषा</span>
+        </div>
+        <div class="lang-tile-sample">आपल्या माणसांची प्रयोगशाळा</div>
+      </button>
+
+      <button type="button" role="radio" class="lang-tile" data-lang="hi" aria-checked="false" aria-pressed="false">
+        <div class="lang-tile-header">
+          <span class="lang-tile-code">HI</span>
+          <span class="lang-tile-check" aria-hidden="true">✓</span>
+        </div>
+        <div class="lang-tile-names">
+          <strong class="lang-tile-title">हिन्दी</strong>
+          <span class="lang-tile-native">साझी समझ · राष्ट्रभाषा</span>
+        </div>
+        <div class="lang-tile-sample">हमारी साझी प्रयोगशाला</div>
+      </button>
+    </div>
+
+    <p id="langNote" class="lang-helper-note">Sets the interface, cinematic timeline, and local district research archive. English is active.</p>
+
+    <div class="lang-actions">
+      <button class="btn" id="enterStory">Enter the story →</button>
+      <a href="#project" class="lang-skip-link" id="gateSkip">Skip introduction & explore archive →</a>
+    </div>
   </div>
 </div>
 <a id="skip" href="#project">Skip the introduction and go to the project</a>
@@ -5255,15 +5407,139 @@ const store=(function(){const mem={};
  return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
         set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
 const UI_LANG={
- en:{title:'Choose your language',sub:'English is selected by default. You can change it any time.',enter:'Enter the story →',skip:'Skip the introduction and go to the project',sound:'Sound off',still:'Reduce motion',scroll:'Scroll',projectEyebrow:'Explore the project',projectTitle:'Explore the published research archive.',projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',archive:'Open the research archive',count:'published district records',archiveTitle:'Research archive',archiveIntro:'Choose a published district to enter its research record.',back:'← Homepage',backStory:'Story',global:'Global Partnership',world:'UK ↔ India Climate Network',detail:'Connecting University of Bristol, British Council & HSBC in the UK with University of Mumbai and Maharashtra coastal communities.',partnersEyebrow:'Partners & Governance',partnersTitle:'The Bilateral Partnership',partnersLede:'COOL CRYMB operates through an international collaboration connecting higher education, scientific research, and global sustainability leadership across the United Kingdom and India.',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol. A bilateral partnership between the University of Mumbai and the University of Bristol, funded by the British Council and HSBC.</p><p style="margin-top:14px">The opening sequence on this page is an illustrative narrative device. The tree, the person, the machinery and the building are symbolic; they are not a documented field event, not a CCL site, and not evidence. Everything in the archive is a verified record and carries its own evidence reference.</p>',soundOn:'Sound on',motionOn:'Motion on',archiveH1:'Explore the published record.',routeNote:'The archive grows as verified records clear the evidence and consent checks.',navStory:'Story',navDistricts:'Districts',navSources:'Sources',navVisit:'Access',badgePublished:'Published record'},
-  mr:{title:'तुमची भाषा निवडा',sub:'तुम्ही हवी तेव्हा भाषा बदलू शकता.',enter:'कथा सुरू करा →',skip:'थेट प्रकल्पाची माहिती पहा',sound:'ध्वनी बंद',still:'साधी हालचाल',scroll:'खाली स्क्रोल करा',projectEyebrow:'आपला प्रकल्प',projectTitle:'गावनिहाय माहिती आणि नोंदी पहा.',projectLede:'आपल्या भागातील ठिकाणे, पाहणी, झाडे-निसर्ग आणि लोकांच्या अनुभवांची खरी माहिती इथे नोंदवली आहे. पडताळणी पूर्ण झाल्यावरच प्रत्येक नोंद इथे दिसते — खोटे किंवा न तपासलेले काहीही नाही.',archive:'गावांची माहिती पहा',count:'नोंदवलेली खरी माहिती',archiveTitle:'गावनिहाय संग्रह',archiveIntro:'माहिती पाहण्यासाठी खालीलपैकी एका जिल्ह्यावर क्लिक करा.',back:'← मुख्य पान',backStory:'कथा',global:'जागतिक मैत्री',world:'युके ↔ भारत सहकार्य',detail:'ब्रिटनमधील ब्रिस्टल विद्यापीठ, ब्रिटिश कौन्सिल व HSBC यांना आपले मुंबई विद्यापीठ आणि महाराष्ट्रातील गावांशी जोडणारा सेतू.',partnersEyebrow:'आपले सोबती',partnersTitle:'सोबत जोडलेले हात',partnersLede:'COOL CRYMB हे ब्रिटन आणि भारत यांच्यातील संशोधक, विद्यापीठे आणि स्थानिक लोकांच्या एकत्र येण्यातून सुरू झालेले एक प्रामाणिक काम आहे.',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — स्थानिक हवामान बदलांवर मात करण्यासाठी लोकांची प्रयोगशाळा: मुंबई आणि ब्रिस्टलमधील तरुणांना उपयुक्त कौशल्ये देऊन सक्षम करणे. मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांची साझी मैत्री, ज्याला ब्रिटिश कौन्सिल आणि HSBC चे पाठबळ लाभले आहे.</p><p style="margin-top:14px">या पानावरील सुरुवातीचे दृश्य (झाड, माणूस, यंत्रे आणि इमारत) ही एक प्रतीकात्मक कथा आहे; ही कोणतीही प्रत्यक्ष घटना नाही. खाली दिलेल्या संग्रहातील प्रत्येक माहिती मात्र खरी, पडताळलेली आणि पुरावा असलेली आहे.</p>',soundOn:'ध्वनी चालू',motionOn:'गती चालू',archiveH1:'गावांची पडताळलेली माहिती.',routeNote:'प्रत्यक्ष जागेवर जाऊन खात्री केल्यावरच प्रत्येक नोंद इथे जोडली जाते.',navStory:'कथा',navDistricts:'जिल्हे',navSources:'संदर्भ',navVisit:'प्रवेश',badgePublished:'पडताळलेली नोंद'},
-  hi:{title:'अपनी भाषा चुनें',sub:'आप अपनी पसंद से कभी भी भाषा बदल सकते हैं।',enter:'कहानी शुरू करें →',skip:'सीधे परियोजना की जानकारी देखें',sound:'ध्वनि बंद',still:'शांत दृश्य',scroll:'नीचे स्क्रॉल करें',projectEyebrow:'हमारी परियोजना',projectTitle:'गाँव और क्षेत्र के रिकॉर्ड देखें।',projectLede:'अपने इलाके के स्थान, सर्वेक्षण, पेड़-पौधे और लोगों के अनुभवों की सच्ची जानकारी यहाँ दर्ज है। पूरी जाँच के बाद ही हर रिकॉर्ड यहाँ जुड़ता है — बिना पड़ताल के कुछ भी नहीं।',archive:'ज़मीनी रिकॉर्ड देखें',count:'सत्यापित रिकॉर्ड',archiveTitle:'परियोजना संग्रह',archiveIntro:'जानकारी देखने के लिए नीचे दिए गए ज़िले पर क्लिक करें।',back:'← मुख्य पृष्ठ',backStory:'कहानी',global:'वैश्विक मित्रता',world:'यूके ↔ भारत साझी पहल',detail:'ब्रिटेन के ब्रिस्टल विश्वविद्यालय, ब्रिटिश काउंसिल व HSBC को हमारे मुंबई विश्वविद्यालय और महाराष्ट्र के गाँवों से जोड़ने वाला सेतु।',partnersEyebrow:'हमारे सहयोगी',partnersTitle:'साथ जुड़े हाथ',partnersLede:'COOL CRYMB ब्रिटेन और भारत के शोधकर्ताओं, विश्वविद्यालयों और स्थानीय लोगों के मिलकर काम करने की एक ईमानदार कोशिश है।',footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — पर्यावरण की मुश्किलों का हल निकालने के लिए हम सबकी साझी प्रयोगशाला: मुंबई और ब्रिस्टल के युवाओं को हुनरमंद और सक्षम बनाना। मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय की साझी पहल, जिसे ब्रिटिश काउंसिल और HSBC का सहयोग प्राप्त है।</p><p style="margin-top:14px">इस पृष्ठ की शुरुआती कहानी (पेड़, इंसान, मशीन और इमारत) एक प्रतीकात्मक दृश्य है; यह कोई वास्तविक घटना नहीं है। नीचे दिए गए संग्रह में हर जानकारी सच्ची, जाँची-परखी और प्रमाण सहित है।</p>',soundOn:'ध्वनि चालू',motionOn:'गति चालू',archiveH1:'ज़मीनी और जाँची-परखी जानकारी।',routeNote:'ज़मीन पर जाकर पूरी जाँच के बाद ही हर जानकारी यहाँ शामिल की जाती है।',navStory:'कहानी',navDistricts:'ज़िले',navSources:'स्रोत',navVisit:'पहुंच',badgePublished:'सत्यापित रिकॉर्ड'}
+ en:{
+   title:'Choose your language',
+   sub:'English is selected by default. You can change it at any time from the top menu.',
+   note:'Sets the interface, cinematic timeline, and local district research archive. English is active.',
+   enter:'Enter the story →',
+   skip:'Skip the introduction and go to the project',
+   skipGate:'Skip introduction & explore archive →',
+   sound:'Sound off',
+   still:'Reduce motion',
+   scroll:'Scroll',
+   projectEyebrow:'Explore the project',
+   projectTitle:'Explore the published research archive.',
+   projectLede:'Explore published districts through the places, surveys, species, challenges and evidence recorded there. The archive grows as records are verified — nothing appears here until it is.',
+   archive:'Open the research archive',
+   count:'published district records',
+   archiveTitle:'Research archive',
+   archiveIntro:'Choose a published district to enter its research record.',
+   back:'← Homepage',
+   backStory:'Story',
+   global:'Global Partnership',
+   world:'UK ↔ India Climate Network',
+   detail:'Connecting University of Bristol, British Council & HSBC in the UK with University of Mumbai and Maharashtra coastal communities.',
+   partnersEyebrow:'Partners & Governance',
+   partnersTitle:'The Bilateral Partnership',
+   partnersLede:'COOL CRYMB operates through an international collaboration connecting higher education, scientific research, and global sustainability leadership across the United Kingdom and India.',
+   footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — COmmunity cO-creation lab for Local Climate Resilience: empowering Youth with green skills in Mumbai and Bristol. A bilateral partnership between the University of Mumbai and the University of Bristol, funded by the British Council and HSBC.</p><p style="margin-top:14px">The opening sequence on this page is an illustrative narrative device. The tree, the person, the machinery and the building are symbolic; they are not a documented field event, not a CCL site, and not evidence. Everything in the archive is a verified record and carries its own evidence reference.</p>',
+   soundOn:'Sound on',
+   motionOn:'Motion on',
+   archiveH1:'Explore the published record.',
+   routeNote:'The archive grows as verified records clear the evidence and consent checks.',
+   navStory:'Story',
+   navDistricts:'Districts',
+   navSources:'Sources',
+   navVisit:'Access',
+   badgePublished:'Published record'
+ },
+ mr:{
+   title:'तुमची भाषा निवडा',
+   sub:'तुम्ही हवी तेव्हा वरच्या मेनूमधून भाषा बदलू शकता.',
+   note:'संवाद, कथा आणि गावनिहाय संशोधन संग्रह मराठीत पाहता येईल.',
+   enter:'कथा सुरू करा →',
+   skip:'थेट प्रकल्पाची माहिती पहा',
+   skipGate:'थेट गावांचे संशोधन संग्रह पहा →',
+   sound:'ध्वनी बंद',
+   still:'साधी हालचाल',
+   scroll:'खाली स्क्रोल करा',
+   projectEyebrow:'आपला प्रकल्प',
+   projectTitle:'गावनिहाय माहिती आणि नोंदी पहा.',
+   projectLede:'आपल्या भागातील ठिकाणे, पाहणी, झाडे-निसर्ग आणि लोकांच्या अनुभवांची खरी माहिती इथे नोंदवली आहे. पडताळणी पूर्ण झाल्यावरच प्रत्येक नोंद इथे दिसते — खोटे किंवा न तपासलेले काहीही नाही.',
+   archive:'गावांची माहिती पहा',
+   count:'नोंदवलेली खरी माहिती',
+   archiveTitle:'गावनिहाय संग्रह',
+   archiveIntro:'माहिती पाहण्यासाठी खालीलपैकी एका जिल्ह्यावर क्लिक करा.',
+   back:'← मुख्य पान',
+   backStory:'कथा',
+   global:'जागतिक मैत्री',
+   world:'युके ↔ भारत सहकार्य',
+   detail:'ब्रिटनमधील ब्रिस्टल विद्यापीठ, ब्रिटिश कौन्सिल व HSBC यांना आपले मुंबई विद्यापीठ आणि महाराष्ट्रातील गावांशी जोडणारा सेतू.',
+   partnersEyebrow:'आपले सोबती',
+   partnersTitle:'सोबत जोडलेले हात',
+   partnersLede:'COOL CRYMB हे ब्रिटन आणि भारत यांच्यातील संशोधक, विद्यापीठे आणि स्थानिक लोकांच्या एकत्र येण्यातून सुरू झालेले एक प्रामाणिक काम आहे.',
+   footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — स्थानिक हवामान बदलांवर मात करण्यासाठी लोकांची प्रयोगशाळा: मुंबई आणि ब्रिस्टलमधील तरुणांना उपयुक्त कौशल्ये देऊन सक्षम करणे. मुंबई विद्यापीठ आणि ब्रिस्टल विद्यापीठ यांची साझी मैत्री, ज्याला ब्रिटिश कौन्सिल आणि HSBC चे पाठबळ लाभले आहे.</p><p style="margin-top:14px">या पानावरील सुरुवातीचे दृश्य (झाड, माणूस, यंत्रे आणि इमारत) ही एक प्रतीकात्मक कथा आहे; ही कोणतीही प्रत्यक्ष घटना नाही. खाली दिलेल्या संग्रहातील प्रत्येक माहिती मात्र खरी, पडताळलेली आणि पुरावा असलेली आहे.</p>',
+   soundOn:'ध्वनी चालू',
+   motionOn:'गती चालू',
+   archiveH1:'गावांची पडताळलेली माहिती.',
+   routeNote:'प्रत्यक्ष जागेवर जाऊन खात्री केल्यावरच प्रत्येक नोंद इथे जोडली जाते.',
+   navStory:'कथा',
+   navDistricts:'जिल्हे',
+   navSources:'संदर्भ',
+   navVisit:'प्रवेश',
+   badgePublished:'पडताळलेली नोंद'
+ },
+ hi:{
+   title:'अपनी भाषा चुनें',
+   sub:'आप ऊपर दिए गए मेन्यू से कभी भी भाषा बदल सकते हैं।',
+   note:'पूरी वेबसाइट, कहानी और ज़मीनी शोध संग्रह हिन्दी में उपलब्ध होगा।',
+   enter:'कहानी शुरू करें →',
+   skip:'सीधे परियोजना की जानकारी देखें',
+   skipGate:'सीधे परियोजना रिकॉर्ड देखें →',
+   sound:'ध्वनि बंद',
+   still:'शांत दृश्य',
+   scroll:'नीचे स्क्रॉल करें',
+   projectEyebrow:'हमारी परियोजना',
+   projectTitle:'गाँव और क्षेत्र के रिकॉर्ड देखें।',
+   projectLede:'अपने इलाके के स्थान, सर्वेक्षण, पेड़-पौधे और लोगों के अनुभवों की सच्ची जानकारी यहाँ दर्ज है। पूरी जाँच के बाद ही हर रिकॉर्ड यहाँ जुड़ता है — बिना पड़ताल के कुछ भी नहीं।',
+   archive:'ज़मीनी रिकॉर्ड देखें',
+   count:'सत्यापित रिकॉर्ड',
+   archiveTitle:'परियोजना संग्रह',
+   archiveIntro:'जानकारी देखने के लिए नीचे दिए गए ज़िले पर क्लिक करें।',
+   back:'← मुख्य पृष्ठ',
+   backStory:'कहानी',
+   global:'वैश्विक मित्रता',
+   world:'यूके ↔ भारत साझी पहल',
+   detail:'ब्रिटेन के ब्रिस्टल विश्वविद्यालय, ब्रिटिश काउंसिल व HSBC को हमारे मुंबई विश्वविद्यालय और महाराष्ट्र के गाँवों से जोड़ने वाला सेतु।',
+   partnersEyebrow:'हमारे सहयोगी',
+   partnersTitle:'साथ जुड़े हाथ',
+   partnersLede:'COOL CRYMB ब्रिटेन और भारत के शोधकर्ताओं, विश्वविद्यालयों और स्थानीय लोगों के मिलकर काम करने की एक ईमानदार कोशिश है।',
+   footDesc:'<p><strong style="color:#E9E7DE">COOL CRYMB</strong> — पर्यावरण की मुश्किलों का हल निकालने के लिए हम सबकी साझी प्रयोगशाला: मुंबई और ब्रिस्टल के युवाओं को हुनरमंद और सक्षम बनाना। मुंबई विश्वविद्यालय और ब्रिस्टल विश्वविद्यालय की साझी पहल, जिसे ब्रिटिश काउंसिल और HSBC का सहयोग प्राप्त है।</p><p style="margin-top:14px">इस पृष्ठ की शुरुआती कहानी (पेड़, इंसान, मशीन और इमारत) एक प्रतीकात्मक दृश्य है; यह कोई वास्तविक घटना नहीं है। नीचे दिए गए संग्रह में हर जानकारी सच्ची, जाँची-परखी और प्रमाण सहित है।</p>',
+   soundOn:'ध्वनि चालू',
+   motionOn:'गति चालू',
+   archiveH1:'ज़मीनी और जाँची-परखी जानकारी।',
+   routeNote:'ज़मीन पर जाकर पूरी जाँच के बाद ही हर जानकारी यहाँ शामिल की जाती है।',
+   navStory:'कहानी',
+   navDistricts:'ज़िले',
+   navSources:'स्रोत',
+   navVisit:'पहुंच',
+   badgePublished:'सत्यापित रिकॉर्ड'
+ }
 };
 function applyLanguage(code){
  const l=UI_LANG[code]||UI_LANG.en;
  currentLang=UI_LANG[code]?code:'en'; document.documentElement.lang=code==='mr'?'mr':code==='hi'?'hi':'en';
- const map={langTitle:l.title,langSub:l.sub,enterStory:l.enter,skip:l.skip,cueText:l.scroll,geoKicker:l.global,geoTitle:l.world,geoDetail:l.detail};
- Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id); if(el) el.textContent=v;});
+ const map={
+   langTitle:l.title,
+   langSub:l.sub,
+   langNote:l.note,
+   enterStory:l.enter,
+   gateSkip:l.skipGate,
+   skip:l.skip,
+   cueText:l.scroll,
+   geoKicker:l.global,
+   geoTitle:l.world,
+   geoDetail:l.detail
+ };
+ Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id); if(el && v) el.textContent=v;});
+ document.querySelectorAll('.lang-subhead-pill').forEach(pill=>{
+   pill.classList.toggle('active', pill.classList.contains(code));
+ });
+ document.querySelectorAll('.lang-tile').forEach(tile=>{
+   const active = tile.dataset.lang === code;
+   tile.setAttribute('aria-pressed', String(active));
+   tile.setAttribute('aria-checked', String(active));
+ });
  const bs=document.getElementById('bSound'); if(bs) bs.textContent=soundOn?(l.soundOn||'Sound on'):l.sound;
  const bm=document.getElementById('bMotion'); if(bm){ bm.textContent=still?(l.motionOn||'Motion on'):l.still; bm.setAttribute('aria-pressed',String(still)); }
  const pe=document.querySelector('#project .eyebrow'); if(pe) pe.textContent=l.projectEyebrow;
@@ -5339,6 +5615,7 @@ function applyLanguage(code){
   };
  document.getElementById('enterStory')?.addEventListener('click',window.cclCloseGate);
  document.getElementById('skip')?.addEventListener('click',window.cclCloseGate);
+ document.getElementById('gateSkip')?.addEventListener('click',window.cclCloseGate);
  gate.addEventListener('keydown',e=>{
    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();window.cclCloseGate();return;}
    if(e.key!=='Tab') return;
