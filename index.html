@@ -270,13 +270,58 @@ body.arc #progress{display:none}
   gap:5px;
 }
 @media(max-width:620px){
+  .partners-film-wrap{
+    max-width:calc(100vw - 24px);
+    width:100%;
+    margin:0 auto;
+  }
   .partners-film-grid{
-    grid-template-columns:1fr;
-    max-width:300px;
-    gap:9px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-width:100%;
+    gap:6px;
+    box-sizing:border-box;
   }
   .partner-film-item{
-    padding:10px 12px;
+    padding:6px 8px;
+    gap:3px;
+    border-radius:6px;
+    min-width:0;
+    box-sizing:border-box;
+  }
+  .partner-film-head{
+    flex-wrap:wrap;
+    gap:3px;
+    justify-content:flex-start;
+  }
+  .partner-film-logo-wrap{
+    height:20px;
+    padding:2px 4px;
+    max-width:100%;
+  }
+  .partner-film-logo{
+    height:14px;
+    max-height:14px;
+    max-width:60px;
+  }
+  .partner-film-tag{
+    font-size:7px;
+    padding:1px 4px;
+    letter-spacing:0.04em;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .partner-film-item strong{
+    font-size:10.5px;
+    line-height:1.2;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .partner-film-loc{
+    font-size:8.5px;
+    gap:2px;
   }
 }
 
@@ -399,7 +444,6 @@ body.arc #progress{display:none}
   gap:9px;
 }
 @media (max-width:640px){
-  .partners-film-grid{grid-template-columns:1fr; gap:8px}
   .partner-grid{grid-template-columns:1fr}
 }
 
@@ -579,7 +623,15 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   .small{font-size:clamp(14px,3.8vw,17px)}
   .film-copy{max-width:min(92vw,34rem)}
   .T{max-width:calc(100vw - 32px)}
-  .plate{padding:16px 18px}
+  .plate{
+    padding:16px 18px;
+    background:rgba(6,12,10,0.88);
+    border:1px solid rgba(143,183,198,0.22);
+    border-radius:6px;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 36px rgba(0,0,0,0.55);
+  }
   .partners{gap:14px 18px}
   .chips{gap:6px}
   .chips span{letter-spacing:.10em;padding:5px 8px}
@@ -1132,11 +1184,11 @@ const TEXT_FACT=[
  html:TEXT_FACT_DATA.en[0]},
 {a:.922,b:.932,c:.944,d:.956, L:'front', k:'small', x:'94%', y:'50%', w:'min(54ch,82vw)', al:'right',
  html:TEXT_FACT_DATA.en[1]},
-{a:.948,b:.956,c:.970,d:.976, L:'front', k:'small', x:'50%', y:'63%', w:'min(660px,94vw)', al:'center',
+{a:.948,b:.956,c:.970,d:.976, L:'front', k:'small', x:'50%', y:'68%', w:'min(660px,94vw)', al:'center',
  html:TEXT_FACT_DATA.en[2]},
-{a:.976,b:.982,c:.988,d:.992, L:'front', k:'med', x:'50%', y:'22%', w:'min(30ch,86vw)', al:'center', m:'rise',
+{a:.976,b:.982,c:.986,d:.990, L:'front', k:'med', x:'50%', y:'20%', w:'min(30ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[3]},
-{a:.988,b:.993,c:.998,d:1.002, L:'front', k:'med', x:'50%', y:'22%', w:'min(26ch,86vw)', al:'center', m:'rise',
+{a:.991,b:.995,c:.998,d:1.002, L:'front', k:'med', x:'50%', y:'20%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[4]},
 {a:.998,b:1.003,c:1.025,d:1.030, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[5]}
@@ -2959,9 +3011,10 @@ const EKEYS=[
   {p:0.875,lon:12.0,lat:26.0,s:0.92,roll:-1.0},
   {p:0.912,lon:-2.603,lat:51.46,s:1.05,roll:-0.6},
   {p:0.932,lon:35.0,lat:38.0,s:1.08,roll:0.3},
-  {p:0.952,lon:72.871,lat:19.07,s:1.15,roll:1.2},
-  {p:0.975,lon:72.95,lat:19.32,s:1.34,roll:0.8},
-  {p:1.000,lon:72.95,lat:19.32,s:1.34,roll:0.8}
+  {p:0.952,lon:72.871,lat:19.07,s:1.18,roll:1.0},
+  {p:0.975,lon:72.92,lat:19.38,s:1.38,roll:0.6},
+  {p:0.992,lon:72.85,lat:19.42,s:1.58,roll:0.2},
+  {p:1.000,lon:72.85,lat:19.42,s:1.62,roll:0.0}
 ];
 
 function catmullRom(p0,p1,p2,p3,t){
@@ -2983,15 +3036,16 @@ function sampleEarth(p,T){
   while(l2-l1>180)l2-=360; while(l2-l1<-180)l2+=360;
   while(l3-l2>180)l3-=360; while(l3-l2<-180)l3+=360;
   const lon=catmullRom(l0,l1,l2,l3,t);
-  const ambientSpin=(T||0)*0.00018;
+  const spinDamp=clamp(1-(p-0.95)/0.032,0,1);
+  const ambientSpin=(T||0)*0.00018*spinDamp;
   return {lon:lon+ambientSpin, lat, s, roll};
 }
 
 let ANCHORS=[
-  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'NE',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (संशोधन विद्यापीठ)',hi:'ब्रिस्टल (शोध विश्वविद्यालय)'}},
-  {k:'London',lat:51.5074,lon:-0.1278,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'SE',label:{en:'London · British Council & HSBC',mr:'लंडन (मार्गदर्शक व पाठबळ)',hi:'लंदन (सहयोगी एवं मार्गदर्शक)'}},
-  {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.938,0.944,0.952,0.956],kind:'city',dir:'NW',label:{en:'Mumbai · University of Mumbai',mr:'आपली मुंबई (मुंबई विद्यापीठ)',hi:'हमारी मुंबई (मुंबई विश्वविद्यालय)'}},
-  {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.968,0.974,0.978],kind:'region',dir:'NE',label:{en:'Maharashtra Coastal Living Lab',mr:'आपला महाराष्ट्र (किनारपट्टी व गावे)',hi:'हमारा महाराष्ट्र (तटीय क्षेत्र व गाँव)'}}
+  {k:'Bristol',lat:51.4584,lon:-2.6030,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'NW',label:{en:'Bristol · University of Bristol',mr:'ब्रिस्टल (संशोधन विद्यापीठ)',hi:'ब्रिस्टल (शोध विश्वविद्यालय)',short:{en:'Bristol · UoB',mr:'ब्रिस्टल विद्यापीठ',hi:'ब्रिस्टल विश्वविद्यालय'}}},
+  {k:'London',lat:51.5074,lon:-0.1278,a:[0.902,0.910,0.928,0.936],kind:'city',dir:'SE',label:{en:'London · British Council & HSBC',mr:'लंडन (मार्गदर्शक व पाठबळ)',hi:'लंदन (सहयोगी एवं मार्गदर्शक)',short:{en:'London · BC & HSBC',mr:'लंडन (BC व HSBC)',hi:'लंदन (BC व HSBC)'}}},
+  {k:'Mumbai',lat:19.0728,lon:72.8711,a:[0.938,0.944,0.952,0.956],kind:'city',dir:'SW',label:{en:'Mumbai · University of Mumbai',mr:'आपली मुंबई (मुंबई विद्यापीठ)',hi:'हमारी मुंबई (मुंबई विश्वविद्यालय)',short:{en:'Mumbai · MU',mr:'मुंबई विद्यापीठ',hi:'मुंबई विश्वविद्यालय'}}},
+  {k:'Maharashtra',lat:19.25,lon:73.05,a:[0.962,0.968,0.974,0.978],kind:'region',dir:'NE',label:{en:'Maharashtra Coastal Living Lab',mr:'आपला महाराष्ट्र (किनारपट्टी व गावे)',hi:'हमारा महाराष्ट्र (तटीय क्षेत्र व गाँव)',short:{en:'Maharashtra Lab',mr:'महाराष्ट्र लॅब',hi:'महाराष्ट्र लैब'}}}
 ];
 
 function rebuildStoryAnchors(){
@@ -3003,8 +3057,11 @@ function rebuildStoryAnchors(){
     const a1=a0+0.005;
     const mrName = d.slug === 'palghar' ? 'पालघर (वैतरणा नदी व भातशेती)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर (कोळीवाडा व खारफुटी)' : d.name;
     const hiName = d.slug === 'palghar' ? 'पालघर (वैतरणा घाटी व धान की खेती)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर (कोलीवाड़ा व मैंग्रोव)' : d.name;
+    const mrShort = d.slug === 'palghar' ? 'पालघर (वैतरणा)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
+    const hiShort = d.slug === 'palghar' ? 'पालघर (वैतरणा)' : d.slug === 'mumbai-suburban' ? 'मुंबई उपनगर' : d.name;
+    const enShort = d.slug === 'palghar' ? 'Palghar (Vaitarna)' : d.slug === 'mumbai-suburban' ? 'Mumbai Suburban' : d.name;
     const dir = (d.slug === 'palghar' ? 'NW' : 'SE');
-    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug,dir:dir,label:{en:d.name,mr:mrName,hi:hiName}});
+    ANCHORS.push({k:d.name,lat:d.lat,lon:d.lon,a:[a0,a1,1.0,1.0],kind:'district',slug:d.slug,dir:dir,label:{en:d.name,mr:mrName,hi:hiName,short:{en:enShort,mr:mrShort,hi:hiShort}}});
   });
 }
 rebuildStoryAnchors();
@@ -3275,6 +3332,38 @@ function drawEarth(ctx,W,H,p,T,q){
     ctx.restore();
   }
 
+  // Cartographic Graticule (Whisper-subtle latitude & longitude grid)
+  ctx.save();
+  ctx.strokeStyle='rgba(180,225,248,0.065)';
+  ctx.lineWidth=Math.max(0.5,R*0.0016);
+  const parallels=[-60,-30,0,30,60];
+  for(let pIdx=0;pIdx<parallels.length;pIdx++){
+    const pLat=parallels[pIdx];
+    ctx.beginPath();
+    let gPen=false;
+    for(let gLon=-180;gLon<=180;gLon+=6){
+      const v=orth(gLon,pLat,k.lon,k.lat);
+      if(v[2]>0.02){
+        const gx2=cx+v[0]*R, gy2=cy-v[1]*R;
+        gPen?ctx.lineTo(gx2,gy2):ctx.moveTo(gx2,gy2); gPen=true;
+      } else gPen=false;
+    }
+    ctx.stroke();
+  }
+  for(let gLon=-180;gLon<180;gLon+=30){
+    ctx.beginPath();
+    let gPen=false;
+    for(let gLat=-80;gLat<=80;gLat+=5){
+      const v=orth(gLon,gLat,k.lon,k.lat);
+      if(v[2]>0.02){
+        const gx2=cx+v[0]*R, gy2=cy-v[1]*R;
+        gPen?ctx.lineTo(gx2,gy2):ctx.moveTo(gx2,gy2); gPen=true;
+      } else gPen=false;
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+
   // ── 3. Continents with True Hemisphere Clipping (No Chords) ──
   const lw=Math.max(0.6,R*0.0022);
   for(let pIdx=0;pIdx<SUB_LAND.length;pIdx++){
@@ -3346,6 +3435,95 @@ function drawEarth(ctx,W,H,p,T,q){
     }
     ctx.stroke();
     ctx.restore();
+  }
+
+  // ── 3b. Ecological Physical Geography: Sahyadri Ridge & Vaitarna Basin ──
+  // Renders authentic regional terrain when the camera approaches India
+  const indiaVis = orth(73.0, 19.3, k.lon, k.lat);
+  if(indiaVis[2] > 0.15){
+    const geoA = clamp((k.s - 0.95) / 0.35, 0, 1) * clamp(indiaVis[2] * 2.5, 0, 1);
+    if(geoA > 0.02){
+      ctx.save();
+      ctx.globalAlpha = geoA;
+
+      // 1. Sahyadri Mountain Ridge (Western Ghats Elevation Relief)
+      const SAHYADRI = [
+        [20.55, 73.88], [20.25, 73.75], [19.88, 73.58],
+        [19.52, 73.50], [19.18, 73.44], [18.78, 73.38], [18.35, 73.45]
+      ];
+      ctx.beginPath();
+      let sStart = false;
+      for(let si = 0; si < SAHYADRI.length; si++){
+        const pt = SAHYADRI[si];
+        const v = orth(pt[1], pt[0], k.lon, k.lat);
+        if(v[2] > 0.02){
+          const sxp = cx + v[0] * R, syp = cy - v[1] * R;
+          sStart ? ctx.lineTo(sxp, syp) : ctx.moveTo(sxp, syp);
+          sStart = true;
+        }
+      }
+      ctx.strokeStyle = 'rgba(28, 62, 38, 0.70)';
+      ctx.lineWidth = Math.max(3.0, R * 0.012);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(164, 196, 150, 0.55)';
+      ctx.lineWidth = Math.max(1.2, R * 0.0038);
+      ctx.stroke();
+
+      // 2. Vaitarna River Basin (Origin in Ghats -> Palghar Estuary)
+      const VAITARNA = [
+        [19.92, 73.52], [19.85, 73.30], [19.78, 73.08],
+        [19.72, 72.88], [19.68, 72.78], [19.51, 72.74]
+      ];
+      ctx.beginPath();
+      let vStart = false;
+      for(let vi = 0; vi < VAITARNA.length; vi++){
+        const pt = VAITARNA[vi];
+        const v = orth(pt[1], pt[0], k.lon, k.lat);
+        if(v[2] > 0.02){
+          const sxp = cx + v[0] * R, syp = cy - v[1] * R;
+          vStart ? ctx.lineTo(sxp, syp) : ctx.moveTo(sxp, syp);
+          vStart = true;
+        }
+      }
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+      ctx.lineWidth = Math.max(1.0, R * 0.0032);
+      ctx.stroke();
+
+      // Vaitarna Estuary Delta mouth bloom at Palghar
+      const estV = orth(72.74, 19.51, k.lon, k.lat);
+      if(estV[2] > 0.02){
+        const epx = cx + estV[0] * R, epy = cy - estV[1] * R;
+        const eg = ctx.createRadialGradient(epx, epy, 0, epx, epy, Math.max(4, R * 0.018));
+        eg.addColorStop(0, 'rgba(56, 189, 248, 0.85)');
+        eg.addColorStop(1, 'rgba(56, 189, 248, 0)');
+        ctx.fillStyle = eg;
+        ctx.beginPath();
+        ctx.arc(epx, epy, Math.max(4, R * 0.018), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 3. Thane Creek & Mumbai Harbour Estuarine Waterway
+      const THANE_CREEK = [
+        [19.32, 73.14], [19.22, 72.98], [19.05, 72.94], [18.92, 72.86]
+      ];
+      ctx.beginPath();
+      let tStart = false;
+      for(let ti = 0; ti < THANE_CREEK.length; ti++){
+        const pt = THANE_CREEK[ti];
+        const v = orth(pt[1], pt[0], k.lon, k.lat);
+        if(v[2] > 0.02){
+          const sxp = cx + v[0] * R, syp = cy - v[1] * R;
+          tStart ? ctx.lineTo(sxp, syp) : ctx.moveTo(sxp, syp);
+          tStart = true;
+        }
+      }
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.55)';
+      ctx.lineWidth = Math.max(0.8, R * 0.0025);
+      ctx.stroke();
+
+      ctx.restore();
+    }
   }
 
   // ── 4. Twinkling Urban Night Lights (Night Hemisphere) ────────
@@ -3497,10 +3675,30 @@ function drawEarth(ctx,W,H,p,T,q){
       // Inner incandescent core beam
       ctx.strokeStyle=coreCol; ctx.lineWidth=Math.max(1.2,R*0.0035); ctx.stroke();
 
-      // Traveling incandescent photon pulses along trajectory
+      // Traveling incandescent photon pulses along trajectory with comet sparks tail
       if(progress>0.05 && numPhotons>0){
         for(let pkt=0;pkt<numPhotons;pkt++){
           const u=((T*0.0013+(photonPhase||0)+pkt*(1/numPhotons))%1.0)*progress;
+          // Trailing comet sparks (sub-particles along arc)
+          for(let spark=4; spark>=1; spark--){
+            const uSpark = u - spark * 0.012 * progress;
+            if(uSpark > 0){
+              const s1s=Math.sin((1-uSpark)*om)/Math.sin(om), s2s=Math.sin(uSpark*om)/Math.sin(om);
+              const vs=[v1[0]*s1s+v2[0]*s2s, v1[1]*s1s+v2[1]*s2s, v1[2]*s1s+v2[2]*s2s];
+              const latS=Math.asin(clamp(vs[2],-1,1))/RAD, lonS=Math.atan2(vs[1],vs[0])/RAD;
+              const oS=orth(lonS,latS,k.lon,k.lat);
+              if(oS[2]>0){
+                const liftS=1.0+(liftScale||0.08)*Math.sin(uSpark*Math.PI);
+                const spx=cx+oS[0]*R*liftS, spy=cy-oS[1]*R*liftS;
+                const sparkR=Math.max(1.2, R*0.007 * (1 - spark/5));
+                ctx.fillStyle=photonCol||'rgba(180,230,255,0.5)';
+                ctx.globalAlpha=arcA * (1 - spark/5) * 0.65;
+                ctx.beginPath(); ctx.arc(spx,spy,sparkR,0,7); ctx.fill();
+              }
+            }
+          }
+          // Main incandescent comet head
+          ctx.globalAlpha=arcA;
           const s1=Math.sin((1-u)*om)/Math.sin(om), s2=Math.sin(u*om)/Math.sin(om);
           const v=[v1[0]*s1+v2[0]*s2,v1[1]*s1+v2[1]*s2,v1[2]*s1+v2[2]*s2];
           const lat=Math.asin(clamp(v[2],-1,1))/RAD, lon=Math.atan2(v[1],v[0])/RAD;
@@ -3530,6 +3728,23 @@ function drawEarth(ctx,W,H,p,T,q){
 
     // 3. Programme & Green Skills Arc: London (British Council + HSBC) ↔ Mumbai (Univ. of Mumbai)
     renderArc(LONDON, MUMBAI, 'rgba(255,195,75,0.38)', 'rgba(255,248,220,0.95)', arcProgress, 0.115, 2, 'rgba(255,220,110,0.8)', 0.5);
+
+    // 3b. Mumbai Touchdown Arrival Shockwave (Bilateral network energy ripple across Maharashtra)
+    if(arcProgress >= 0.85){
+      const arrivalProg = clamp((arcProgress - 0.85) / 0.15, 0, 1);
+      const oMum = orth(MUMBAI[1], MUMBAI[0], k.lon, k.lat);
+      if(oMum[2] > 0.02){
+        const mx = cx + oMum[0] * R, my = cy - oMum[1] * R;
+        for(let ri = 0; ri < 3; ri++){
+          const ringT = (T * 0.0016 + ri * 0.33) % 1.0;
+          const ringRad = Math.max(5, R * 0.020) + ringT * Math.max(28, R * 0.10);
+          const ringAlpha = (1 - ringT) * arrivalProg * 0.55 * arcA;
+          ctx.strokeStyle = ri % 2 === 0 ? `rgba(100, 235, 255, ${ringAlpha.toFixed(3)})` : `rgba(255, 215, 100, ${(ringAlpha * 0.8).toFixed(3)})`;
+          ctx.lineWidth = Math.max(1.0, 2.0 * (1 - ringT));
+          ctx.beginPath(); ctx.arc(mx, my, ringRad, 0, 7); ctx.stroke();
+        }
+      }
+    }
 
     // 4. Maharashtra Coastal Field Link: Mumbai ↔ Palghar (Living Lab Field Deployments)
     const MUMBAI_SUB = [19.1073, 72.8263];
@@ -3615,11 +3830,15 @@ function drawEarth(ctx,W,H,p,T,q){
     const rr=k.roll*RAD, ox=o[0]*R, oy=-o[1]*R;
     const sxp=cx+ox*Math.cos(rr)-oy*Math.sin(rr), syp=cy+ox*Math.sin(rr)+oy*Math.cos(rr);
 
-    const labelText = (an.label && an.label[currentCode]) ? an.label[currentCode] : an.k;
+    const isNarrow = (W < 640);
+    let labelText = (an.label && an.label[currentCode]) ? an.label[currentCode] : an.k;
+    if(isNarrow && an.label && an.label.short && an.label.short[currentCode]){
+      labelText = an.label.short[currentCode];
+    }
     const tw = ctx.measureText(labelText).width;
-    const padX=9, padY=5;
-    const pillH=Math.max(22,Math.round(H*0.026));
-    const pillW=tw+padX*2;
+    const padX = isNarrow ? 7 : 9, padY = 5;
+    const pillH = Math.max(20, Math.round(H * (isNarrow ? 0.024 : 0.026)));
+    const pillW = tw + padX * 2;
 
     // Directional leader placement (NW, NE, SW, SE)
     const dir = an.dir || ((an.k==='Bristol'||an.slug==='palghar')?'NW':(an.k==='Mumbai'?'SW':'SE'));
@@ -3627,8 +3846,8 @@ function drawEarth(ctx,W,H,p,T,q){
     const isNorth = dir.includes('N');
 
     const isBristol = (an.k === 'Bristol');
-    const leadDistX = isBristol ? Math.max(16, Math.round(R * 0.038)) : Math.max(34, Math.round(R * 0.075));
-    const leadDistY = isBristol ? Math.max(48, Math.round(R * 0.110)) : Math.max(26, Math.round(R * 0.058));
+    const leadDistX = isBristol ? Math.max(16, Math.round(R * 0.040)) : Math.max(28, Math.round(R * 0.070));
+    const leadDistY = isBristol ? Math.max(38, Math.round(R * 0.095)) : Math.max(24, Math.round(R * 0.055));
 
     const lx = isWest ? (sxp - leadDistX) : (sxp + leadDistX);
     const ly = isNorth ? (syp - leadDistY) : (syp + leadDistY);
