@@ -44,6 +44,11 @@ html[lang="mr"] #txtBack .giant, html[lang="hi"] #txtBack .giant{
   letter-spacing:0.015em;
   line-height:1.12;
 }
+html[lang="mr"] #cue, html[lang="hi"] #cue{
+  letter-spacing:0.05em !important;
+  font-size:11.5px;
+  font-weight:500;
+}
 *{box-sizing:border-box}
 html{scroll-padding-top: env(safe-area-inset-top, 0px); overflow-x:hidden; max-width:100vw}
 body{
@@ -90,6 +95,21 @@ a{color:inherit}
 .btn[aria-pressed="true"]{
   color:#06110D; background:var(--signal); border-color:var(--signal);
   font-weight:700; box-shadow:0 0 14px rgba(143,183,198,0.35);
+}
+#bSound[aria-pressed="true"]{
+  display:inline-flex; align-items:center; gap:6px;
+}
+#bSound[aria-pressed="true"]::before{
+  content:''; display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:#06110D; box-shadow:0 0 6px rgba(6,17,13,0.7);
+  animation:audioPulse 1.8s ease-in-out infinite;
+}
+@keyframes audioPulse{
+  0%,100%{transform:scale(0.85);opacity:0.75}
+  50%{transform:scale(1.25);opacity:1}
+}
+@media (prefers-reduced-motion: reduce){
+  #bSound[aria-pressed="true"]::before{animation:none}
 }
 .lang-pills{
   display:inline-flex; align-items:center; gap:3px; background:rgba(17,26,21,.75);
@@ -1071,11 +1091,11 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
     <button class="btn-sm" data-lang="mr" aria-pressed="false">मराठी</button>
     <button class="btn-sm" data-lang="hi" aria-pressed="false">हिन्दी</button>
   </div>
-  <button class="btn" id="bSound" type="button" aria-pressed="false">Sound off</button>
+  <button class="btn" id="bSound" type="button" aria-pressed="true">Sound on</button>
   <button class="btn" id="bMotion" type="button" aria-pressed="false">Reduce motion</button>
 </header>
 
-<audio id="cclAudio" preload="none" loop playsinline style="display:none">
+<audio id="cclAudio" preload="auto" loop playsinline style="display:none">
   <source src="audio/ambient.m4a" type="audio/mp4">
   <source src="./audio/ambient.m4a" type="audio/mp4">
   <source src="/audio/ambient.m4a" type="audio/mp4">
@@ -1152,6 +1172,11 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
 </main>
 <main id="archive" aria-label="CCL research archive"></main>
 <script>
+const store=(function(){const mem={};
+ try{localStorage.setItem('__ccl','1');localStorage.removeItem('__ccl');}catch(e){
+  return{get:k=>(k in mem?mem[k]:null),set:(k,v)=>{mem[k]=v;}};}
+ return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
+        set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
 let currentLang='en';
 const clamp=(v,a,b)=>v<a?a:v>b?b:v;
 const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
@@ -1553,17 +1578,17 @@ const TEXT_HI=[
 ];
 
 const TEXT_FACT=[
-{a:.896,b:.906,c:.922,d:.934, L:'front', k:'small', x:'6%', y:'50%', w:'min(52ch,80vw)', al:'left',
+{a:.896,b:.904,c:.918,d:.924, L:'front', k:'small', x:'6%', y:'50%', w:'min(52ch,80vw)', al:'left',
  html:TEXT_FACT_DATA.en[0]},
-{a:.922,b:.932,c:.944,d:.956, L:'front', k:'small', x:'94%', y:'50%', w:'min(54ch,82vw)', al:'right',
+{a:.926,b:.934,c:.946,d:.952, L:'front', k:'small', x:'94%', y:'50%', w:'min(54ch,82vw)', al:'right',
  html:TEXT_FACT_DATA.en[1]},
-{a:.948,b:.956,c:.970,d:.976, L:'front', k:'small', x:'50%', y:'68%', w:'min(660px,94vw)', al:'center',
+{a:.954,b:.960,c:.972,d:.978, L:'front', k:'small', x:'50%', y:'68%', w:'min(660px,94vw)', al:'center',
  html:TEXT_FACT_DATA.en[2]},
-{a:.976,b:.982,c:.986,d:.990, L:'front', k:'med', x:'50%', y:'20%', w:'min(30ch,86vw)', al:'center', m:'rise',
+{a:.980,b:.984,c:.988,d:.992, L:'front', k:'med', x:'50%', y:'20%', w:'min(30ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[3]},
-{a:.991,b:.995,c:.998,d:1.002, L:'front', k:'med', x:'50%', y:'20%', w:'min(26ch,86vw)', al:'center', m:'rise',
+{a:.993,b:.996,c:.999,d:1.003, L:'front', k:'med', x:'50%', y:'20%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[4]},
-{a:.998,b:1.003,c:1.025,d:1.030, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
+{a:1.004,b:1.008,c:1.025,d:1.030, L:'front', k:'large', x:'50%', y:'72%', w:'min(26ch,86vw)', al:'center', m:'rise',
  html:TEXT_FACT_DATA.en[5]}
 ];
 
@@ -4606,7 +4631,8 @@ document.getElementById('bMotion').addEventListener('click',e=>{
   prevCur=-1;
 });
 
-let soundOn=false, audioFadeRaf=null;
+let soundOn=(store.get('ccl-sound')!=='0'), audioFadeRaf=null;
+window.soundOn=soundOn;
 const bgAudio=document.getElementById('cclAudio');
 const AUDIO_PATHS=['audio/ambient.m4a','./audio/ambient.m4a','/audio/ambient.m4a','public/audio/ambient.m4a'];
 let audioSrcIdx=0;
@@ -4630,6 +4656,27 @@ if(bgAudio){
       if(soundOn) bgAudio.play().catch(()=>{});
     }
   });
+  // Auto-start ambient audio on load or arm gesture unlocker for browser autoplay policies
+  if(soundOn){
+    const p=bgAudio.play();
+    if(p!==undefined){
+      p.then(()=>{
+        fadeAudio(0.65, 1200);
+      }).catch(()=>{
+        function unlockAudio(){
+          if(soundOn && bgAudio && bgAudio.paused){
+            startSound();
+          }
+          ['pointerdown','touchstart','click','keydown','scroll'].forEach(evt=>{
+            window.removeEventListener(evt, unlockAudio, {capture:true});
+          });
+        }
+        ['pointerdown','touchstart','click','keydown','scroll'].forEach(evt=>{
+          window.addEventListener(evt, unlockAudio, {capture:true, passive:true});
+        });
+      });
+    }
+  }
 }
 
 function fadeAudio(targetVol, durationMs, onDone){
@@ -4679,6 +4726,8 @@ function stopSound(fadeDuration=0.8){
 
 document.getElementById('bSound').addEventListener('click',e=>{
   soundOn=!soundOn;
+  window.soundOn=soundOn;
+  store.set('ccl-sound', soundOn ? '1' : '0');
   const l=UI_LANG[currentLang]||UI_LANG.en;
   e.currentTarget.setAttribute('aria-pressed',String(soundOn));
   e.currentTarget.textContent=soundOn?(l.soundOn||'Sound on'):l.sound;
@@ -5558,11 +5607,6 @@ function runBoot(){ if(booted) return; booted=true; boot(); }
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(runBoot).catch(runBoot);
 setTimeout(runBoot,200);
 
-const store=(function(){const mem={};
- try{localStorage.setItem('__ccl','1');localStorage.removeItem('__ccl');}catch(e){
-  return{get:k=>(k in mem?mem[k]:null),set:(k,v)=>{mem[k]=v;}};}
- return{get:k=>{try{return localStorage.getItem(k);}catch(e){return k in mem?mem[k]:null;}},
-        set:(k,v)=>{try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}};})();
 const UI_LANG={
  en:{
    title:'Choose your language',
@@ -5765,6 +5809,7 @@ function applyLanguage(code){
     // A fresh entry always starts at the beginning. Preserve an explicit
     // archive/district hash so the gate cannot disrupt direct deep links.
     if(!location.hash) window.scrollTo({top:0,left:0,behavior:'auto'});
+    if(soundOn && bgAudio && bgAudio.paused) startSound();
     setTimeout(()=>{
       gate.remove();
       (lastFocus&&document.contains(lastFocus)?lastFocus:document.getElementById('main'))?.focus?.({preventScroll:true});
