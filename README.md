@@ -235,3 +235,22 @@ git status         # Verify the intended tree before committing and pushing
   - Kept necessary Latin identifiers and proper names such as `CCL`, `CCCSS`, `UK`, `FPS`, `DPR`, record IDs, scientific names, and measurement units unchanged.
   - Verified the production HTML contains the intended Marathi opening, partner, methodology, Palghar, and archive-entry copy.
   - Verification: `npm run inspect:fonts`, `npm run test`, `npm run lint`, `npm run build`, `git diff --check`. Browser visual automation was not available in the current environment, so no visual browser pass is claimed.
+
+#### Session 13: Early Seed-to-Sapling Growth Refinement
+- **User Prompt**: Improve the main-page transition so the seed develops through a fuller leafy sapling instead of reading as one bare branch before the mature tree appears.
+- **Walkthrough**:
+  - Added a temporary juvenile canopy pass to the standalone homepage renderer with cotyledons, tiered side shoots, and small leaf pairs.
+  - Increased early branch weight without changing the mature procedural tree silhouette, fruit anchors, or later hand-off choreography.
+  - Modified [`index.html`](index.html); kept the existing final tree and later narrative sequence intact.
+- **Verification**: Inline-script syntax check, seven-stage juvenile-canopy smoke render with a mock Canvas 2D context, `git diff --check`, and local HTTP smoke check. Browser visual automation was unavailable in the current environment, so no browser visual pass is claimed.
+
+#### Session 14: Source-Attributed District and CCL Sub-Site Content
+- **User Prompt**: Add information to the Palghar, Mumbai Suburban, and related sub-sites using the `Dhanu22092006/ccl-portal` repository and the supplied Mora Gaon write-ups.
+- **Walkthrough**:
+  - Added a source-attributed Juhu Moragaon editorial layer covering discovery, life by the sea, the sea-to-market livelihood system, people and culture, the village, community concerns, education, media, oral history, and responsible visits.
+  - Added a separate Mahim–Kelve editorial brief to the published Palghar page, explicitly keeping it distinct from the published Manor / Vaitarna Basin record.
+  - Added discoverable catalogue-only scope pages for Thane, Nagaon Murbad, TBIA, Mahim–Kelve, and Ratnagiri / Raigad without increasing published-record counts or adding unsupported evidence claims.
+  - Kept source material visibly marked as editorial/planning content pending provenance, permissions, and community-consent review.
+  - Removed the misleading hard-coded `EV-0002` label from the shared community-account callout; each district now points readers to its own evidence register instead.
+- **Files**: [`index.html`](index.html), [`README.md`](README.md).
+- **Verification**: Inline-script syntax check, `git diff --check`, local HTTP 200 smoke check, and source-data render checks. Browser visual automation remains unavailable in this environment, so no browser visual pass is claimed.

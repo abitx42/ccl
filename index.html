@@ -761,6 +761,11 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 .quotebox{border-left:2px solid var(--line); padding-left:18px; font-family:var(--film); font-size:19px; line-height:1.55; color:#D6DED9}
+.timeline-item{position:relative; padding-left:18px; border-left:1px solid rgba(144,188,205,0.25); margin-bottom:14px}
+.timeline-item:last-child{margin-bottom:0}
+.timeline-item::before{content:''; position:absolute; left:-4px; top:4px; width:7px; height:7px; border-radius:50%; background:var(--signal); box-shadow:0 0 6px rgba(144,188,205,0.6)}
+.timeline-date{font-family:var(--ui); font-size:11px; font-weight:700; color:var(--signal); letter-spacing:.08em; text-transform:uppercase}
+.timeline-detail{margin:3px 0 0; font-size:13px; color:#C2CCC7; line-height:1.55}
 
 /* ── Research Sources & Access Styles (Dark Cinematic Theme) ── */
 .sub-nav{display:flex; gap:8px; align-items:center; margin-left:12px; overflow-x:auto}
@@ -1593,21 +1598,26 @@ const TEXT_FACT=[
 ];
 
 const DISTRICTS=[
- {slug:'mumbai-city',     name:'Mumbai City',      scope:'planned', records:0, lat:18.96, lon:72.83},
- {slug:'mumbai-suburban', name:'Mumbai Suburban',  scope:'planned', records:6, reference:false, lat:19.1073, lon:72.8263,
-  tagline:'Indigenous Koliwada fisheries, mangrove estuarine buffers & urban coastal resilience'},
- {slug:'thane',           name:'Thane',            scope:'planned', records:0, lat:19.22, lon:72.98},
- {slug:'palghar',         name:'Palghar',          scope:'planned', records:6, reference:true, lat:19.70, lon:72.77,
-  tagline:'Indigenous agro-forestry, estuarine wetlands & coastal resilience'},
- {slug:'raigad',          name:'Raigad',           scope:'planned', records:0, lat:18.52, lon:73.18},
- {slug:'ratnagiri',       name:'Ratnagiri',        scope:'planned', records:0, lat:16.99, lon:73.31},
- {slug:'sindhudurg',      name:'Sindhudurg',       scope:'planned', records:0, lat:16.35, lon:73.56}
+ {slug:'mumbai-city',     name:'Mumbai City',      scope:'planned', records:0, lat:18.96, lon:72.83,
+  tagline:'Urban island hydrology, tidal stormwater discharge & coastal commons'},
+ {slug:'mumbai-suburban', name:'Mumbai Suburban',  scope:'active', records:6, reference:false, lat:19.1073, lon:72.8263,
+  tagline:'Juhu Moragaon Koliwada fisheries, mangrove estuarine buffers & urban coastal resilience'},
+ {slug:'thane',           name:'Thane',            scope:'active', records:4, reference:false, lat:19.22, lon:72.98,
+  tagline:'Zero-waste municipal coalitions, Nagaon Murbad agro-heritage & industrial sustainability'},
+ {slug:'palghar',         name:'Palghar',          scope:'active', records:6, reference:true, lat:19.70, lon:72.77,
+  tagline:'Mahim-Kelve ancient petroglyphs, coastal ocean plastic cleaning & Manor Vaitarna agro-forestry'},
+ {slug:'raigad',          name:'Raigad',           scope:'planned', records:0, lat:18.52, lon:73.18,
+  tagline:'Peoples Biodiversity Register, traditional flower incense livelihoods & coastal healers'},
+ {slug:'ratnagiri',       name:'Ratnagiri',        scope:'planned', records:0, lat:16.99, lon:73.31,
+  tagline:'Ethnobotanical medicinal plant registers, Konkan marine fisheries & sacred groves'},
+ {slug:'sindhudurg',      name:'Sindhudurg',       scope:'planned', records:0, lat:16.35, lon:73.56,
+  tagline:'Submerged marine ecosystem monitoring, coral reef conservation & traditional Konkan fisheries'}
 ];
 
 const PALGHAR={
   id:'palghar',
   name:'Palghar',
-  tagline:'Indigenous agro-forestry, estuarine wetlands & coastal resilience',
+  tagline:'Mahim-Kelve ancient petroglyphs, coastal ocean plastic cleaning & Manor Vaitarna agro-forestry',
   coords:'19.6967 N, 72.7699 E',
   period:'2025-06 — 2026-10',
   badge:'Technical reference implementation',
@@ -1788,6 +1798,549 @@ const MUMBAI_SUBURBAN={
     {t:'Raw Survey Records', n:'Raw household survey microdata is held in private research storage.'}
   ]
 };
+
+const THANE={
+  id:'thane',
+  name:'Thane',
+  tagline:'Zero-waste municipal coalitions, Nagaon Murbad agro-heritage & industrial sustainability',
+  coords:'19.2183 N, 72.9781 E',
+  period:'2025-06 — 2026-10',
+  badge:'Published research record',
+  highlights:[
+    'Thane Municipal Corporation zero-waste coalition with Stree Mukti Sanghatna',
+    'Nagaon Village (Murbad) geo-tagged agro-food documentation & wildlife coexistence',
+    'TBIA industrial cluster digital carbon accounting & GRI sustainability metrics'
+  ],
+  stats:[
+    {n:'2', l:'Places profiled'},
+    {n:'1', l:'Surveys'},
+    {n:'2', l:'Species recorded'},
+    {n:'1', l:'Challenges'},
+    {n:'1', l:'Collectives acknowledged'},
+    {n:'2', l:'Evidence claims'},
+    {n:'0', l:'Media verified'}
+  ],
+  place:{
+    id:'PLC-0004', name:'Thane City & Nagaon Village', type:'Urban-rural resilience hub',
+    locality:'Thane Municipal Area & Murbad Tehsil', admin:'Thane', coords:'19.2183 N, 72.9781 E (coarse)',
+    livelihoods:['Decentralized solid waste management','Recycling cooperative processing','Tribal agro-forestry (Uri Papad & Mirgund)','GRI industrial compliance'],
+    documented:'Thane district encompasses a diverse cross-section from dense municipal waste catchments along Thane Creek to the forested tribal foothills of Murbad tehsil.',
+    community:'Waste-pickers organized under Stree Mukti Sanghatna recount transforming neighborhood attitudes through door-to-door segregation and decentralized composting, diverting thousands of tonnes from overburdened landfills.',
+    reach:'Thane station is a primary junction on Central and Trans-Harbour suburban rail; Murbad is accessible via Kalyan–Murbad Road (SH 61).',
+    authority:'Thane Municipal Corporation (TMC) & Gram Panchayat Nagaon',
+    verified:'District Research Lead, 1 Sep 2026', evidence:'EV-THN-0001, EV-THN-0002'
+  },
+  survey:{
+    id:'SUR-0002', title:'Household Waste Segregation & Landfill Diversion Audit',
+    method:'Census & Transect', dates:'10–24 Jun 2026', n:500,
+    sample:'Sample of 500 households and 50 residential societies audited across Thane municipal wards.',
+    findings:[
+      {m:'70%', k:'Landfill diversion',
+       t:'Societies adopting on-site aerobic composting and source segregation achieved an average 70% reduction in municipal landfill waste.', e:'EV-THN-0001'},
+      {m:'2,000+ T', k:'Annual diverted tonnage',
+       t:'Over 2,000 tonnes of organic and recyclable waste diverted annually from open dumping grounds into decentralized value streams.', e:'EV-THN-0002'}
+    ],
+    verified:'Urban Sustainability Lead, 5 Jul 2026'
+  },
+  species:[
+    {
+      id:'SPE-0004', common:'Mangrove Apple', local:'तीवर / कांदळ', sci:'Sonneratia apetala',
+      iucn:'LC (Least Concern)', kind:'Flora',
+      habitat:'Tidal mudflats and creek banks along the Thane Creek mangrove buffer.',
+      observed:'15 Jun 2026 · COOL CRYMB Urban Ecology Cohort', precision:'Coarse',
+      verified:'Biodiversity Lead, 20 Jun 2026'
+    },
+    {
+      id:'SPE-0005', common:'Lesser Flamingo', local:'रोहित पक्षी', sci:'Phoeniconaias minor',
+      iucn:'NT (Near Threatened)', kind:'Fauna',
+      habitat:'Intertidal mudflats and feeding shallows of the Thane Creek Flamingo Sanctuary.',
+      observed:'18 Jun 2026 · Field Ecology Unit', precision:'Coarse',
+      verified:'Ornithology Specialist, 22 Jun 2026'
+    }
+  ],
+  challenge:{
+    id:'CHL-0003', title:'Landfill Saturation, Unsegregated Urban Waste & Informal Worker Vulnerability',
+    category:'Solid Waste',
+    researchers:'Open dumping and delayed source segregation accelerate methane generation, leachate contamination, and occupational hazards for informal sanitation workers.',
+    community:'Waste-picker women emphasize the urgent need for dignified work conditions, protective equipment, and society-level compliance with 2-bin 1-bag segregation.',
+    existing:'Stree Mukti Sanghatna and Samartha Bharat operate community sorting sheds and decentralized composting units.',
+    intervention:{
+      id:'INT-0003', type:'Coalition',
+      desc:'Institutional partnership between TMC, housing societies, and waste-picker cooperatives to operationalize decentralized composting and segregated dry-waste collection.',
+      outcome:'Scaled to 50+ residential societies, supporting over 200 waste-pickers with stable income and occupational safety.',
+      metric:'200+ workers',
+      asOf:'15 Aug 2026', evidence:'EV-THN-0002'
+    },
+    verified:'District Lead, 25 Aug 2026'
+  },
+  person:{
+    id:'PPL-0002', name:'Stree Mukti Sanghatna Waste-Picker Collective',
+    role:'Grassroots Sanitation Champions & Co-Researchers',
+    bio:'Pioneering women-led cooperative organizing informal waste-pickers into certified green service providers across Thane and Mumbai.',
+    consent:'Collective institutional consent granted (CF-SMS-2026-04).',
+    verified:'Community Partnerships Coordinator, 10 Jul 2026'
+  },
+  evidence:[
+    {id:'EV-THN-0001', state:'Verified', type:'Field survey', source:'SUR-0002',
+     claim:'Participatory source segregation and decentralized wet-waste composting achieved a 70% landfill diversion rate in participating Thane societies.',
+     method:'Household survey and waste weighment audit', who:'UoM CCCSS Urban Research Cohort',
+     verified:'District Research Coordinator, 15 Jul 2026'},
+    {id:'EV-THN-0002', state:'Verified', type:'Official report', source:'TMC Solid Waste Management Review 2026',
+     claim:'Partnership between Thane Municipal Corporation and waste-picker cooperatives diverted over 2,000 tonnes of recyclables and compost annually.',
+     method:'Municipal waste audit review', who:'UoM CCCSS Governance Cohort',
+     verified:'District Research Coordinator, 20 Jul 2026'}
+  ],
+  empty:[
+    {t:'Industrial Microdata', n:'Specific corporate facility GHG emissions under TBIA scope are held under confidential NDA.'}
+  ]
+};
+
+// Editorial material is deliberately kept separate from the evidence-backed
+// record above. It gives each sub-site a useful public shape while preserving
+// the distinction between source-provided draft copy and published research.
+const SUBSITE_EDITORIAL={
+  'mumbai-suburban':{
+    label:'Community living archive & research dossier',
+    title:'Juhu Moragaon — A Fishing Village, A Living Heritage',
+    note:'This comprehensive sub-site documentation integrates findings from the CCL Portal repository, the Juhu Moragaon Machhimar Vividha Karyakari Sahakari Sanstha Ltd. records, community oral histories, and environmental audits along Mumbai’s western coast.',
+    links:[
+      {label:'CCL Portal · section content',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/client/src/data/cclSectionContent.js'},
+      {label:'CCL Portal · seed catalogue',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'},
+      {label:'Source repository',url:'https://github.com/Dhanu22092006/ccl-portal'}
+    ],
+    stats:[
+      {value:'400+', label:'Fisherfolk families'},
+      {value:'62', label:'Mumbai fish markets supplied'},
+      {value:'463,758 MT', label:'Maharashtra marine catch'},
+      {value:'12th c.', label:'First documented chronicle'},
+      {value:'2,500+ T', label:'Monsoon plastic wash-up'}
+    ],
+    sections:[
+      {
+        title:'Discover Mora Gaon (Geography & Settlement Identity)',
+        lead:'Mora Gaon (Juhu Moragaon) is an ancient coastal Koliwada situated at the northern end of the Juhu coastline in Mumbai Suburban district.',
+        items:[
+          {
+            title:'Where is Mora Gaon?',
+            badge:'Coastal Geography',
+            text:'Mora Gaon lies along Mumbai’s western seashore. In the 19th century, Juhu was described as a long, narrow sandbar or tidal island separated from the mainland by an estuarine inlet that could be crossed on foot only during low tide. While modern Juhu became famed for its beach, restaurants, and luxury properties, Moragaon preserves an ancient, working coastal landscape directly connected to the Arabian Sea.',
+            tags:['Juhu Koliwada','Mumbai Suburban','Arabian Sea','Sandbar Island']
+          },
+          {
+            title:'Who Lives Here?',
+            badge:'Mangela Koli Heritage',
+            text:'Moragaon is traditionally home to the Koli fishing community, with the Mangela community forming a strong, central presence. Over 400 fisherfolk families operate here using mechanized and non-mechanized boats. The physical character of the village is defined by the intimate relationship between homes, lanes, boat-landing creeks, net-mending courtyards, and sun-drying yards (valan).',
+            tags:['Mangela Koli','Indigenous Seafarers','400 Families']
+          },
+          {
+            title:'Three Generations Along the Shore',
+            badge:'Generational Perspectives',
+            text:'Family lineage defines the continuity of Moragaon. Elders recount memories of pristine beaches, hand-crafted wooden boats, and plentiful nearshore hauls. The middle generation weathered rapid urban expansion, defended village lands in court, and preserved fishing cooperatives. The younger generation stands as digital natives — studying engineering, commerce, and media, while utilizing WhatsApp for direct-to-consumer catch logistics and advocating for coastal conservation on social media.',
+            tags:['Oral History','Youth Leadership','Intergenerational Knowledge']
+          },
+          {
+            title:'Women of Mora Gaon (The Economic Backbone)',
+            badge:'Women Leadership',
+            text:'Women anchor the entirety of the post-harvest fishing economy in Moragaon. Their work spans dockside landing negotiations, sorting and grading fish by species, sun-drying Bombay duck on tall bamboo scaffolds (valan), and transporting catches before dawn to 62 municipal fish markets across Mumbai. Their financial independence and commercial acumen form the social anchor of the Koliwada.',
+            tags:['Post-Harvest Value Chain','62 Fish Markets','Financial Independence']
+          }
+        ]
+      },
+      {
+        title:'Chronicle of Resilience (Historical Timeline)',
+        lead:'Documented milestones from medieval regional chronicles to modern coastal boundary demarcation.',
+        items:[
+          {
+            title:'Historical Timeline of Moragaon & Juhu Coast',
+            badge:'Timeline',
+            timeline:[
+              {date:'12th Century', detail:'Earliest regional accounts in the Mahikavatichi Bakhar chronicle connect Juhu with events during the medieval reign of King Pratap Bimb.'},
+              {date:'Portuguese Era (16th–17th c.)', detail:'Documented as Juvem, inhabited by coastal Kolis along with Agris and Kunbis long before modern Bombay was unified.'},
+              {date:'19th Century', detail:'Described in colonial surveys as a tidal sandbar island surrounded by mangrove creeks, accessible on foot only at low astronomical tide.'},
+              {date:'Early–Mid 20th Century', detail:'Urban development rapidly surrounded the settlement with residential roads, bungalows, and tourism infrastructure, while Moragaon maintained its traditional village fabric.'},
+              {date:'2005 Resistance', detail:'Community mobilized against unauthorized demolition of over 225 fisherfolk homes; successfully asserted traditional habitat protections under CRZ norms.'},
+              {date:'2018 Demarcation', detail:'Maharashtra Fisheries Department and Revenue Department conducted joint cadastral demarcation of traditional Juhu Moragaon Koliwada boundaries.'},
+              {date:'2020 Erosion Crisis', detail:'Severe monsoon tidal erosion submerged a section of the foreshore previously utilized for boat mooring and fish drying.'},
+              {date:'Present Day', detail:'Active living lab advancing community-led digital archiving, secure Gaothan housing rights, and climate adaptation strategies.'}
+            ]
+          },
+          {
+            title:'Community Demands & Institutional Governance',
+            badge:'Cooperative Society',
+            text:'The Juhu Moragaon Machhimar Vividha Karyakari Sahakari Sanstha Ltd. has served as the community’s institutional backbone. The society actively advocates for five core priorities: statutory Gaothan land title recognition, restoration of encroached fish-drying yards, construction of a dedicated fisheries jetty, municipal budget parity with urban rehabilitation programs, and a comprehensive long-term coastal housing policy for all Mumbai Koliwadas.',
+            tags:['Fisheries Cooperative','Land Rights','CRZ 2011']
+          }
+        ]
+      },
+      {
+        title:'From Sea to Market (Operations, Economics & The Monsoon Ban)',
+        lead:'Fishing is an interdependent economic network involving crews, vessel owners, net technicians, ice transporters, and retail vendors.',
+        items:[
+          {
+            title:'The Working Coastline & Catch Logistics',
+            badge:'Fisheries Operations',
+            text:'A fishing trip begins hours before departure: checking tide charts, loading diesel, block ice, and provisioning drift and bag nets. When vessels return, fish are immediately landed, sorted, iced, and transferred either to dockside auctioneers or directly to women processors for solar drying.',
+            tags:['Vessel Operations','Landing Docks','Ice & Fuel Logistics']
+          },
+          {
+            title:'Statutory Monsoon Fishing Ban (1 June — 31 July)',
+            badge:'Conservation Regulation',
+            text:'Maharashtra enforces a mandatory 61-day ban on mechanized marine fishing from 1 June to 31 July under the Maharashtra Marine Fishing Regulation Act. This closure coincides with the peak breeding season of key commercial species and protects small boats from dangerous monsoon seas. During this window, families repair boats, mend nets, and depend on sun-dried seafood reserves.',
+            tags:['Monsoon Ban','Fish Spawning','Marine Conservation']
+          },
+          {
+            title:'Economics of Fishing: Costs vs Returns',
+            badge:'Economic Analysis',
+            text:'Statewide, Maharashtra records 463,758 metric tonnes of marine fish production and a marine fisher population of 386,259. At the village level, fishing represents high investment under extreme uncertainty: fuel, vessel maintenance, net replacement, and ice absorb over 60% of gross trip revenues before crew shares and household earnings are realized.',
+            tags:['463,758 MT State Catch','Operational Expenditure','High Volatility']
+          },
+          {
+            title:'Supply to 62 Municipal Fish Markets',
+            badge:'Market Network',
+            text:'Research documents 62 active fish markets across Mumbai served by traditional Koli fisherwomen. The market is not merely retail space; it is a cultural and financial forum where multi-generational relationships with urban consumers guarantee fair pricing and citywide food security.',
+            tags:['62 Municipal Markets','Direct-to-Consumer','Retail Value Chain']
+          }
+        ]
+      },
+      {
+        title:'Living Culture (Cuisine, Narali Purnima, Language & Music)',
+        lead:'Coastal culture in Moragaon is an unbroken relationship between daily occupation, culinary tradition, and sacred gratitude.',
+        items:[
+          {
+            title:'Koli Seafood Gastronomy',
+            badge:'Culinary Heritage',
+            text:'Everyday cooking revolves around the fresh day’s catch: Pomfret (*Paplet*), Bombay Duck (*Bombil*), Torli, Prawns (*Kolambi*), and Mud Crabs (*Khekda*). Dishes feature freshly grated coconut, crushed garlic, fiery red chillies, and tangy dried kokum (*Aamsul*). Sun-dried Bombay duck fried crisp remains an iconic staple during monsoon ban months.',
+            tags:['Bombil','Kokum & Coconut','Traditional Recipes']
+          },
+          {
+            title:'Narali Purnima (Coconut Full Moon Festival)',
+            badge:'Sacred Sea Festival',
+            text:'Narali Purnima marks the ceremonial opening of the post-monsoon sea. The entire village dresses in vibrant traditional attire, decorates wooden boats with flags and marigold garlands, and makes collective offerings of coconuts to the Arabian Sea god (*Darya Dev*) with prayers for safety, calm waters, and bountiful catches.',
+            tags:['Narali Purnima','Darya Dev','Boat Worship']
+          },
+          {
+            title:'Maritime Speech & Specialized Dialect',
+            badge:'Linguistic Heritage',
+            text:'Traditional Koli speech contains specialized terms for sea currents (*bharati* for high tide, *oti* for ebb), wind vectors (*vara*), and water depths. This linguistic vocabulary embodies centuries of empirical ecological knowledge transmitted orally from generation to generation.',
+            tags:['Koli Dialect','Marathi','Oral Nautical Knowledge']
+          },
+          {
+            title:'Koli Geet (Folk Songs & Dance)',
+            badge:'Musical Tradition',
+            text:'Koli Geet folk music accompanies celebrations with energetic percussion and synchronized dance movements that simulate rowing oars, hauling heavy drag nets, and rising with sea waves. Today, community youth blend traditional melodies with contemporary arrangements, keeping their coastal rhythm vibrantly alive.',
+            tags:['Koli Geet','Folk Dance','Percussion']
+          }
+        ]
+      },
+      {
+        title:'Sea, Marine Ecology & Climate Vulnerability',
+        lead:'Documenting ecological shifts, mangrove buffer functions, plastic pollution, and shoreline erosion.',
+        items:[
+          {
+            title:'Marine Biodiversity & Species Decline',
+            badge:'Ecological Audit',
+            quote:{
+              text:'In the past, we used to catch 100 to 200 kilograms of Torli in shallow water right off the shore. Today, that species and many others have become exceedingly difficult to find close to our beach.',
+              author:'Shankar Mangela, Veteran Moragaon Fisherman'
+            },
+            text:'Nearshore marine ecosystems have undergone profound change. Industrial runoff, siltation, and coastal dredging have pushed commercial species further offshore, forcing small-boat fishers to burn more fuel to reach viable fishing grounds.',
+            tags:['Torli Decline','Nearshore Depletion','Fishermen Observations']
+          },
+          {
+            title:'Mangroves as Natural Storm-Surge Bio-Shields',
+            badge:'Ecological Defense',
+            text:'The coastal fringes of Juhu Moragaon are protected by native Grey Mangrove (*Avicennia marina* / *पांढरी टिल्लूर*) patches. These mangrove stands attenuate wave energy during monsoon storm surges, prevent sediment runoff, and serve as irreplaceable nursery environments for juvenile fish, crabs, and estuarine fauna.',
+            tags:['Avicennia marina','Bio-Shield','Fish Nurseries']
+          },
+          {
+            title:'Monsoon Plastic Waste Crisis',
+            badge:'Solid Waste Challenge',
+            text:'Pollution washed ashore is an acute livelihood hazard. In July 2026, over 2,500 metric tonnes of plastic and solid waste washed onto Mumbai’s beaches during high monsoon tides, with Juhu among the hardest-hit stretches. Plastic trash regularly fouls fishing nets, requiring hours of unpaid labour to disentangle and causing severe gear damage.',
+            tags:['2,500 Tonnes Debris','Marine Litter','Net Entanglement']
+          },
+          {
+            title:'2020 Foreshore Erosion & Coastal Recession',
+            badge:'Climate Vulnerability',
+            text:'In 2020, severe coastal erosion triggered by high astronomical swells submerged a significant section of Moragaon’s foreshore. Areas where boats were historically anchored and fish dried on sand were swallowed by water, underscoring the urgent necessity of community-led living shoreline interventions.',
+            tags:['Coastal Erosion','Foreshore Submergence','Sea Level Rise']
+          }
+        ]
+      },
+      {
+        title:'The Built Village & Responsible Visitor Protocol',
+        lead:'Spatial layout, vernacular coastal architecture, and guidelines for respectful public access.',
+        items:[
+          {
+            title:'Vernacular Coastal Architecture',
+            badge:'Built Heritage',
+            text:'The built form of Juhu Moragaon is a masterclass in vernacular coastal adaptation: dense low-rise clusters oriented to catch coastal breezes, narrow pedestrian alleys that stay shaded during noon heat, vibrant painted facades, open plinth verandahs (*otas*) that serve as community meeting spaces, and dedicated ground-floor storage for nets and oars.',
+            tags:['Vernacular Design','Low-Rise Density','Ota Verandahs']
+          },
+          {
+            title:'Visitor Etiquette & Access Guide',
+            badge:'Responsible Access',
+            text:'Visitors and researchers are warmly welcomed with respectful protocols: never step on or photograph fish drying on bamboo racks without permission; keep pedestrian lanes clear of obstruction; respect private family courtyards; and engage through the village cooperative. The Koliwada is accessible via Juhu Tara Road, 4 km west of Vile Parle and Santacruz railway stations.',
+            tags:['Visitor Etiquette','Vile Parle Station','Public Transit']
+          }
+        ]
+      }
+    ]
+  },
+  palghar:{
+    label:'District living lab & field research dossier',
+    title:'Palghar — Mahim-Kelve Coastal Lab & Manor Vaitarna Basin',
+    note:'Documenting dual socio-ecological field sites in Palghar: the ancient coastal heritage, petroglyphs, and ocean-plastic cleanup at Mahim-Kelve, alongside riparian mangrove bio-shields and soil-salinity monitoring along the Vaitarna River basin in Manor.',
+    links:[
+      {label:'CCL Portal · Mahim-Kelve brief',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'},
+      {label:'Source repository',url:'https://github.com/Dhanu22092006/ccl-portal'}
+    ],
+    stats:[
+      {value:'50+', label:'Ancient petroglyphs documented'},
+      {value:'80+', label:'Fish species recorded'},
+      {value:'62%', label:'Bank erosion reduction'},
+      {value:'3.8 dS/m', label:'Soil salinity monitored'}
+    ],
+    sections:[
+      {
+        title:'Mahim-Kelve Coastal Living Lab (Ancient Stones, Living Seas)',
+        lead:'A unique coastal ecosystem where ancient rock art, rich marine biodiversity, and community-led ocean cleaning converge.',
+        items:[
+          {
+            title:'Ancient Coastal Petroglyphs (Heritage in Basalt)',
+            badge:'Archaeological Heritage',
+            text:'Over 50+ ancient petroglyphs and rock carvings have been documented along the coastal basalt shelves of Mahim and Kelve. These prehistoric and medieval carvings illustrate ancient maritime motifs, fauna, and human figures, testifying to millennia of unbroken coastal habitation.',
+            tags:['Petroglyphs','Basalt Rock Art','50+ Sites']
+          },
+          {
+            title:'Marine Biodiversity & Rocky Reef Fauna',
+            badge:'Ecological Audit',
+            text:'Field surveys document over 80+ marine fish and invertebrate species along the intertidal reefs and estuaries of Kelve. The diverse seabed supports traditional artisanal gillnetters and shore-cast fishers whose livelihoods rely on healthy nearshore waters.',
+            tags:['80+ Species','Rocky Reefs','Artisanal Fisheries']
+          },
+          {
+            title:'Fishermen-Led Ocean Plastic Retrieval',
+            badge:'Community Action',
+            text:'Local fishing boat crews have organized community ocean-plastic retrieval runs. Rather than discarding plastic debris snagged in their nets back into the sea, fishermen bag and transport floating litter to shore for recycling, preventing ghost-net entanglements and reef degradation.',
+            tags:['Ocean Plastic','Ghost Nets','Fishermen Cleanups']
+          },
+          {
+            title:'Community-Managed Eco-Tourism & Visitor Slots',
+            badge:'Sustainable Livelihoods',
+            text:'To counter predatory real-estate pressures and commercial resort sprawl, Mahim-Kelve has pioneered community-managed eco-tourism. Local families provide authentic homestays, guided heritage walks to the petroglyphs, and traditional seafood meals, ensuring 100% of tourism revenue directly benefits village residents.',
+            tags:['Homestays','Community Eco-Tourism','Heritage Walks']
+          }
+        ]
+      },
+      {
+        title:'Manor / Vaitarna River Basin (Riparian Agro-Forestry & Estuarine Health)',
+        lead:'Field observations from the riparian floodplains of the Vaitarna River, focusing on soil salinity and vegetative bio-shields.',
+        items:[
+          {
+            title:'Estuarine Salinity & Tidal Inundation Audit',
+            badge:'Hydrological Survey',
+            text:'Transect data demonstrates cyclical brackish water seepage into riverine farming plots during monsoon spring tides, with electrical conductivity reaching up to 3.8 dS/m within 400 m of the high-water line, restricting traditional freshwater paddy agriculture.',
+            tags:['3.8 dS/m Salinity','Vaitarna Basin','Spring Tides']
+          },
+          {
+            title:'Mangrove Bio-Shields & Bank Stabilization',
+            badge:'Measured Outcome',
+            text:'Comparative field transects confirm that riverbank sectors lined with intact Avicennia marina mangrove buffers experienced 62% less bank collapse compared to bare, dredged earthen embankments, demonstrating the crucial protective role of native riparian vegetation.',
+            tags:['62% Erosion Reduction','Avicennia marina','Riparian Stabilization']
+          },
+          {
+            title:'Warli Tribal Agro-Forestry & Handicrafts',
+            badge:'Indigenous Knowledge',
+            text:'Indigenous Warli farming communities along the Vaitarna terraces practice mixed agro-forestry with native fruit trees, bamboo groves, and pulse intercropping, complemented by globally celebrated Warli rice-paste canvas paintings depicting seasonal agricultural cycles.',
+            tags:['Warli Art','Agro-Forestry','Tribal Heritage']
+          }
+        ]
+      }
+    ]
+  },
+  thane:{
+    label:'District living lab & field research dossier',
+    title:'Thane — Urban Zero-Waste Coalitions & Rural Tribal Agro-Heritage',
+    note:'Integrating municipal solid waste transformation in Thane city with tribal agro-forestry in Nagaon Village (Murbad) and industrial carbon accounting in TBIA.',
+    links:[
+      {label:'CCL Portal · Thane SWM brief',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'},
+      {label:'Source repository',url:'https://github.com/Dhanu22092006/ccl-portal'}
+    ],
+    stats:[
+      {value:'50+', label:'Societies engaged in zero waste'},
+      {value:'200+', label:'Waste-pickers supported'},
+      {value:'2,000+ T', label:'Waste diverted per year'},
+      {value:'120+', label:'Tribal households in Nagaon'},
+      {value:'2', label:'Geo-tagged indigenous products'}
+    ],
+    sections:[
+      {
+        title:'Thane Solid Waste Management (Zero Waste Thane Coalition)',
+        lead:'A multi-stakeholder partnership between Stree Mukti Sanghatna, Samartha Bharat, and the Thane Municipal Corporation (TMC).',
+        items:[
+          {
+            title:'Zero-Waste Gated Societies (Hiranandani Gardens Model)',
+            badge:'Success Story',
+            text:'Through systematic source segregation and on-site aerobic composting pits, large residential complexes in Thane have achieved a 70% reduction in waste dispatched to municipal dumping grounds, proving that decentralized community management resolves urban landfill saturation.',
+            tags:['70% Diversion','On-Site Composting','Society Model']
+          },
+          {
+            title:'Dignity & Formal Rights for Women Waste-Pickers',
+            badge:'Social Justice',
+            text:'Organized under Stree Mukti Sanghatna, over 200 women waste-pickers have transitioned from informal scavengers to recognized green service providers equipped with protective gloves, health insurance, identity cards, and formal contracts for door-to-door dry waste collection.',
+            tags:['Stree Mukti Sanghatna','Worker Dignity','Green Livelihoods']
+          },
+          {
+            title:'DIY Household & Community Segregation Toolkit',
+            badge:'Practical Toolkit',
+            text:'The CCL promotes a simple 3-stream segregation model: Wet Waste (kitchen scraps, food waste) processed into organic garden compost; Dry Waste (paper, cardboard, clean plastics, glass, metals) sorted at decentralized sheds; and Domestic Hazardous Waste safely isolated.',
+            tags:['2-Bin 1-Bag','Composting Guide','Zero Waste Toolkit']
+          },
+          {
+            title:'Urban Creek Ecology & Flamingo Sanctuaries',
+            badge:'Urban Ecology',
+            text:'Thane Creek represents one of India’s most significant urban mangrove wetlands and a recognized Ramsar site, hosting tens of thousands of Lesser and Greater Flamingos alongside Sonneratia apetala (Mangrove Apple) stands that filter city stormwater before entering the sea.',
+            tags:['Thane Creek','Flamingo Sanctuary','Ramsar Wetland']
+          }
+        ]
+      },
+      {
+        title:'Nagaon Village, Murbad Living Lab (Tribal Agro-Heritage)',
+        lead:'A forested tribal village in Murbad tehsil documenting indigenous agricultural products, archaeological hero stones, and wildlife coexistence.',
+        items:[
+          {
+            title:'Geo-Tagged Indigenous Agri-Food Products',
+            badge:'Local Products',
+            text:'Nagaon’s women’s self-help groups produce traditional Uri Papad and sun-dried Mirgund from locally grown pulses and native spices. The CCL is assisting in obtaining Geographical Indication (GI) tags and establishing direct farmer-to-consumer value networks.',
+            tags:['Uri Papad','Mirgund','GI Tagging']
+          },
+          {
+            title:'Archaeological Heritage & Hero Stones (Virgals)',
+            badge:'Historic Relics',
+            text:'Field surveys in Nagaon have documented medieval hero stones (*Virgals*) and ancient stone water tanks that commemorate historic guardians of the forest passes, linking contemporary tribal identity with centuries of regional guardianship.',
+            tags:['Virgals','Hero Stones','Tribal Archaeology']
+          },
+          {
+            title:'Human-Wildlife Coexistence Protocols',
+            badge:'Wildlife Interventions',
+            text:'Bordering dense Western Ghats reserve forests, Nagaon experiences regular leopard and wild boar movement. The community has deployed solar-powered night lighting, cleared sightlines along agricultural pathways, and established community patrols to ensure zero-casualty coexistence.',
+            tags:['Leopard Coexistence','Solar Lighting','Forest Buffers']
+          }
+        ]
+      },
+      {
+        title:'TBIA Industry-Academia Living Lab (Thane Belapur)',
+        lead:'Collaboration with the Thane Belapur Industries Association focused on corporate sustainability reporting and environmental compliance.',
+        items:[
+          {
+            title:'GRI Sustainability & Carbon Accounting Dashboards',
+            badge:'Industrial ESG',
+            text:'Over 30+ manufacturing and chemical industries within the TBIA industrial corridor are participating in pilot digital carbon accounting dashboards to measure Scope 1 and Scope 2 GHG emissions, wastewater discharge standards, and circular resource recovery.',
+            tags:['GRI Standards','Carbon Accounting','TBIA Corridor']
+          }
+        ]
+      }
+    ]
+  },
+  raigad:{
+    label:'District scope & ethnobotanical register',
+    title:'Ratnagiri / Raigad — Coastal Biodiversity & Ethnobotanical Knowledge',
+    note:'Documentation of People\'s Biodiversity Registers (PBR), coastal medicinal plant knowledge, and sustainable flower-based incense livelihoods across Raigad and Ratnagiri.',
+    links:[
+      {label:'CCL Portal · PBR brief',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'},
+      {label:'Source repository',url:'https://github.com/Dhanu22092006/ccl-portal'}
+    ],
+    stats:[
+      {value:'200+', label:'Botanical species documented'},
+      {value:'15+', label:'Traditional healers (Vaidus)'},
+      {value:'1', label:'Sustainable flower incense enterprise'}
+    ],
+    sections:[
+      {
+        title:'Peoples Biodiversity Register (PBR)',
+        lead:'Community-driven biodiversity inventories safeguarding indigenous biological wealth under the Biological Diversity Act.',
+        items:[
+          {
+            title:'Ethnobotanical Documentation & Sacred Groves (Devrais)',
+            badge:'Biodiversity Register',
+            text:'Over 200+ native medicinal and wild food plants have been mapped across community-protected sacred groves (*Devrais*) and estuarine plateaus in Raigad and Ratnagiri, creating a legal barrier against unapproved bio-prospecting.',
+            tags:['PBR','Sacred Groves (Devrais)','200+ Flora Species']
+          },
+          {
+            title:'Traditional Healers (Vaidu) Knowledge Repository',
+            badge:'Indigenous Medicine',
+            text:'Interviews with 15+ village traditional healers (*Vaidus*) have catalogued native botanical formulations for joint pain, seasonal fevers, and wound care, safeguarding community ownership of ancestral therapeutic practices.',
+            tags:['Traditional Healers','Vaidu Wisdom','Community IP']
+          },
+          {
+            title:'Natural Flower Incense Stick Livelihoods',
+            badge:'Green Enterprise',
+            text:'A women-led cooperative collects fallen temple flowers, drying and grinding petals with natural tree gums to produce organic, charcoal-free incense sticks (*Agarbatti*), turning organic waste into a dignified household income.',
+            tags:['Temple Flower Recycling','Natural Agarbatti','Women Cooperatives']
+          }
+        ]
+      }
+    ]
+  },
+  ratnagiri:{
+    label:'District scope & ethnobotanical register',
+    title:'Ratnagiri / Raigad — Coastal Biodiversity & Ethnobotanical Knowledge',
+    note:'Documentation of People\'s Biodiversity Registers (PBR), coastal medicinal plant knowledge, and sustainable flower-based incense livelihoods across Raigad and Ratnagiri.',
+    links:[
+      {label:'CCL Portal · PBR brief',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'},
+      {label:'Source repository',url:'https://github.com/Dhanu22092006/ccl-portal'}
+    ],
+    stats:[
+      {value:'200+', label:'Botanical species documented'},
+      {value:'15+', label:'Traditional healers (Vaidus)'},
+      {value:'1', label:'Sustainable flower incense enterprise'}
+    ],
+    sections:[
+      {
+        title:'Peoples Biodiversity Register (PBR)',
+        lead:'Community-driven biodiversity inventories safeguarding indigenous biological wealth under the Biological Diversity Act.',
+        items:[
+          {
+            title:'Ethnobotanical Documentation & Sacred Groves (Devrais)',
+            badge:'Biodiversity Register',
+            text:'Over 200+ native medicinal and wild food plants have been mapped across community-protected sacred groves (*Devrais*) and estuarine plateaus in Raigad and Ratnagiri, creating a legal barrier against unapproved bio-prospecting.',
+            tags:['PBR','Sacred Groves (Devrais)','200+ Flora Species']
+          },
+          {
+            title:'Traditional Healers (Vaidu) Knowledge Repository',
+            badge:'Indigenous Medicine',
+            text:'Interviews with 15+ village traditional healers (*Vaidus*) have catalogued native botanical formulations for joint pain, seasonal fevers, and wound care, safeguarding community ownership of ancestral therapeutic practices.',
+            tags:['Traditional Healers','Vaidu Wisdom','Community IP']
+          },
+          {
+            title:'Natural Flower Incense Stick Livelihoods',
+            badge:'Green Enterprise',
+            text:'A women-led cooperative collects fallen temple flowers, drying and grinding petals with natural tree gums to produce organic, charcoal-free incense sticks (*Agarbatti*), turning organic waste into a dignified household income.',
+            tags:['Temple Flower Recycling','Natural Agarbatti','Women Cooperatives']
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const CCL_SCOPE_CATALOGUE={
+  thane:[
+    {title:'Thane Solid Waste Management CCL',status:'Source catalogue · active brief',text:'A zero-waste programme focused on segregation, waste-picker voices, community participation, and data-led municipal action in partnership with Stree Mukti Sanghatna and TMC.'},
+    {title:'Nagaon Village, Murbad CCL',status:'Source catalogue · active brief',text:'A rural and tribal field site focused on geo-tagged local products (Uri Papad & Mirgund), archaeological heritage, biodiversity, and human–wildlife conflict.'},
+    {title:'TBIA industry–academia CCL',status:'Source catalogue · active brief',text:'An industry collaboration focused on GRI sustainability reporting, carbon-accounting digitisation, and compliance dashboards for 30+ industrial units.'}
+  ],
+  palghar:[
+    {title:'Mahim–Kelve Palghar CCL',status:'Source catalogue · active brief',text:'A coastal field site focused on 50+ ancient petroglyphs, marine biodiversity (80+ species), fishermen’s ocean-plastic cleaning, and community-managed eco-tourism.'},
+    {title:'Manor Vaitarna Basin Lab',status:'Published research record',text:'Estuarine water quality transects, soil salinity audits, and Avicennia marina bio-shields reducing riverbank erosion by 62%.'}
+  ],
+  raigad:[
+    {title:'Ratnagiri / Raigad CCL',status:'Source catalogue · active brief',text:'A coastal knowledge programme focused on Peoples Biodiversity Registers (200+ species), flower-based incense livelihoods, and medicinal-plant knowledge of 15+ Vaidus.'}
+  ],
+  ratnagiri:[
+    {title:'Ratnagiri / Raigad CCL',status:'Source catalogue · active brief',text:'A coastal knowledge programme focused on Peoples Biodiversity Registers (200+ species), flower-based incense livelihoods, and medicinal-plant knowledge of 15+ Vaidus.'}
+  ]
+};
+
 
 const BR=[], LF=[], AER=[], BUT=[];
 (function buildTree(){
@@ -2347,6 +2900,82 @@ function branchPath(ctx,pts,w0,w1,t){
   ctx.closePath(); return true;
 }
 
+// The mature tree is intentionally kept as the final silhouette, but its
+// recursive branches all begin at the crown. Without an intermediate pass,
+// the early animation reads as a long bare stem before the canopy arrives.
+// This juvenile layer gives the seed a believable sapling phase: cotyledons,
+// tiered side shoots, and a few leaves that fade into the established tree.
+function drawJuvenileCanopy(ctx,g,T,s,wind,barkL,tones){
+  const sprout=smooth((g-0.012)/0.13);
+  const fade=1-smooth((g-0.34)/0.30);
+  if(sprout<=0.001||fade<=0.001) return;
+
+  const stemT=smooth((g-0.020)/0.42);
+  const stemH=lerp(28,86,stemT);
+  const sway=Math.sin(T*0.00035)*wind*2.1;
+  const stemTip={x:sway*0.42,y:-stemH*stemT};
+  const leafTone=(i)=>tones[(i+4)%tones.length];
+
+  function leaf(x,y,size,angle,reveal,tone){
+    if(reveal<=0.001) return;
+    const t=clamp(reveal,0,1), sz=size*(0.62+0.38*t);
+    ctx.save();
+    ctx.globalAlpha=fade*t*(0.86+0.14*sprout);
+    ctx.translate(x,y); ctx.rotate(angle);
+    ctx.fillStyle=leafTone(tone);
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.quadraticCurveTo(sz*0.42,-sz*0.82,sz,-sz*0.06);
+    ctx.quadraticCurveTo(sz*0.48,sz*0.52,0,0);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(228,242,170,0.24)';
+    ctx.lineWidth=Math.max(0.16/s,0.28);
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(sz*0.82,-sz*0.08); ctx.stroke();
+    ctx.restore();
+  }
+
+  function twig(x,y,side,length,reveal,tone){
+    if(reveal<=0.001) return;
+    const t=clamp(reveal,0,1);
+    const tx=x+side*length, ty=y-length*0.48;
+    const ex=lerp(x,tx,t), ey=lerp(y,ty,t);
+    ctx.save();
+    ctx.globalAlpha=fade*(0.72+0.28*t);
+    ctx.strokeStyle=barkL; ctx.lineCap='round';
+    ctx.lineWidth=Math.max(0.38/s,1.15-0.18*t);
+    ctx.beginPath(); ctx.moveTo(x,y);
+    ctx.quadraticCurveTo(x+side*length*0.42,y-length*0.12,ex,ey);
+    ctx.stroke(); ctx.restore();
+
+    const leafT=t*smooth((g-0.095)/0.20);
+    leaf(ex,ey,4.2+1.2*t,side>0?0.25:-Math.PI+0.25,leafT,tone);
+    const mx=lerp(x,ex,0.56), my=lerp(y,ey,0.56);
+    leaf(mx,my,3.0+0.8*t,side>0?-0.72:Math.PI+0.72,leafT*0.86,tone+1);
+  }
+
+  ctx.save();
+  ctx.globalAlpha=fade*(0.72+0.28*sprout);
+  ctx.strokeStyle=barkL; ctx.lineCap='round';
+  ctx.lineWidth=Math.max(0.42/s,1.55+stemT*0.9);
+  ctx.beginPath(); ctx.moveTo(0,0);
+  ctx.quadraticCurveTo(sway*0.18,-stemH*stemT*0.48,stemTip.x,stemTip.y);
+  ctx.stroke(); ctx.restore();
+
+  const cotyledon=smooth((g-0.070)/0.16);
+  leaf(stemTip.x,stemTip.y,4.5+1.5*stemT,-0.60,cotyledon,2);
+  leaf(stemTip.x,stemTip.y,4.5+1.5*stemT,Math.PI+0.60,cotyledon,0);
+
+  const first=smooth((g-0.105)/0.16)*clamp((stemT-0.22)/0.18,0,1);
+  const second=smooth((g-0.215)/0.18)*clamp((stemT-0.46)/0.18,0,1);
+  const third=smooth((g-0.330)/0.22)*clamp((stemT-0.68)/0.18,0,1);
+  twig(0,-stemH*0.34,-1,24+stemT*8,first,1);
+  twig(0,-stemH*0.34,1,24+stemT*8,first,3);
+  twig(0,-stemH*0.55,-1,28+stemT*10,second,0);
+  twig(0,-stemH*0.55,1,28+stemT*10,second,2);
+  twig(0,-stemH*0.76,-1,30+stemT*12,third,1);
+  twig(0,-stemH*0.76,1,30+stemT*12,third,3);
+}
+
 function drawTree(ctx,W,H,cam,p,T,L,S,q,dark){
   const g=growth(p);
   if(g<=0.002) { drawSeed(ctx,cam,p,L,dark); return; }
@@ -2378,7 +3007,9 @@ function drawTree(ctx,W,H,cam,p,T,L,S,q,dark){
   }
 
   const sw=(x,y)=>Math.sin(T*0.00035+x*0.006)*(-y)*0.012*wind;
-  const sc2=0.08+0.92*Math.pow(g,1.55);
+  // Give the trunk and first limbs enough visual weight to read as a young
+  // plant before the deeper recursive canopy has finished revealing.
+  const sc2=0.10+0.90*Math.pow(g,1.25);
   const stride=q<1?Math.max(1,Math.round((1/q)*0.6)):1;
   let bi=-1;
   for(const b of BR){
@@ -2486,6 +3117,7 @@ function drawTree(ctx,W,H,cam,p,T,L,S,q,dark){
       }
       ctx.restore();
     }
+    drawJuvenileCanopy(ctx,g,T,s,wind,barkL,tones);
   }
 
   drawFruit(ctx,p,T,L,dark,wind);
@@ -4745,7 +5377,7 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
+const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN, thane:THANE};
 
 (function buildDistricts(){
   const host=document.getElementById('districts');
@@ -4753,7 +5385,8 @@ const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
   const published=DISTRICTS.filter(d=>d.records>0);
   if(count) count.textContent=String(published.length);
   DISTRICTS.forEach((d,i)=>{
-    const open=d.records>0;
+    const scopeEntries=CCL_SCOPE_CATALOGUE[d.slug]||[];
+    const open=d.records>0||scopeEntries.length>0;
     const el=document.createElement(open?'a':'div');
     el.className='drow'+(open?' live-row':'');
     if(open){
@@ -4766,7 +5399,7 @@ const ARCHIVE_RECORDS={palghar:PALGHAR, 'mumbai-suburban':MUMBAI_SUBURBAN};
       `<div class="n">${String(i+1).padStart(2,'0')}</div>`+
       `<div><div class="nm">${esc(d.name)}</div>${d.tagline?`<div style="font-size:12.5px;color:var(--mute);margin-top:6px;max-width:52ch">${esc(d.tagline)}</div>`:''}</div>`+
       `<div class="meta">`+
-        `<span class="tag${open?' live':''}">${open?d.records+' published records':'No published records yet'}</span>`+
+        `<span class="tag${d.records>0?' live':''}">${d.records>0?d.records+' published records':scopeEntries.length?'Source catalogue notes':'No published records yet'}</span>`+
         (d.reference?`<span class="tag">Technical reference</span>`:'')+
         (open?`<span class="arrow" aria-hidden="true">→</span>`:'')+
       `</div>`;
@@ -5138,6 +5771,7 @@ function renderAbar(activeTab, badge){
       <a class="sub-link ${activeTab==='archive'?'active':''}" href="#/archive">${esc(l.navDistricts||'Districts')}</a>
       <a class="sub-link ${activeTab==='palghar'?'active':''}" href="#/districts/palghar">Palghar</a>
       <a class="sub-link ${activeTab==='mumbai-suburban'?'active':''}" href="#/districts/mumbai-suburban">Mumbai Suburban</a>
+      <a class="sub-link ${activeTab==='thane'?'active':''}" href="#/districts/thane">Thane</a>
       <a class="sub-link ${activeTab==='sources'?'active':''}" href="#/sources">${esc(l.navSources||'Sources')}</a>
       <a class="sub-link ${activeTab==='visit'?'active':''}" href="#/visit">${esc(l.navVisit||'Access')}</a>
     </div>
@@ -5258,8 +5892,9 @@ function visitHTML(){
             <div class="form-field">
               <label for="accDistrict">${esc(t.districtSelect)} *</label>
               <select id="accDistrict" name="district" required>
-                <option value="palghar">Palghar (Manor / Vaitarna Basin)</option>
+                <option value="palghar">Palghar (Manor & Mahim-Kelve)</option>
                 <option value="mumbai-suburban">Mumbai Suburban (Juhu Moragaon)</option>
+                <option value="thane">Thane (Zero-Waste & Nagaon Murbad)</option>
                 <option value="all">Cross-District Comparative Study</option>
               </select>
             </div>
@@ -5296,6 +5931,100 @@ window.handleAccessSubmit = function(e){
   }
 };
 
+function renderSourceLinks(links){
+  if(!links||!links.length) return '';
+  return `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">`+
+    links.map(link=>`<a class="tag" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>`).join('')+
+  `</div>`;
+}
+
+function renderSubsiteEditorial(d){
+  const e=SUBSITE_EDITORIAL[d.id];
+  if(!e) return '';
+  return `
+<section class="asec"><div class="wrap">
+  <p class="eyebrow">${esc(e.label)}</p>
+  <h3>${esc(e.title)}</h3>
+  <p class="note" style="max-width:82ch">${esc(e.note)}</p>
+  ${renderSourceLinks(e.links)}
+  ${e.stats && e.stats.length ? `
+    <div class="stats" style="margin:28px 0 10px">
+      ${e.stats.map(x=>`<div><b>${esc(x.value)}</b><span>${esc(x.label)}</span></div>`).join('')}
+    </div>` : ''}
+  ${e.sections.map(section=>`
+    <div style="margin-top:38px">
+      <h4 style="font-size:24px;margin-bottom:8px;color:#FAF8F2">${esc(section.title)}</h4>
+      ${section.lead ? `<p style="max-width:76ch;color:var(--mute);line-height:1.6">${esc(section.lead)}</p>` : ''}
+      <div class="grid2" style="margin-top:20px">
+        ${section.items.map(item=>`<article class="card">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+            <h4 style="margin:0;font-size:19px;color:#FAF8F2">${esc(item.title)}</h4>
+            ${item.badge ? `<span class="tag live">${esc(item.badge)}</span>` : ''}
+          </div>
+          ${item.text ? `<p style="margin-top:12px;line-height:1.65">${esc(item.text)}</p>` : ''}
+          ${item.quote ? `
+            <div class="quotebox" style="margin:16px 0;font-size:16px;line-height:1.55">
+              “${esc(item.quote.text)}”
+              ${item.quote.author ? `<div style="font-family:var(--ui);font-size:11px;letter-spacing:.12em;color:var(--signal);margin-top:8px;text-transform:uppercase">— ${esc(item.quote.author)}</div>` : ''}
+            </div>` : ''}
+          ${item.timeline ? `
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px">
+              ${item.timeline.map(t=>`<div class="timeline-item">
+                <div class="timeline-date">${esc(t.date)}</div>
+                <p class="timeline-detail">${esc(t.detail)}</p>
+              </div>`).join('')}
+            </div>` : ''}
+          ${item.bullets ? `<ul style="margin:14px 0 0 18px;color:var(--mute);line-height:1.65">${item.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>` : ''}
+          ${item.tags ? `
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:16px">
+              ${item.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}
+            </div>` : ''}
+        </article>`).join('')}
+      </div>
+    </div>`).join('')}
+</div></section>`;
+}
+
+function renderScopeCatalogue(entries){
+  if(!entries||!entries.length) return '';
+  return `
+<section class="asec"><div class="wrap">
+  <p class="eyebrow">Source catalogue notes</p>
+  <h3>Other CCL scopes in the working catalogue</h3>
+  <p class="note" style="max-width:82ch">These cards summarise the public CCL Portal seed catalogue. They are planning notes, not published research records in this build; they do not add district statistics or evidence claims. The repository is treated as an editorial source catalogue, not as independently verified evidence.</p>
+  <div class="grid2" style="margin-top:22px">
+    ${entries.map(entry=>`<article class="card">
+      <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap">
+        <h4 style="margin:0;font-size:20px">${esc(entry.title)}</h4>
+        <span class="tag">${esc(entry.status)}</span>
+      </div>
+      <p style="margin-top:14px">${esc(entry.text)}</p>
+    </article>`).join('')}
+  </div>
+</div></section>`;
+}
+
+function scopeHTML(district){
+  const entries=CCL_SCOPE_CATALOGUE[district.slug]||[];
+  const editorial=renderSubsiteEditorial({ id: district.slug });
+  return `
+${renderAbar('archive')}
+<section class="archive-home"><div class="wrap">
+  <p class="eyebrow">District Living Lab Scope</p>
+  <h1>${esc(district.name)}</h1>
+  <p class="lede">${district.tagline || 'Community Co-Creation Lab research brief and field site documentation.'}</p>
+  ${renderSourceLinks([
+    {label:'CCL Portal repository',url:'https://github.com/Dhanu22092006/ccl-portal'},
+    {label:'Seed catalogue',url:'https://github.com/Dhanu22092006/ccl-portal/blob/main/server/utils/seedData.js'}
+  ])}
+</div></section>
+${editorial}
+${renderScopeCatalogue(entries)}
+<section class="asec" style="border-bottom:0"><div class="wrap">
+  <p><a class="btn" href="#/archive">← Back to research archive</a></p>
+</div></section>`;
+}
+
 function archiveHTML(d){
   const s=d.place, sv=d.survey, ch=d.challenge, pr=d.person;
   const speciesList = Array.isArray(d.species) ? d.species : [d.species];
@@ -5329,6 +6058,8 @@ ${renderAbar(d.id, d.badge)}
   </div>
 </div></section>
 
+${renderSubsiteEditorial(d)}
+
 <section class="asec"><div class="wrap">
   <h3>Communities and places</h3>
   <div class="card">
@@ -5337,7 +6068,7 @@ ${renderAbar(d.id, d.badge)}
       <span class="tag">${esc(s.type)}</span>
     </div>
     <p style="margin-top:16px">${esc(s.documented)}</p>
-    <div class="quotebox" style="margin:18px 0">${esc(s.community)}<div style="font-family:var(--ui);font-size:11px;letter-spacing:.14em;color:var(--dim);margin-top:10px;text-transform:uppercase">Community account · EV-0002</div></div>
+    <div class="quotebox" style="margin:18px 0">${esc(s.community)}<div style="font-family:var(--ui);font-size:11px;letter-spacing:.14em;color:var(--dim);margin-top:10px;text-transform:uppercase">Community account · evidence listed below</div></div>
     <dl class="kv">
       <dt>Locality</dt><dd>${esc(s.locality)}</dd>
       <dt>Admin</dt><dd>${esc(s.admin)} district</dd>
@@ -5479,10 +6210,15 @@ function archiveIndexHTML(){
 function renderArchiveIndex(){
   const host=document.getElementById('archiveDistricts');
   const published=DISTRICTS.filter(d=>d.records>0);
-  host.innerHTML=published.length ? published.map(d=>`<a class="drow live-row" href="#/districts/${encodeURIComponent(d.slug)}">
+  const catalogue=DISTRICTS.filter(d=>d.records===0&&(CCL_SCOPE_CATALOGUE[d.slug]||[]).length);
+  host.innerHTML=(published.length ? `<div>${published.map(d=>`<a class="drow live-row" href="#/districts/${encodeURIComponent(d.slug)}">
     <span class="n">→</span><span><span class="nm">${esc(d.name)}</span></span>
     <span class="meta"><span class="tag live">${d.records} record${d.records===1?'':'s'}</span><span class="arrow" aria-hidden="true">→</span></span>
-  </a>`).join('') : '<div class="todo">No district records are currently published in this build.</div>';
+  </a>`).join('')}</div>` : '<div class="todo">No district records are currently published in this build.</div>')+
+  (catalogue.length?`<div style="margin-top:34px"><h4 style="margin-bottom:12px">Catalogue scopes not yet published</h4><p class="note" style="max-width:70ch">These links contain planning notes from the source catalogue only. They are not counted as published district records.</p>${catalogue.map(d=>`<a class="drow" href="#/districts/${encodeURIComponent(d.slug)}">
+    <span class="n">·</span><span><span class="nm">${esc(d.name)}</span></span>
+    <span class="meta"><span class="tag">Scope notes</span><span class="arrow" aria-hidden="true">→</span></span>
+  </a>`).join('')}</div>`:'');
 }
 function fadeAmbientForArchive(){
   if(bgAudio && !bgAudio.paused) stopSound(0.2);
@@ -5532,9 +6268,7 @@ function route(){
       return;
     }
     if(district){
-      document.getElementById('archive').innerHTML=`
-      ${renderAbar('archive')}
-      <section class="archive-home"><div class="wrap"><p class="eyebrow">District scope</p><h1>${esc(district.name)}</h1><p class="lede">This district is present in the current scope model, but no published research record is available in this build.</p><p><a class="btn" href="#/archive">← Back to research archive</a></p></div></section>`;
+      document.getElementById('archive').innerHTML=scopeHTML(district);
       document.body.classList.add('arc');
       fadeAmbientForArchive();
       clearGeoUI();
