@@ -4237,14 +4237,20 @@ const CITIES=[
   {lon:12.496,lat:41.902,pop:1.1,name:'Rome'},
   {lon:31.235,lat:30.044,pop:1.5,name:'Cairo'},
   {lon:55.270,lat:25.204,pop:1.3,name:'Dubai'},
+  {lon:51.531,lat:25.285,pop:1.1,name:'Doha'},
+  {lon:58.592,lat:23.588,pop:1.0,name:'Muscat'},
+  {lon:67.001,lat:24.860,pop:1.6,name:'Karachi'},
   {lon:72.871,lat:19.072,pop:1.9,name:'Mumbai'},
   {lon:73.856,lat:18.520,pop:1.2,name:'Pune'},
   {lon:72.770,lat:19.700,pop:0.8,name:'Palghar'},
+  {lon:72.831,lat:21.170,pop:1.2,name:'Surat'},
+  {lon:78.486,lat:17.385,pop:1.4,name:'Hyderabad'},
   {lon:77.209,lat:28.613,pop:1.7,name:'Delhi'},
   {lon:77.594,lat:12.971,pop:1.4,name:'Bengaluru'},
   {lon:80.270,lat:13.082,pop:1.2,name:'Chennai'},
   {lon:88.363,lat:22.572,pop:1.4,name:'Kolkata'},
   {lon:72.571,lat:23.022,pop:1.2,name:'Ahmedabad'},
+  {lon:79.861,lat:6.927,pop:1.1,name:'Colombo'},
   {lon:100.501,lat:13.756,pop:1.3,name:'Bangkok'},
   {lon:103.819,lat:1.352,pop:1.4,name:'Singapore'},
   {lon:114.169,lat:22.319,pop:1.4,name:'Hong Kong'},
@@ -4254,17 +4260,44 @@ const CITIES=[
 
 const STARS=(function(){
   const r=mulberry32(4201), a=[];
-  for(let i=0;i<180;i++){
+  for(let i=0;i<260;i++){
+    const isMajor = (i < 34); // Prominent scintillating glint stars ("lightning stars")
+    const isMedium = (i >= 34 && i < 115);
+    const size = isMajor ? (2.2 + r() * 1.6) : isMedium ? (1.1 + r() * 0.7) : (0.6 + r() * 0.5);
+    const col = isMajor 
+      ? (r() > 0.65 ? '#E0F2FE' : r() > 0.35 ? '#FFFBEB' : '#BAE6FD')
+      : (r() > 0.70 ? '#DCEAF5' : r() > 0.40 ? '#FDF6E2' : '#CBD5E1');
     a.push({
-      x:r(), y:r(), size:r()>0.88?1.8:r()>0.6?1.2:0.8,
-      baseAlpha:0.18+r()*0.75,
-      twinkleSpeed:0.001+r()*0.003,
-      twinklePhase:r()*7,
-      color:r()>0.75?'#DCEAF5':r()>0.4?'#FDF6E2':'#E8ECF0'
+      x: r(), y: r(),
+      size,
+      baseAlpha: isMajor ? (0.70 + r() * 0.30) : isMedium ? (0.35 + r() * 0.45) : (0.16 + r() * 0.38),
+      twinkleSpeed: 0.0008 + r() * 0.0026,
+      twinklePhase: r() * 7,
+      isGlint: isMajor,
+      spikeLen: isMajor ? (6.5 + r() * 9.5) : 0,
+      hasOcta: isMajor && (r() > 0.45),
+      flareSpeed: 0.0011 + r() * 0.0022,
+      flarePhase: r() * 6.28,
+      color: col
     });
   }
   return a;
 })();
+
+const METEORS = [
+  { startX: 0.12, startY: 0.06, angle: 0.54, len: 140, period: 7400, phase: 0 },
+  { startX: 0.78, startY: 0.07, angle: 2.58, len: 165, period: 9600, phase: 3200 },
+  { startX: 0.38, startY: 0.03, angle: 0.62, len: 180, period: 11400, phase: 6400 },
+  { startX: 0.88, startY: 0.14, angle: 2.45, len: 135, period: 8200, phase: 4900 }
+];
+
+const NIGHT_STORMS = [
+  { lon: 85.0, lat: 12.0, period: 3800, phase: 400 },
+  { lon: 66.0, lat: 6.5,  period: 4600, phase: 2100 },
+  { lon: 25.0, lat: 1.5,  period: 5200, phase: 1200 },
+  { lon: 98.5, lat: 9.0,  period: 4100, phase: 3300 },
+  { lon: 74.2, lat: 14.8, period: 3500, phase: 1800 }
+];
 
 function drawEarth(ctx,W,H,p,T,q){
   const k=sampleEarth(p,T);
@@ -4277,26 +4310,143 @@ function drawEarth(ctx,W,H,p,T,q){
   // Deep space base
   ctx.fillStyle='#02050A'; ctx.fillRect(0,0,W,H);
 
-  // Soft cosmic nebula centered behind Earth
+  // Multi-layered Deep Cosmic Nebulae behind Earth
   const starA=clamp((1.7-k.s)/1.0,0,1);
   if(starA>0.02){
-    const neb=ctx.createRadialGradient(cx-R*0.2,cy-R*0.2,R*0.5,cx,cy,Math.hypot(W,H)*0.65);
-    neb.addColorStop(0,'rgba(14,28,48,0.45)');
-    neb.addColorStop(0.5,'rgba(8,16,28,0.20)');
-    neb.addColorStop(1,'rgba(2,5,10,0)');
-    ctx.fillStyle=neb; ctx.fillRect(0,0,W,H);
+    // Layer 1: Deep cosmic blue-sapphire core
+    const neb1=ctx.createRadialGradient(cx-R*0.32,cy-R*0.28,R*0.35,cx,cy,Math.hypot(W,H)*0.72);
+    neb1.addColorStop(0,'rgba(18,40,76,0.52)');
+    neb1.addColorStop(0.35,'rgba(12,26,50,0.32)');
+    neb1.addColorStop(0.70,'rgba(6,14,28,0.15)');
+    neb1.addColorStop(1,'rgba(2,5,10,0)');
+    ctx.fillStyle=neb1; ctx.fillRect(0,0,W,H);
 
-    // Multi-temperature starry background
+    // Layer 2: Subtle stellar violet-indigo gas veil in upper-right sky
+    const neb2=ctx.createRadialGradient(W*0.78,H*0.20,0,W*0.78,H*0.20,Math.max(W,H)*0.58);
+    neb2.addColorStop(0,'rgba(36,20,62,0.35)');
+    neb2.addColorStop(0.5,'rgba(20,12,42,0.15)');
+    neb2.addColorStop(1,'rgba(2,5,10,0)');
+    ctx.fillStyle=neb2; ctx.fillRect(0,0,W,H);
+
+    // Layer 3: Cyan cosmic stardust shimmer band lower-left
+    const neb3=ctx.createRadialGradient(W*0.22,H*0.80,0,W*0.22,H*0.80,Math.max(W,H)*0.48);
+    neb3.addColorStop(0,'rgba(14,46,68,0.28)');
+    neb3.addColorStop(0.55,'rgba(8,24,38,0.12)');
+    neb3.addColorStop(1,'rgba(2,5,10,0)');
+    ctx.fillStyle=neb3; ctx.fillRect(0,0,W,H);
+
+    // ── Multi-temperature Starfield & "Lightning Stars" (Glints) ──
     ctx.save();
     for(let i=0;i<STARS.length;i++){
       const st=STARS[i];
       const sx=st.x*W, sy=st.y*H;
       const dx=sx-cx, dy=sy-cy;
-      if(dx*dx+dy*dy<R*R*1.15) continue;
-      const tw=0.7+0.3*Math.sin(T*st.twinkleSpeed+st.twinklePhase);
-      ctx.globalAlpha=starA*st.baseAlpha*tw;
-      ctx.fillStyle=st.color;
-      ctx.fillRect(sx,sy,st.size,st.size);
+      if(dx*dx+dy*dy<R*R*1.14) continue; // Behind Earth disc
+
+      const tw=0.72+0.28*Math.sin(T*st.twinkleSpeed+st.twinklePhase);
+      const alpha=starA*st.baseAlpha*tw;
+      if(alpha<=0.02) continue;
+
+      ctx.globalAlpha=alpha;
+
+      if(st.isGlint){
+        // Periodic sparkling flare spike ("lightning glint")
+        const flPhase = (T * st.flareSpeed + st.flarePhase) % 6.283;
+        const flPulse = Math.pow(Math.max(0, Math.sin(flPhase)), 8);
+        const curSpike = st.spikeLen * (0.8 + flPulse * 1.5);
+        const curCore = st.size * (0.85 + flPulse * 0.7);
+
+        // Soft halo bloom
+        const gl=ctx.createRadialGradient(sx,sy,0,sx,sy,curSpike*1.2);
+        gl.addColorStop(0, st.color);
+        gl.addColorStop(0.35, 'rgba(180,225,255,0.38)');
+        gl.addColorStop(1, 'rgba(100,180,255,0)');
+        ctx.fillStyle=gl;
+        ctx.beginPath(); ctx.arc(sx,sy,curSpike*1.2,0,7); ctx.fill();
+
+        // Incandescent stellar core
+        ctx.fillStyle='#FFFFFF';
+        ctx.beginPath(); ctx.arc(sx,sy,curCore*0.7,0,7); ctx.fill();
+
+        // 4-point cross diffraction spikes (diamond rays)
+        ctx.save();
+        ctx.strokeStyle=st.color;
+        ctx.lineWidth=Math.max(0.7, 1.2 * (0.75 + flPulse * 0.5));
+        ctx.beginPath();
+        // Horizontal ray
+        ctx.moveTo(sx - curSpike, sy); ctx.lineTo(sx + curSpike, sy);
+        // Vertical ray
+        ctx.moveTo(sx, sy - curSpike); ctx.lineTo(sx, sy + curSpike);
+        ctx.stroke();
+
+        if(st.hasOcta){
+          // Secondary diagonal 45-degree ray
+          const diagLen = curSpike * 0.52;
+          ctx.strokeStyle='rgba(255,255,255,0.40)';
+          ctx.lineWidth=0.7;
+          ctx.beginPath();
+          ctx.moveTo(sx - diagLen, sy - diagLen); ctx.lineTo(sx + diagLen, sy + diagLen);
+          ctx.moveTo(sx - diagLen, sy + diagLen); ctx.lineTo(sx + diagLen, sy - diagLen);
+          ctx.stroke();
+        }
+        ctx.restore();
+      } else {
+        // Standard pinpoint cosmic star
+        ctx.fillStyle=st.color;
+        if(st.size > 1.2){
+          ctx.beginPath(); ctx.arc(sx,sy,st.size*0.5,0,7); ctx.fill();
+        } else {
+          ctx.fillRect(sx,sy,st.size,st.size);
+        }
+      }
+    }
+
+    // ── Cosmic Shooting Stars (Meteors) across Deep Space ──
+    if(!REDUCED && !still){
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      for(let mi=0; mi<METEORS.length; mi++){
+        const m = METEORS[mi];
+        const cycle = (T + m.phase) % m.period;
+        if(cycle < 850){
+          const u = cycle / 850;
+          const dist = u * (m.len * 2.8);
+          const hx = (m.startX * W) + Math.cos(m.angle) * dist;
+          const hy = (m.startY * H) + Math.sin(m.angle) * dist;
+          const trailL = m.len * Math.min(u * 2.5, 1);
+          const tx = hx - Math.cos(m.angle) * trailL;
+          const ty = hy - Math.sin(m.angle) * trailL;
+
+          // Don't draw if inside Earth disc
+          const mdx = hx - cx, mdy = hy - cy;
+          if(mdx*mdx + mdy*mdy > R*R*1.08){
+            const mAlpha = Math.sin(u * Math.PI) * starA * 0.90;
+            if(mAlpha > 0.02){
+              const mg = ctx.createLinearGradient(tx, ty, hx, hy);
+              mg.addColorStop(0, 'rgba(120, 180, 255, 0)');
+              mg.addColorStop(0.65, `rgba(160, 220, 255, ${(mAlpha * 0.45).toFixed(3)})`);
+              mg.addColorStop(0.92, `rgba(240, 250, 255, ${(mAlpha * 0.85).toFixed(3)})`);
+              mg.addColorStop(1, `rgba(255, 255, 255, ${mAlpha.toFixed(3)})`);
+
+              ctx.strokeStyle = mg;
+              ctx.lineWidth = Math.max(1.2, Math.min(2.8, W * 0.002));
+              ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(hx, hy); ctx.stroke();
+
+              // Incandescent meteor plasma head
+              ctx.fillStyle = `rgba(255, 255, 255, ${mAlpha.toFixed(3)})`;
+              ctx.beginPath(); ctx.arc(hx, hy, Math.max(1.5, Math.min(3.2, W * 0.0025)), 0, 7); ctx.fill();
+
+              // Corona glow
+              const hGlow = ctx.createRadialGradient(hx, hy, 0, hx, hy, Math.max(6, W * 0.008));
+              hGlow.addColorStop(0, `rgba(180, 230, 255, ${(mAlpha * 0.6).toFixed(3)})`);
+              hGlow.addColorStop(1, 'rgba(100, 180, 255, 0)');
+              ctx.fillStyle = hGlow;
+              ctx.beginPath(); ctx.arc(hx, hy, Math.max(6, W * 0.008), 0, 7); ctx.fill();
+            }
+          }
+        }
+      }
+      ctx.restore();
     }
     ctx.restore();
   }
@@ -4312,17 +4462,17 @@ function drawEarth(ctx,W,H,p,T,q){
 
   // ── 1. Outer Atmospheric Rayleigh Halo ────────────────────────
   const at=ctx.createRadialGradient(cx,cy,R*0.96,cx,cy,R*1.32);
-  at.addColorStop(0,'rgba(112,192,242,0.42)');
-  at.addColorStop(0.35,'rgba(72,154,216,0.18)');
-  at.addColorStop(0.70,'rgba(46,110,180,0.06)');
-  at.addColorStop(1,'rgba(30,80,150,0)');
+  at.addColorStop(0,'rgba(125,205,250,0.46)');
+  at.addColorStop(0.28,'rgba(80,170,230,0.22)');
+  at.addColorStop(0.65,'rgba(45,115,190,0.07)');
+  at.addColorStop(1,'rgba(20,60,130,0)');
   ctx.fillStyle=at; ctx.beginPath(); ctx.arc(cx,cy,R*1.32,0,7); ctx.fill();
 
   // Forward atmospheric scattering flare on sunward limb
   const fx=cx+ux*R*0.95, fy=cy-uy*R*0.95;
   const flare=ctx.createRadialGradient(fx,fy,R*0.1,cx,cy,R*1.28);
-  flare.addColorStop(0,'rgba(230,244,255,0.30)');
-  flare.addColorStop(0.4,'rgba(130,205,250,0.12)');
+  flare.addColorStop(0,'rgba(235,248,255,0.34)');
+  flare.addColorStop(0.4,'rgba(135,210,255,0.14)');
   flare.addColorStop(1,'rgba(100,180,240,0)');
   ctx.save(); ctx.globalCompositeOperation='screen';
   ctx.fillStyle=flare; ctx.beginPath(); ctx.arc(cx,cy,R*1.28,0,7); ctx.fill();
@@ -4353,15 +4503,27 @@ function drawEarth(ctx,W,H,p,T,q){
   }
   ctx.globalAlpha=1;
 
-  // Ocean sun specular glint (caustic specular bloom)
+  // Ocean sun specular glint (caustic specular bloom & solar glint rays)
   const gx=cx+S[0]*R*0.62, gy2=cy-S[1]*R*0.62;
   if(S[2]>0.05){
     ctx.save(); ctx.globalCompositeOperation='lighter';
     const sg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.55);
-    sg.addColorStop(0,'rgba(235,248,255,0.28)');
-    sg.addColorStop(0.35,'rgba(170,220,245,0.12)');
-    sg.addColorStop(1,'rgba(140,195,225,0)');
+    sg.addColorStop(0,'rgba(235,248,255,0.35)');
+    sg.addColorStop(0.25,'rgba(180,225,250,0.18)');
+    sg.addColorStop(0.60,'rgba(135,200,230,0.06)');
+    sg.addColorStop(1,'rgba(130,190,220,0)');
     ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.55,0,7); ctx.fill();
+
+    // Solar caustic glint cross-rays when sun is prominent
+    if(S[2]>0.20){
+      const gRay=R*0.18*clamp((S[2]-0.20)*2.0,0,1);
+      ctx.strokeStyle='rgba(255,252,240,0.30)';
+      ctx.lineWidth=Math.max(0.8,R*0.002);
+      ctx.beginPath();
+      ctx.moveTo(gx-gRay,gy2); ctx.lineTo(gx+gRay,gy2);
+      ctx.moveTo(gx,gy2-gRay); ctx.lineTo(gx,gy2+gRay);
+      ctx.stroke();
+    }
     ctx.restore();
   }
 
@@ -4569,21 +4731,34 @@ function drawEarth(ctx,W,H,p,T,q){
     const sunDot=v[0]*S[0]+v[1]*S[1]+v[2]*S[2];
     if(sunDot<0.18){
       const nightA=clamp((0.18-sunDot)/0.36,0,1)*clamp(v[2]*3.0,0,1);
-      const twinkle=0.75+0.25*Math.sin(T*0.0035+i*2.1);
+      const twinkle=0.72+0.28*Math.sin(T*0.0035+i*2.1);
+      // Secondary scintillation — rapid micro-flicker at slightly offset frequency
+      const scint=0.88+0.12*Math.sin(T*0.0082+i*3.7);
       const sxp=cx+v[0]*R, syp=cy-v[1]*R;
-      const glowR=Math.max(2.5,R*0.016*ct.pop);
+      const glowR=Math.max(3.0,R*0.018*ct.pop);
+
+      // Outer urban sprawl haze bloom (larger warm glow around major cities)
+      if(ct.pop>=1.2){
+        const outerR=glowR*2.2;
+        const og=ctx.createRadialGradient(sxp,syp,glowR*0.4,sxp,syp,outerR);
+        og.addColorStop(0,`rgba(255,180,60,${(0.18*nightA*twinkle).toFixed(3)})`);
+        og.addColorStop(1,'rgba(255,140,30,0)');
+        ctx.fillStyle=og;
+        ctx.beginPath(); ctx.arc(sxp,syp,outerR,0,7); ctx.fill();
+      }
 
       // Warm golden glow of human settlement
       const cg=ctx.createRadialGradient(sxp,syp,0,sxp,syp,glowR);
-      cg.addColorStop(0,`rgba(255,220,130,${(0.85*nightA*twinkle).toFixed(3)})`);
-      cg.addColorStop(0.4,`rgba(255,170,70,${(0.45*nightA*twinkle).toFixed(3)})`);
-      cg.addColorStop(1,'rgba(255,140,40,0)');
+      cg.addColorStop(0,`rgba(255,225,140,${(0.92*nightA*twinkle*scint).toFixed(3)})`);
+      cg.addColorStop(0.35,`rgba(255,185,80,${(0.52*nightA*twinkle).toFixed(3)})`);
+      cg.addColorStop(0.70,`rgba(255,150,50,${(0.20*nightA*twinkle).toFixed(3)})`);
+      cg.addColorStop(1,'rgba(255,120,30,0)');
       ctx.fillStyle=cg;
       ctx.beginPath(); ctx.arc(sxp,syp,glowR,0,7); ctx.fill();
 
-      // Pinpoint core
-      ctx.fillStyle=`rgba(255,250,220,${(0.95*nightA).toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(sxp,syp,Math.max(1.0,R*0.0035),0,7); ctx.fill();
+      // Incandescent pinpoint core
+      ctx.fillStyle=`rgba(255,252,228,${(0.97*nightA*scint).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(sxp,syp,Math.max(1.2,R*0.004),0,7); ctx.fill();
     }
   }
   ctx.restore();
@@ -4649,11 +4824,70 @@ function drawEarth(ctx,W,H,p,T,q){
   rg.addColorStop(1,`rgba(2,5,10,${(0.18+0.24*Math.abs(S[2])).toFixed(3)})`);
   ctx.fillStyle=rg; ctx.fillRect(cx-R,cy-R,R*2,R*2);
 
+  // ── 6b. Atmospheric Intra-Cloud Lightning Flashes (Night Hemisphere) ────────
+  if(!REDUCED && !still){
+    for(let si=0; si<NIGHT_STORMS.length; si++){
+      const st = NIGHT_STORMS[si];
+      const v = orth(st.lon, st.lat, k.lon, k.lat);
+      if(v[2] <= 0.08) continue;
+      // Dot product with sun vector: must be on the dark night side
+      const sunDot = v[0]*S[0] + v[1]*S[1] + v[2]*S[2];
+      if(sunDot >= 0.08) continue;
+
+      const cycle = (T + st.phase) % st.period;
+      if(cycle < 420){
+        // Natural multi-pulse cloud lightning discharge curve
+        let pulse = 0;
+        if(cycle < 110){
+          // Pulse 1: initial leader & primary flash
+          pulse = Math.sin((cycle / 110) * Math.PI);
+        } else if(cycle >= 150 && cycle < 390){
+          // Pulse 2: secondary re-strike & exponential atmospheric bloom decay
+          const u2 = (cycle - 150) / 240;
+          pulse = Math.sin(u2 * Math.PI) * Math.exp(-u2 * 1.6) * 0.94;
+        }
+        if(pulse > 0.03){
+          const nightFactor = clamp((-sunDot + 0.08) / 0.35, 0, 1) * clamp(v[2] * 2.5, 0, 1);
+          const flashAlpha = pulse * nightFactor;
+          const sx = cx + v[0] * R, sy = cy - v[1] * R;
+          const flashR = Math.max(7, R * 0.040 * (0.8 + pulse * 0.45));
+
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+
+          // Diffuse intra-cloud storm illumination
+          const fg = ctx.createRadialGradient(sx, sy, 0, sx, sy, flashR);
+          fg.addColorStop(0, `rgba(245, 252, 255, ${(flashAlpha * 0.95).toFixed(3)})`);
+          fg.addColorStop(0.35, `rgba(140, 215, 255, ${(flashAlpha * 0.65).toFixed(3)})`);
+          fg.addColorStop(0.70, `rgba(60, 140, 245, ${(flashAlpha * 0.25).toFixed(3)})`);
+          fg.addColorStop(1, 'rgba(30, 80, 200, 0)');
+          ctx.fillStyle = fg;
+          ctx.beginPath(); ctx.arc(sx, sy, flashR, 0, 7); ctx.fill();
+
+          // Delicate intra-cloud micro-filaments during peak discharge
+          if(pulse > 0.45){
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(flashAlpha * 0.85).toFixed(3)})`;
+            ctx.lineWidth = Math.max(0.8, R * 0.0022);
+            ctx.beginPath();
+            const seed = (Math.floor(cycle / 50) + si * 13);
+            const a0 = sc(seed) * 6.28;
+            const len1 = flashR * 0.55;
+            ctx.moveTo(sx, sy);
+            ctx.lineTo(sx + Math.cos(a0) * len1 * 0.5 + (sc(seed+1)-0.5)*4, sy + Math.sin(a0) * len1 * 0.5 + (sc(seed+2)-0.5)*4);
+            ctx.lineTo(sx + Math.cos(a0) * len1, sy + Math.sin(a0) * len1);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+      }
+    }
+  }
+
   // Sunlight bloom wash over day hemisphere
   if(S[2]>0){
     ctx.save(); ctx.globalCompositeOperation='lighter';
     const wg=ctx.createRadialGradient(gx,gy2,0,gx,gy2,R*0.95);
-    wg.addColorStop(0,'rgba(255,238,198,0.18)');
+    wg.addColorStop(0,'rgba(255,238,198,0.20)');
     wg.addColorStop(1,'rgba(255,238,198,0)');
     ctx.fillStyle=wg; ctx.beginPath(); ctx.arc(gx,gy2,R*0.95,0,7); ctx.fill();
     ctx.restore();
@@ -4661,11 +4895,12 @@ function drawEarth(ctx,W,H,p,T,q){
 
   // ── 7. "Thin Blue Line" Electric Atmospheric Rim ──────────────
   ctx.save(); ctx.globalCompositeOperation='lighter';
-  const rim=ctx.createRadialGradient(cx,cy,R*0.92,cx,cy,R*1.01);
+  const rim=ctx.createRadialGradient(cx,cy,R*0.92,cx,cy,R*1.015);
   rim.addColorStop(0,'rgba(80,180,240,0)');
-  rim.addColorStop(0.65,'rgba(100,205,255,0.22)');
-  rim.addColorStop(1,'rgba(140,225,255,0.48)');
-  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.01,0,7); ctx.fill();
+  rim.addColorStop(0.58,'rgba(95,205,255,0.22)');
+  rim.addColorStop(0.88,'rgba(145,230,255,0.50)');
+  rim.addColorStop(1,'rgba(175,242,255,0.65)');
+  ctx.fillStyle=rim; ctx.beginPath(); ctx.arc(cx,cy,R*1.015,0,7); ctx.fill();
   ctx.restore();
 
   ctx.restore(); // End of clipped Earth disc
