@@ -4260,24 +4260,28 @@ const CITIES=[
 
 const STARS=(function(){
   const r=mulberry32(4201), a=[];
-  for(let i=0;i<260;i++){
-    const isMajor = (i < 34); // Prominent scintillating glint stars ("lightning stars")
-    const isMedium = (i >= 34 && i < 115);
-    const size = isMajor ? (2.2 + r() * 1.6) : isMedium ? (1.1 + r() * 0.7) : (0.6 + r() * 0.5);
-    const col = isMajor 
-      ? (r() > 0.65 ? '#E0F2FE' : r() > 0.35 ? '#FFFBEB' : '#BAE6FD')
-      : (r() > 0.70 ? '#DCEAF5' : r() > 0.40 ? '#FDF6E2' : '#CBD5E1');
+  for(let i=0;i<320;i++){
+    // Realistic astronomical magnitude distribution:
+    // 72% faint background field (sub-pixel pinpoints)
+    // 22% mid-magnitude field (natural 1px dots)
+    // 6% prominent primary stars (1.3 - 1.7px with whisper of circular glow)
+    const tier = r();
+    const isBright = (tier > 0.94);
+    const isMid = (tier > 0.72 && !isBright);
+    const size = isBright ? (1.30 + r() * 0.45) : isMid ? (0.85 + r() * 0.40) : (0.45 + r() * 0.35);
+
+    // Natural stellar color temperatures (O/B icy blue-white, A pure white, F/G warm solar white)
+    const cRoll = r();
+    const col = cRoll > 0.70 ? '#E2F2FE' : cRoll > 0.35 ? '#FFFFFF' : cRoll > 0.12 ? '#FFFDF4' : '#FEF3C7';
+
     a.push({
       x: r(), y: r(),
       size,
-      baseAlpha: isMajor ? (0.70 + r() * 0.30) : isMedium ? (0.35 + r() * 0.45) : (0.16 + r() * 0.38),
-      twinkleSpeed: 0.0008 + r() * 0.0026,
-      twinklePhase: r() * 7,
-      isGlint: isMajor,
-      spikeLen: isMajor ? (6.5 + r() * 9.5) : 0,
-      hasOcta: isMajor && (r() > 0.45),
-      flareSpeed: 0.0011 + r() * 0.0022,
-      flarePhase: r() * 6.28,
+      baseAlpha: isBright ? (0.75 + r() * 0.25) : isMid ? (0.42 + r() * 0.38) : (0.16 + r() * 0.32),
+      twinkleSpeed: 0.0008 + r() * 0.0024,
+      twinklePhase: r() * 6.28,
+      isBright,
+      bloomR: isBright ? (size * 2.2 + r() * 1.2) : 0,
       color: col
     });
   }
@@ -4335,13 +4339,13 @@ function drawEarth(ctx,W,H,p,T,q){
     neb3.addColorStop(1,'rgba(2,5,10,0)');
     ctx.fillStyle=neb3; ctx.fillRect(0,0,W,H);
 
-    // ── Multi-temperature Starfield & "Lightning Stars" (Glints) ──
+    // ── Realistic Astronomical Starfield (Natural Pinpoint Dots) ──
     ctx.save();
     for(let i=0;i<STARS.length;i++){
       const st=STARS[i];
       const sx=st.x*W, sy=st.y*H;
       const dx=sx-cx, dy=sy-cy;
-      if(dx*dx+dy*dy<R*R*1.14) continue; // Behind Earth disc
+      if(dx*dx+dy*dy<R*R*1.12) continue; // Behind Earth disc
 
       const tw=0.72+0.28*Math.sin(T*st.twinkleSpeed+st.twinklePhase);
       const alpha=starA*st.baseAlpha*tw;
@@ -4349,51 +4353,22 @@ function drawEarth(ctx,W,H,p,T,q){
 
       ctx.globalAlpha=alpha;
 
-      if(st.isGlint){
-        // Periodic sparkling flare spike ("lightning glint")
-        const flPhase = (T * st.flareSpeed + st.flarePhase) % 6.283;
-        const flPulse = Math.pow(Math.max(0, Math.sin(flPhase)), 8);
-        const curSpike = st.spikeLen * (0.8 + flPulse * 1.5);
-        const curCore = st.size * (0.85 + flPulse * 0.7);
+      if(st.isBright){
+        // Subtle sub-pixel circular bloom (tiny natural glow around bright points, no cartoon spikes)
+        const bl=ctx.createRadialGradient(sx,sy,0,sx,sy,st.bloomR);
+        bl.addColorStop(0, st.color);
+        bl.addColorStop(0.35, 'rgba(220,242,255,0.28)');
+        bl.addColorStop(1, 'rgba(180,220,255,0)');
+        ctx.fillStyle=bl;
+        ctx.beginPath(); ctx.arc(sx,sy,st.bloomR,0,7); ctx.fill();
 
-        // Soft halo bloom
-        const gl=ctx.createRadialGradient(sx,sy,0,sx,sy,curSpike*1.2);
-        gl.addColorStop(0, st.color);
-        gl.addColorStop(0.35, 'rgba(180,225,255,0.38)');
-        gl.addColorStop(1, 'rgba(100,180,255,0)');
-        ctx.fillStyle=gl;
-        ctx.beginPath(); ctx.arc(sx,sy,curSpike*1.2,0,7); ctx.fill();
-
-        // Incandescent stellar core
+        // Pinpoint stellar core dot
         ctx.fillStyle='#FFFFFF';
-        ctx.beginPath(); ctx.arc(sx,sy,curCore*0.7,0,7); ctx.fill();
-
-        // 4-point cross diffraction spikes (diamond rays)
-        ctx.save();
-        ctx.strokeStyle=st.color;
-        ctx.lineWidth=Math.max(0.7, 1.2 * (0.75 + flPulse * 0.5));
-        ctx.beginPath();
-        // Horizontal ray
-        ctx.moveTo(sx - curSpike, sy); ctx.lineTo(sx + curSpike, sy);
-        // Vertical ray
-        ctx.moveTo(sx, sy - curSpike); ctx.lineTo(sx, sy + curSpike);
-        ctx.stroke();
-
-        if(st.hasOcta){
-          // Secondary diagonal 45-degree ray
-          const diagLen = curSpike * 0.52;
-          ctx.strokeStyle='rgba(255,255,255,0.40)';
-          ctx.lineWidth=0.7;
-          ctx.beginPath();
-          ctx.moveTo(sx - diagLen, sy - diagLen); ctx.lineTo(sx + diagLen, sy + diagLen);
-          ctx.moveTo(sx - diagLen, sy + diagLen); ctx.lineTo(sx + diagLen, sy - diagLen);
-          ctx.stroke();
-        }
-        ctx.restore();
+        ctx.beginPath(); ctx.arc(sx,sy,st.size*0.55,0,7); ctx.fill();
       } else {
-        // Standard pinpoint cosmic star
+        // Natural pinpoint celestial dot
         ctx.fillStyle=st.color;
-        if(st.size > 1.2){
+        if(st.size >= 0.85){
           ctx.beginPath(); ctx.arc(sx,sy,st.size*0.5,0,7); ctx.fill();
         } else {
           ctx.fillRect(sx,sy,st.size,st.size);
