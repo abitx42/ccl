@@ -1100,11 +1100,9 @@ body.arc #film,body.arc #track,body.arc #project,body.arc footer,body.arc #cue,b
   <button class="btn" id="bMotion" type="button" aria-pressed="false">Reduce motion</button>
 </header>
 
-<audio id="cclAudio" preload="auto" loop playsinline style="display:none">
+<audio id="cclAudio" preload="auto" loop playsinline style="display:none" src="audio/ambient.m4a">
   <source src="audio/ambient.m4a" type="audio/mp4">
-  <source src="./audio/ambient.m4a" type="audio/mp4">
-  <source src="/audio/ambient.m4a" type="audio/mp4">
-  <source src="public/audio/ambient.m4a" type="audio/mp4">
+  <source src="audio/ambient.m4a" type="audio/x-m4a">
 </audio>
 
 <main id="main" tabindex="-1">
@@ -5476,49 +5474,93 @@ document.getElementById('bMotion').addEventListener('click',e=>{
 let soundOn=(store.get('ccl-sound')!=='0'), audioFadeRaf=null;
 window.soundOn=soundOn;
 const bgAudio=document.getElementById('cclAudio');
-const AUDIO_PATHS=['audio/ambient.m4a','./audio/ambient.m4a','/audio/ambient.m4a','public/audio/ambient.m4a'];
-let audioSrcIdx=0;
 
-if(bgAudio){
-  bgAudio.loop=true;
-  bgAudio.volume=0;
-  bgAudio.addEventListener('ended',()=>{
-    if(soundOn){
-      try{
-        bgAudio.currentTime=0;
-        bgAudio.play().catch(()=>{});
-      }catch(e){}
-    }
-  });
-  bgAudio.addEventListener('error',()=>{
-    if(audioSrcIdx < AUDIO_PATHS.length - 1){
-      audioSrcIdx++;
-      bgAudio.src=AUDIO_PATHS[audioSrcIdx];
-      bgAudio.load();
-      if(soundOn) bgAudio.play().catch(()=>{});
-    }
-  });
-  // Auto-start ambient audio on load or arm gesture unlocker for browser autoplay policies
-  if(soundOn){
-    const p=bgAudio.play();
-    if(p!==undefined){
-      p.then(()=>{
-        fadeAudio(0.65, 1200);
-      }).catch(()=>{
-        function unlockAudio(){
-          if(soundOn && bgAudio && bgAudio.paused){
-            startSound();
-          }
-          ['pointerdown','touchstart','click','keydown','scroll'].forEach(evt=>{
-            window.removeEventListener(evt, unlockAudio, {capture:true});
-          });
-        }
-        ['pointerdown','touchstart','click','keydown','scroll'].forEach(evt=>{
-          window.addEventListener(evt, unlockAudio, {capture:true, passive:true});
-        });
-      });
-    }
+// Dual-engine: HTML5 Audio + Web Audio API fallback
+let audioCtx=null, audioBuf=null, webAudioSrc=null, webAudioGain=null, isWebAudioActive=false;
+
+function getAudioCtx(){
+  if(!audioCtx){
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(AudioCtx) audioCtx=new AudioCtx();
   }
+  return audioCtx;
+}
+
+let bufLoading=false;
+function loadWebAudioBuffer(){
+  if(audioBuf||bufLoading) return;
+  bufLoading=true;
+  fetch('audio/ambient.m4a')
+    .then(r=>r.arrayBuffer())
+    .then(ab=>{
+      const actx=getAudioCtx();
+      if(actx) return actx.decodeAudioData(ab);
+    })
+    .then(decoded=>{
+      if(decoded) audioBuf=decoded;
+    })
+    .catch(()=>{})
+    .finally(()=>{ bufLoading=false; });
+}
+
+function startWebAudio(){
+  try{
+    const actx=getAudioCtx();
+    if(!actx) return false;
+    if(actx.state==='suspended') actx.resume().catch(()=>{});
+    if(!audioBuf){
+      loadWebAudioBuffer();
+      return false;
+    }
+    if(isWebAudioActive&&webAudioSrc) return true;
+
+    if(!webAudioGain){
+      webAudioGain=actx.createGain();
+      webAudioGain.gain.setValueAtTime(0, actx.currentTime);
+      webAudioGain.connect(actx.destination);
+    }
+
+    if(webAudioSrc){
+      try{ webAudioSrc.stop(); }catch(e){}
+      try{ webAudioSrc.disconnect(); }catch(e){}
+    }
+
+    webAudioSrc=actx.createBufferSource();
+    webAudioSrc.buffer=audioBuf;
+    webAudioSrc.loop=true;
+    webAudioSrc.connect(webAudioGain);
+    webAudioSrc.start(0);
+    isWebAudioActive=true;
+
+    webAudioGain.gain.setValueAtTime(0, actx.currentTime);
+    webAudioGain.gain.linearRampToValueAtTime(0.65, actx.currentTime+1.2);
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function stopWebAudio(duration=0.8){
+  if(webAudioGain&&audioCtx&&isWebAudioActive){
+    try{
+      webAudioGain.gain.setValueAtTime(webAudioGain.gain.value, audioCtx.currentTime);
+      webAudioGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+duration);
+      setTimeout(()=>{
+        if(!soundOn&&webAudioSrc){
+          try{ webAudioSrc.stop(); }catch(e){}
+          isWebAudioActive=false;
+        }
+      }, duration*1000+50);
+    }catch(e){}
+  }
+}
+
+function updateSoundButtonUI(active){
+  const bs=document.getElementById('bSound');
+  if(!bs) return;
+  const l=(typeof UI_LANG!=='undefined'&&typeof currentLang!=='undefined'&&UI_LANG[currentLang])?UI_LANG[currentLang]:{sound:'Sound off', soundOn:'Sound on'};
+  bs.setAttribute('aria-pressed',String(active));
+  bs.textContent=active?(l.soundOn||'Sound on'):(l.sound||'Sound off');
 }
 
 function fadeAudio(targetVol, durationMs, onDone){
@@ -5542,48 +5584,134 @@ function fadeAudio(targetVol, durationMs, onDone){
 }
 
 function startSound(){
-  if(!bgAudio) return;
-  bgAudio.loop=true;
-  if(bgAudio.paused){
-    bgAudio.volume=0;
+  soundOn=true;
+  window.soundOn=true;
+  store.set('ccl-sound','1');
+  updateSoundButtonUI(true);
+
+  // Resume Web Audio if suspended
+  const actx=getAudioCtx();
+  if(actx&&actx.state==='suspended'){
+    actx.resume().catch(()=>{});
+  }
+
+  // Try HTML5 Audio first
+  if(bgAudio){
+    bgAudio.loop=true;
     const p=bgAudio.play();
     if(p!==undefined){
       p.then(()=>{
         fadeAudio(0.65, 1200);
       }).catch(err=>{
-        console.warn('Playback deferred:', err);
+        // Autoplay policy or media codec error -> try Web Audio fallback
+        if(audioBuf){
+          startWebAudio();
+        } else {
+          loadWebAudioBuffer();
+        }
       });
+    } else {
+      fadeAudio(0.65, 800);
     }
   } else {
-    fadeAudio(0.65, 800);
+    startWebAudio();
   }
 }
 
 function stopSound(fadeDuration=0.8){
-  if(!bgAudio) return;
-  fadeAudio(0, fadeDuration*1000, ()=>{
-    try{ bgAudio.pause(); }catch(e){}
+  soundOn=false;
+  window.soundOn=false;
+  store.set('ccl-sound','0');
+  updateSoundButtonUI(false);
+
+  if(bgAudio&&!bgAudio.paused){
+    fadeAudio(0, fadeDuration*1000, ()=>{
+      try{ bgAudio.pause(); }catch(e){}
+    });
+  }
+  stopWebAudio(fadeDuration);
+}
+
+if(bgAudio){
+  bgAudio.loop=true;
+  bgAudio.volume=0;
+  bgAudio.addEventListener('ended',()=>{
+    if(soundOn){
+      try{ bgAudio.currentTime=0; bgAudio.play().catch(()=>{}); }catch(e){}
+    }
+  });
+  bgAudio.addEventListener('error',()=>{
+    // HTML5 failed -> try Web Audio
+    if(soundOn) startWebAudio();
   });
 }
 
+// Global user interaction unlocker (NO scroll!)
+(function setupAudioUnlock(){
+  loadWebAudioBuffer();
+
+  function onGestureUnlock(){
+    if(soundOn){
+      if((bgAudio&&bgAudio.paused)||!isWebAudioActive){
+        startSound();
+      }
+    }
+    // Only disconnect unlocker once audio is playing
+    const actx=getAudioCtx();
+    const isPlaying=(bgAudio&&!bgAudio.paused)||isWebAudioActive||(actx&&actx.state==='running');
+    if(isPlaying){
+      ['click','touchstart','touchend','pointerup','keydown'].forEach(evt=>{
+        window.removeEventListener(evt, onGestureUnlock, {capture:true});
+      });
+    }
+  }
+
+  // Auto-play attempt on load
+  if(soundOn&&bgAudio){
+    const p=bgAudio.play();
+    if(p!==undefined){
+      p.then(()=>{ fadeAudio(0.65, 1200); }).catch(()=>{});
+    }
+  }
+
+  // Listen to genuine user activation events
+  ['click','touchstart','touchend','pointerup','keydown'].forEach(evt=>{
+    window.addEventListener(evt, onGestureUnlock, {capture:true, passive:true});
+  });
+})();
+
 document.getElementById('bSound').addEventListener('click',e=>{
-  soundOn=!soundOn;
-  window.soundOn=soundOn;
-  store.set('ccl-sound', soundOn ? '1' : '0');
-  const l=UI_LANG[currentLang]||UI_LANG.en;
-  e.currentTarget.setAttribute('aria-pressed',String(soundOn));
-  e.currentTarget.textContent=soundOn?(l.soundOn||'Sound on'):l.sound;
-  if(soundOn) startSound();
-  else stopSound(0.8);
+  e.preventDefault();
+  e.stopPropagation();
+  if(!soundOn){
+    startSound();
+  } else {
+    // If button says sound on, but audio wasn't actually playing due to browser restriction,
+    // ensure clicking it starts the sound!
+    const isActuallyPlaying=(bgAudio&&!bgAudio.paused&&bgAudio.volume>0.05)||isWebAudioActive;
+    if(!isActuallyPlaying){
+      startSound();
+    } else {
+      stopSound(0.8);
+    }
+  }
 });
 
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){
-    if(rafId){cancelAnimationFrame(rafId); rafId=null;}
-    if(bgAudio && !bgAudio.paused){ bgAudio.pause(); }
+    if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+    if(bgAudio&&!bgAudio.paused) bgAudio.pause();
+    if(isWebAudioActive&&webAudioGain&&audioCtx){
+      try{ webAudioGain.gain.setValueAtTime(0, audioCtx.currentTime); }catch(e){}
+    }
   } else {
-    if(bgAudio && soundOn && bgAudio.paused){ bgAudio.play().catch(()=>{}); }
-    if(!rafId && !document.body.classList.contains('arc')){ last=0; rafId=requestAnimationFrame(frame); }
+    if(soundOn){
+      if(bgAudio&&bgAudio.paused) bgAudio.play().catch(()=>{});
+      if(isWebAudioActive&&webAudioGain&&audioCtx){
+        try{ webAudioGain.gain.linearRampToValueAtTime(0.65, audioCtx.currentTime+0.6); }catch(e){}
+      }
+    }
+    if(!rafId&&!document.body.classList.contains('arc')){ last=0; rafId=requestAnimationFrame(frame); }
   }
 });
 
